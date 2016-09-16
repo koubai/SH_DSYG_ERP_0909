@@ -374,6 +374,13 @@
 		</property>
 	</bean>
 
+	<!-- customeronline -->
+	<bean id="customerOnlineAction" class="com.cn.dsyg.action.CustomerOnlineAction" scope="session">
+		<property name="customerOnlineService">
+			<ref bean="customerOnlineService"/>
+		</property>
+	</bean>
+
 	<!-- chart -->
 	<bean id="calendarAction" class="com.cn.dsyg.action.CalendarAction" scope="session">
 		<property name="issueService">

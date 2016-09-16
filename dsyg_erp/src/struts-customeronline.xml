@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" 
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="customeronline" extends="struts-erp" namespace="/customeronline">
+	
+		<action name="showCustomerOnlineAction" class="customerOnlineAction" method="showCustomerOnlineAction">
+			<result name="*">/page/customeronline/customeronlinelist.jsp</result>
+		</action>
+		
+		<action name="queryCustomerOnlineList" class="customerOnlineAction" method="queryCustomerOnlineList">
+			<result name="success">/page/customeronline/customeronlinelist.jsp</result>
+		</action>
+		
+		<action name="turnCustomerOnlinePage" class="customerOnlineAction" method="turnCustomerOnlinePage">
+			<result name="success">/page/customeronline/customeronlinelist.jsp</result>
+		</action>
+		
+		<action name="showAddCustomerOnlineAction" class="customerOnlineAction" method="showAddCustomerOnlineAction">
+			<result name="*">/page/customeronline/addcustomeronline.jsp</result>
+		</action>
+		
+		<action name="addCustomerOnlineAction" class="customerOnlineAction" method="addCustomerOnlineAction">
+			<result name="success">/page/customeronline/addcustomeronline.jsp</result>
+			<result name="checkerror">/page/customeronline/addcustomeronline.jsp</result>
+		</action>
+		
+		<action name="showUpdCustomerOnlineAction" class="customerOnlineAction" method="showUpdCustomerOnlineAction">
+			<result name="success">/page/customeronline/updcustomeronline.jsp</result>
+			<result name="checkerror">/page/customeronline/updcustomeronline.jsp</result>
+		</action>
+		
+		<action name="updCustomerOnlineAction" class="customerOnlineAction" method="updCustomerOnlineAction">
+			<result name="success">/page/customeronline/updcustomeronline.jsp</result>
+			<result name="checkerror">/page/customeronline/updcustomeronline.jsp</result>
+		</action>
+		
+		<action name="delCustomerOnlineAction" class="customerOnlineAction" method="delCustomerOnlineAction">
+			<result name="success">/page/customeronline/customeronlinelist.jsp</result>
+			<result name="checkerror">/page/customeronline/customeronlinelist.jsp</result>
+		</action>
+		
+	</package>
+
+</struts>

@@ -68,6 +68,8 @@
 	<include file="struts-customertrack.xml"></include>
 	<!-- issue -->
 	<include file="struts-issue.xml"></include>
+	<!-- customeronline -->
+	<include file="struts-customeronline.xml"></include>
 	
 	<package name="index" extends="struts-default, json-default" namespace="/index">
 		

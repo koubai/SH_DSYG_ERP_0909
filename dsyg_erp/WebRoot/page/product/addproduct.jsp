@@ -281,6 +281,64 @@
 			$("#tempNote").focus();
 			return false;
 		}
+		
+		//线上产品信息
+		//最小销售单位
+		var item12 = $("#item12").val().trim();
+		var scale = $("#scale").val().trim();
+		if(item12 == "") {
+			if(scale != ""){
+				alert("请输入最小销售单位！");
+				$("#item12").focus();
+				return false;
+			}
+		}
+		if(scale == ""){
+			if(item12 != ""){
+				alert("请输入默认单价比例！");
+				$("#scale").focus();
+				return false;
+			}
+		}
+		var item13 = "1-" + scale + ";";
+		for(var i = 1; i <= 10; i++) {
+			var gear = $("#" + "gear" + i).val();
+			var scale = $("#" + "scale" + i).val();
+			if(item12 == "") {
+				if(gear != "" || scale != ""){
+					alert("请输入最小销售单位！");
+					$("#item12").focus();
+					return false;
+				}
+			}
+			if(i > 1){
+				var last = $("#" + "gear" + (i-1)).val();
+				if(last == "" && gear != ""){
+					alert("请输入第" + (i-1) +"档对应销售单位！");
+					$("#" + "gear" + (i-1)).focus();
+					return false;
+				}
+			}
+			if(gear == "" && scale != ""){
+				alert("请输入第" + i +"档对应销售单位！");
+				$("#" + "gear" + i).focus();
+				return false;
+			}
+			if(gear != "" && scale == ""){
+				alert("请输入第" + i +"档对应单价比例！");
+				$("#" + "scale" + i).focus();
+				return false;
+			}
+			if(gear%item12){
+				alert("销售单位必须是最小销售单位的倍数！");
+				$("#" + "gear" + i).focus();
+				return false;
+			}
+			if(gear != ""){
+				item13 = item13 + gear/item12 + "-" + scale  + ";";
+			}
+		}
+		$("#item13").attr("value", item13);
 		//备注
 		$("#note").val($("#tempNote").val());
 		return true;
@@ -333,6 +391,7 @@
 				<s:hidden name="addProductDto.item04" id="item04"></s:hidden>
 				<s:hidden name="addProductDto.item05" id="item05"></s:hidden>
 				<s:hidden name="addProductDto.item06" id="item06"></s:hidden>
+				<s:hidden name="addProductDto.item13" id="item13"></s:hidden>
 				<s:hidden name="file01Name" id="file01Name"></s:hidden>
 				<s:hidden name="file02Name" id="file02Name"></s:hidden>
 				<s:hidden name="file03Name" id="file03Name"></s:hidden>
@@ -656,6 +715,219 @@
 							</td>
 							<td colspan="3">
 								<input type="file" name="addPdfFile" style="width: 500px;" id="addPdfFile"/>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div>
+									<hr width="" style=""/>
+									<label>线上产品信息：</label>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<label class="pdf10">最小销售单价</label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.item12" id="item12" maxlength="64" cssStyle="width:300px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<label class="pdf10">销售单价比例</label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.gear1" id="gear1" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.scale1" id="scale1" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.gear2" id="gear2" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.scale2" id="scale2" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.gear3" id="gear3" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.scale3" id="scale3" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.gear4" id="gear4" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.scale4" id="scale4" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.gear5" id="gear5" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.scale5" id="scale5" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.gear6" id="gear6" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.scale6" id="scale6" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.gear7" id="gear7" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.scale7" id="scale7" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.gear8" id="gear8" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.scale8" id="scale8" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.gear9" id="gear9" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.scale9" id="scale9" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.gear10" id="gear10" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.scale10" id="scale10" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<label class="pdf10">默认单价比例</label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.scale" id="scale" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
 							</td>
 						</tr>
 						

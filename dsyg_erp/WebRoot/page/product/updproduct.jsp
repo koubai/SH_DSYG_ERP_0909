@@ -306,6 +306,65 @@
 			$("#tempNote").focus();
 			return false;
 		}
+
+		//线上产品信息
+		//最小销售单位
+		var item12 = $("#item12").val().trim();
+		var scale = $("#scale").val().trim();
+		if(item12 == "") {
+			if(scale != ""){
+				alert("请输入最小销售单位！");
+				$("#item12").focus();
+				return false;
+			}
+		}
+		if(scale == ""){
+			if(item12 != ""){
+				alert("请输入默认单价比例！");
+				$("#scale").focus();
+				return false;
+			}
+		}
+		var item13 = "1-" + scale + ";";
+		for(var i = 1; i <= 10; i++) {
+			var gear = $("#" + "gear" + i).val();
+			var scale = $("#" + "scale" + i).val();
+			if(item12 == "") {
+				if(gear != "" || scale != ""){
+					alert("请输入最小销售单位！");
+					$("#item12").focus();
+					return false;
+				}
+			}
+			if(i > 1){
+				var last = $("#" + "gear" + (i-1)).val();
+				if(last == "" && gear != ""){
+					alert("请输入第" + (i-1) +"档对应销售单位！");
+					$("#" + "gear" + (i-1)).focus();
+					return false;
+				}
+			}
+			if(gear == "" && scale != ""){
+				alert("请输入第" + i +"档对应销售单位！");
+				$("#" + "gear" + i).focus();
+				return false;
+			}
+			if(gear != "" && scale == ""){
+				alert("请输入第" + i +"档对应单价比例！");
+				$("#" + "scale" + i).focus();
+				return false;
+			}
+			if(gear%item12){
+				alert("销售单位必须是最小销售单位的倍数！");
+				$("#" + "gear" + i).focus();
+				return false;
+			}
+			if(gear != ""){
+				item13 = item13 + gear/item12 + "-" + scale  + ";";
+			}
+		}
+		$("#item13").attr("value", item13);
+		
 		//备注
 		$("#note").val($("#tempNote").val());
 		return true;
@@ -363,6 +422,7 @@
 				<s:hidden name="updProductDto.item04" id="item04"></s:hidden>
 				<s:hidden name="updProductDto.item05" id="item05"></s:hidden>
 				<s:hidden name="updProductDto.item06" id="item06"></s:hidden>
+				<s:hidden name="updProductDto.item13" id="item13"></s:hidden>
 				<s:hidden name="updProductDto.pic01" id="pic01"></s:hidden>
 				<s:hidden name="updProductDto.pic02" id="pic02"></s:hidden>
 				<s:hidden name="updProductDto.pic03" id="pic03"></s:hidden>
@@ -694,6 +754,219 @@
 							<td>
 								<input type="file" name="updPdfFile" id="updPdfFile" style="width: 500px;"/><br />
 								<a target="_blank" href="<s:property value="updProductDto.pdfurl"/><s:property value="updProductDto.pdfpath"/>"><s:property value="updProductDto.pdfpath"/></a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div>
+									<hr width="" style=""/>
+									<label>线上产品信息：</label>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<label class="pdf10">最小销售单价</label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.item12" id="item12" maxlength="64" cssStyle="width:300px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<label class="pdf10">销售单价比例</label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.gear1" id="gear1" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.scale1" id="scale1" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.gear2" id="gear2" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.scale2" id="scale2" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.gear3" id="gear3" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.scale3" id="scale3" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.gear4" id="gear4" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.scale4" id="scale4" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.gear5" id="gear5" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.scale5" id="scale5" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.gear6" id="gear6" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.scale6" id="scale6" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.gear7" id="gear7" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.scale7" id="scale7" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.gear8" id="gear8" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.scale8" id="scale8" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.gear9" id="gear9" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.scale9" id="scale9" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="pdf10"></label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.gear10" id="gear10" maxlength="64" cssStyle="width:100px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.scale10" id="scale10" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<label class="pdf10">默认单价比例</label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.scale" id="scale" maxlength="64" cssStyle="width:50px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<label class="pdf10">%</label>
 							</td>
 						</tr>
 						<tr>

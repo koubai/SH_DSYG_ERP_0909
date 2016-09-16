@@ -3,6 +3,7 @@ package com.cn.dsyg.dto;
 import java.util.Date;
 
 import com.cn.common.dto.BaseDto;
+import com.cn.common.util.StringUtil;
 
 /**
  * @name 产品
@@ -188,6 +189,27 @@ public class ProductDto extends BaseDto {
 	 * 项目13
 	 */
 	private String item13;
+	private String scale;
+	private String gear1;
+	private String scale1;
+	private String gear2;
+	private String scale2;
+	private String gear3;
+	private String scale3;
+	private String gear4;
+	private String scale4;
+	private String gear5;
+	private String scale5;
+	private String gear6;
+	private String scale6;
+	private String gear7;
+	private String scale7;
+	private String gear8;
+	private String scale8;
+	private String gear9;
+	private String scale9;
+	private String gear10;
+	private String scale10;
 
 	/**
 	 * 项目14
@@ -1045,5 +1067,316 @@ public class ProductDto extends BaseDto {
 
 	public void setUnitprice(String unitprice) {
 		this.unitprice = unitprice;
+	}
+
+	public String getScale() {
+		if(StringUtil.isNotBlank(item13)) {
+			scale = item13.substring(item13.indexOf("-")+1, item13.indexOf(";"));
+		}
+		return scale;
+	}
+
+	public void setScale(String scale) {
+		this.scale = scale;
+	}
+
+	public String getGear1() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[1])){
+				gear1 = String.valueOf(Integer.valueOf(item13Online[1].substring(0,item13Online[1].indexOf("-")))*Integer.valueOf(item12));
+			}
+		}
+		return gear1;
+	}
+
+	public void setGear1(String gear1) {
+		this.gear1 = gear1;
+	}
+
+	public String getScale1() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[1])){
+				scale1 = item13Online[1].substring(item13Online[1].indexOf("-")+1, item13Online[1].length());
+			}
+		}
+		return scale1;
+	}
+
+	public void setScale1(String scale1) {
+		this.scale1 = scale1;
+	}
+
+	public String getGear2() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[2])){
+				gear2 = String.valueOf(Integer.valueOf(item13Online[2].substring(0,item13Online[2].indexOf("-")))*Integer.valueOf(item12));
+			}
+		}
+		return gear2;
+	}
+
+	public void setGear2(String gear2) {
+		this.gear2 = gear2;
+	}
+
+	public String getScale2() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[2])){
+				scale2 = item13Online[2].substring(item13Online[2].indexOf("-")+1, item13Online[2].length());
+			}
+		}
+		return scale2;
+	}
+
+	public void setScale2(String scale2) {
+		this.scale2 = scale2;
+	}
+
+	public String getGear3() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[3])){
+				gear3 = String.valueOf(Integer.valueOf(item13Online[3].substring(0,item13Online[3].indexOf("-")))*Integer.valueOf(item12));
+			}
+		}
+		return gear3;
+	}
+
+	public void setGear3(String gear3) {
+		this.gear3 = gear3;
+	}
+
+	public String getScale3() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[3])){
+				scale3 = item13Online[3].substring(item13Online[3].indexOf("-")+1, item13Online[3].length());
+			}
+		}
+		return scale3;
+	}
+
+	public void setScale3(String scale3) {
+		this.scale3 = scale3;
+	}
+
+	public String getGear4() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[4])){
+				gear4 = String.valueOf(Integer.valueOf(item13Online[4].substring(0,item13Online[4].indexOf("-")))*Integer.valueOf(item12));
+			}
+		}
+		return gear4;
+	}
+
+	public void setGear4(String gear4) {
+		this.gear4 = gear4;
+	}
+
+	public String getScale4() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[4])){
+				scale4 = item13Online[4].substring(item13Online[4].indexOf("-")+1, item13Online[4].length());
+			}
+		}
+		return scale4;
+	}
+
+	public void setScale4(String scale4) {
+		this.scale4 = scale4;
+	}
+
+	public String getGear5() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[5])){
+				gear5 = String.valueOf(Integer.valueOf(item13Online[5].substring(0,item13Online[5].indexOf("-")))*Integer.valueOf(item12));
+			}
+		}
+		return gear5;
+	}
+
+	public void setGear5(String gear5) {
+		this.gear5 = gear5;
+	}
+
+	public String getScale5() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[5])){
+				scale5 = item13Online[5].substring(item13Online[5].indexOf("-")+1, item13Online[5].length());
+			}
+		}
+		return scale5;
+	}
+
+	public void setScale5(String scale5) {
+		this.scale5 = scale5;
+	}
+
+	public String getGear6() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[6])){
+				gear6 = String.valueOf(Integer.valueOf(item13Online[6].substring(0,item13Online[6].indexOf("-")))*Integer.valueOf(item12));
+			}
+		}
+		return gear6;
+	}
+
+	public void setGear6(String gear6) {
+		this.gear6 = gear6;
+	}
+
+	public String getScale6() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[6])){
+				scale6 = item13Online[6].substring(item13Online[6].indexOf("-")+1, item13Online[6].length());
+			}
+		}
+		return scale6;
+	}
+
+	public void setScale6(String scale6) {
+		this.scale6 = scale6;
+	}
+
+	public String getGear7() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[7])){
+				gear7 = String.valueOf(Integer.valueOf(item13Online[7].substring(0,item13Online[7].indexOf("-")))*Integer.valueOf(item12));
+			}
+		}
+		return gear7;
+	}
+
+	public void setGear7(String gear7) {
+		this.gear7 = gear7;
+	}
+
+	public String getScale7() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[7])){
+				scale7 = item13Online[7].substring(item13Online[7].indexOf("-")+1, item13Online[7].length());
+			}
+		}
+		return scale7;
+	}
+
+	public void setScale7(String scale7) {
+		this.scale7 = scale7;
+	}
+
+	public String getGear8() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[8])){
+				gear8 = String.valueOf(Integer.valueOf(item13Online[8].substring(0,item13Online[8].indexOf("-")))*Integer.valueOf(item12));
+			}
+		}
+		return gear8;
+	}
+
+	public void setGear8(String gear8) {
+		this.gear8 = gear8;
+	}
+
+	public String getScale8() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[8])){
+				scale8 = item13Online[8].substring(item13Online[8].indexOf("-")+1, item13Online[8].length());
+			}
+		}
+		return scale8;
+	}
+
+	public void setScale8(String scale8) {
+		this.scale8 = scale8;
+	}
+
+	public String getGear9() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[9])){
+				gear9 = String.valueOf(Integer.valueOf(item13Online[9].substring(0,item13Online[9].indexOf("-")))*Integer.valueOf(item12));
+			}
+		}
+		return gear9;
+	}
+
+	public void setGear9(String gear9) {
+		this.gear9 = gear9;
+	}
+
+	public String getScale9() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[9])){
+				scale9 = item13Online[9].substring(item13Online[9].indexOf("-")+1, item13Online[9].length());
+			}
+		}
+		return scale9;
+	}
+
+	public void setScale9(String scale9) {
+		this.scale9 = scale9;
+	}
+
+	public String getGear10() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[10])){
+				gear10 = String.valueOf(Integer.valueOf(item13Online[10].substring(0,item13Online[10].indexOf("-")))*Integer.valueOf(item12));
+			}
+		}
+		return gear10;
+	}
+
+	public void setGear10(String gear10) {
+		this.gear10 = gear10;
+	}
+
+	public String getScale10() {
+		String[] item13Online;
+		if(StringUtil.isNotBlank(item13)) {
+			item13Online = item13.split(";");
+			if(StringUtil.isNotBlank(item13Online[10])){
+				scale10 = item13Online[10].substring(item13Online[10].indexOf("-")+1, item13Online[10].length());
+			}
+		}
+		return scale10;
+	}
+
+	public void setScale10(String scale10) {
+		this.scale10 = scale10;
 	}
 }

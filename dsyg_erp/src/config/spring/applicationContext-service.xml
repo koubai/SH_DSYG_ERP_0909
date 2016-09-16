@@ -419,6 +419,22 @@
 		</property>
 	</bean>
 	
+	<!-- 线上客户 -->
+	<bean id="customerOnlineService" class="com.cn.dsyg.service.impl.CustomerOnlineServiceImpl" >
+		<property name="customerOnlineDao">
+			<ref local="customerOnlineDao"/>
+		</property>
+		<property name="dict01Dao">
+			<ref local="dict01Dao"/>
+		</property>
+	</bean>
+	
+	<bean id="customerOnlineDao" class="com.cn.dsyg.dao.impl.CustomerOnlineDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
 	<!-- 快递 -->
 	<bean id="deliveryService" class="com.cn.dsyg.service.impl.DeliveryServiceImpl" >
 		<property name="deliveryDao">
