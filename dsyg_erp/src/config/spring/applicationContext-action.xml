@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+	<!-- Qa -->
+	<bean id="qaAction" class="com.cn.dsyg.action.QaAction" scope="session">
+		<property name="qaService">
+			<ref bean="qaService" />
+		</property>
+	</bean>
+
+	<!-- UntaxInfo -->
+	<bean id="untaxInfoAction" class="com.cn.dsyg.action.UntaxInfoAction" scope="session">
+		<property name="dict01Service">
+			<ref bean="dict01Service" />
+		</property>
+		<property name="productService">
+			<ref bean="productService" />
+		</property>
+		<property name="untaxInfoService">
+			<ref bean="untaxInfoService" />
+		</property>
+	</bean>
+
+	<!-- Sample -->
+	<bean id="sampleAction" class="com.cn.dsyg.action.SampleAction" scope="session">
+		<property name="dict01Service">
+			<ref bean="dict01Service" />
+		</property>
+		<property name="productService">
+			<ref bean="productService" />
+		</property>
+		<property name="sampleService">
+			<ref bean="sampleService" />
+		</property>
+	</bean>
+
+	<!-- FinanceExpress -->
+	<bean id="financeExpressAction" class="com.cn.dsyg.action.FinanceExpressAction" scope="session">
+		<property name="dict01Service">
+			<ref bean="dict01Service" />
+		</property>
+		<property name="financeService">
+			<ref bean="financeService" />
+		</property>
+	</bean>
+
+	<!-- FinanceApprove -->
+	<bean id="financeApproveAction" class="com.cn.dsyg.action.FinanceApproveAction" scope="session">
+		<property name="dict01Service">
+			<ref bean="dict01Service" />
+		</property>
+		<property name="warehouserptService">
+			<ref bean="warehouserptService" />
+		</property>
+	</bean>
+
+	<!-- WarehouseRefund -->
+	<bean id="warehouseRefundAction" class="com.cn.dsyg.action.WarehouseRefundAction" scope="session">
+		<property name="dict01Service">
+			<ref bean="dict01Service" />
+		</property>
+		<property name="warehouseService">
+			<ref bean="warehouseService" />
+		</property>
+	</bean>
+
+	<!-- warehousecheck -->
+	<bean id="warehouseCheckAction" class="com.cn.dsyg.action.WarehouseCheckAction" scope="session">
+		<property name="dict01Service">
+			<ref bean="dict01Service" />
+		</property>
+		<property name="warehouseService">
+			<ref bean="warehouseService" />
+		</property>
+		<property name="positionService">
+			<ref bean="positionService" />
+		</property>
+	</bean>
+
+	<!-- warehousedetail -->
+	<bean id="warehouseDetailAction" class="com.cn.dsyg.action.WarehouseDetailAction" scope="session">
+		<property name="dict01Service">
+			<ref bean="dict01Service" />
+		</property>
+		<property name="warehouseService">
+			<ref bean="warehouseService" />
+		</property>
+		<property name="salesItemService">
+			<ref bean="salesItemService"/>
+		</property>
+		<property name="purchaseItemService">
+			<ref bean="purchaseItemService"/>
+		</property>
+	</bean>
+
+	<!-- user -->
+	<bean id="userAction" class="com.cn.dsyg.action.UserAction" scope="session">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="roleService">
+			<ref bean="roleService" />
+		</property>
+	</bean>
+
+	<!-- 快递 -->
+	<bean id="deliveryAction" class="com.cn.dsyg.action.DeliveryAction" scope="session">
+		<property name="deliveryService">
+			<ref bean="deliveryService" />
+		</property>
+	</bean>
+
+	<!-- 客户 -->
+	<bean id="customerAction" class="com.cn.dsyg.action.CustomerAction" scope="session">
+		<property name="customerService">
+			<ref bean="customerService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService"/>
+		</property>
+	</bean>
+
+	<!-- 固定资产信息 -->
+	<bean id="assetsAction" class="com.cn.dsyg.action.AssetsAction" scope="session">
+		<property name="assetsService">
+			<ref bean="assetsService" />
+		</property>
+	</bean>
+
+	<!-- 销售报告信息 -->
+	<bean id="salesReportAction" class="com.cn.dsyg.action.SalesReportAction" scope="session">
+		<property name="salesReportService">
+			<ref bean="salesReportService" />
+		</property>
+	</bean>
+
+	<!-- SALES报告信息 -->
+	<bean id="salesReport2Action" class="com.cn.dsyg.action.SalesReport2Action" scope="session">
+		<property name="salesReport2Service">
+			<ref bean="salesReport2Service" />
+		</property>
+	</bean>
+
+	<!-- 员工档案信息 -->
+	<bean id="personalAction" class="com.cn.dsyg.action.PersonalAction" scope="session">
+		<property name="personalService">
+			<ref bean="personalService" />
+		</property>
+	</bean>
+
+	<!-- 文件物品信息 -->
+	<bean id="documentAction" class="com.cn.dsyg.action.DocumentAction" scope="session">
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+	</bean>
+
+	<!-- ProductOkAction -->
+	<bean id="productOkAction" class="com.cn.dsyg.action.ProductOkAction" scope="session">
+		<property name="warehouseService">
+			<ref bean="warehouseService"/>
+		</property>
+		<property name="dict01Service">
+			<ref bean="dict01Service"/>
+		</property>
+	</bean>
+
+	<!-- FinanceSalesAction -->
+	<bean id="financeSalesAction" class="com.cn.dsyg.action.FinanceSalesAction" scope="session">
+		<property name="salesService">
+			<ref bean="salesService"/>
+		</property>
+		<property name="dict01Service">
+			<ref bean="dict01Service"/>
+		</property>
+	</bean>
+
+	<!-- FinancePurchaseAction -->
+	<bean id="financePurchaseAction" class="com.cn.dsyg.action.FinancePurchaseAction" scope="session">
+		<property name="purchaseService">
+			<ref bean="purchaseService"/>
+		</property>
+		<property name="dict01Service">
+			<ref bean="dict01Service"/>
+		</property>
+	</bean>
+
+	<!-- finance -->
+	<bean id="financeAction" class="com.cn.dsyg.action.FinanceAction" scope="session">
+		<property name="financeService">
+			<ref bean="financeService"/>
+		</property>
+		<property name="dict01Service">
+			<ref bean="dict01Service"/>
+		</property>
+	</bean>
+
+	<!-- 预收款 -->
+	<bean id="pregatheringAction" class="com.cn.dsyg.action.PregatheringAction" scope="session">
+		<property name="pregatheringService">
+			<ref bean="pregatheringService"/>
+		</property>
+	</bean>
+
+	<!-- 请款 -->
+	<bean id="requestcashAction" class="com.cn.dsyg.action.RequestCashAction" scope="session">
+		<property name="requestcashService">
+			<ref bean="requestcashService"/>
+		</property>
+	</bean>
+
+	<!-- Sales -->
+	<bean id="salesAction" class="com.cn.dsyg.action.SalesAction" scope="session">
+		<property name="salesService">
+			<ref bean="salesService"/>
+		</property>
+		<property name="salesItemService">
+			<ref bean="salesItemService"/>
+		</property>
+		<property name="dict01Service">
+			<ref bean="dict01Service"/>
+		</property>
+	</bean>
+
+	<!-- warehouse -->
+	<bean id="warehouseAction" class="com.cn.dsyg.action.WarehouseAction" scope="session">
+		<property name="warehouseService">
+			<ref bean="warehouseService"/>
+		</property>
+		<property name="dict01Service">
+			<ref bean="dict01Service"/>
+		</property>
+	</bean>
+	
+	<!-- warehouseInOk -->
+	<bean id="warehouseInOkAction" class="com.cn.dsyg.action.WarehouseInOkAction" scope="session">
+		<property name="warehouseService">
+			<ref bean="warehouseService"/>
+		</property>
+		<property name="dict01Service">
+			<ref bean="dict01Service"/>
+		</property>
+	</bean>
+	
+	<!-- warehouseOutOk -->
+	<bean id="warehouseOutOkAction" class="com.cn.dsyg.action.WarehouseOutOkAction" scope="session">
+		<property name="warehouseService">
+			<ref bean="warehouseService"/>
+		</property>
+		<property name="dict01Service">
+			<ref bean="dict01Service"/>
+		</property>
+	</bean>
+	
+	<!-- warehouserpt -->
+	<bean id="warehouserptAction" class="com.cn.dsyg.action.WarehouserptAction" scope="session">
+		<property name="warehouserptService">
+			<ref bean="warehouserptService"/>
+		</property>
+		<property name="purchaseService">
+			<ref bean="purchaseService"/>
+		</property>
+		<property name="purchaseItemService">
+			<ref bean="purchaseItemService"/>
+		</property>
+		<property name="dict01Service">
+			<ref bean="dict01Service"/>
+		</property>
+	</bean>
+	
+	<!-- Product -->
+	<bean id="productAction" class="com.cn.dsyg.action.ProductAction" scope="session">
+		<property name="productService">
+			<ref bean="productService"/>
+		</property>
+		<property name="dict01Service">
+			<ref bean="dict01Service"/>
+		</property>
+	</bean>
+	
+	<!-- ProductCostCheckAction -->
+	<bean id="productCostCheckAction" class="com.cn.dsyg.action.ProductCostCheckAction" scope="session">
+		<property name="productService">
+			<ref bean="productService"/>
+		</property>
+		<property name="dict01Service">
+			<ref bean="dict01Service"/>
+		</property>
+	</bean>
+	
+	<!-- Purchase -->
+	<bean id="purchaseAction" class="com.cn.dsyg.action.PurchaseAction" scope="session">
+		<property name="purchaseService">
+			<ref bean="purchaseService"/>
+		</property>
+		<property name="dict01Service">
+			<ref bean="dict01Service"/>
+		</property>
+		<property name="purchaseItemService">
+			<ref bean="purchaseItemService"/>
+		</property>
+	</bean>
+	
+	<!-- supplier -->
+	<bean id="supplierAction" class="com.cn.dsyg.action.SupplierAction" scope="session">
+		<property name="supplierService">
+			<ref bean="supplierService"/>
+		</property>
+	</bean>
+	
+	<!-- 用户 -->
+	<bean id="userLoginAction" class="com.cn.dsyg.action.UserLoginAction" scope="session">
+		<property name="resourceService">
+			<ref bean="resourceService"/>
+		</property>
+		<property name="userService">
+			<ref bean="userService"/>
+		</property>
+		<property name="roleService">
+			<ref bean="roleService"/>
+		</property>
+	</bean>
+	
+	<!-- chart -->
+	<bean id="chartAction" class="com.cn.dsyg.action.ChartAction" scope="session">
+		<property name="chartService">
+			<ref bean="chartService"/>
+		</property>
+		<property name="userService">
+			<ref bean="userService"/>
+		</property>
+		<property name="customerService">
+			<ref bean="customerService"/>
+		</property>
+		<property name="supplierService">
+			<ref bean="supplierService"/>
+		</property>
+		<property name="deliveryService">
+			<ref bean="deliveryService"/>
+		</property>
+		<property name="dict01Service">
+			<ref bean="dict01Service"/>
+		</property>
+		<property name="undeliproductService">
+			<ref bean="undeliproductService"/>
+		</property>
+	</bean>
+
+	<!-- detail -->
+	<bean id="detailAction" class="com.cn.dsyg.action.DetailAction" scope="session">
+		<property name="detailService">
+			<ref bean="detailService"/>
+		</property>
+		<property name="dict01Service">
+			<ref bean="dict01Service"/>
+		</property>
+	</bean>
+
+	<!-- customertrack -->
+	<bean id="customerTrackAction" class="com.cn.dsyg.action.CustomerTrackAction" scope="session">
+		<property name="customerTrackService">
+			<ref bean="customerTrackService"/>
+		</property>
+	</bean>
+
+	<!-- issue -->
+	<bean id="issueAction" class="com.cn.dsyg.action.IssueAction" scope="session">
+		<property name="issueService">
+			<ref bean="issueService"/>
+		</property>
+		<property name="dict01Service">
+			<ref bean="dict01Service" />
+		</property>
+	</bean>
+
+	<!-- chart -->
+	<bean id="calendarAction" class="com.cn.dsyg.action.CalendarAction" scope="session">
+		<property name="issueService">
+			<ref bean="issueService"/>
+		</property>
+	</bean>
+	
+	<!-- frame -->
+	<bean id="frameAction" class="com.cn.dsyg.action.FrameAction" scope="session">
+	</bean>
+	
+	<!-- 验证码 -->
+	<bean id="randomActionBean" class="com.cn.dsyg.action.ValidateCodeAction" />
+	
+	<!-- 登录拦截器 -->
+	<bean id="loginInterceptorBean" class="com.cn.dsyg.interceptor.LoginInterceptor"/>
+	
+	<!-- frame拦截器 -->
+	<bean id="frameInterceptorBean" class="com.cn.dsyg.interceptor.FrameInterceptor"/>
+
+</beans>

@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" 
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+
+	<constant name="struts.objectFactory" value="spring"/>
+	<!-- 文件上传最大10M -->
+	<constant name="struts.multipart.maxSize" value="10240000"></constant>
+	
+	<constant name="struts.multipart.saveDir" value="/tmp"/>
+	
+	<!-- qa -->
+	<include file="struts-qa.xml"></include>
+	<!-- sample -->
+	<include file="struts-sample.xml"></include>
+	<!-- untaxinfo -->
+	<include file="struts-untaxinfo.xml"></include>
+	<!-- user -->
+	<include file="struts-user.xml"></include>
+	<!-- chart -->
+	<include file="struts-chart.xml"></include>
+	<!-- intermana -->
+	<include file="struts-intermana.xml"></include>
+	
+	<!-- finance -->
+	<include file="struts-finance.xml"></include>
+	<!-- warehouserpt -->
+	<include file="struts-warehouserpt.xml"></include>
+	<!-- warehouse -->
+	<include file="struts-warehouse.xml"></include>
+	<!-- product -->
+	<include file="struts-product.xml"></include>
+	<!-- sales -->
+	<include file="struts-sales.xml"></include>
+	<!-- purchase -->
+	<include file="struts-purchase.xml"></include>
+	<!-- Frame -->
+	<include file="struts-frame.xml"></include>
+	<!-- login -->
+	<include file="struts-login.xml"></include>
+	
+	<!-- supplier -->
+	<include file="struts-supplier.xml"></include>
+	<!-- customer -->
+	<include file="struts-customer.xml"></include>
+	<!-- delivery -->
+	<include file="struts-delivery.xml"></include>
+	<!-- assets -->
+	<include file="struts-assets.xml"></include>
+	<!-- personal -->
+	<include file="struts-personal.xml"></include>
+	<!-- document -->
+	<include file="struts-document.xml"></include>
+	<!-- salesreport -->
+	<include file="struts-salesreport.xml"></include>
+	<!-- salesreport2 -->
+	<include file="struts-salesreport2.xml"></include>
+	<!-- pregathering -->
+	<include file="struts-pregathering.xml"></include>
+	<!-- requestcash -->
+	<include file="struts-requestcash.xml"></include>
+	<!-- detail -->
+	<include file="struts-detail.xml"></include>
+	<!-- customertrack -->
+	<include file="struts-customertrack.xml"></include>
+	<!-- issue -->
+	<include file="struts-issue.xml"></include>
+	
+	<package name="index" extends="struts-default, json-default" namespace="/index">
+		
+		<!-- 验证码 -->
+		<action name="rand" class="randomActionBean">
+			<interceptor-ref name="params"></interceptor-ref>
+			<result type="stream">
+		    	<param name="contentType">image/jpeg</param>
+		        <param name="inputName">inputStream</param>
+			</result>
+		</action>
+		
+	</package>
+	
+	<!-- 登录 -->
+	<package name="struts-erp" extends="struts-default, json-default" namespace="/">
+	
+		<interceptors>
+			<interceptor name="loginInterceptor" class="loginInterceptorBean"></interceptor>
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="loginInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="loginStack"></default-interceptor-ref>
+		
+		<!-- 全局返回值 -->
+		<global-results>
+			<!-- login -->
+			<result name="login">/page/login.jsp</result>
+			<!-- 404 -->
+			<result name="notfound">/page/404.jsp</result>
+			<!-- error -->
+			<result name="error">/page/error.jsp</result>
+			<!-- timeout -->
+			<result name="timeout">/page/timeout.jsp</result>
+			<!-- noauthority -->
+			<result name="noauthority">/page/authority.jsp</result>
+		</global-results>
+		
+		<!-- 全局异常 -->
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+			<exception-mapping result="error" exception="java.sql.SQLException"></exception-mapping>
+		</global-exception-mappings>
+		
+	</package>
+	
+	<!-- frame -->
+	<package name="struts-frame" extends="struts-default, json-default" namespace="/">
+	
+		<interceptors>
+			<interceptor name="frameInterceptor" class="frameInterceptorBean"></interceptor>
+			<interceptor-stack name="frameStack">
+				<interceptor-ref name="frameInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="frameStack"></default-interceptor-ref>
+		
+		<!-- 全局返回值 -->
+		<global-results>
+			<!-- login -->
+			<result name="login">/page/login.jsp</result>
+			<!-- 404 -->
+			<result name="notfound">/page/404.jsp</result>
+			<!-- error -->
+			<result name="error">/page/error.jsp</result>
+			<!-- timeout -->
+			<result name="timeout">/page/timeout.jsp</result>
+			<!-- noauthority -->
+			<result name="noauthority">/page/authority.jsp</result>
+		</global-results>
+		
+		<!-- 全局异常 -->
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+			<exception-mapping result="error" exception="java.sql.SQLException"></exception-mapping>
+		</global-exception-mappings>
+		
+	</package>
+	
+</struts>

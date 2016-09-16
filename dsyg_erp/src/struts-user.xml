@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" 
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="user" extends="struts-erp" namespace="/user">
+	
+		<action name="showSelectUserAction" class="userAction" method="showSelectUserAction">
+			<result name="*">/page/user/selectuser.jsp</result>
+		</action>
+		
+		<action name="querySelectUserAction" class="userAction" method="querySelectUserAction">
+			<result name="*">/page/user/selectuser.jsp</result>
+		</action>
+		
+		<action name="turnSelectUserAction" class="userAction" method="turnSelectUserAction">
+			<result name="*">/page/user/selectuser.jsp</result>
+		</action>
+		
+		<action name="showUserManageAction" class="userAction" method="showUserManageAction">
+			<result name="*">/page/user/userlist.jsp</result>
+		</action>
+		
+		<action name="queryUserManageAction" class="userAction" method="queryUserManageAction">
+			<result name="*">/page/user/userlist.jsp</result>
+		</action>
+		
+		<action name="turnUserManageAction" class="userAction" method="turnUserManageAction">
+			<result name="*">/page/user/userlist.jsp</result>
+		</action>
+		
+		<action name="showAddUserAction" class="userAction" method="showAddUserAction">
+			<result name="*">/page/user/adduser.jsp</result>
+		</action>
+		
+		<action name="addUserAction" class="userAction" method="addUserAction">
+			<result name="*">/page/user/adduser.jsp</result>
+		</action>
+		
+		<action name="showUpdUserAction" class="userAction" method="showUpdUserAction">
+			<result name="*">/page/user/upduser.jsp</result>
+		</action>
+		
+		<action name="updUserAction" class="userAction" method="updUserAction">
+			<result name="*">/page/user/upduser.jsp</result>
+		</action>
+		
+		<action name="showUpdUserPsdAction" class="userAction" method="showUpdUserPsdAction">
+			<result name="*">/page/user/updpsd.jsp</result>
+		</action>
+		
+		<action name="updUserPsdAction" class="userAction" method="updUserPsdAction">
+			<result name="*">/page/user/updpsd.jsp</result>
+		</action>
+		
+		<action name="delUserAction" class="userAction" method="delUserAction">
+			<result name="*">/page/user/userlist.jsp</result>
+		</action>
+		
+	</package>
+
+</struts>

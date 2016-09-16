@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" 
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="sales" extends="struts-erp" namespace="/sales">
+	
+		<action name="showSalesAction" class="salesAction" method="showSalesAction">
+			<result name="*">/page/sales/saleslist.jsp</result>
+		</action>
+		
+		<action name="querySalesAction" class="salesAction" method="querySalesAction">
+			<result name="*">/page/sales/saleslist.jsp</result>
+		</action>
+		
+		<action name="turnSalesAction" class="salesAction" method="turnSalesAction">
+			<result name="*">/page/sales/saleslist.jsp</result>
+		</action>
+		
+		<action name="showAddSalesAction" class="salesAction" method="showAddSalesAction">
+			<result name="*">/page/sales/addsales.jsp</result>
+		</action>
+		
+		<action name="addSalesAction" class="salesAction" method="addSalesAction">
+			<result name="*">/page/sales/addsales.jsp</result>
+		</action>
+		
+		<action name="showUpdSalesAction" class="salesAction" method="showUpdSalesAction">
+			<result name="*">/page/sales/updsales.jsp</result>
+		</action>
+		
+		<action name="updSalesAction" class="salesAction" method="updSalesAction">
+			<result name="*">/page/sales/updsales.jsp</result>
+		</action>
+		
+		<action name="finishSalesAction" class="salesAction" method="finishSalesAction">
+			<result name="*">/page/sales/updsales.jsp</result>
+		</action>
+		
+		<action name="showProductSalesPricePage" class="salesAction" method="showProductSalesPricePage">
+			<result name="*">/page/sales/productsalesprice.jsp</result>
+		</action>
+		
+		<action name="showUpdSalesitemAction" class="salesAction" method="showUpdSalesitemAction">
+			<result name="*">/page/sales/updsalesitem.jsp</result>
+		</action>
+
+		<action name="showUpdSalesitemBySalesNoAction" class="salesAction" method="showUpdSalesitemBySalesNoAction">
+			<result name="*">/page/sales/updsalesitem.jsp</result>
+		</action>
+		
+		<action name="updSalesitemAction" class="salesAction" method="updSalesitemAction">
+			<result name="*">/page/sales/updsalesitem.jsp</result>
+		</action>
+		
+		<action name="delSalesAction" class="salesAction" method="delSalesAction">
+			<result name="*">/page/sales/saleslist.jsp</result>
+		</action>
+		
+		<action name="exportSalesPriceAction" class="salesAction" method="exportSalesPriceAction">
+			<result name="success">/page/downloadhtml.jsp</result>
+		</action>
+	
+		<action name="showRemainSalesAction" class="salesAction" method="showRemainSalesAction">
+			<result name="*">/page/sales/remainsaleslist.jsp</result>
+		</action>
+		
+		<action name="queryRemainSalesAction" class="salesAction" method="queryRemainSalesAction">
+			<result name="*">/page/sales/remainsaleslist.jsp</result>
+		</action>
+		
+		<action name="turnRemainSalesAction" class="salesAction" method="turnRemainSalesAction">
+			<result name="*">/page/sales/remainsaleslist.jsp</result>
+		</action>
+		
+	</package>
+
+</struts>

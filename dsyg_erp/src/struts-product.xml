@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" 
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="product" extends="struts-erp" namespace="/product">
+	
+		<action name="delProductAction" class="productAction" method="delProductAction">
+			<result name="*">/page/product/productlist.jsp</result>
+		</action>
+		
+		<action name="showProductAction" class="productAction" method="showProductAction">
+			<result name="*">/page/product/productlist.jsp</result>
+		</action>
+		
+		<action name="queryProductAction" class="productAction" method="queryProductAction">
+			<result name="*">/page/product/productlist.jsp</result>
+		</action>
+		
+		<action name="turnProductAction" class="productAction" method="turnProductAction">
+			<result name="*">/page/product/productlist.jsp</result>
+		</action>
+		
+		<action name="showAddProductAction" class="productAction" method="showAddProductAction">
+			<result name="*">/page/product/addproduct.jsp</result>
+		</action>
+		
+		<action name="addProductAction" class="productAction" method="addProductAction">
+			<result name="*">/page/product/addproduct.jsp</result>
+		</action>
+		
+		<action name="showUpdProductAction" class="productAction" method="showUpdProductAction">
+			<result name="*">/page/product/updproduct.jsp</result>
+		</action>
+
+		<action name="showUpdProductitemAction" class="productAction" method="showUpdProductitemAction">
+			<result name="*">/page/product/updproductitem.jsp</result>
+		</action>
+		
+		<action name="updProductAction" class="productAction" method="updProductAction">
+			<result name="*">/page/product/updproduct.jsp</result>
+		</action>
+		
+		<action name="showProductSelectPage" class="productAction" method="showProductSelectPage">
+			<result name="*">/page/product/selectproduct.jsp</result>
+		</action>
+		
+		<action name="queryProductSelectPage" class="productAction" method="queryProductSelectPage">
+			<result name="*">/page/product/selectproduct.jsp</result>
+		</action>
+		
+		<action name="turnProductSelectPage" class="productAction" method="turnProductSelectPage">
+			<result name="*">/page/product/selectproduct.jsp</result>
+		</action>
+		
+		<action name="showProductSingleSelectPage" class="productAction" method="showProductSingleSelectPage">
+			<result name="*">/page/product/selectsingleproduct.jsp</result>
+		</action>
+		
+		<action name="queryProductSingleSelectPage" class="productAction" method="queryProductSingleSelectPage">
+			<result name="*">/page/product/selectsingleproduct.jsp</result>
+		</action>
+		
+		<action name="turnProductSingleSelectPage" class="productAction" method="turnProductSingleSelectPage">
+			<result name="*">/page/product/selectsingleproduct.jsp</result>
+		</action>
+
+		<action name="showProductidSelectPage" class="productAction" method="showProductidSelectPage">
+			<result name="*">/page/product/selectproductid.jsp</result>
+		</action>
+		<action name="queryProductidSelectPage" class="productAction" method="queryProductidSelectPage">
+			<result name="*">/page/product/selectproductid.jsp</result>
+		</action>
+		<action name="turnProductidSelectPage" class="productAction" method="turnProductidSelectPage">
+			<result name="*">/page/product/selectproductid.jsp</result>
+		</action>
+
+		<action name="showTrackProductSelectPage" class="productAction" method="showTrackProductSelectPage">
+			<result name="*">/page/product/selecttrackproduct.jsp</result>
+		</action>
+		<action name="queryTrackProductSelectPage" class="productAction" method="queryTrackProductSelectPage">
+			<result name="*">/page/product/selecttrackproduct.jsp</result>
+		</action>
+		<action name="turnTrackProductSelectPage" class="productAction" method="turnTrackProductSelectPage">
+			<result name="*">/page/product/selecttrackproduct.jsp</result>
+		</action>
+		
+		<action name="showSalesProductSelectPage" class="productAction" method="showSalesProductSelectPage">
+			<result name="*">/page/product/selectsalesproduct.jsp</result>
+		</action>
+
+		<action name="querySalesProductSelectPage" class="productAction" method="querySalesProductSelectPage">
+			<result name="*">/page/product/selectsalesproduct.jsp</result>
+		</action>
+		
+		<action name="turnSalesProductSelectPage" class="productAction" method="turnSalesProductSelectPage">
+			<result name="*">/page/product/selectsalesproduct.jsp</result>
+		</action>
+		
+		<action name="showSampleProductSelectPage" class="productAction" method="showSampleProductSelectPage">
+			<result name="*">/page/product/selectsampleproduct.jsp</result>
+		</action>
+		
+		<action name="querySampleProductSelectPage" class="productAction" method="querySampleProductSelectPage">
+			<result name="*">/page/product/selectsampleproduct.jsp</result>
+		</action>
+		
+		<action name="turnSampleProductSelectPage" class="productAction" method="turnSampleProductSelectPage">
+			<result name="*">/page/product/selectsampleproduct.jsp</result>
+		</action>
+		
+		<action name="showProductCostCheckAction" class="productCostCheckAction" method="showProductCostCheckAction">
+			<result name="*">/page/product/productcostchecklist.jsp</result>
+		</action>
+		<action name="queryProductCostCheckAction" class="productCostCheckAction" method="queryProductCostCheckAction">
+			<result name="*">/page/product/productcostchecklist.jsp</result>
+		</action>
+		<action name="turnProductCostCheckAction" class="productCostCheckAction" method="turnProductCostCheckAction">
+			<result name="*">/page/product/productcostchecklist.jsp</result>
+		</action>
+		
+		<action name="exportProductCostAction" class="productCostCheckAction" method="exportProductCostAction">
+			<result name="success">/page/download.jsp</result>
+		</action>
+		
+		<action name="showDetailProductSelectPage" class="productAction" method="showDetailProductSelectPage">
+			<result name="*">/page/product/selectdetailproduct.jsp</result>
+		</action>
+		
+		<action name="queryDetailProductSelectPage" class="productAction" method="queryDetailProductSelectPage">
+			<result name="*">/page/product/selectdetailproduct.jsp</result>
+		</action>
+		
+		<action name="turnDetailProductSelectPage" class="productAction" method="turnDetailProductSelectPage">
+			<result name="*">/page/product/selectdetailproduct.jsp</result>
+		</action>
+	</package>
+
+</struts>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+        "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.cn.tbps">
+
+	<resultMap id="SampleDto" class="com.cn.dsyg.dto.SampleDto">
+		<result property="id" column="id" />
+		<result property="warehousename" column="warehousename" />
+		<result property="belongto" column="belongto" />
+		<result property="productid" column="productid" />
+		<result property="tradename" column="tradename" />
+		<result property="quantity" column="quantity" />
+		<result property="customertype" column="customertype" />
+		<result property="customerid" column="customerid" />
+		<result property="customername" column="customername" />
+		<result property="note" column="note" />
+		<result property="rank" column="rank" />
+		<result property="status" column="status" />
+		<result property="res01" column="res01" />
+		<result property="res02" column="res02" />
+		<result property="res03" column="res03" />
+		<result property="res04" column="res04" />
+		<result property="res05" column="res05" />
+		<result property="createuid" column="createuid" />
+		<result property="createdate" column="createdate" />
+		<result property="updateuid" column="updateuid" />
+		<result property="updatedate" column="updatedate" />
+	</resultMap>
+	
+	<resultMap id="SampleTotleDto" class="com.cn.dsyg.dto.SampleTotleDto">
+		<result property="productid" column="productid" />
+		<result property="tradename" column="tradename" />
+		<result property="typeno" column="typeno" />
+		<result property="color" column="color" />
+		<result property="packaging" column="packaging" />
+		<result property="item10" column="item10" />
+		<result property="unit" column="unit" />
+		<result property="total" column="total" />
+	</resultMap>
+	
+	<select id="querySampleNumByProductId" parameterClass="java.util.Map" resultMap="SampleTotleDto">
+		select productid, P.tradename, P.typeno, P.color, P.packaging, P.item10, P.unit,sum(quantity) as total from etb_sample S
+		left join etb_product P
+		on P.id = S.productid
+		where 1 = 1
+		<isNotEmpty prepend="and" property="productid">
+			S.productid = #productid#
+		</isNotEmpty>
+		group by S.productid
+	</select>
+	
+	<select id="querySampleNumByKeys" parameterClass="java.util.Map" resultMap="SampleTotleDto">
+		select productid, P.tradename, P.typeno, P.color, P.packaging, P.item10, P.unit,sum(quantity) as total from etb_sample S
+		left join etb_product P
+		on P.id = S.productid
+		where 1 = 1
+		<isNotEmpty prepend="and" property="tradename">
+			P.tradename like '%$tradename$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="typeno">
+			P.typeno like '%$typeno$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="color">
+			P.color = #color#
+		</isNotEmpty>
+		group by S.productid
+	</select>
+
+	<select id="querySampleId" parameterClass="java.util.Map" resultMap="SampleDto">
+		select T.*,
+		(select P.tradename from etb_product P where P.id = T.productid) as tradename
+		from etb_sample T where 1 = 1 and id = #id#
+	</select>
+	
+	<select id="querySampleByPage" parameterClass="java.util.Map" resultMap="SampleDto">
+		select * from (
+			select T.*,
+			(select P.tradename from etb_product P where P.id = T.productid) as tradename
+			from etb_sample T where 1 = 1
+			<isNotEmpty prepend="and" property="status">
+				T.status = #status#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productid">
+				T.productid = #productid#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="warehousename">
+				T.warehousename = #warehousename#
+			</isNotEmpty>
+		) A where 1 = 1
+		<isNotEmpty prepend="and" property="tradename">
+			A.tradename like '%$tradename$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="customername">
+			A.customername like '%$customername$%' ESCAPE '/'
+		</isNotEmpty>
+		order by A.updatedate desc, A.id desc
+		LIMIT #start#, #end#
+	</select>
+	
+	<select id="querySampleCountByPage" resultClass="int" parameterClass="java.util.Map">
+		select count(*) from (
+			select T.*,
+			(select P.tradename from etb_product P where P.id = T.productid) as tradename
+			from etb_sample T where 1 = 1
+			<isNotEmpty prepend="and" property="status">
+				T.status = #status#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productid">
+				T.productid = #productid#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="warehousename">
+				T.warehousename = #warehousename#
+			</isNotEmpty>
+		) A where 1 = 1
+		<isNotEmpty prepend="and" property="tradename">
+			A.tradename like '%$tradename$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="customername">
+			A.customername like '%$customername$%' ESCAPE '/'
+		</isNotEmpty>
+	</select>
+	
+	<insert id="insertSample" parameterClass="com.cn.dsyg.dto.SampleDto">
+		insert into etb_sample(warehousename,belongto,productid,quantity,customertype,customerid,customername,note,rank,
+			status,res01,res02,res03,res04,res05,createuid,createdate,updateuid,updatedate)
+		values(#warehousename#,#belongto#,#productid#,#quantity#,#customertype#,#customerid#,#customername#,#note#,#rank#,
+			#status#,#res01#,#res02#,#res03#,#res04#,#res05#,#createuid#,NOW(),#updateuid#,NOW())
+	</insert>
+	
+	<update id="updateSample" parameterClass="com.cn.dsyg.dto.SampleDto">
+		update etb_sample
+		set warehousename = #warehousename#,
+			belongto = #belongto#,
+			productid = #productid#,
+			quantity = #quantity#,
+			customertype = #customertype#,
+			customerid = #customerid#,
+			customername = #customername#,
+			note = #note#,
+			rank = #rank#,
+			status = #status#,
+			res01 = #res01#,
+			res02 = #res02#,
+			res03 = #res03#,
+			res04 = #res04#,
+			res05 = #res05#,
+			updateuid = #updateuid#,
+			updatedate = NOW()
+		where id = #id#
+	</update>
+	
+</sqlMap>

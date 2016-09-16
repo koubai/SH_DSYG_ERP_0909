@@ -1,0 +1,1524 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+        "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.cn.tbps">
+
+	<resultMap id="ChartDto" class="com.cn.dsyg.dto.ChartDto">
+		<result property="X_Year" column="pur_year" />
+		<result property="Y_Month_01" column="pur_month01" />
+		<result property="Y_Month_02" column="pur_month02" />
+		<result property="Y_Month_03" column="pur_month03" />
+		<result property="Y_Month_04" column="pur_month04" />
+		<result property="Y_Month_05" column="pur_month05" />
+		<result property="Y_Month_06" column="pur_month06" />
+		<result property="Y_Month_07" column="pur_month07" />
+		<result property="Y_Month_08" column="pur_month08" />
+		<result property="Y_Month_09" column="pur_month09" />
+		<result property="Y_Month_10" column="pur_month10" />
+		<result property="Y_Month_11" column="pur_month11" />
+		<result property="Y_Month_12" column="pur_month12" />
+		<result property="Theme" column="theme1" />
+		<result property="Handler" column="handler" />
+		<result property="Id" column="id" />
+	</resultMap>
+
+	<resultMap id="UndeliProductDto" class="com.cn.dsyg.dto.UndeliProductDto">
+		<result property="fieldno" column="fieldno" />
+		<result property="belongto" column="belongto" />
+		<result property="theme1" column="theme1" />
+		<result property="theme2" column="theme2" />
+		<result property="productid" column="productid" />
+		<result property="tradename" column="tradename" />
+		<result property="typeno" column="typeno" />
+		<result property="color" column="color" />
+		<result property="packaging" column="packaging" />
+		<result property="makearea" column="makearea" />
+		<result property="unit" column="unit" />
+		<result property="remainquantity" column="remainquantity" />
+		<result property="taxunitprice" column="taxunitprice" />
+		<result property="taxamount" column="taxamount" />
+		<result property="item01" column="item01" />
+		<result property="item10" column="item10" />
+	</resultMap>
+
+	<select id="queryPurchaseByDate" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			SUM(case when months=05 then pur_sum_data else 0 end) 'pur_month05',   
+			SUM(case when months=06 then pur_sum_data else 0 end) 'pur_month06',   
+			SUM(case when months=07 then pur_sum_data else 0 end) 'pur_month07',   
+			SUM(case when months=08 then pur_sum_data else 0 end) 'pur_month08',   
+			SUM(case when months=09 then pur_sum_data else 0 end) 'pur_month09',   
+			SUM(case when months=10 then pur_sum_data else 0 end) 'pur_month10',   
+			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
+			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12'   
+		from(   
+		select M.*, sum(M.taxamount) as pur_sum_data from(
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months,  T.theme1 as theme1, P.handler as id, TU.username as handler,  T.taxamount as taxamount
+			from etb_warehouse T , etb_purchaseitem P ,tbuser TU	
+			where 1=1 
+			and T.belongto = #belongto#
+			and T.warehousetype='1'
+			and T.STATUS >= '20'
+			and T.parentid = P.purchaseno 
+			and T.productid= P.productid
+			and P.handler = TU.userid
+			<isNotEmpty prepend="and" property="theme1">
+				T.theme1 = #theme1#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				T.handler in ( $handerList$ )			
+			</isNotEmpty>
+		)M
+			group by id, years, months, theme1, id
+		)as test 
+			group by id, handler, theme1, pur_year
+			order by id
+	</select>
+	<select id="queryPurchaseByDateM" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			SUM(case when months=05 then pur_sum_data else 0 end) 'pur_month05',   
+			SUM(case when months=06 then pur_sum_data else 0 end) 'pur_month06',   
+			SUM(case when months=07 then pur_sum_data else 0 end) 'pur_month07',   
+			SUM(case when months=08 then pur_sum_data else 0 end) 'pur_month08',   
+			SUM(case when months=09 then pur_sum_data else 0 end) 'pur_month09',   
+			SUM(case when months=10 then pur_sum_data else 0 end) 'pur_month10',   
+			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
+			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12'   
+		from(   
+		select M.*, sum(M.taxamount) as pur_sum_data from(
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months,  T.theme1 as theme1, P.handler as id, TU.username as handler,  T.taxamount as taxamount
+			from etb_warehouse T , etb_purchaseitem P ,tbuser TU	
+			where 1=1 
+			and T.belongto = #belongto#
+			and T.warehousetype='1'
+			and T.STATUS >= '20'
+			and T.parentid = P.purchaseno 
+			and T.productid= P.productid
+			and P.handler = TU.userid
+			<isNotEmpty prepend="and" property="theme1">
+				T.theme1 = #theme1#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				T.handler in ( $handerList$ )			
+			</isNotEmpty>
+		)M
+			group by id, years, months, theme1, id
+		)as test 
+			group by id, handler, theme1, pur_year
+			order by id
+	</select>
+	<select id="queryPurchaseByDateQ" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, theme1, years as pur_year, 
+			SUM(case when months in (01, 02, 03) then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months in (04, 05, 06) then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months in (07, 08, 09) then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months in (10, 11, 12) then pur_sum_data else 0 end) 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12'   
+		from(   
+		select M.*, sum(M.taxamount) as pur_sum_data from(
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months,  T.theme1 as theme1, P.handler as id, TU.username as handler,  T.taxamount as taxamount
+			from etb_warehouse T , etb_purchaseitem P ,tbuser TU	
+			where 1=1 
+			and T.belongto = #belongto#
+			and T.warehousetype='1'
+			and T.STATUS >= '20'
+			and T.parentid = P.purchaseno 
+			and T.productid= P.productid
+			and P.handler = TU.userid
+			<isNotEmpty prepend="and" property="theme1">
+				T.theme1 = #theme1#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				T.handler in ( $handerList$ )			
+			</isNotEmpty>
+		)M
+			group by id, years, months, theme1, id
+		)as test 
+			group by id, handler, theme1, pur_year
+			order by id
+	</select>
+	<select id="queryPurchaseByDateY" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, theme1, years as pur_year, 
+			SUM(case when months in (01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12) then pur_sum_data else 0 end) 'pur_month01',   
+			NULL 'pur_month02',   
+			NULL 'pur_month03',   
+			NULL 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12'   
+		from(   
+		select M.*, sum(M.taxamount) as pur_sum_data from(
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months,  T.theme1 as theme1, P.handler as id, TU.username as handler,  T.taxamount as taxamount
+			from etb_warehouse T , etb_purchaseitem P ,tbuser TU	
+			where 1=1 
+			and T.belongto = #belongto#
+			and T.warehousetype='1'
+			and T.STATUS >= '20'
+			and T.parentid = P.purchaseno 
+			and T.productid= P.productid
+			and P.handler = TU.userid
+			<isNotEmpty prepend="and" property="theme1">
+				T.theme1 = #theme1#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				T.handler in ( $handerList$ )			
+			</isNotEmpty>
+		)M
+			group by id, years, months, theme1, id
+		)as test 
+			group by id, handler, theme1, pur_year
+			order by id
+	</select>
+	
+	<select id="queryDetailSalesByDate" parameterClass="java.util.Map" resultMap="ChartDto">	
+		select id, handler2, CONCAT(handler2,if(typ="0"," (公司)"," (自拓)"))as handler, theme1, typ, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			SUM(case when months=05 then pur_sum_data else 0 end) 'pur_month05',   
+			SUM(case when months=06 then pur_sum_data else 0 end) 'pur_month06',   
+			SUM(case when months=07 then pur_sum_data else 0 end) 'pur_month07',   
+			SUM(case when months=08 then pur_sum_data else 0 end) 'pur_month08',   
+			SUM(case when months=09 then pur_sum_data else 0 end) 'pur_month09',   
+			SUM(case when months=10 then pur_sum_data else 0 end) 'pur_month10',   
+			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
+			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12'   
+		from(   
+		select M.*, sum(M.taxamount) as pur_sum_data from(
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months,  T.theme1 as theme1, S.handler as id, TU.username as handler2, TC.customertype as typ, TC.customername, T.taxamount as taxamount
+			from etb_warehouse T , etb_salesitem S,etb_customer TC,tbuser TU	
+			where 1=1
+			and T.belongto = #belongto#
+			and T.warehousetype='2'
+			and T.STATUS >= '20'
+			and T.parentid = S.salesno
+			and T.productid= S.productid
+			and T.supplierid = TC.id
+			and S.handler = TU.userid
+			<isNotEmpty prepend="and" property="theme1">
+				T.theme1 = #theme1#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				T.handler in ( $handerList$ )			
+			</isNotEmpty>
+		)M
+			group by id, years, months, theme1, id
+		)as test 
+			group by id, handler, theme1, pur_year
+			order by id
+	</select>	
+
+
+	<select id="querySalesDetailByDateM" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler2, CONCAT(handler2,if(typ="0"," (公司)"," (自拓)"))as handler, theme1, typ, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			SUM(case when months=05 then pur_sum_data else 0 end) 'pur_month05',   
+			SUM(case when months=06 then pur_sum_data else 0 end) 'pur_month06',   
+			SUM(case when months=07 then pur_sum_data else 0 end) 'pur_month07',   
+			SUM(case when months=08 then pur_sum_data else 0 end) 'pur_month08',   
+			SUM(case when months=09 then pur_sum_data else 0 end) 'pur_month09',   
+			SUM(case when months=10 then pur_sum_data else 0 end) 'pur_month10',   
+			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
+			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12'   
+		from(   
+		select M.*, sum(M.taxamount) as pur_sum_data from(
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months,  T.theme1 as theme1, S.handler as id, TU.username as handler2, TC.customertype as typ, TC.customername, T.taxamount as taxamount
+			from etb_warehouse T , etb_salesitem S,etb_customer TC,tbuser TU	
+			where 1=1
+			and T.belongto = #belongto#
+			and T.warehousetype='2'
+			and T.STATUS >= '20'
+			and T.parentid = S.salesno
+			and T.productid= S.productid
+			and T.supplierid = TC.id
+			and S.handler = TU.userid
+			<isNotEmpty prepend="and" property="theme1">
+				T.theme1 = #theme1#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				T.handler in ( $handerList$ )			
+			</isNotEmpty>
+		)M
+			group by id, years, months, theme1, id
+		)as test 
+			group by id, handler, theme1, pur_year
+			order by id
+	</select>
+
+	<select id="querySalesDetailByDateQ" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler2, CONCAT(handler2,if(typ="0"," (公司)"," (自拓)"))as handler, theme1, typ, years as pur_year, 
+			SUM(case when months in (01, 02, 03) then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months in (04, 05, 06) then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months in (07, 08, 09) then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months in (10, 11, 12) then pur_sum_data else 0 end) 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12'   
+		from(   
+		select M.*, sum(M.taxamount) as pur_sum_data from(
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months,  T.theme1 as theme1, S.handler as id, TU.username as handler2, TC.customertype as typ, TC.customername, T.taxamount as taxamount
+			from etb_warehouse T , etb_salesitem S,etb_customer TC,tbuser TU	
+			where 1=1
+			and T.belongto = #belongto#
+			and T.warehousetype='2'
+			and T.STATUS >= '20'
+			and T.parentid = S.salesno
+			and T.productid= S.productid
+			and T.supplierid = TC.id
+			and S.handler = TU.userid
+			<isNotEmpty prepend="and" property="theme1">
+				T.theme1 = #theme1#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				T.handler in ( $handerList$ )			
+			</isNotEmpty>
+		)M
+			group by id, years, months, theme1, id
+		)as test 
+			group by id, handler, theme1, pur_year
+			order by id
+	</select>
+
+	<select id="querySalesDetailByDateY" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler2, CONCAT(handler2,if(typ="0"," (公司)"," (自拓)"))as handler, theme1, typ, years as pur_year, 
+			SUM(case when months in (01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12) then pur_sum_data else 0 end) 'pur_month01',   
+			NULL 'pur_month02',   
+			NULL 'pur_month03',   
+			NULL 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12'   
+		from(   
+		select M.*, sum(M.taxamount) as pur_sum_data from(
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months,  T.theme1 as theme1, S.handler as id, TU.username as handler2, TC.customertype as typ, TC.customername, T.taxamount as taxamount
+			from etb_warehouse T , etb_salesitem S,etb_customer TC,tbuser TU	
+			where 1=1
+			and T.belongto = #belongto#
+			and T.warehousetype='2'
+			and T.STATUS >= '20'
+			and T.parentid = S.salesno
+			and T.productid= S.productid
+			and T.supplierid = TC.id
+			and S.handler = TU.userid
+			<isNotEmpty prepend="and" property="theme1">
+				T.theme1 = #theme1#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				T.handler in ( $handerList$ )			
+			</isNotEmpty>
+		)M
+			group by id, years, months, theme1, id
+		)as test 
+			group by id, handler, theme1, pur_year
+			order by id
+	</select>
+
+	
+	<select id="querySalesByDateM" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			SUM(case when months=05 then pur_sum_data else 0 end) 'pur_month05',   
+			SUM(case when months=06 then pur_sum_data else 0 end) 'pur_month06',   
+			SUM(case when months=07 then pur_sum_data else 0 end) 'pur_month07',   
+			SUM(case when months=08 then pur_sum_data else 0 end) 'pur_month08',   
+			SUM(case when months=09 then pur_sum_data else 0 end) 'pur_month09',   
+			SUM(case when months=10 then pur_sum_data else 0 end) 'pur_month10',   
+			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
+			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12'   
+		from(   
+		select M.*, sum(M.taxamount) as pur_sum_data from(
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months,  T.theme1 as theme1, S.handler as id, TU.username as handler,  T.taxamount as taxamount
+			from etb_warehouse T , etb_salesitem S ,tbuser TU					
+			where 1=1 
+			and T.belongto = #belongto#
+			and T.warehousetype='2'
+			and T.STATUS >= '20'
+			and T.parentid = S.salesno
+			and T.productid= S.productid
+			and S.handler = TU.userid
+			<isNotEmpty prepend="and" property="theme1">
+				T.theme1 = #theme1#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				T.handler in ( $handerList$ )			
+			</isNotEmpty>
+		)M
+			group by id, years, months, theme1, id
+		)as test 
+			group by id, handler, theme1, pur_year
+			order by id
+	</select>
+	<select id="querySalesByDateQ" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, theme1, years as pur_year, 
+			SUM(case when months in (01, 02, 03) then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months in (04, 05, 06) then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months in (07, 08, 09) then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months in (10, 11, 12) then pur_sum_data else 0 end) 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12'   
+		from(   
+		select M.*, sum(M.taxamount) as pur_sum_data from(
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months,  T.theme1 as theme1, S.handler as id, TU.username as handler,  T.taxamount as taxamount
+			from etb_warehouse T , etb_salesitem S ,tbuser TU					
+			where 1=1 
+			and T.belongto = #belongto#
+			and T.warehousetype='2'
+			and T.STATUS >= '20'
+			and T.parentid = S.salesno
+			and T.productid= S.productid
+			and S.handler = TU.userid
+			<isNotEmpty prepend="and" property="theme1">
+				T.theme1 = #theme1#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				T.handler in ( $handerList$ )			
+			</isNotEmpty>
+		)M
+			group by id, years, months, theme1, id
+		)as test 
+			group by id, handler, theme1, pur_year
+			order by id
+	</select>
+	<select id="querySalesByDateY" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, theme1, years as pur_year, 
+			SUM(case when months in (01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12) then pur_sum_data else 0 end) 'pur_month01',   
+			NULL 'pur_month02',   
+			NULL 'pur_month03',   
+			NULL 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12'   
+		from(   
+		select M.*, sum(M.taxamount) as pur_sum_data from(
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months,  T.theme1 as theme1, S.handler as id, TU.username as handler,  T.taxamount as taxamount
+			from etb_warehouse T , etb_salesitem S ,tbuser TU					
+			where 1=1 
+			and T.belongto = #belongto#
+			and T.warehousetype='2'
+			and T.STATUS >= '20'
+			and T.parentid = S.salesno
+			and T.productid= S.productid
+			and S.handler = TU.userid
+			<isNotEmpty prepend="and" property="theme1">
+				T.theme1 = #theme1#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				T.handler in ( $handerList$ )			
+			</isNotEmpty>
+		)M
+			group by id, years, months, theme1, id
+		)as test 
+			group by id, handler, theme1, pur_year
+			order by id
+	</select>
+	
+	<select id="queryDeliveryByDate" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			SUM(case when months=05 then pur_sum_data else 0 end) 'pur_month05',   
+			SUM(case when months=06 then pur_sum_data else 0 end) 'pur_month06',   
+			SUM(case when months=07 then pur_sum_data else 0 end) 'pur_month07',   
+			SUM(case when months=08 then pur_sum_data else 0 end) 'pur_month08',   
+			SUM(case when months=09 then pur_sum_data else 0 end) 'pur_month09',   
+			SUM(case when months=10 then pur_sum_data else 0 end) 'pur_month10',   
+			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
+			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12'   
+		from(   
+			select DATE_FORMAT(T.accountdate,'%y') as years, DATE_FORMAT(T.accountdate,'%m') months, T.theme as theme1, TU.id as id, TU.deliveryname as handler, sum(T.amount) as pur_sum_data     
+			from etb_finance T, etb_delivery TU
+			where 1=1 
+			and T.belongto = #belongto#
+			and T.financetype='3'
+			and T.STATUS='99'
+			and T.customerid = TU.id
+			<isNotEmpty prepend="and" property="from_date">
+				T.accountdate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.accountdate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				T.handler in ( $handerList$ )			
+			</isNotEmpty>			
+			group by id, years, months, theme1, id			
+		)as test 
+			group by id, handler, theme1, pur_year
+			order by id
+	</select>
+	<select id="queryDeliveryByDateM" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			SUM(case when months=05 then pur_sum_data else 0 end) 'pur_month05',   
+			SUM(case when months=06 then pur_sum_data else 0 end) 'pur_month06',   
+			SUM(case when months=07 then pur_sum_data else 0 end) 'pur_month07',   
+			SUM(case when months=08 then pur_sum_data else 0 end) 'pur_month08',   
+			SUM(case when months=09 then pur_sum_data else 0 end) 'pur_month09',   
+			SUM(case when months=10 then pur_sum_data else 0 end) 'pur_month10',   
+			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
+			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12'   
+		from(   
+			select DATE_FORMAT(T.accountdate,'%y') as years, DATE_FORMAT(T.accountdate,'%m') months, T.theme as theme1, TU.id as id, TU.deliveryname as handler, sum(T.amount) as pur_sum_data     
+			from etb_finance T, etb_delivery TU
+			where 1=1 
+			and T.belongto = #belongto#
+			and T.financetype='3'
+			and T.STATUS='99'
+			and T.customerid = TU.id
+			<isNotEmpty prepend="and" property="from_date">
+				T.accountdate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.accountdate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				TU.id in ( $handerList$ )			
+			</isNotEmpty>			
+			group by id, years, months, theme1, id
+		)as test 
+			group by id, handler, theme1, pur_year
+			order by id
+	</select>
+	
+	<select id="queryDeliveryByDateQ" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, theme1, years as pur_year, 
+			SUM(case when months in (01, 02, 03) then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months in (04, 05, 06) then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months in (07, 08, 09) then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months in (10, 11, 12) then pur_sum_data else 0 end) 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12'   
+		from(   
+			select DATE_FORMAT(T.accountdate,'%y') as years, DATE_FORMAT(T.accountdate,'%m') months, T.theme as theme1, TU.id as id, TU.deliveryname as handler, sum(T.amount) as pur_sum_data     
+			from etb_finance T, etb_delivery TU
+			where 1=1 
+			and T.belongto = #belongto#
+			and T.financetype='3'
+			and T.status='99'
+			and T.customerid = TU.id
+			<isNotEmpty prepend="and" property="from_date">
+				T.accountdate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.accountdate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				TU.id in ( $handerList$ )			
+			</isNotEmpty>
+			group by id, years, months, theme1, id				
+		)as test 
+			group by id, handler, theme1, pur_year
+			order by id
+	</select>
+	<select id="queryDeliveryByDateY" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, theme1, years as pur_year, 
+			SUM(case when months in (01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12) then pur_sum_data else 0 end) 'pur_month01',   
+			NULL 'pur_month02',   
+			NULL 'pur_month03',   
+			NULL 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12'   
+		from(   
+			select DATE_FORMAT(T.accountdate,'%y') as years, DATE_FORMAT(T.accountdate,'%m') months, T.theme as theme1, TU.id as id, TU.deliveryname as handler, sum(T.amount) as pur_sum_data     
+			from etb_finance T, etb_delivery TU
+			where 1=1 
+			and T.belongto = #belongto#
+			and T.financetype='3'
+			and T.status='99'
+			and T.customerid = TU.id
+			<isNotEmpty prepend="and" property="from_date">
+				T.accountdate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.accountdate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				TU.id in ( $handerList$ )			
+			</isNotEmpty>
+			group by id, years, months, theme1, id	
+		)as test 
+			group by id, handler, theme1, pur_year
+			order by id
+	</select>
+
+	<select id="queryFinanceByDate" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, "" as theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			SUM(case when months=05 then pur_sum_data else 0 end) 'pur_month05',   
+			SUM(case when months=06 then pur_sum_data else 0 end) 'pur_month06',   
+			SUM(case when months=07 then pur_sum_data else 0 end) 'pur_month07',   
+			SUM(case when months=08 then pur_sum_data else 0 end) 'pur_month08',   
+			SUM(case when months=09 then pur_sum_data else 0 end) 'pur_month09',   
+			SUM(case when months=10 then pur_sum_data else 0 end) 'pur_month10',   
+			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
+			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12'   
+		from(   
+			select DATE_FORMAT(T.accountdate,'%y') as years, DATE_FORMAT(T.accountdate,'%m') months, TU.code as id, TU.mean as handler, sum(T.amount) as pur_sum_data     
+			from etb_finance T, tbdict01 TU
+			where 1=1 
+			and T.financetype = TU.code
+			and TU.fieldcode = 'finance'
+			and TU.fieldname = 'type'
+			and T.belongto = #belongto#
+			<isNotEmpty prepend="and" property="from_date">
+				T.accountdate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.accountdate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			group by id, years, months, id			
+		)as test 
+			group by id, handler, pur_year
+			order by id
+	</select>
+	<select id="queryFinanceByDateM" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, "" as theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			SUM(case when months=05 then pur_sum_data else 0 end) 'pur_month05',   
+			SUM(case when months=06 then pur_sum_data else 0 end) 'pur_month06',   
+			SUM(case when months=07 then pur_sum_data else 0 end) 'pur_month07',   
+			SUM(case when months=08 then pur_sum_data else 0 end) 'pur_month08',   
+			SUM(case when months=09 then pur_sum_data else 0 end) 'pur_month09',   
+			SUM(case when months=10 then pur_sum_data else 0 end) 'pur_month10',   
+			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
+			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12'   
+		from(   
+			select DATE_FORMAT(T.accountdate,'%y') as years, DATE_FORMAT(T.accountdate,'%m') months, TU.code as id, TU.mean as handler, sum(T.amount) as pur_sum_data     
+			from etb_finance T, tbdict01 TU
+			where 1=1 
+			and T.financetype = TU.code
+			and TU.fieldcode = 'finance'
+			and TU.fieldname = 'type'
+			and T.belongto = #belongto#
+			<isNotEmpty prepend="and" property="from_date">
+				T.accountdate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.accountdate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			group by id, years, months, id			
+		)as test 
+			group by id, handler, pur_year
+			order by id
+	</select>
+	<select id="queryFinanceByDateQ" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, "" as theme1, years as pur_year, 
+			SUM(case when months in (01, 02, 03) then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months in (04, 05, 06) then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months in (07, 08, 09) then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months in (10, 11, 12) then pur_sum_data else 0 end) 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12'   
+		from(   
+			select DATE_FORMAT(T.accountdate,'%y') as years, DATE_FORMAT(T.accountdate,'%m') months, TU.code as id, TU.mean as handler, sum(T.amount) as pur_sum_data     
+			from etb_finance T, tbdict01 TU
+			where 1=1 
+			and T.financetype = TU.code
+			and TU.fieldcode = 'finance'
+			and TU.fieldname = 'type'
+			and T.belongto = #belongto#
+			<isNotEmpty prepend="and" property="from_date">
+				T.accountdate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.accountdate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			group by id, years, months, id			
+		)as test 
+			group by id, handler, pur_year
+			order by id
+	</select>
+	<select id="queryFinanceByDateY" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, "" as theme1, years as pur_year, 
+			SUM(case when months in (01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12) then pur_sum_data else 0 end) 'pur_month01',   
+			NULL 'pur_month02',   
+			NULL 'pur_month03',   
+			NULL 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12'   
+		from(   
+			select DATE_FORMAT(T.accountdate,'%y') as years, DATE_FORMAT(T.accountdate,'%m') months, TU.code as id, TU.mean as handler, sum(T.amount) as pur_sum_data     
+			from etb_finance T, tbdict01 TU
+			where 1=1 
+			and T.financetype = TU.code
+			and TU.fieldcode = 'finance'
+			and TU.fieldname = 'type'
+			and T.belongto = #belongto#
+			<isNotEmpty prepend="and" property="from_date">
+				T.accountdate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.accountdate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			group by id, years, months, id			
+		)as test 
+			group by id, handler, pur_year
+			order by id
+	</select>
+	
+	<select id="queryProductProfitByDate" parameterClass="java.util.Map" resultMap="ChartDto">
+		select test.aid as id, CONCAT(TU.fieldname," (","销售额",")") as handler, "销售额" as theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			SUM(case when months=05 then pur_sum_data else 0 end) 'pur_month05',   
+			SUM(case when months=06 then pur_sum_data else 0 end) 'pur_month06',   
+			SUM(case when months=07 then pur_sum_data else 0 end) 'pur_month07',   
+			SUM(case when months=08 then pur_sum_data else 0 end) 'pur_month08',   
+			SUM(case when months=09 then pur_sum_data else 0 end) 'pur_month09',   
+			SUM(case when months=10 then pur_sum_data else 0 end) 'pur_month10',   
+			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
+			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12'   
+		from(   
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, TP.fieldno as aid, "" as handler, sum(T.taxamount) as pur_sum_data     
+			from etb_warehouse T, etb_product TP
+			where 1=1 
+			and T.warehousetype = '2'
+			AND T.STATUS >= '20'
+			AND TP.id = T.productid
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			group by aid, years, months			
+		)as test , tbdict01 TU
+		where 
+		  test.aid = TU.code
+			and TU.fieldcode = 'goods'
+			and TU.lang = 'c'
+		group by id, handler, pur_year
+	</select>
+	
+	<select id="queryProductProfitByDateM" parameterClass="java.util.Map" resultMap="ChartDto">
+		select test.aid as id, CONCAT(TU.fieldname," (","销售额",")") as handler, "销售额" as theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			SUM(case when months=05 then pur_sum_data else 0 end) 'pur_month05',   
+			SUM(case when months=06 then pur_sum_data else 0 end) 'pur_month06',   
+			SUM(case when months=07 then pur_sum_data else 0 end) 'pur_month07',   
+			SUM(case when months=08 then pur_sum_data else 0 end) 'pur_month08',   
+			SUM(case when months=09 then pur_sum_data else 0 end) 'pur_month09',   
+			SUM(case when months=10 then pur_sum_data else 0 end) 'pur_month10',   
+			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
+			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12'   
+		from(   
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, TP.fieldno as aid, "" as handler, sum(T.taxamount) as pur_sum_data     
+			from etb_warehouse T, etb_product TP
+			where 1=1 
+			and T.warehousetype = '2'
+			AND T.STATUS >= '20'
+			AND TP.id = T.productid
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			group by aid, years, months			
+		)as test , tbdict01 TU
+		where 
+		  test.aid = TU.code
+			and TU.fieldcode = 'goods'
+			and TU.lang = 'c'
+		group by id, handler, pur_year
+	</select>
+	<select id="queryProductProfitByDateQ" parameterClass="java.util.Map" resultMap="ChartDto">
+		select test.aid as id, CONCAT(TU.fieldname," (","销售额",")") as handler, "销售额" as theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12'   
+		from(   
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, TP.fieldno as aid, "" as handler, sum(T.taxamount) as pur_sum_data     
+			from etb_warehouse T, etb_product TP
+			where 1=1 
+			and T.warehousetype = '2'
+			AND T.STATUS >= '20'
+			AND TP.id = T.productid
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			group by aid, years, months			
+		)as test , tbdict01 TU
+		where 
+		  test.aid = TU.code
+			and TU.fieldcode = 'goods'
+			and TU.lang = 'c'
+		group by id, handler, pur_year
+	</select>
+	<select id="queryProductProfitByDateY" parameterClass="java.util.Map" resultMap="ChartDto">
+		select test.aid as id, CONCAT(TU.fieldname," (","销售额",")") as handler, "销售额" as theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			NULL 'pur_month02',   
+			NULL 'pur_month03',   
+			NULL 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12'   
+		from(   
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, TP.fieldno as aid, "" as handler, sum(T.taxamount) as pur_sum_data     
+			from etb_warehouse T, etb_product TP
+			where 1=1 
+			and T.warehousetype = '2'
+			AND T.STATUS >= '20'
+			AND TP.id = T.productid
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			group by aid, years, months			
+		)as test , tbdict01 TU
+		where 
+		  test.aid = TU.code
+			and TU.fieldcode = 'goods'
+			and TU.lang = 'c'
+		group by id, handler, pur_year
+	</select>
+
+	<select id="queryProductProfitByDateB" parameterClass="java.util.Map" resultMap="ChartDto">
+		select test.aid as id, CONCAT(TU.fieldname," (","利润",")") as handler, "利润" as theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',  
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			SUM(case when months=05 then pur_sum_data else 0 end) 'pur_month05',   
+			SUM(case when months=06 then pur_sum_data else 0 end) 'pur_month06',  
+			SUM(case when months=07 then pur_sum_data else 0 end) 'pur_month07',   
+			SUM(case when months=08 then pur_sum_data else 0 end) 'pur_month08',   
+			SUM(case when months=09 then pur_sum_data else 0 end) 'pur_month09',   
+			SUM(case when months=10 then pur_sum_data else 0 end) 'pur_month10',   
+			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
+			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12'   
+		from(   
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, TP.fieldno as aid, "" as handler, round(sum((T.taxamount*IF(T.res05 IS NULL,1,-1)-cast(T.res04 as DECIMAL(18,6))* IF(T.res05 IS NULL,-1,1)*T.quantity*1.17)*IF(T.res05 IS NULL,1,-1)),2) as pur_sum_data     
+			from etb_warehouse T, etb_product TP
+			where 1=1 
+			and T.warehousetype = '2'
+			AND T.STATUS >= '20'
+			AND TP.id = T.productid
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			group by aid, years, months			
+		)as test , tbdict01 TU
+		where 
+		  test.aid = TU.code
+			and TU.fieldcode = 'goods'
+			and TU.lang = 'c'
+		group by id, handler, pur_year
+	</select>
+	<select id="queryProductProfitByDateMB" parameterClass="java.util.Map" resultMap="ChartDto">
+		select test.aid as id, CONCAT(TU.fieldname," (","利润",")") as handler, "利润" as theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',  
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			SUM(case when months=05 then pur_sum_data else 0 end) 'pur_month05',   
+			SUM(case when months=06 then pur_sum_data else 0 end) 'pur_month06',  
+			SUM(case when months=07 then pur_sum_data else 0 end) 'pur_month07',   
+			SUM(case when months=08 then pur_sum_data else 0 end) 'pur_month08',   
+			SUM(case when months=09 then pur_sum_data else 0 end) 'pur_month09',   
+			SUM(case when months=10 then pur_sum_data else 0 end) 'pur_month10',   
+			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
+			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12'   
+		from(   
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, TP.fieldno as aid, "" as handler, round(sum((T.taxamount*IF(T.res05 IS NULL,1,-1)-cast(T.res04 as DECIMAL(18,6))* IF(T.res05 IS NULL,-1,1)*T.quantity*1.17)*IF(T.res05 IS NULL,1,-1)),2) as pur_sum_data     
+			from etb_warehouse T, etb_product TP
+			where 1=1 
+			and T.warehousetype = '2'
+			AND T.STATUS >= '20'
+			AND TP.id = T.productid
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			group by aid, years, months			
+		)as test , tbdict01 TU
+		where 
+		  test.aid = TU.code
+			and TU.fieldcode = 'goods'
+			and TU.lang = 'c'
+		group by id, handler, pur_year
+	</select>
+	<select id="queryProductProfitByDateQB" parameterClass="java.util.Map" resultMap="ChartDto">
+		select test.aid as id, CONCAT(TU.fieldname," (","利润",")") as handler, "利润" as theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',  
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12'   
+		from(   
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, TP.fieldno as aid, "" as handler, round(sum((T.taxamount*IF(T.res05 IS NULL,1,-1)-cast(T.res04 as DECIMAL(18,6))* IF(T.res05 IS NULL,-1,1)*T.quantity*1.17)*IF(T.res05 IS NULL,1,-1)),2) as pur_sum_data     
+			from etb_warehouse T, etb_product TP
+			where 1=1 
+			and T.warehousetype = '2'
+			AND T.STATUS >= '20'
+			AND TP.id = T.productid
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			group by aid, years, months			
+		)as test , tbdict01 TU
+		where 
+		  test.aid = TU.code
+			and TU.fieldcode = 'goods'
+			and TU.lang = 'c'
+		group by id, handler, pur_year
+	</select>
+	<select id="queryProductProfitByDateYB" parameterClass="java.util.Map" resultMap="ChartDto">
+		select test.aid as id, CONCAT(TU.fieldname," (","利润",")") as handler, "利润" as theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			NULL 'pur_month02',   
+			NULL 'pur_month03',   
+			NULL 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12'   
+		from(   
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, TP.fieldno as aid, "" as handler, round(sum((T.taxamount*IF(T.res05 IS NULL,1,-1)-cast(T.res04 as DECIMAL(18,6))* IF(T.res05 IS NULL,-1,1)*T.quantity*1.17)*IF(T.res05 IS NULL,1,-1)),2) as pur_sum_data     
+			from etb_warehouse T, etb_product TP
+			where 1=1 
+			and T.warehousetype = '2'
+			AND T.STATUS >= '20'
+			AND TP.id = T.productid
+			<isNotEmpty prepend="and" property="from_date">
+				T.warehousedate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.warehousedate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			group by aid, years, months			
+		)as test , tbdict01 TU
+		where 
+		  test.aid = TU.code
+			and TU.fieldcode = 'goods'
+			and TU.lang = 'c'
+		group by id, handler, pur_year
+	</select>
+		
+	<select id="querySupplierByDateM" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, "" as theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			SUM(case when months=05 then pur_sum_data else 0 end) 'pur_month05',   
+			SUM(case when months=06 then pur_sum_data else 0 end) 'pur_month06',   
+			SUM(case when months=07 then pur_sum_data else 0 end) 'pur_month07',   
+			SUM(case when months=08 then pur_sum_data else 0 end) 'pur_month08',   
+			SUM(case when months=09 then pur_sum_data else 0 end) 'pur_month09',   
+			SUM(case when months=10 then pur_sum_data else 0 end) 'pur_month10',   
+			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
+			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12',
+			SUM((case when months=01 then pur_sum_data else 0 end)+
+					(case when months=02 then pur_sum_data else 0 end)+
+					(case when months=03 then pur_sum_data else 0 end)+   
+					(case when months=04 then pur_sum_data else 0 end)+   
+					(case when months=05 then pur_sum_data else 0 end)+   
+					(case when months=06 then pur_sum_data else 0 end)+   
+					(case when months=07 then pur_sum_data else 0 end)+   
+					(case when months=08 then pur_sum_data else 0 end)+   
+					(case when months=09 then pur_sum_data else 0 end)+   
+					(case when months=10 then pur_sum_data else 0 end)+   
+					(case when months=11 then pur_sum_data else 0 end)+   
+					(case when months=12 then pur_sum_data else 0 end)) 'pur_pp'		   
+			   
+		from(   
+			select DATE_FORMAT(T.accountdate,'%y') as years, DATE_FORMAT(T.accountdate,'%m') months, TU.id as id, TU.suppliername as handler, sum(T.amount) as pur_sum_data     
+			from etb_finance T, etb_supplier TU
+			where 1=1 
+			and T.customerid = TU.id
+			and	T.financetype = '1'
+			and T.belongto = #belongto#
+			<isNotEmpty prepend="and" property="from_date">
+				T.accountdate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.accountdate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				TU.id in ( $handerList$ )			
+			</isNotEmpty>			
+			group by id, years, months		
+		)as test 
+			group by id, handler, pur_year
+			order by pur_year desc, pur_pp desc
+	</select>
+	<select id="querySupplierByDateQ" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, "" as theme1, years as pur_year, 
+			SUM(case when months in (01, 02, 03) then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months in (04, 05, 06) then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months in (07, 08, 09) then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months in (10, 11, 12) then pur_sum_data else 0 end) 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12',
+			SUM((case when months=01 then pur_sum_data else 0 end)+
+					(case when months=02 then pur_sum_data else 0 end)+
+					(case when months=03 then pur_sum_data else 0 end)+   
+					(case when months=04 then pur_sum_data else 0 end)+   
+					(case when months=05 then pur_sum_data else 0 end)+   
+					(case when months=06 then pur_sum_data else 0 end)+   
+					(case when months=07 then pur_sum_data else 0 end)+   
+					(case when months=08 then pur_sum_data else 0 end)+   
+					(case when months=09 then pur_sum_data else 0 end)+   
+					(case when months=10 then pur_sum_data else 0 end)+   
+					(case when months=11 then pur_sum_data else 0 end)+   
+					(case when months=12 then pur_sum_data else 0 end)) 'pur_pp'		   
+			   
+		from(   
+			select DATE_FORMAT(T.accountdate,'%y') as years, DATE_FORMAT(T.accountdate,'%m') months, TU.id as id, TU.suppliername as handler, sum(T.amount) as pur_sum_data     
+			from etb_finance T, etb_supplier TU
+			where 1=1 
+			and T.customerid = TU.id
+			and	T.financetype = '1'
+			and T.belongto = #belongto#
+			<isNotEmpty prepend="and" property="from_date">
+				T.accountdate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.accountdate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				TU.id in ( $handerList$ )			
+			</isNotEmpty>			
+			group by id, years, months		
+		)as test 
+			group by id, handler, pur_year
+			order by pur_year desc, pur_pp desc
+	</select>
+	<select id="querySupplierByDateY" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, "" as theme1, years as pur_year, 
+			SUM(case when months in (01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12) then pur_sum_data else 0 end) 'pur_month01',   
+			NULL 'pur_month02',   
+			NULL 'pur_month03',   
+			NULL 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12',
+			SUM((case when months=01 then pur_sum_data else 0 end)+
+					(case when months=02 then pur_sum_data else 0 end)+
+					(case when months=03 then pur_sum_data else 0 end)+   
+					(case when months=04 then pur_sum_data else 0 end)+   
+					(case when months=05 then pur_sum_data else 0 end)+   
+					(case when months=06 then pur_sum_data else 0 end)+   
+					(case when months=07 then pur_sum_data else 0 end)+   
+					(case when months=08 then pur_sum_data else 0 end)+   
+					(case when months=09 then pur_sum_data else 0 end)+   
+					(case when months=10 then pur_sum_data else 0 end)+   
+					(case when months=11 then pur_sum_data else 0 end)+   
+					(case when months=12 then pur_sum_data else 0 end)) 'pur_pp'		   
+			   
+		from(   
+			select DATE_FORMAT(T.accountdate,'%y') as years, DATE_FORMAT(T.accountdate,'%m') months, TU.id as id, TU.suppliername as handler, sum(T.amount) as pur_sum_data     
+			from etb_finance T, etb_supplier TU
+			where 1=1 
+			and T.customerid = TU.id
+			and	T.financetype = '1'
+			and T.belongto = #belongto#
+			<isNotEmpty prepend="and" property="from_date">
+				T.accountdate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.accountdate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				TU.id in ( $handerList$ )			
+			</isNotEmpty>			
+			group by id, years, months			
+		)as test 
+			group by id, handler, pur_year
+			order by pur_year desc, pur_pp desc
+	</select>
+	
+	<select id="queryCustomerByDateM" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, "" as theme1, years as pur_year, 
+			SUM(case when months=01 then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months=02 then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months=03 then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months=04 then pur_sum_data else 0 end) 'pur_month04',   
+			SUM(case when months=05 then pur_sum_data else 0 end) 'pur_month05',   
+			SUM(case when months=06 then pur_sum_data else 0 end) 'pur_month06',   
+			SUM(case when months=07 then pur_sum_data else 0 end) 'pur_month07',   
+			SUM(case when months=08 then pur_sum_data else 0 end) 'pur_month08',   
+			SUM(case when months=09 then pur_sum_data else 0 end) 'pur_month09',   
+			SUM(case when months=10 then pur_sum_data else 0 end) 'pur_month10',   
+			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
+			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12',   
+			SUM((case when months=01 then pur_sum_data else 0 end)+
+					(case when months=02 then pur_sum_data else 0 end)+
+					(case when months=03 then pur_sum_data else 0 end)+   
+					(case when months=04 then pur_sum_data else 0 end)+   
+					(case when months=05 then pur_sum_data else 0 end)+   
+					(case when months=06 then pur_sum_data else 0 end)+   
+					(case when months=07 then pur_sum_data else 0 end)+   
+					(case when months=08 then pur_sum_data else 0 end)+   
+					(case when months=09 then pur_sum_data else 0 end)+   
+					(case when months=10 then pur_sum_data else 0 end)+   
+					(case when months=11 then pur_sum_data else 0 end)+   
+					(case when months=12 then pur_sum_data else 0 end)) 'pur_pp'		   
+		from(   
+			select DATE_FORMAT(T.accountdate,'%y') as years, DATE_FORMAT(T.accountdate,'%m') months, TU.id as id, TU.customername as handler, sum(T.amount) as pur_sum_data     
+			from etb_finance T, etb_customer TU
+			where 1=1 
+			and T.customerid = TU.id
+			and	T.financetype = '2'
+			and T.belongto = #belongto#
+			<isNotEmpty prepend="and" property="from_date">
+				T.accountdate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.accountdate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				TU.id in ( $handerList$ )			
+			</isNotEmpty>			
+			group by id, years, months			
+		)as test 
+			group by id, handler, pur_year
+			order by pur_year desc, pur_pp desc
+	</select>
+	<select id="queryCustomerByDateQ" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, "" as theme1, years as pur_year, 
+			SUM(case when months in (01, 02, 03) then pur_sum_data else 0 end) 'pur_month01',   
+			SUM(case when months in (04, 05, 06) then pur_sum_data else 0 end) 'pur_month02',   
+			SUM(case when months in (07, 08, 09) then pur_sum_data else 0 end) 'pur_month03',   
+			SUM(case when months in (10, 11, 12) then pur_sum_data else 0 end) 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12',   
+			SUM((case when months=01 then pur_sum_data else 0 end)+
+					(case when months=02 then pur_sum_data else 0 end)+
+					(case when months=03 then pur_sum_data else 0 end)+   
+					(case when months=04 then pur_sum_data else 0 end)+   
+					(case when months=05 then pur_sum_data else 0 end)+   
+					(case when months=06 then pur_sum_data else 0 end)+   
+					(case when months=07 then pur_sum_data else 0 end)+   
+					(case when months=08 then pur_sum_data else 0 end)+   
+					(case when months=09 then pur_sum_data else 0 end)+   
+					(case when months=10 then pur_sum_data else 0 end)+   
+					(case when months=11 then pur_sum_data else 0 end)+   
+					(case when months=12 then pur_sum_data else 0 end)) 'pur_pp'		   
+		from(   
+			select DATE_FORMAT(T.accountdate,'%y') as years, DATE_FORMAT(T.accountdate,'%m') months, TU.id as id, TU.customername as handler, sum(T.amount) as pur_sum_data     
+			from etb_finance T, etb_customer TU
+			where 1=1 
+			and T.customerid = TU.id
+			and	T.financetype = '2'
+			and T.belongto = #belongto#
+			<isNotEmpty prepend="and" property="from_date">
+				T.accountdate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.accountdate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				TU.id in ( $handerList$ )			
+			</isNotEmpty>			
+			group by id, years, months			
+		)as test 
+			group by id, handler, pur_year
+			order by pur_year desc, pur_pp desc
+	</select>
+	<select id="queryCustomerByDateY" parameterClass="java.util.Map" resultMap="ChartDto">
+		select id, handler, "" as theme1, years as pur_year, 
+			SUM(case when months in (01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12) then pur_sum_data else 0 end) 'pur_month01',   
+			NULL 'pur_month02',   
+			NULL 'pur_month03',   
+			NULL 'pur_month04',   
+			NULL 'pur_month05',   
+			NULL 'pur_month06',   
+			NULL 'pur_month07',   
+			NULL 'pur_month08',   
+			NULL 'pur_month09',   
+			NULL 'pur_month10',   
+			NULL 'pur_month11',   
+			NULL 'pur_month12',   
+			SUM((case when months=01 then pur_sum_data else 0 end)+
+					(case when months=02 then pur_sum_data else 0 end)+
+					(case when months=03 then pur_sum_data else 0 end)+   
+					(case when months=04 then pur_sum_data else 0 end)+   
+					(case when months=05 then pur_sum_data else 0 end)+   
+					(case when months=06 then pur_sum_data else 0 end)+   
+					(case when months=07 then pur_sum_data else 0 end)+   
+					(case when months=08 then pur_sum_data else 0 end)+   
+					(case when months=09 then pur_sum_data else 0 end)+   
+					(case when months=10 then pur_sum_data else 0 end)+   
+					(case when months=11 then pur_sum_data else 0 end)+   
+					(case when months=12 then pur_sum_data else 0 end)) 'pur_pp'		   
+		from(   
+			select DATE_FORMAT(T.accountdate,'%y') as years, DATE_FORMAT(T.accountdate,'%m') months, TU.id as id, TU.customername as handler, sum(T.amount) as pur_sum_data     
+			from etb_finance T, etb_customer TU
+			where 1=1 
+			and T.customerid = TU.id
+			and	T.financetype = '2'
+			and T.belongto = #belongto#
+			<isNotEmpty prepend="and" property="from_date">
+				T.accountdate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.accountdate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="handerList">
+				TU.id in ( $handerList$ )			
+			</isNotEmpty>			
+			group by id, years, months			
+		)as test 
+			group by id, handler, pur_year
+			order by pur_year desc, pur_pp desc
+	</select>
+	
+	
+	<resultMap id="ChartSaleTotalDto" class="com.cn.dsyg.dto.ChartSaleTotalDto">
+		<result property="totaltaxamount" column="totaltaxamount" />
+		<result property="expresstaxamount" column="expresstaxamount" />
+		<result property="businesstripamount" column="businesstripamount" />
+	</resultMap>
+	
+	<select id="querySaleTotalByDate" parameterClass="java.util.Map" resultMap="ChartSaleTotalDto">
+		select totaltaxamount, expresstaxamount, businesstripamount
+		from(   
+			select sum(T.amount) as totaltaxamount, test3.expresstaxamount as expresstaxamount, test3.businesstripamount as businesstripamount
+			from etb_finance T right JOIN (
+				SELECT sum(F2.amount) as expresstaxamount, test2.businesstripamount as businesstripamount FROM etb_finance F2 right JOIN 
+					(SELECT sum(F.amount) as businesstripamount  FROM etb_finance F 
+										where 1=1 
+										and F.financetype='4'
+										and F.theme='03'
+										and F.belongto = #belongto#
+										and F.status >= '0'
+										<isNotEmpty prepend="and" property="from_date">
+											F.accountdate <![CDATA[>=]]> #from_date#
+										</isNotEmpty>
+										<isNotEmpty prepend="and" property="to_date">
+											F.accountdate <![CDATA[<=]]> #to_date#
+										</isNotEmpty>
+					) as test2
+					on 1=1 
+					and F2.financetype='3'
+					and F2.belongto = #belongto#
+					and F2.status >= '0'					
+					<isNotEmpty prepend="and" property="from_date">
+						F2.accountdate <![CDATA[>=]]> #from_date#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="to_date">
+						F2.accountdate <![CDATA[<=]]> #to_date#
+					</isNotEmpty>
+			) as test3
+			on 1=1 
+			and T.belongto = #belongto#
+			and T.STATUS >= '0'
+			and T.financetype='2'
+			<isNotEmpty prepend="and" property="from_date">
+				T.accountdate <![CDATA[>=]]> #from_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="to_date">
+				T.accountdate <![CDATA[<=]]> #to_date#
+			</isNotEmpty>
+		)as test 
+	</select>
+
+	<resultMap id="WarehouseCostDto" class="com.cn.dsyg.dto.WarehouseCostDto">
+		<result property="TypeName" column="fieldname" />
+		<result property="WarehouseCost" column="warehousecost" />
+		<result property="LeaveQuantity" column="leavequantity" />
+	</resultMap>
+	
+	<select id="queryWarehouseCost" parameterClass="java.util.Map" resultMap="WarehouseCostDto">
+	SELECT D.fieldname, C.warehousecost, C.leavequantity
+	FROM (
+		SELECT P.fieldno as typeno, sum(S.allleave) as warehousecost, sum(S.kc) as leavequantity
+		FROM (
+			SELECT W.productid, T.cbj, sum(quantity) as kc, T.cbj*sum(quantity) as allleave 
+			FROM (
+				SELECT productid, sum(taxamount) as sumamount, sum(quantity) as inquantity, (sum(taxamount)/sum(quantity)) as cbj
+				FROM etb_warehouse
+				WHERE warehousetype = 1
+				AND status >= 20
+				GROUP BY productid
+			)T, etb_warehouse W
+			WHERE T.productid=W.productid
+			GROUP BY W.productid
+		)S LEFT JOIN etb_product P
+		ON S.productid = P.id
+		GROUP BY P.fieldno
+	)C, tbdict01 D
+	WHERE C.typeno= D.code
+	AND D.fieldcode = 'goods'
+	AND D.lang='c'
+	ORDER BY C.typeno
+	</select>	
+	
+	<select id="queryUnOutWarehouseCost" parameterClass="java.util.Map" resultMap="WarehouseCostDto">
+	SELECT D.fieldname, C.warehousecost, C.leavequantity
+	FROM (
+		select P.fieldno as typeno, SUM(S.remainquantity * S.taxunitprice) as warehousecost, Sum(S.remainquantity) leavequantity
+		from etb_salesitem S, etb_product P
+		where S.productid = P.id
+		group by P.fieldno
+	)C, tbdict01 D
+	WHERE C.typeno= D.code
+	AND D.fieldcode = 'goods'
+	AND D.lang='c'
+	ORDER BY C.typeno
+	</select>	
+	
+	<select id="queryUnInWarehouseCost" parameterClass="java.util.Map" resultMap="WarehouseCostDto">
+	SELECT D.fieldname, C.warehousecost, C.leavequantity
+	FROM (
+		select P.fieldno as typeno, SUM(S.remainquantity * S.taxunitprice) as warehousecost, Sum(S.remainquantity) leavequantity
+		from etb_purchaseitem S, etb_product P
+		where S.productid = P.id
+		group by P.fieldno
+	)C, tbdict01 D
+	WHERE C.typeno= D.code
+	AND D.fieldcode = 'goods'
+	AND D.lang='c'
+	ORDER BY C.typeno
+	</select>	
+	
+	<select id="queryUnDeliSaleProductByFieldno" parameterClass="java.util.Map" resultMap="UndeliProductDto">
+	SELECT P.fieldno,P.belongto,S.theme1,S.theme2,S.productid,P.tradename,P.typeno,P.color,P.packaging,P.makearea,P.unit,S.remainquantity,S.taxunitprice,S.taxamount,P.item01,P.item10
+	FROM etb_salesitem S, etb_product P
+	WHERE 1=1
+	AND S.productid = P.id
+	AND S.remainquantity > 0
+	<isNotEmpty prepend="and" property="from_date">
+		S.plandate <![CDATA[>=]]> #from_date#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="to_date">
+		S.plandate <![CDATA[<=]]> #to_date#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="fieldno">
+		P.fieldno = #fieldno#
+	</isNotEmpty>
+	ORDER BY P.tradename, P.typeno, P.id	
+	</select>	
+	
+	<select id="queryUnDeliPurchaseProductByFieldno" parameterClass="java.util.Map" resultMap="UndeliProductDto">
+	SELECT P.fieldno,P.belongto,S.theme1,S.theme2,S.productid,P.tradename,P.typeno,P.color,P.packaging,P.makearea,P.unit,S.remainquantity,S.taxunitprice,S.taxamount,P.item01,P.item10
+	FROM etb_purchaseitem S, etb_product P
+	WHERE 1=1
+	AND S.productid = P.id
+	AND S.remainquantity > 0
+	<isNotEmpty prepend="and" property="from_date">
+		S.plandate <![CDATA[>=]]> #from_date#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="to_date">
+		S.plandate <![CDATA[<=]]> #to_date#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="fieldno">
+		P.fieldno = #fieldno#
+	</isNotEmpty>
+	ORDER BY P.tradename, P.typeno, P.id
+	</select>	
+	
+</sqlMap>

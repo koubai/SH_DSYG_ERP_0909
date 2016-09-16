@@ -1,0 +1,587 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+
+	<!-- position -->
+	<bean id="positionService" class="com.cn.dsyg.service.impl.PositionServiceImpl" >
+		<property name="positionDao">
+			<ref local="positionDao"/>
+		</property>
+		<property name="userDao">
+			<ref local="userDao"/>
+		</property>
+		<property name="productDao">
+			<ref local="productDao"/>
+		</property>
+	</bean>
+	
+	<bean id="positionDao" class="com.cn.dsyg.dao.impl.PositionDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
+	<!-- qa -->
+	<bean id="qaService" class="com.cn.dsyg.service.impl.QaServiceImpl" >
+		<property name="qaDao">
+			<ref local="qaDao"/>
+		</property>
+	</bean>
+	
+	<bean id="qaDao" class="com.cn.dsyg.dao.impl.QaDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
+	<!-- UntaxInfo -->
+	<bean id="untaxInfoService" class="com.cn.dsyg.service.impl.UntaxInfoServiceImpl" >
+		<property name="untaxInfoDao">
+			<ref local="untaxInfoDao"/>
+		</property>
+		<property name="productDao">
+			<ref local="productDao"/>
+		</property>
+		<property name="customerDao">
+			<ref local="customerDao"/>
+		</property>
+	</bean>
+	
+	<bean id="untaxInfoDao" class="com.cn.dsyg.dao.impl.UntaxInfoDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
+	<!-- Sample -->
+	<bean id="sampleService" class="com.cn.dsyg.service.impl.SampleServiceImpl" >
+		<property name="sampleDao">
+			<ref local="sampleDao"/>
+		</property>
+		<property name="productDao">
+			<ref local="productDao"/>
+		</property>
+		<property name="customerDao">
+			<ref local="customerDao"/>
+		</property>
+	</bean>
+	
+	<bean id="sampleDao" class="com.cn.dsyg.dao.impl.SampleDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
+	<!-- Chart -->
+	<bean id="chartService" class="com.cn.dsyg.service.impl.ChartServiceImpl" >
+		<property name="chartDao">
+			<ref local="chartDao"/>
+		</property>
+		<property name="userDao">
+			<ref local="userDao"/>
+		</property>
+	</bean>
+	
+	<bean id="chartDao" class="com.cn.dsyg.dao.impl.ChartDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
+	<bean id="chartServlet" class="com.cn.dsyg.servlet.ChartServlet" >
+		<property name="chartService">
+			<ref bean="chartService"/>
+		</property>
+	</bean>
+
+	<!-- Calendar -->	
+	<bean id="calendarService" class="com.cn.dsyg.service.impl.CalendarServiceImpl" >
+		<property name="calendarDao">
+			<ref local="calendarDao"/>
+		</property>
+	</bean>
+
+	<bean id="calendarDao" class="com.cn.dsyg.dao.impl.CalendarDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
+	<bean id="eventdoServlet" class="com.cn.dsyg.servlet.EventdoServlet" >
+		<property name="calendarService">
+			<ref bean="calendarService"/>
+		</property>
+	</bean>
+	
+	<bean id="JsonServlet" class="com.cn.dsyg.servlet.JsonServlet" >
+		<property name="calendarService">
+			<ref bean="calendarService"/>
+		</property>
+	</bean>
+
+	<!-- finance -->
+	<bean id="financeService" class="com.cn.dsyg.service.impl.FinanceServiceImpl" >
+		<property name="financeDao">
+			<ref local="financeDao"/>
+		</property>
+		<property name="userDao">
+			<ref local="userDao"/>
+		</property>
+		<property name="warehouserptDao">
+			<ref local="warehouserptDao"/>
+		</property>
+		<property name="warehouseDao">
+			<ref local="warehouseDao"/>
+		</property>
+	</bean>
+	
+	<bean id="financeDao" class="com.cn.dsyg.dao.impl.FinanceDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- sales -->
+	<bean id="salesService" class="com.cn.dsyg.service.impl.SalesServiceImpl" >
+		<property name="salesDao">
+			<ref local="salesDao"/>
+		</property>
+		<property name="salesItemDao">
+			<ref local="salesItemDao"/>
+		</property>
+		<property name="warehouseDao">
+			<ref local="warehouseDao"/>
+		</property>
+		<property name="warehouserptDao">
+			<ref local="warehouserptDao"/>
+		</property>
+		<property name="dict01Dao">
+			<ref local="dict01Dao"/>
+		</property>
+		<property name="financeDao">
+			<ref local="financeDao"/>
+		</property>
+		<property name="userDao">
+			<ref local="userDao"/>
+		</property>
+	</bean>
+	
+	<bean id="salesDao" class="com.cn.dsyg.dao.impl.SalesDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- salesItem -->
+	<bean id="salesItemService" class="com.cn.dsyg.service.impl.SalesItemServiceImpl" >
+		<property name="salesItemDao">
+			<ref local="salesItemDao"/>
+		</property>
+		<property name="dict01Dao">
+			<ref local="dict01Dao"/>
+		</property>
+	</bean>
+	
+	<bean id="salesItemDao" class="com.cn.dsyg.dao.impl.SalesItemDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
+	<!-- Warehouse -->
+	<bean id="warehouseService" class="com.cn.dsyg.service.impl.WarehouseServiceImpl" >
+		<property name="warehouseDao">
+			<ref local="warehouseDao"/>
+		</property>
+		<property name="purchaseDao">
+			<ref local="purchaseDao"/>
+		</property>
+		<property name="purchaseItemDao">
+			<ref local="purchaseItemDao"/>
+		</property>
+		<property name="warehouserptDao">
+			<ref local="warehouserptDao"/>
+		</property>
+		<property name="supplierDao">
+			<ref local="supplierDao"/>
+		</property>
+		<property name="salesDao">
+			<ref local="salesDao"/>
+		</property>
+		<property name="salesItemDao">
+			<ref local="salesItemDao"/>
+		</property>
+		<property name="financeDao">
+			<ref local="financeDao"/>
+		</property>
+		<property name="customerDao">
+			<ref local="customerDao"/>
+		</property>
+		<property name="productDao">
+			<ref local="productDao"/>
+		</property>
+		<property name="positionDao">
+			<ref local="positionDao"/>
+		</property>
+		<property name="userDao">
+			<ref local="userDao"/>
+		</property>
+		<property name="dict01Dao">
+			<ref local="dict01Dao"/>
+		</property>
+	</bean>
+	
+	<bean id="warehouseDao" class="com.cn.dsyg.dao.impl.WarehouseDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- Warehouserpt -->
+	<bean id="warehouserptService" class="com.cn.dsyg.service.impl.WarehouserptServiceImpl" >
+		<property name="warehouserptDao">
+			<ref local="warehouserptDao"/>
+		</property>
+		<property name="purchaseItemDao">
+			<ref local="purchaseItemDao"/>
+		</property>
+		<property name="purchaseDao">
+			<ref local="purchaseDao"/>
+		</property>
+		<property name="warehouseDao">
+			<ref local="warehouseDao"/>
+		</property>
+		<property name="productDao">
+			<ref local="productDao"/>
+		</property>
+		<property name="dict01Dao">
+			<ref local="dict01Dao"/>
+		</property>
+		<property name="financeDao">
+			<ref local="financeDao"/>
+		</property>
+		<property name="salesDao">
+			<ref local="salesDao"/>
+		</property>
+	</bean>
+	
+	<bean id="warehouserptDao" class="com.cn.dsyg.dao.impl.WarehouserptDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
+	<!-- supplier -->
+	<bean id="supplierService" class="com.cn.dsyg.service.impl.SupplierServiceImpl" >
+		<property name="supplierDao">
+			<ref local="supplierDao"/>
+		</property>
+		<property name="dict01Dao">
+			<ref local="dict01Dao"/>
+		</property>
+	</bean>
+	
+	<bean id="supplierDao" class="com.cn.dsyg.dao.impl.SupplierDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- Product -->
+	<bean id="productService" class="com.cn.dsyg.service.impl.ProductServiceImpl" >
+		<property name="productDao">
+			<ref local="productDao"/>
+		</property>
+		<property name="dict01Dao">
+			<ref local="dict01Dao"/>
+		</property>
+	</bean>
+	
+	<bean id="productDao" class="com.cn.dsyg.dao.impl.ProductDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
+	<!-- PurchaseItem -->
+	<bean id="purchaseItemService" class="com.cn.dsyg.service.impl.PurchaseItemServiceImpl" >
+		<property name="purchaseItemDao">
+			<ref local="purchaseItemDao"/>
+		</property>
+		<property name="dict01Dao">
+			<ref local="dict01Dao"/>
+		</property>
+	</bean>
+	
+	<bean id="purchaseItemDao" class="com.cn.dsyg.dao.impl.PurchaseItemDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
+	<!-- purchase -->
+	<bean id="purchaseService" class="com.cn.dsyg.service.impl.PurchaseServiceImpl" >
+		<property name="purchaseDao">
+			<ref local="purchaseDao"/>
+		</property>
+		<property name="purchaseItemDao">
+			<ref local="purchaseItemDao"/>
+		</property>
+		<property name="warehouseDao">
+			<ref local="warehouseDao"/>
+		</property>
+		<property name="warehouserptDao">
+			<ref local="warehouserptDao"/>
+		</property>
+		<property name="dict01Dao">
+			<ref local="dict01Dao"/>
+		</property>
+		<property name="financeDao">
+			<ref local="financeDao"/>
+		</property>
+		<property name="userDao">
+			<ref local="userDao"/>
+		</property>
+	</bean>
+	
+	<bean id="purchaseDao" class="com.cn.dsyg.dao.impl.PurchaseDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- role -->
+	<bean id="roleService" class="com.cn.dsyg.service.impl.RoleServiceImpl" >
+		<property name="roleDao">
+			<ref local="roleDao"/>
+		</property>
+	</bean>
+	
+	<bean id="roleDao" class="com.cn.dsyg.dao.impl.RoleDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
+	<!-- 用户 -->
+	<bean id="userService" class="com.cn.dsyg.service.impl.UserServiceImpl" >
+		<property name="userDao">
+			<ref local="userDao"/>
+		</property>
+	</bean>
+	
+	<bean id="userDao" class="com.cn.dsyg.dao.impl.UserDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- Resource -->
+	<bean id="resourceService" class="com.cn.dsyg.service.impl.ResourceServiceImpl" >
+		<property name="resourceDao">
+			<ref local="resourceDao"/>
+		</property>
+	</bean>
+	
+	<bean id="resourceDao" class="com.cn.dsyg.dao.impl.ResourceDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- 字典表 -->
+	<bean id="dict01Service" class="com.cn.dsyg.service.impl.Dict01ServiceImpl" >
+		<property name="dict01Dao">
+			<ref local="dict01Dao"/>
+		</property>
+	</bean>
+	
+	<bean id="dict01Dao" class="com.cn.dsyg.dao.impl.Dict01DaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- 客户 -->
+	<bean id="customerService" class="com.cn.dsyg.service.impl.CustomerServiceImpl" >
+		<property name="customerDao">
+			<ref local="customerDao"/>
+		</property>
+		<property name="dict01Dao">
+			<ref local="dict01Dao"/>
+		</property>
+	</bean>
+	
+	<bean id="customerDao" class="com.cn.dsyg.dao.impl.CustomerDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- 快递 -->
+	<bean id="deliveryService" class="com.cn.dsyg.service.impl.DeliveryServiceImpl" >
+		<property name="deliveryDao">
+			<ref local="deliveryDao"/>
+		</property>
+		<property name="dict01Dao">
+			<ref local="dict01Dao"/>
+		</property>
+	</bean>
+	
+	<bean id="deliveryDao" class="com.cn.dsyg.dao.impl.DeliveryDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- 固定资产信息 -->
+	<bean id="assetsService" class="com.cn.dsyg.service.impl.AssetsServiceImpl" >
+		<property name="assetsDao">
+			<ref local="assetsDao"/>
+		</property>
+	</bean>
+	
+	<bean id="assetsDao" class="com.cn.dsyg.dao.impl.AssetsDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- 销售报告信息 -->
+	<bean id="salesReportService" class="com.cn.dsyg.service.impl.SalesReportServiceImpl" >
+		<property name="salesReportDao">
+			<ref local="salesReportDao"/>
+		</property>
+	</bean>
+	
+	<bean id="salesReportDao" class="com.cn.dsyg.dao.impl.SalesReportDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- SALES报告信息 -->
+	<bean id="salesReport2Service" class="com.cn.dsyg.service.impl.SalesReport2ServiceImpl" >
+		<property name="salesReport2Dao">
+			<ref local="salesReport2Dao"/>
+		</property>
+	</bean>
+	
+	<bean id="salesReport2Dao" class="com.cn.dsyg.dao.impl.SalesReport2DaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
+	<!-- 文件物品信息 -->
+	<bean id="documentService" class="com.cn.dsyg.service.impl.DocumentServiceImpl" >
+		<property name="documentDao">
+			<ref local="documentDao"/>
+		</property>
+	</bean>
+	
+	<bean id="documentDao" class="com.cn.dsyg.dao.impl.DocumentDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- 员工档案信息 -->
+	<bean id="personalService" class="com.cn.dsyg.service.impl.PersonalServiceImpl" >
+		<property name="personalDao">
+			<ref local="personalDao"/>
+		</property>
+	</bean>
+	
+	<bean id="personalDao" class="com.cn.dsyg.dao.impl.PersonalDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- 预收款信息 -->
+	<bean id="pregatheringService" class="com.cn.dsyg.service.impl.PregatheringServiceImpl" >
+		<property name="pregatheringDao">
+			<ref local="pregatheringDao"/>
+		</property>
+	</bean>
+	
+	<bean id="pregatheringDao" class="com.cn.dsyg.dao.impl.PregatheringDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
+	<!-- 请款信息 -->
+	<bean id="requestcashService" class="com.cn.dsyg.service.impl.RequestCashServiceImpl" >
+		<property name="requestcashDao">
+			<ref local="requestcashDao"/>
+		</property>
+	</bean>
+	
+	<bean id="requestcashDao" class="com.cn.dsyg.dao.impl.RequestCashDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
+	<!-- detail -->
+	<bean id="detailService" class="com.cn.dsyg.service.impl.DetailServiceImpl" >
+		<property name="salesDao">
+			<ref local="salesDao"/>
+		</property>
+		<property name="salesItemDao">
+			<ref local="salesItemDao"/>
+		</property>
+	</bean>
+	
+	<!-- customertrack -->
+	<bean id="customerTrackService" class="com.cn.dsyg.service.impl.CustomerTrackServiceImpl" >
+		<property name="customerTrackDao">
+			<ref local="customerTrackDao"/>
+		</property>
+		<property name="dict01Dao">
+			<ref local="dict01Dao"/>
+		</property>
+		<property name="productDao">
+			<ref local="productDao"/>
+		</property>
+	</bean>
+	
+	<bean id="customerTrackDao" class="com.cn.dsyg.dao.impl.CustomerTrackDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- issue -->
+	<bean id="issueService" class="com.cn.dsyg.service.impl.IssueServiceImpl" >
+		<property name="issueDao">
+			<ref local="issueDao"/>
+		</property>
+	</bean>
+	
+	<bean id="issueDao" class="com.cn.dsyg.dao.impl.IssueDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- UndeliProductDao -->
+	<bean id="undeliproductDao" class="com.cn.dsyg.dao.impl.UndeliProductDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- UndeliProductService -->
+	<bean id="undeliproductService" class="com.cn.dsyg.service.impl.UndeliProductServiceImpl" >
+		<property name="dict01Dao">
+			<ref local="dict01Dao"/>
+		</property>
+		<property name="undeliproductDao">
+			<ref local="undeliproductDao"/>
+		</property>
+	</bean>
+</beans>

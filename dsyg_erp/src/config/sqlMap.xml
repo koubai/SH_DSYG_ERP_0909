@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMapConfig
+  PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+  "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+
+	<sqlMap resource="/config/ibatis/dsyg-dict01.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-user.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-resource.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-role.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-purchase.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-purchaseitem.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-product.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-warehouse.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-warehouserpt.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-sales.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-salesitem.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-finance.xml" />
+	
+	<sqlMap resource="/config/ibatis/dsyg-calendar.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-chart.xml" />
+	
+	<sqlMap resource="/config/ibatis/dsyg-supplier.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-customer.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-delivery.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-assets.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-document.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-personal.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-salesreport.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-salesreport2.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-sample.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-qa.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-untaxinfo.xml" />
+	
+	<sqlMap resource="/config/ibatis/dsyg-position.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-pregathering.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-requestcash.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-customertrack.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-issue.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-customertrackhist.xml" />
+	
+</sqlMapConfig>

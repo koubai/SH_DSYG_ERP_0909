@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" 
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="purchase" extends="struts-erp" namespace="/purchase">
+	
+		<action name="showPurchaseAction" class="purchaseAction" method="showPurchaseAction">
+			<result name="*">/page/purchase/purchaselist.jsp</result>
+		</action>
+		
+		<action name="queryPurchaseAction" class="purchaseAction" method="queryPurchaseAction">
+			<result name="*">/page/purchase/purchaselist.jsp</result>
+		</action>
+		
+		<action name="turnPurchaseAction" class="purchaseAction" method="turnPurchaseAction">
+			<result name="*">/page/purchase/purchaselist.jsp</result>
+		</action>
+		
+		<action name="showAddPurchaseAction" class="purchaseAction" method="showAddPurchaseAction">
+			<result name="*">/page/purchase/addpurchase.jsp</result>
+		</action>
+		
+		<action name="addPurchaseAction" class="purchaseAction" method="addPurchaseAction">
+			<result name="*">/page/purchase/addpurchase.jsp</result>
+		</action>
+		
+		<action name="showUpdPurchaseAction" class="purchaseAction" method="showUpdPurchaseAction">
+			<result name="*">/page/purchase/updpurchase.jsp</result>
+		</action>
+
+		<action name="updPurchaseAction" class="purchaseAction" method="updPurchaseAction">
+			<result name="*">/page/purchase/updpurchase.jsp</result>
+		</action>
+		
+		<action name="finishPurchaseAction" class="purchaseAction" method="finishPurchaseAction">
+			<result name="*">/page/purchase/updpurchase.jsp</result>
+		</action>
+		
+		<action name="exportPurchaseList" class="purchaseAction" method="exportPurchaseList">
+			<result name="success">/page/download.jsp</result>
+		</action>
+		
+		<action name="showProductPricePage" class="purchaseAction" method="showProductPricePage">
+			<result name="*">/page/purchase/productprice.jsp</result>
+		</action>
+		
+		<action name="showUpdPurchaseitemAction" class="purchaseAction" method="showUpdPurchaseitemAction">
+			<result name="*">/page/purchase/updpurchaseitem.jsp</result>
+		</action>
+
+		<action name="showUpdPurchaseitemByPurchaseNoAction" class="purchaseAction" method="showUpdPurchaseitemByPurchaseNoAction">
+			<result name="*">/page/purchase/updpurchaseitem.jsp</result>
+		</action>				
+
+		<action name="updPurchaseitemAction" class="purchaseAction" method="updPurchaseitemAction">
+			<result name="*">/page/purchase/updpurchaseitem.jsp</result>
+		</action>
+		
+		<action name="delPurchaseAction" class="purchaseAction" method="delPurchaseAction">
+			<result name="*">/page/purchase/purchaselist.jsp</result>
+		</action>
+		
+		<action name="exportPurchaseAction" class="purchaseAction" method="exportPurchaseAction">
+			<result name="success">/page/downloadxml.jsp</result>
+		</action>
+	
+		<action name="showRemainPurchaseAction" class="purchaseAction" method="showRemainPurchaseAction">
+			<result name="*">/page/purchase/remainpurchaselist.jsp</result>
+		</action>
+		
+		<action name="queryRemainPurchaseAction" class="purchaseAction" method="queryRemainPurchaseAction">
+			<result name="*">/page/purchase/remainpurchaselist.jsp</result>
+		</action>
+		
+		<action name="turnRemainPurchaseAction" class="purchaseAction" method="turnRemainPurchaseAction">
+			<result name="*">/page/purchase/remainpurchaselist.jsp</result>
+		</action>
+		
+	</package>
+
+</struts>
