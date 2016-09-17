@@ -766,7 +766,7 @@
 						</tr>
 						<tr>
 							<td align="right">
-								<label class="pdf10">最小销售单价</label>
+								<label class="pdf10">最小销售单位</label>
 							</td>
 							<td>
 								<div class="box1_left"></div>
