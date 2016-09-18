@@ -209,10 +209,12 @@
 								<!--  <td width="5%">客户登录ID</td>-->
 								<td width="15%">客户邮件地址</td>
 								<td width="15%">购买方公司名</td>
-								<td width="15%">购买方姓名</td>
-								<td width="10%">购买方邮编</td>
-								<td width="20%">购买方地址</td>
-								<td width="10%">购买方电话号码</td>
+								<td width="10%">购买方姓名</td>
+								<td width="7%">购买方邮编</td>
+								<td width="15%">购买方地址</td>
+								<td width="8%">购买方电话号码</td>
+								<td width="5%">分类</td>
+								<td width="10%">创建日期</td>
 								<td width="5%">状态</td>
 							</tr>
 							<s:iterator id="listCustomer" value="listCustomer" status="st1">
@@ -243,6 +245,17 @@
 									<td><s:property value="postcode"/></td>
 									<td><s:property value="address"/></td>
 									<td><s:property value="tell"/></td>
+									<td>
+										<s:if test="#listCustomer.accounttype==1">
+											企业
+										</s:if>
+										<s:elseif test="#listCustomer.accounttype==2">
+											个人
+										</s:elseif>
+										<s:else>
+										</s:else>
+									</td>
+									<td><s:property value="showcreatedate"/></td>
 									<td>
 										<s:if test="#listCustomer.status==1">
 											临时登录

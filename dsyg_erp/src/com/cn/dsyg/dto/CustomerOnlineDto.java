@@ -223,6 +223,11 @@ public class CustomerOnlineDto extends BaseDto {
 	private String createdate;
 
 	/**
+	 * 创建时间（显示用）
+	 */
+	private String showcreatedate;
+
+	/**
 	 * 更新者
 	 */
 	private String updateuid;
@@ -582,5 +587,18 @@ public class CustomerOnlineDto extends BaseDto {
 
 	public void setInfoflag(String infoflag) {
 		this.infoflag = infoflag;
+	}
+
+	public String getShowcreatedate() {
+		if(getCreatedate() != null && !getCreatedate().equals("")){
+			showcreatedate =  getCreatedate().substring(0, 10);
+		} else {
+			showcreatedate="";
+		}
+		return showcreatedate;
+	}
+
+	public void setShowcreatedate(String showcreatedate) {
+		this.showcreatedate = showcreatedate;
 	}
 }

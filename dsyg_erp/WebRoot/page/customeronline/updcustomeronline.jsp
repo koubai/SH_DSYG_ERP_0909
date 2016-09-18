@@ -82,7 +82,7 @@
 			return;
 		}
 		
-		//收件人信息同上
+		//收货人信息同上
 		if($("#tmpInfo").attr("checked")) {
 			$("#infoflag").val(1);
 		} else {
@@ -91,42 +91,42 @@
 	
 		var companycn2 = $("#companycn2").val().trim();
 		if(companycn2 == "") {
-			alert("收件人公司名不能为空！");
+			alert("收货人公司名不能为空！");
 			$("#companycn2").focus();
 			return;
 		}
 	
 		var companyen2 = $("#companyen2").val().trim();
 		if(companyen2 == "") {
-			alert("收件人英文公司名或拼音不能为空！");
+			alert("收货人英文公司名或拼音不能为空！");
 			$("#companyen2").focus();
 			return;
 		}
 		
 		var name2 = $("#name2").val();
 		if(name2.trim() == "") {
-			alert("收件人姓名不能为空！");
+			alert("收货人姓名不能为空！");
 			$("#name2").focus();
 			return;
 		}
 		
 		var postcode2 = $("#postcode2").val();
 		if(postcode2.trim() == "") {
-			alert("收件人邮编不能为空！");
+			alert("收货人邮编不能为空！");
 			$("#postcode2").focus();
 			return;
 		}
 		
 		var address2 = $("#address2").val();
 		if(address2.trim() == "") {
-			alert("收件人地址不能为空！");
+			alert("收货人地址不能为空！");
 			$("#address2").focus();
 			return;
 		}
 		
 		var tell2 = $("#tell2").val();
 		if(tell2.trim() == "") {
-			alert("收件人电话号码不能为空！");
+			alert("收货人电话号码不能为空！");
 			$("#tell2").focus();
 			return;
 		}
@@ -296,7 +296,7 @@
 		return id;
 	}
 	
-	function changeAccount(obj, type) {
+	function changeAccount_old(obj, type) {
 		var accounttype = getRadioValue("tmpAccounttype");	
 		if(type == "1") {
 			var company = $("#companycn").val().trim();
@@ -310,6 +310,24 @@
 		} else if(type == "4"){
 			var tell = $("#tell").val().trim();
 			$("#td_tell").html(tell);
+		}
+	}
+	
+	function changeAccount(type, key) {	
+		if($("#tmpInfo").attr("checked")) {
+			if(type == "both") {
+				var value = $("#" + key).val().trim();
+				$("#td_" + key).html(value);
+				$("#" + key + "2").attr("value", value);
+			} else {
+				var value = $("#" + key).val().trim();
+				$("#" + key + "2").attr("value", value);
+			}
+		} else {
+			if(type == "both") {
+				var value = $("#" + key).val().trim();
+				$("#td_" + key).html(value);
+			}
 		}
 	}
 
@@ -379,7 +397,7 @@
 								<td>
 									<div class="box1_left"></div>
 									<div class="box1_center">
-										<s:textfield name="updateCustomerOnlineDto.companycn" id="companycn" onblur="changeAccount(this, '1');" cssStyle="width:250px;" maxlength="128" theme="simple"></s:textfield>
+										<s:textfield name="updateCustomerOnlineDto.companycn" id="companycn" onblur="changeAccount('both', 'companycn');" cssStyle="width:250px;" maxlength="128" theme="simple"></s:textfield>
 									</div>
 									<div class="box1_right"></div>
 								</td>
@@ -390,7 +408,7 @@
 								<td>
 									<div class="box1_left"></div>
 									<div class="box1_center">
-										<s:textfield name="updateCustomerOnlineDto.companyen" id="companyen" cssStyle="width:250px;" maxlength="128" theme="simple"></s:textfield>
+										<s:textfield name="updateCustomerOnlineDto.companyen" onblur="changeAccount('single', 'companyen');" id="companyen" cssStyle="width:250px;" maxlength="128" theme="simple"></s:textfield>
 									</div>
 									<div class="box1_right"></div>
 								</td>
@@ -402,7 +420,7 @@
 									<div class="box1">
 										<div class="box1_left"></div>
 										<div class="box1_center">
-											<s:textfield name="updateCustomerOnlineDto.department" id="department" cssStyle="width:250px;" maxlength="64" theme="simple"></s:textfield>
+											<s:textfield name="updateCustomerOnlineDto.department" onblur="changeAccount('single', 'department');" id="department" cssStyle="width:250px;" maxlength="64" theme="simple"></s:textfield>
 										</div>
 										<div class="box1_right"></div>
 									</div>
@@ -414,7 +432,7 @@
 								<td>
 									<div class="box1_left"></div>
 									<div class="box1_center">
-										<s:textfield name="updateCustomerOnlineDto.name" id="name" onblur="changeAccount(this, '2');" cssStyle="width:250px;" maxlength="32" theme="simple"></s:textfield>
+										<s:textfield name="updateCustomerOnlineDto.name" id="name" onblur="changeAccount('both', 'name');" cssStyle="width:250px;" maxlength="32" theme="simple"></s:textfield>
 									</div>
 									<div class="box1_right"></div>
 								</td>
@@ -425,7 +443,7 @@
 								<td>
 									<div class="box1_left"></div>
 									<div class="box1_center">
-										<s:textfield name="updateCustomerOnlineDto.postcode" id="postcode" cssStyle="width:250px;" maxlength="32" theme="simple"></s:textfield>
+										<s:textfield name="updateCustomerOnlineDto.postcode" onblur="changeAccount('single', 'postcode');" id="postcode" cssStyle="width:250px;" maxlength="32" theme="simple"></s:textfield>
 									</div>
 									<div class="box1_right"></div>
 								</td>
@@ -436,7 +454,7 @@
 								<td>
 									<div class="box1_left"></div>
 									<div class="box1_center">
-										<s:textfield name="updateCustomerOnlineDto.address" id="address" onblur="changeAccount(this, '3');" cssStyle="width:250px;" maxlength="128" theme="simple"></s:textfield>
+										<s:textfield name="updateCustomerOnlineDto.address" id="address" onblur="changeAccount('both', 'address');" cssStyle="width:250px;" maxlength="128" theme="simple"></s:textfield>
 									</div>
 									<div class="box1_right"></div>
 								</td>
@@ -447,7 +465,7 @@
 								<td>
 									<div class="box1_left"></div>
 									<div class="box1_center">
-										<s:textfield name="updateCustomerOnlineDto.tell" id="tell" onblur="changeAccount(this, '4');" cssStyle="width:250px;" maxlength="32" theme="simple"></s:textfield>
+										<s:textfield name="updateCustomerOnlineDto.tell" id="tell" onblur="changeAccount('both', 'tell');" cssStyle="width:250px;" maxlength="32" theme="simple"></s:textfield>
 									</div>
 									<div class="box1_right"></div>
 								</td>
@@ -461,15 +479,9 @@
 					<div class="trade">
 						<table class="trade_tab" width="80%" border="0">
 							<tr>
-								<td align="left" width="15%"><strong>收件人信息</strong></td>
+								<td align="left" width="15%"><strong>收货人信息</strong></td>
 								<td colspan="2">
-									<%-- <s:if test='updateCustomerOnlineDto.infoflag == "1"'>
-										<input id="tmpInfo" type="checkbox" style="width:5px;" onclick="changeInfo(this);" checked="checked" value="1"/>
-									</s:if>
-									<s:else>
-										<input id="tmpInfo" type="checkbox" style="width:5px;" onclick="changeInfo(this);" value="1"/>
-									</s:else> --%>
-									<input id="tmpInfo" type="checkbox" style="width:5px;" onclick="changeInfo(this);" value="0"/>收件人信息同上
+									<input id="tmpInfo" type="checkbox" style="width:20px;" onclick="changeInfo(this);" value="0"/>收货人信息同上
 								</td>
 							</tr>
 							<tr>
@@ -606,7 +618,7 @@
 								<tr id="tr_company" style="display: none">
 									<td>&nbsp;</td>
 									<td>&nbsp;公司名</td>
-									<td style="height:31px" id="td_company">
+									<td style="height:31px" id="td_companycn">
 										<s:property value="updateCustomerOnlineDto.companycn"/>
 									</td>
 								</tr>
@@ -689,7 +701,7 @@
 								<tr id="tr_company">
 									<td>&nbsp;</td>
 									<td>&nbsp;公司名</td>
-									<td style="height:31px" id="td_company">
+									<td style="height:31px" id="td_companycn">
 										<s:property value="updateCustomerOnlineDto.companycn"/>
 									</td>
 								</tr>
