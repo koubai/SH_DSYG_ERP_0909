@@ -8,6 +8,17 @@ package com.cn.common.util;
  * @version 1.0
  */
 public class Constants {
+	
+	//ORDER STATUS
+	public final static int ONLINE_ORDER_STATUS_NEW = 10;//新增
+	public final static int ONLINE_ORDER_STATUS_DELIVERY = 20;//交期确认
+	public final static int ONLINE_ORDER_STATUS_REF_DELIVERY = 30;//交期回复
+	public final static int ONLINE_ORDER_STATUS_ORDER = 40;//下单成功
+	public final static int ONLINE_ORDER_STATUS_PAY = 50;//付款成功
+	public final static int ONLINE_ORDER_STATUS_CONFIRM = 60;//收款成功
+	public final static int ONLINE_ORDER_STATUS_SEND = 70;//已发货
+	public final static int ONLINE_ORDER_STATUS_RECEIVE = 80;//已收货订单完成
+	public final static int ONLINE_ORDER_STATUS_CLOSE = 99;//订单关闭
 
 	//销售报告编号前缀
 	public final static String SALESREPORT_NO_PRE = "BGN";

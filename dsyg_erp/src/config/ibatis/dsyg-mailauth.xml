@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+        "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.cn.dsyg">
+
+	<resultMap id="MailAuthDto" class="com.cn.dsyg.dto.MailAuthDto">
+		<result property="id" column="id" />
+		<result property="authtype" column="authtype" />
+		<result property="userid" column="userid" />
+		<result property="mailauthcode" column="mailauthcode" />
+		<result property="note" column="note" />
+		<result property="status" column="status" />
+		<result property="updateip" column="updateip" />
+		<result property="createuid" column="createuid" />
+		<result property="createdate" column="createdate" />
+		<result property="updateuid" column="updateuid" />
+		<result property="updatedate" column="updatedate" />
+	</resultMap>
+	
+	<select id="queryMailAuthCountByPage" resultClass="int" parameterClass="java.util.Map">
+		select count(*) from otb_mailauth T where 1 = 1
+			<isNotEmpty prepend="and" property="userid">
+				T.userid like '%$userid$%' ESCAPE '/'
+			</isNotEmpty>
+	</select>
+	
+	<select id="queryMailAuthByPage" parameterClass="java.util.Map" resultMap="MailAuthDto">
+		select T.* from otb_mailauth T where 1 = 1
+		<isNotEmpty prepend="and" property="userid">
+			T.userid like '%$userid$%' ESCAPE '/'
+		</isNotEmpty>
+		order by T.createdate desc
+		LIMIT #start#, #end#
+	</select>
+	
+	<select id="queryMailAuthByID" parameterClass="java.util.Map" resultMap="MailAuthDto">
+		select * from otb_mailauth where 
+			id = #id#
+	</select>
+	
+	<select id="queryMailAuthByLogicId" parameterClass="java.util.Map" resultMap="MailAuthDto">
+		select * from otb_mailauth where 
+			userid = #userid# and mailauthcode = #mailauthcode#
+	</select>
+	
+	<insert id="insertMailAuth" parameterClass="com.cn.dsyg.dto.MailAuthDto">
+		insert into otb_mailauth(authtype,userid,mailauthcode,note,status,updateip,createuid,createdate,updateuid,updatedate)
+		values(#authtype#,#userid#,#mailauthcode#,#note#,#status#,#updateip#,#createuid#,NOW(),#updateuid#,NOW())
+	</insert>
+	
+	<update id="updateMailAuth" parameterClass="com.cn.dsyg.dto.MailAuthDto">
+		update otb_mailauth
+		set note = #note#,
+			status = #status#,
+			updateip = #updateip#,
+			updateuid = #updateuid#,
+			updatedate = NOW()
+		where id = #id#
+	</update>
+	
+</sqlMap>

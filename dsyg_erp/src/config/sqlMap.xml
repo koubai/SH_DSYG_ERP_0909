@@ -41,4 +41,8 @@
 	<sqlMap resource="/config/ibatis/dsyg-customertrackhist.xml" />
 	<sqlMap resource="/config/ibatis/dsyg-customeronline.xml" />
 	
+	<sqlMap resource="/config/ibatis/dsyg-mailauth.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-order.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-orderdetail.xml" />
+	
 </sqlMapConfig>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" 
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="order" extends="struts-erp" namespace="/order">
+
+		<action name="showOrderListAction" class="orderAction" method="showOrderListAction">
+			<result name="*">/page/order/orderlist.jsp</result>
+		</action>
+		
+		<action name="queryOrderListAction" class="orderAction" method="queryOrderListAction">
+			<result name="*">/page/order/orderlist.jsp</result>
+		</action>
+		
+		<action name="turnOrderListAction" class="orderAction" method="turnOrderListAction">
+			<result name="*">/page/order/orderlist.jsp</result>
+		</action>
+		
+		<action name="showOrderDetailAction" class="orderAction" method="showOrderDetailAction">
+			<result name="*">/page/order/orderdetail.jsp</result>
+		</action>
+		
+		<action name="confirmDeliveryAction" class="orderAction" method="confirmDeliveryAction">
+			<result name="checkerror">/page/order/orderdetail.jsp</result>
+			<result name="*">/page/order/orderdetail.jsp</result>
+		</action>
+		
+		<action name="confirmOrderAction" class="orderAction" method="confirmOrderAction">
+			<result name="checkerror">/page/order/orderdetail.jsp</result>
+			<result name="*">/page/order/orderdetail.jsp</result>
+		</action>
+		
+		<action name="confirmPayAction" class="orderAction" method="confirmPayAction">
+			<result name="checkerror">/page/order/orderdetail.jsp</result>
+			<result name="*">/page/order/orderdetail.jsp</result>
+		</action>
+		
+		<action name="sendProductAction" class="orderAction" method="sendProductAction">
+			<result name="checkerror">/page/order/orderdetail.jsp</result>
+			<result name="*">/page/order/orderdetail.jsp</result>
+		</action>
+		
+		<action name="cancelOrderAction" class="orderAction" method="cancelOrderAction">
+			<result name="*">/page/order/orderdetail.jsp</result>
+		</action>
+		
+		<action name="transferOrderAction" class="orderAction" method="transferOrderAction">
+			<result name="*">/page/order/orderdetail.jsp</result>
+		</action>
+		
+		<action name="cancelTransferOrderAction" class="orderAction" method="cancelTransferOrderAction">
+			<result name="*">/page/order/orderdetail.jsp</result>
+		</action>
+		
+	</package>
+
+</struts>

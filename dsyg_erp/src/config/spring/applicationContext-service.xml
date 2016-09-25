@@ -3,6 +3,60 @@
 
 <beans>
 
+	<!-- orderDetail -->
+	<bean id="orderDetailService" class="com.cn.dsyg.service.impl.OrderDetailServiceImpl" >
+		<property name="orderDetailDao">
+			<ref local="orderDetailDao"/>
+		</property>
+	</bean>
+	
+	<bean id="orderDetailDao" class="com.cn.dsyg.dao.impl.OrderDetailDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- order -->
+	<bean id="orderService" class="com.cn.dsyg.service.impl.OrderServiceImpl" >
+		<property name="orderDao">
+			<ref local="orderDao"/>
+		</property>
+		<property name="orderDetailDao">
+			<ref local="orderDetailDao"/>
+		</property>
+		<property name="dict01Dao">
+			<ref local="dict01Dao"/>
+		</property>
+		<property name="customerOnlineDao">
+			<ref local="customerOnlineDao"/>
+		</property>
+		<property name="productDao">
+			<ref local="productDao"/>
+		</property>
+		<property name="mailAuthDao">
+			<ref local="mailAuthDao"/>
+		</property>
+	</bean>
+	
+	<bean id="orderDao" class="com.cn.dsyg.dao.impl.OrderDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<!-- mailAuth -->
+	<bean id="mailAuthService" class="com.cn.dsyg.service.impl.MailAuthServiceImpl" >
+		<property name="mailAuthDao">
+			<ref local="mailAuthDao"/>
+		</property>
+	</bean>
+	
+	<bean id="mailAuthDao" class="com.cn.dsyg.dao.impl.MailAuthDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
 	<!-- position -->
 	<bean id="positionService" class="com.cn.dsyg.service.impl.PositionServiceImpl" >
 		<property name="positionDao">
