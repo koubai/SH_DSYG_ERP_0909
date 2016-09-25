@@ -358,7 +358,7 @@ public class OrderServiceImpl implements OrderService {
 		body += "Mail：sales@shdsyg.com<br/>";
 		body += "https://www.dsyg.com.cn/dsygonline/<br/>";
 		body += "===================================================<br/>";
-		//MailSender.send(from, to, subject, body, username, attachfile);
+		MailSender.send(from, to, subject, body, username, attachfile);
 	}
 	
 	@Override
