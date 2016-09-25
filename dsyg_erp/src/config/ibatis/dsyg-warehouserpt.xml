@@ -202,6 +202,9 @@
 			#expressid#,#expressname#,#expresstel#,#expressfax#,#expressmanager#,#expressaddress#,#expressmail#,#expressno#,#expressamount#,
 			#expresstaxamount#,#expressnote#,#approverid#,#note#,#rank#,#status#,#res01#,#res02#,#res03#,#res04#,#res05#,#res06#,#res07#,
 			#res08#,#res09#,#res10#,#createuid#,NOW(),#updateuid#,NOW())
+		<selectKey resultClass="long" keyProperty="id" >
+			select LAST_INSERT_ID() as value
+		</selectKey>
 	</insert>
 	
 	<update id="updateWarehouserpt" parameterClass="com.cn.dsyg.dto.WarehouserptDto">

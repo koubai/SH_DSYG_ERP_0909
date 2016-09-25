@@ -36,6 +36,15 @@
 		<property name="mailAuthDao">
 			<ref local="mailAuthDao"/>
 		</property>
+		<property name="warehouseDao">
+			<ref local="warehouseDao"/>
+		</property>
+		<property name="warehouserptDao">
+			<ref local="warehouserptDao"/>
+		</property>
+		<property name="financeDao">
+			<ref local="financeDao"/>
+		</property>
 	</bean>
 	
 	<bean id="orderDao" class="com.cn.dsyg.dao.impl.OrderDaoImpl">

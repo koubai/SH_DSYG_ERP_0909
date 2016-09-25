@@ -1,7 +1,12 @@
 package com.cn.dsyg.service.impl;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import com.cn.common.mail.MailSender;
 import com.cn.common.util.Constants;
@@ -12,15 +17,22 @@ import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dao.CustomerOnlineDao;
 import com.cn.dsyg.dao.Dict01Dao;
+import com.cn.dsyg.dao.FinanceDao;
 import com.cn.dsyg.dao.MailAuthDao;
 import com.cn.dsyg.dao.OrderDao;
 import com.cn.dsyg.dao.OrderDetailDao;
 import com.cn.dsyg.dao.ProductDao;
+import com.cn.dsyg.dao.WarehouseDao;
+import com.cn.dsyg.dao.WarehouserptDao;
 import com.cn.dsyg.dto.CustomerOnlineDto;
+import com.cn.dsyg.dto.Dict01Dto;
+import com.cn.dsyg.dto.FinanceDto;
 import com.cn.dsyg.dto.MailAuthDto;
 import com.cn.dsyg.dto.OrderDetailDto;
 import com.cn.dsyg.dto.OrderDto;
 import com.cn.dsyg.dto.ProductDto;
+import com.cn.dsyg.dto.WarehouseDto;
+import com.cn.dsyg.dto.WarehouserptDto;
 import com.cn.dsyg.service.OrderService;
 
 /**
@@ -37,6 +49,9 @@ public class OrderServiceImpl implements OrderService {
 	private CustomerOnlineDao customerOnlineDao;
 	private ProductDao productDao;
 	private MailAuthDao mailAuthDao;
+	private WarehouseDao warehouseDao;
+	private WarehouserptDao warehouserptDao;
+	private FinanceDao financeDao;
 
 	@Override
 	public Page queryOrderByPage(String ordercode, String customerid,
@@ -313,6 +328,11 @@ public class OrderServiceImpl implements OrderService {
 		order.setStatus(Constants.ONLINE_ORDER_STATUS_CONFIRM);
 		orderDao.updateOrder(order);
 		
+		if(order.getTransfer() != 1) {
+			//这里需要生成warehouse、rpt和财务记录
+			confirmWarehouse(order);
+		}
+		
 		CustomerOnlineDto customerOnline = customerOnlineDao.queryCustomerOnlineByID("" + order.getCustomerid());
 		
 		//邮件发送人，MailSender有默认发送人。
@@ -338,7 +358,7 @@ public class OrderServiceImpl implements OrderService {
 		body += "Mail：sales@shdsyg.com<br/>";
 		body += "https://www.dsyg.com.cn/dsygonline/<br/>";
 		body += "===================================================<br/>";
-		MailSender.send(from, to, subject, body, username, attachfile);
+		//MailSender.send(from, to, subject, body, username, attachfile);
 	}
 	
 	@Override
@@ -364,6 +384,234 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void updateOrder(OrderDto order) {
 		orderDao.updateOrder(order);
+	}
+	
+	/**
+	 * 生成warehouse、rpt和财务记录
+	 * @param order
+	 */
+	private void confirmWarehouse(OrderDto order) {
+		//查询明细数据
+		List<OrderDetailDto> orderDetailList = orderDetailDao.queryOrderDetailByOrderid("" + order.getId());
+		
+		Map<String, String> mapProduct = new HashMap<String, String>();
+		Map<String, String> mapParentid = new HashMap<String, String>();
+		String belongto = PropertiesConfig.getPropertiesValueByKey("belongto");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		for(OrderDetailDto detail : orderDetailList) {
+			ProductDto product = productDao.queryProductByID("" + detail.getProductid());
+			
+			WarehouseDto warehouse = new WarehouseDto();
+			//数据来源单号=采购单
+			warehouse.setParentid(order.getOrdercode());
+			//online订单号+批号
+			String theme2 = order.getOrdercode() + detail.getBatchno();
+			warehouse.setTheme2(theme2);
+			//库存类型=online订单
+			warehouse.setWarehousetype(Constants.WAREHOUSE_TYPE_ONLINE);
+			//仓库
+			warehouse.setWarehousename(PropertiesConfig.getPropertiesValueByKey("warehouse_name"));
+			//预入库时间
+			warehouse.setPlandate(DateUtil.dateToShortStr(new Date()));
+			
+			//出库单号
+			String uuid = UUID.randomUUID().toString();
+			uuid = uuid.substring(uuid.length() - 8, uuid.length());
+			String warehouseno = "OL" + belongto + sdf.format(new Date()) + uuid;
+			warehouse.setWarehouseno(warehouseno);
+			
+			//支付方式=款到发货
+			warehouse.setRes01("01");
+			
+			warehouse.setBelongto(belongto);
+			//主题
+			warehouse.setTheme1(product.getFieldno());
+			//产品ID
+			warehouse.setProductid("" + detail.getProductid());
+			//入库数量=预入库数
+			warehouse.setQuantity(detail.getNum());
+			
+			//单价
+			warehouse.setUnitprice(detail.getTaxprice());
+			//含税单价
+			warehouse.setRes02("" + detail.getTaxprice());
+			//产地
+			warehouse.setRes03("" + product.getMakearea());
+			
+			warehouse.setAmount(detail.getAmount());
+			//入出库金额（含税）
+			warehouse.setTaxamount(detail.getTaxamount());
+			//入库日期=当天
+			warehouse.setWarehousedate(DateUtil.dateToShortStr(new Date()));
+			//供应商ID
+			warehouse.setSupplierid(Long.valueOf(order.getCustomerid()));
+			//收货人
+			warehouse.setHandler(order.getName2());
+	
+			warehouse.setRank(Constants.ROLE_RANK_OPERATOR);
+			//入库单数据状态=已付款
+			warehouse.setStatus(Constants.WAREHOUSE_STATUS_FINISHED);
+			
+			warehouse.setUpdateuid(order.getCreateuid());
+			warehouse.setCreateuid(order.getCreateuid());
+			
+			warehouseDao.insertWarehouse(warehouse);
+			
+			//货物信息：产品ID,产品数量,产品金额,备考#产品ID,产品数量,产品金额,备考
+			String info = product.getId() + "," + detail.getNum() + "," + detail.getTaxamount() + "," + StringUtil.getStr(warehouse.getRes09()) + "," + StringUtil.getStr(warehouse.getRes02());
+			if(mapProduct.get(theme2) != null) {
+				String productinfo = mapProduct.get(theme2) + "#" + info;
+				mapProduct.put(theme2, productinfo);
+				
+				String parentids = mapParentid.get(theme2) + "#" + warehouseno;
+				mapParentid.put(theme2, parentids);
+			} else {
+				mapProduct.put(theme2, info);
+				mapParentid.put(theme2, warehouseno);
+			}
+		}
+		
+		//新增RPT数据
+		for(Map.Entry<String, String> entry : mapProduct.entrySet()) {
+			WarehouserptDto warehouserpt = new WarehouserptDto();
+			//数据来源类型=出库单
+			warehouserpt.setWarehousetype(Constants.WAREHOUSERPT_TYPE_OUT);
+			warehouserpt.setBelongto(PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_BELONG));
+			
+			//出库单号
+			int newVal = 1;
+			SimpleDateFormat sdfYear = new SimpleDateFormat("yyyy");
+			String year = sdfYear.format(new Date());
+			//根据出库单+年份查询出库单当前番号
+			List<Dict01Dto> dictList = dict01Dao.queryDict01ByFieldcode(Constants.WAREHOUSERPT_OUT_NO_PRE + year, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			if(dictList != null && dictList.size() > 0) {
+				Dict01Dto dict = dictList.get(0);
+				//出库单番号+1
+				newVal = Integer.valueOf(dict.getCode()) + 1;
+				dict.setCode("" + newVal);
+				//更新出库单番号
+				dict01Dao.updateDict01(dict);
+			} else {
+				//新增出库单番号
+				Dict01Dto dict = new Dict01Dto();
+				dict.setCode("1");
+				dict.setCreateuid("admin");
+				dict.setUpdateuid("admin");
+				dict.setFieldcode(Constants.WAREHOUSERPT_OUT_NO_PRE + year);
+				dict.setFieldname(year + "出库单番号");
+				dict.setNote(year + "出库单番号");
+				dict.setLang(PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+				dict.setMean(Constants.WAREHOUSERPT_OUT_NO_PRE + year);
+				dict.setStatus(Constants.STATUS_NORMAL);
+				dict01Dao.insertDict01(dict);
+			}
+			String warehouseno = Constants.WAREHOUSERPT_OUT_NO_PRE + belongto + year.substring(2, 4)+ StringUtil.replenishStr("" + newVal, 6);
+			
+			warehouserpt.setWarehouseno(warehouseno);
+			//仓库名
+			warehouserpt.setWarehousename(PropertiesConfig.getPropertiesValueByKey("warehouse_name"));
+			warehouserpt.setProductinfo(entry.getValue());
+			//入库单RPT日期
+			warehouserpt.setWarehousedate(DateUtil.dateToShortStr(new Date()));
+			
+			//计算数量和含税金额
+			warehouserpt.setTotalnum(calcTotalnum(entry.getValue()));
+			
+			//含税金额
+			warehouserpt.setTotaltaxamount(calcTaxamount(entry.getValue()));
+			//收货人
+			warehouserpt.setHandler("");
+			
+			//获得销售单的客户信息
+			warehouserpt.setSupplierid("" + order.getCustomerid());
+			warehouserpt.setSuppliername(order.getCompanycn());
+			warehouserpt.setSupplieraddress(order.getAddress());
+			warehouserpt.setSuppliermail(order.getCustomermail());
+			warehouserpt.setSuppliermanager(order.getName());
+			warehouserpt.setSuppliertel(order.getTell());
+			warehouserpt.setSupplierfax("");
+			//快递公司ID==============================这里不做填充，等发货单时填充
+			
+			warehouserpt.setRank(Constants.ROLE_RANK_OPERATOR);
+			//RPT记录状态=已收款
+			warehouserpt.setStatus(Constants.FINANCE_STATUS_PAY_INVOICE);
+			//入库单单号集合
+			warehouserpt.setParentid(mapParentid.get(entry.getKey()));
+			warehouserpt.setCreateuid(order.getCreateuid());
+			warehouserpt.setUpdateuid(order.getCreateuid());
+			
+			warehouserptDao.insertWarehouserpt(warehouserpt);
+			
+			//新增一条财务记录（这里财务记录和出库单关联）
+			FinanceDto finance = new FinanceDto();
+			//类型=销售单
+			finance.setFinancetype(Constants.FINANCE_TYPE_SALES);
+			//销售单（收款）
+			finance.setMode("1");
+			finance.setBelongto(belongto);
+			//单据号=出库单号
+			finance.setInvoiceid(warehouseno);
+			//发票号
+			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss");
+			String receiptid = Constants.FINANCE_NO_PRE + belongto + sdf1.format(new Date());
+			finance.setReceiptid(receiptid);
+			//开票日期
+			//finance.setReceiptdate(receiptdate);
+			//结算日期=当天
+			finance.setAccountdate(DateUtil.dateToShortStr(new Date()));
+			//金额=销售金额含税
+			finance.setAmount(calcTaxamount(entry.getValue()));
+			//负责人
+			finance.setHandler("online");
+			//客户信息
+			finance.setCustomerid(Long.valueOf(order.getCustomerid()));
+			
+			finance.setCustomername(order.getCompanycn());
+			finance.setCustomertel(order.getTell());
+			finance.setCustomermanager(order.getName());
+			finance.setCustomeraddress(order.getAddress());
+			finance.setCustomermail(order.getCustomermail());
+			finance.setRank(Constants.ROLE_RANK_OPERATOR);
+			//状态=已开票已经收款
+			finance.setStatus(Constants.FINANCE_STATUS_PAY_INVOICE);
+			finance.setCreateuid(order.getCreateuid());
+			finance.setUpdateuid(order.getCreateuid());
+			financeDao.insertFinance(finance);
+		}
+	}
+	
+	/**
+	 * 计算总数量
+	 * @param productinfo
+	 * @return
+	 */
+	private BigDecimal calcTotalnum(String productinfo) {
+		String[] list = productinfo.split("#");
+		BigDecimal num = new BigDecimal(0);
+		for(String s : list) {
+			if(StringUtil.isNotBlank(s)) {
+				String ll[] = s.split(",");
+				num = num.add(new BigDecimal(ll[1]));
+			}
+		}
+		return num;
+	}
+	
+	/**
+	 * 计算含税金额
+	 * @param productinfo
+	 * @return
+	 */
+	private BigDecimal calcTaxamount(String productinfo) {
+		String[] list = productinfo.split("#");
+		BigDecimal taxamount = new BigDecimal(0);
+		for(String s : list) {
+			if(StringUtil.isNotBlank(s)) {
+				String ll[] = s.split(",");
+				taxamount = taxamount.add(new BigDecimal(ll[2]));
+			}
+		}
+		return taxamount;
 	}
 	
 	public OrderDao getOrderDao() {
@@ -421,5 +669,29 @@ public class OrderServiceImpl implements OrderService {
 		String customerid = "100019";
 		String url = PropertiesConfig.getPropertiesValueByKey("dsyg_online_host") + "mailauth/orderConfirmAction.action?strUserid=" + customerid + "&strAuthCode=" + mailauthcode;
 		System.out.println(url);
+	}
+
+	public WarehouseDao getWarehouseDao() {
+		return warehouseDao;
+	}
+
+	public void setWarehouseDao(WarehouseDao warehouseDao) {
+		this.warehouseDao = warehouseDao;
+	}
+
+	public WarehouserptDao getWarehouserptDao() {
+		return warehouserptDao;
+	}
+
+	public void setWarehouserptDao(WarehouserptDao warehouserptDao) {
+		this.warehouserptDao = warehouserptDao;
+	}
+
+	public FinanceDao getFinanceDao() {
+		return financeDao;
+	}
+
+	public void setFinanceDao(FinanceDao financeDao) {
+		this.financeDao = financeDao;
 	}
 }

@@ -1,0 +1,13 @@
+.input_table,.input_table tr,.input_table tr td{ border:1px solid #dddddd; border-collapse:collapse;}
+.td_tittle{ background:#eeeeee; text-align:right; vertical-align:middle;}
+.input_table{ margin:0 auto; width:80%; margin-top:30px;}
+.input_table input[type="text"]{ width:300px; height:20px;}
+.input_table span{ color:red;}
+.input_table td{ line-height:20px;}
+.input_table dl{ margin:0; padding:2px 0; }
+.input_table dl dt{ float:left; height:20px; line-height:20px; width:120px; text-align:right;}
+.input_table img{ width:325px; height:244px;}
+.date_input{ border:1px solid #cccccc; width:170px; line-height:14px;}
+.date_input input{ border:none;}
+.input_table .date_input input{ width:140px;}
+.input_table .date_input img{ margin:2px; width:16px; height:16px;}
