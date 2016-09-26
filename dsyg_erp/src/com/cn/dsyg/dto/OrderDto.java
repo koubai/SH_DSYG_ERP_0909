@@ -90,6 +90,41 @@ public class OrderDto extends BaseDto {
 	 * 发票类型，1为普通发票，2为专用发票
 	 */
 	private Integer receipttype;
+	
+	/**
+	 * 客户开户公司名
+	 */
+	private String bankcompanyname;
+	
+	/**
+	 * 客户开户公司税号
+	 */
+	private String bankcompanytax;
+	
+	/**
+	 * 客户开户地址
+	 */
+	private String bankcompanyaddress;
+	
+	/**
+	 * 客户开户电话
+	 */
+	private String banktell;
+	
+	/**
+	 * 客户开户行
+	 */
+	private String bankname;
+	
+	/**
+	 * 客户开户行帐号
+	 */
+	private String bankaccount;
+	
+	/**
+	 * 客户开户发票
+	 */
+	private String bankreceipt;
 
  	/**
 	 * 购买方公司名
@@ -560,5 +595,61 @@ public class OrderDto extends BaseDto {
 
 	public void setTransfer(Integer transfer) {
 		this.transfer = transfer;
+	}
+
+	public String getBankcompanyname() {
+		return bankcompanyname;
+	}
+
+	public void setBankcompanyname(String bankcompanyname) {
+		this.bankcompanyname = bankcompanyname;
+	}
+
+	public String getBankcompanytax() {
+		return bankcompanytax;
+	}
+
+	public void setBankcompanytax(String bankcompanytax) {
+		this.bankcompanytax = bankcompanytax;
+	}
+
+	public String getBankcompanyaddress() {
+		return bankcompanyaddress;
+	}
+
+	public void setBankcompanyaddress(String bankcompanyaddress) {
+		this.bankcompanyaddress = bankcompanyaddress;
+	}
+
+	public String getBanktell() {
+		return banktell;
+	}
+
+	public void setBanktell(String banktell) {
+		this.banktell = banktell;
+	}
+
+	public String getBankname() {
+		return bankname;
+	}
+
+	public void setBankname(String bankname) {
+		this.bankname = bankname;
+	}
+
+	public String getBankaccount() {
+		return bankaccount;
+	}
+
+	public void setBankaccount(String bankaccount) {
+		this.bankaccount = bankaccount;
+	}
+
+	public String getBankreceipt() {
+		return bankreceipt;
+	}
+
+	public void setBankreceipt(String bankreceipt) {
+		this.bankreceipt = bankreceipt;
 	}
 }

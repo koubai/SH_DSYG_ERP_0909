@@ -327,6 +327,37 @@
 				</table>
 				<table class="input_table" border="0" cellspacing="0" cellpadding="10" style="margin-top: 40px; width: 100%;">
 					<tr>
+						<td colspan="2"><p style="font-size: 16px; font-weight: bold;">客户开户银行信息</p></td>
+					</tr>
+					<tr>
+						<td class="td_tittle" width="200">公司税号：</td>
+						<td>
+							<s:property value="showOrderDto.bankcompanytax" />
+						</td>
+					</tr>
+					<tr>
+						<td class="td_tittle" width="200">开户行：</td>
+						<td>
+							<s:property value="showOrderDto.bankname" />
+						</td>
+					</tr>
+					<tr>
+						<td class="td_tittle" width="200">帐号：</td>
+						<td>
+							<s:property value="showOrderDto.bankaccount" />
+						</td>
+					</tr>
+					<tr>
+						<td class="td_tittle" width="200">发票：</td>
+						<td>
+							<s:if test='showOrderDto.bankreceipt == "2"'>专用发票</s:if>
+							<s:elseif test='showOrderDto.bankreceipt == "1"'>普通发票</s:elseif>
+							<s:else></s:else>
+						</td>
+					</tr>
+				</table>
+				<table class="input_table" border="0" cellspacing="0" cellpadding="10" style="margin-top: 40px; width: 100%;">
+					<tr>
 						<td colspan="2">
 							<p style="font-size: 16px; font-weight: bold;">收件人信息</p>
 						</td>

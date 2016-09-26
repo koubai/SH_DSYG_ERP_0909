@@ -19,6 +19,15 @@
 		<result property="accountbank" column="accountbank" />
 		<result property="accountid" column="accountid" />
 		<result property="receipttype" column="receipttype" />
+		
+		<result property="bankcompanyname" column="bankcompanyname" />
+		<result property="bankcompanytax" column="bankcompanytax" />
+		<result property="bankcompanyaddress" column="bankcompanyaddress" />
+		<result property="banktell" column="banktell" />
+		<result property="bankname" column="bankname" />
+		<result property="bankaccount" column="bankaccount" />
+		<result property="bankreceipt" column="bankreceipt" />
+
 		<result property="companycn" column="companycn" />
 		<result property="companyen" column="companyen" />
 		<result property="department" column="department" />
@@ -86,11 +95,13 @@
 	
 	<insert id="insertOrder" parameterClass="com.cn.dsyg.dto.OrderDto">
 		insert into otb_order(ordercode,transfer,customerid,customermail,amount,taxamount,deliverydate,cashdate,accounttype,
-			companytax,accountbank,accountid,receipttype,companycn,companyen,department,name,postcode,address,tell,
+			companytax,accountbank,accountid,receipttype,bankcompanyname,bankcompanytax,bankcompanyaddress,banktell,bankname,bankaccount,bankreceipt,
+			companycn,companyen,department,name,postcode,address,tell,
 			companycn2,companyen2,department2,name2,postcode2,address2,tell2,paytype,note,status,res01,
 			res02,res03,res04,res05,updateip,createuid,createdate,updateuid,updatedate)
 		values(#ordercode#,#transfer#,#customerid#,#customermail#,#amount#,#taxamount#,#deliverydate#,#cashdate#,#accounttype#,
-			#companytax#,#accountbank#,#accountid#,#receipttype#,#companycn#,#companyen#,#department#,#name#,#postcode#,#address#,#tell#,
+			#companytax#,#accountbank#,#accountid#,#receipttype#,#bankcompanyname#,#bankcompanytax#,#bankcompanyaddress#,#banktell#,#bankname#,#bankaccount#,#bankreceipt#,
+			#companycn#,#companyen#,#department#,#name#,#postcode#,#address#,#tell#,
 			#companycn2#,#companyen2#,#department2#,#name2#,#postcode2#,#address2#,#tell2#,#paytype#,#note#,#status#,#res01#,
 			#res02#,#res03#,#res04#,#res05#,#updateip#,#createuid#,NOW(),#updateuid#,NOW())
 		<selectKey resultClass="int" keyProperty="id" >
@@ -111,6 +122,13 @@
 			accountbank = #accountbank#,
 			accountid = #accountid#,
 			receipttype = #receipttype#,
+			bankcompanyname = #bankcompanyname#,
+			bankcompanytax = #bankcompanytax#,
+			bankcompanyaddress = #bankcompanyaddress#,
+			banktell = #banktell#,
+			bankname = #bankname#,
+			bankaccount = #bankaccount#,
+			bankreceipt = #bankreceipt#,
 			companycn = #companycn#,
 			companyen = #companyen#,
 			department = #department#,
