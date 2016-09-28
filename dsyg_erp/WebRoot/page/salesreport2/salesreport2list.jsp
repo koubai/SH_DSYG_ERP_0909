@@ -227,8 +227,8 @@
 										<a target="_blank" href="<s:property value="reporturl"/><s:property value="reportpath03"/>"><s:property value="reportpath03"/></a>
 									</td>
 									<td>
-										<div noWrap style="width:150px;text-overflow:ellipsis;overflow:hidden">
-											<s:property value="note"/>
+										<div noWrap style="width:150px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;">
+											<s:property value="note" />
 										</div>
 									</td>
 								</tr>
