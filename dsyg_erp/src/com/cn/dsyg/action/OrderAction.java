@@ -216,7 +216,7 @@ public class OrderAction extends BaseAction {
 			
 			//验证数据状态
 			OrderDto order = orderService.queryOrderByID(strOrderDetailId);
-			if(order.getStatus() == Constants.ONLINE_ORDER_STATUS_ORDER) {
+			if(order.getStatus() >= Constants.ONLINE_ORDER_STATUS_ORDER) {
 				//当前操作用户ID
 				String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
 				order.setUpdateip(getIP());
