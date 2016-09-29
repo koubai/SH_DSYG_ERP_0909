@@ -107,28 +107,28 @@
 			</div>
 			<s:form id="mainform" name="mainform" method="POST">
 				<s:hidden name="strOrderDetailId" id="strOrderDetailId"></s:hidden>
-				<table class="input_table" border="0" cellspacing="0" cellpadding="10" style="margin-top: 0px; width: 100%;">
+				<table class="input_table" border="0" cellspacing="0" cellpadding="10" style="margin-left: 0px;margin-top: 30px; width: 50%;">
 					<tr>
-						<td class="td_tittle" width="200">订单号：</td>
+						<td class="td_tittle" width="120">订单号：</td>
 						<td>
 							<s:property value="showOrderDto.ordercode"/>
 						</td>
 					</tr>
 					<s:if test="showOrderDto.status > 40">
 						<tr>
-							<td class="td_tittle" width="200">公司税号：</td>
+							<td class="td_tittle" width="120">汇款用税号：</td>
 							<td>
 								<s:property value="showOrderDto.companytax"/>
 							</td>
 						</tr>
 						<tr>
-							<td class="td_tittle" width="200">公司开户行：</td>
+							<td class="td_tittle" width="120">汇款用开户行：</td>
 							<td>
 								<s:property value="showOrderDto.accountbank"/>
 							</td>
 						</tr>
 						<tr>
-							<td class="td_tittle" width="200">开户行账号：</td>
+							<td class="td_tittle" width="120">汇款用账号：</td>
 							<td>
 								<s:property value="showOrderDto.accountid"/>
 							</td>
@@ -136,19 +136,19 @@
 					</s:if>
 					<s:elseif test="showOrderDto.status == 30 || showOrderDto.status == 40">
 						<tr>
-							<td class="td_tittle" width="200">公司税号：</td>
+							<td class="td_tittle" width="120">汇款用税号：</td>
 							<td>
 								<s:textfield id="companytax" name="showOrderDto.companytax" cssStyle="width: 400px;" maxlength="32" theme="simple"></s:textfield>
 							</td>
 						</tr>
 						<tr>
-							<td class="td_tittle" width="200">公司开户行：</td>
+							<td class="td_tittle" width="120">汇款用开户行：</td>
 							<td>
 								<s:textfield id="accountbank" name="showOrderDto.accountbank" cssStyle="width: 400px;" maxlength="64" theme="simple"></s:textfield>
 							</td>
 						</tr>
 						<tr>
-							<td class="td_tittle" width="200">开户行账号：</td>
+							<td class="td_tittle" width="120">汇款用账号：</td>
 							<td>
 								<s:textfield id="accountid" name="showOrderDto.accountid" cssStyle="width: 400px;" maxlength="32" theme="simple"></s:textfield>
 							</td>
@@ -156,14 +156,14 @@
 					</s:elseif>
 					<s:if test="showOrderDto.transfer == 1">
 						<tr>
-							<td class="td_tittle" width="200">订单转移：</td>
+							<td class="td_tittle" width="120">订单转移：</td>
 							<td>
 								该订单已被转移
 							</td>
 						</tr>
 					</s:if>
 					<tr>
-						<td class="td_tittle" width="200">订单状态：</td>
+						<td class="td_tittle" width="120">订单状态：</td>
 						<td>
 							<s:if test="showOrderDto.status == 10">询货中</s:if>
 							<s:elseif test="showOrderDto.status == 20">交期确认，待回复</s:elseif>
@@ -178,14 +178,14 @@
 					</tr>
 					<s:if test="showOrderDto.status >= 50 && showOrderDto.status != 99">
 						<tr>
-							<td class="td_tittle" width="200">付款时间：</td>
+							<td class="td_tittle" width="120">付款时间：</td>
 							<td>
 								<s:date name="showOrderDto.cashdate" format="yyyy/MM/dd HH:mm:ss"/>
 							</td>
 						</tr>
 					</s:if>
 				</table>
-				<table class="input_table" border="1" cellspacing="5" cellpadding="10" style="margin-top: 5px; width: 100%;">
+				<table class="input_table" border="1" cellspacing="5" cellpadding="10" style="margin-top: 15px; width: 100%;">
 					<tr class="tab_tittle">
 						<td width="5%">&nbsp;</td>
 						<td width="30%">商品</td>
@@ -265,61 +265,61 @@
 						</tr>
 					</s:iterator>
 					<tr style="height: 40px;">
-						<td align="right" colspan="4" style="font-size: 20px;font-weight: bold;">合计</td>
-						<td align="right" colspan="3" style="font-size: 20px;font-weight: bold;">
+						<td align="right" colspan="4" style="font-size: 14px;font-weight: bold;">合计</td>
+						<td align="right" colspan="3" style="font-size: 14px;font-weight: bold;">
 							<s:property value="showOrderDto.amount"/>元<br />
 							（含增值税）<s:property value="showOrderDto.taxamount"/>元
 						</td>
 					</tr>
 				</table>
-				<table class="input_table" border="0" cellspacing="0" cellpadding="10" style="margin-top: 5px; width: 100%;">
+				<table class="input_table" border="0" cellspacing="0" cellpadding="10" style="margin-left: 0px; margin-top: 15px; width: 50%;">
 					<tr>
-						<td colspan="2"><p style="font-size: 16px; font-weight: bold;">购买方信息</p></td>
+						<td colspan="2"><p style="font-size: 14px; font-weight: bold;">购买方信息</p></td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">公司名：</td>
+						<td class="td_tittle" width="120">公司名：</td>
 						<td>
 							<s:property value="showOrderDto.companycn" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">英文公司名或拼音：</td>
+						<td class="td_tittle" width="120">英文公司名或拼音：</td>
 						<td>
 							<s:property value="showOrderDto.companyen" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200"><span></span>所属部门：</td>
+						<td class="td_tittle" width="120"><span></span>所属部门：</td>
 						<td>
 							<s:property value="showOrderDto.department" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">姓名：</td>
+						<td class="td_tittle" width="120">姓名：</td>
 						<td>
 							<s:property value="showOrderDto.name" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">邮编：</td>
+						<td class="td_tittle" width="120">邮编：</td>
 						<td>
 							<s:property value="showOrderDto.postcode" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">地址：</td>
+						<td class="td_tittle" width="120">地址：</td>
 						<td>
 							<s:property value="showOrderDto.address" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">电话号码：</td>
+						<td class="td_tittle" width="120">电话号码：</td>
 						<td>
 							<s:property value="showOrderDto.tell" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">E-mail地址：</td>
+						<td class="td_tittle" width="120">E-mail地址：</td>
 						<td>
 							<s:property value="showOrderDto.customermail" />
 						</td>
@@ -327,28 +327,28 @@
 				</table>
 				<table class="input_table" border="0" cellspacing="0" cellpadding="10" style="margin-top: 40px; width: 100%;">
 					<tr>
-						<td colspan="2"><p style="font-size: 16px; font-weight: bold;">客户开户银行信息</p></td>
+						<td colspan="2"><p style="font-size: 14px; font-weight: bold;">客户开户银行信息</p></td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">公司税号：</td>
+						<td class="td_tittle" width="120">公司税号：</td>
 						<td>
 							<s:property value="showOrderDto.bankcompanytax" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">开户行：</td>
+						<td class="td_tittle" width="120">开户行：</td>
 						<td>
 							<s:property value="showOrderDto.bankname" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">帐号：</td>
+						<td class="td_tittle" width="120">帐号：</td>
 						<td>
 							<s:property value="showOrderDto.bankaccount" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">发票：</td>
+						<td class="td_tittle" width="120">发票：</td>
 						<td>
 							<s:if test='showOrderDto.bankreceipt == "2"'>专用发票</s:if>
 							<s:elseif test='showOrderDto.bankreceipt == "1"'>普通发票</s:elseif>
@@ -359,59 +359,59 @@
 				<table class="input_table" border="0" cellspacing="0" cellpadding="10" style="margin-top: 40px; width: 100%;">
 					<tr>
 						<td colspan="2">
-							<p style="font-size: 16px; font-weight: bold;">收件人信息</p>
+							<p style="font-size: 14px; font-weight: bold;">收件人信息</p>
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">公司名：</td>
+						<td class="td_tittle" width="120">公司名：</td>
 						<td>
 							<s:property value="showOrderDto.companycn2" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">英文公司名或拼音：</td>
+						<td class="td_tittle" width="120">英文公司名或拼音：</td>
 						<td>
 							<s:property value="showOrderDto.companyen2" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200"><span></span>所属部门：</td>
+						<td class="td_tittle" width="120"><span></span>所属部门：</td>
 						<td>
 							<s:property value="showOrderDto.department2" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">姓名：</td>
+						<td class="td_tittle" width="120">姓名：</td>
 						<td>
 							<s:property value="showOrderDto.name2" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">邮编：</td>
+						<td class="td_tittle" width="120">邮编：</td>
 						<td>
 							<s:property value="showOrderDto.postcode2" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">地址：</td>
+						<td class="td_tittle" width="120">地址：</td>
 						<td>
 							<s:property value="showOrderDto.address2" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">电话号码：</td>
+						<td class="td_tittle" width="120">电话号码：</td>
 						<td>
 							<s:property value="showOrderDto.tell2" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">E-mail地址：</td>
+						<td class="td_tittle" width="120">E-mail地址：</td>
 						<td>
 							<s:property value="showOrderDto.customermail" />
 						</td>
 					</tr>
 					<tr>
-						<td class="td_tittle" width="200">交货方法 ：</td>
+						<td class="td_tittle" width="120">交货方法 ：</td>
 						<td>
 							<s:if test='showOrderDto.paytype == "2"'>
 								自提
@@ -423,38 +423,99 @@
 					</tr>
 				</table>
 				<div align="center" style="margin-top: 40px;">
-					<input type="button" value="返回" onclick="goOrderList();"/>
+					<div class="btn">
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							<input  class="input80" type="button" value="返回" onclick="goOrderList();"/>
+						</div>
+						<div class="box1_right"></div>
+					</div>
 					<s:if test="showOrderDto.status == 10">
-						<input type="button" value="交期确认" onclick="confirmDelivery();"/>
+						<div class="btn">
+							<div class="box1_left"></div>
+							<div class="box1_center">
+								<input class="input80" type="button" value="交期确认" onclick="confirmDelivery();"/>
+							</div>
+							<div class="box1_right"></div>
+						</div>
 					</s:if>
 					<s:if test="showOrderDto.status == 20">
-						<input type="button" value="交期修改" onclick="confirmDelivery();"/>
+						<div class="btn">
+							<div class="box1_left"></div>
+							<div class="box1_center">
+								<input class="input80" type="button" value="交期修改" onclick="confirmDelivery();"/>
+							</div>
+							<div class="box1_right"></div>
+						</div>
 					</s:if>
 					<s:if test="showOrderDto.status == 30">
-						<input type="button" value="订单生成" onclick="confirmOrder();"/>
+						<div class="btn">
+							<div class="box1_left"></div>
+							<div class="box1_center">
+								<input class="input80" type="button" value="订单生成" onclick="confirmOrder();"/>
+							</div>
+							<div class="box1_right"></div>
+						</div>
 					</s:if>
-					<s:if test="showOrderDto.status == 40">
-						<input type="button" value="修改银行信息" onclick="confirmOrder();"/>
+<!-- 					<s:if test="showOrderDto.status == 40">
+						<div class="btn">
+							<div class="box1_left"></div>
+							<div class="box1_center">
+								<input class="input120" type="button" value="确认汇款账户信息" onclick="confirmOrder();"/>
+							</div>
+							<div class="box1_right"></div>
+						</div>
 					</s:if>
-					<s:if test="showOrderDto.status == 50">
-						<input type="button" value="确认收款" onclick="confirmPay();"/>
+ -->					
+					<s:if test="showOrderDto.status >= 40">
+						<div class="btn">
+							<div class="box1_left"></div>
+							<div class="box1_center">
+								<input class="input80" type="button" value="确认收款" onclick="confirmPay();"/>
+							</div>
+							<div class="box1_right"></div>
+						</div>
 					</s:if>
 					<s:if test="showOrderDto.status == 60">
-						<input type="button" value="发货" onclick="sendProduct();"/>
+						<div class="btn">
+							<div class="box1_left"></div>
+							<div class="box1_center">
+								<input class="input80" type="button" value="发货" onclick="sendProduct();"/>
+							</div>
+							<div class="box1_right"></div>
+						</div>
 					</s:if>
 					<s:if test="showOrderDto.status < 50">
-						<input type="button" value="关闭订单" onclick="cancelOrder();"/>
+						<div class="btn">
+							<div class="box1_left"></div>
+							<div class="box1_center">
+								<input class="input80" type="button" value="关闭订单" onclick="cancelOrder();"/>
+							</div>
+							<div class="box1_right"></div>
+						</div>
 					</s:if>
 					<s:if test="showOrderDto.status < 50">
 						<s:if test="showOrderDto.transfer == 1">
-							<input type="button" value="取消订单转移" onclick="cancelTransferOrder();"/>
+							<div class="btn">
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<input class="input120" type="button" value="取消订单转移" onclick="cancelTransferOrder();"/>
+								</div>
+								<div class="box1_right"></div>
+							</div>
 						</s:if>
 						<s:else>
-							<input type="button" value="订单转移" onclick="transferOrder();"/>
+							<div class="btn">
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<input class="input80" type="button" value="订单转移" onclick="transferOrder();"/>
+								</div>
+								<div class="box1_right"></div>
+							</div>
 						</s:else>
 					</s:if>
-					
 				</div>
+				<br/><br/><br/><br/>
 			</s:form>
 		</div>
 	</div>

@@ -11,3 +11,6 @@
 .date_input input{ border:none;}
 .input_table .date_input input{ width:140px;}
 .input_table .date_input img{ margin:2px; width:16px; height:16px;}
+.btn .box1_left{  background:url(../images/btn_left.png) no-repeat;}
+.btn .box1_right{ background:url(../images/btn_right.png) no-repeat;}
+.btn .box1_center{ background:url(../images/btn_center.png) repeat-x;}

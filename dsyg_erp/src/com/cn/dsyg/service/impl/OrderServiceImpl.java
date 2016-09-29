@@ -111,29 +111,33 @@ public class OrderServiceImpl implements OrderService {
 			
 			if("1".equals(belongto)) {
 				//深圳
-				if(order.getTransfer() == 1) {
-					//订单转移，则取上海的账户信息
-					order.setCompanytax(sh_tax_number);
-					order.setAccountbank(sh_bank);
-					order.setAccountid(sh_bank_account);
-				} else {
+				if(order.getTransfer() == null) {
 					//取深圳账户信息
 					order.setCompanytax(sz_tax_number);
 					order.setAccountbank(sz_bank);
 					order.setAccountid(sz_bank_account);
+				} else {
+					if(order.getTransfer() == 1) {
+						//订单转移，则取上海的账户信息
+						order.setCompanytax(sh_tax_number);
+						order.setAccountbank(sh_bank);
+						order.setAccountid(sh_bank_account);
+					}
 				}
 			} else {
 				//默认上海
-				if(order.getTransfer() == 1) {
-					//转移订单，取深圳账户信息
-					order.setCompanytax(sz_tax_number);
-					order.setAccountbank(sz_bank);
-					order.setAccountid(sz_bank_account);
-				} else {
+				if(order.getTransfer() == null) {
 					//上海的账户信息
 					order.setCompanytax(sh_tax_number);
 					order.setAccountbank(sh_bank);
 					order.setAccountid(sh_bank_account);
+				} else {
+					if(order.getTransfer() == 1) {					
+						//转移订单，取深圳账户信息
+						order.setCompanytax(sz_tax_number);
+						order.setAccountbank(sz_bank);
+						order.setAccountid(sz_bank_account);
+					}
 				}
 			}
 		}
@@ -200,11 +204,11 @@ public class OrderServiceImpl implements OrderService {
 		//收件人姓名，若不填则使用MailSender的默认收件人。
 		String to = order.getCustomermail();
 		//发件人名
-		String username = "DSYG";
+		String username = "东升盈港";
 		//附件，格式：filename1,filename2,filename3...（这里需要在global.properties配置文件中指定附件目录）
 		String attachfile = "";
 		//邮件标题
-		String subject = "【DSYG】受理交期确认（" + order.getOrdercode() + "）";
+		String subject = "【东升盈港线上购买】受理交期确认（" + order.getOrdercode() + "）";
 		//邮件内容
 		String body = "";
 		body += customerOnline.getCompanycn() + " 先生/女士<br/>";
@@ -248,16 +252,19 @@ public class OrderServiceImpl implements OrderService {
 		
 		CustomerOnlineDto customerOnline = customerOnlineDao.queryCustomerOnlineByID("" + order.getCustomerid());
 		
+		if (customerOnline==null)
+			System.out.println("该客户信息不足。");	
+		
 		//邮件发送人，MailSender有默认发送人。
 		String from = "";
 		//收件人姓名，若不填则使用MailSender的默认收件人。
 		String to = order.getCustomermail();
 		//发件人名
-		String username = "DSYG";
+		String username = "东升盈港";
 		//附件，格式：filename1,filename2,filename3...（这里需要在global.properties配置文件中指定附件目录）
 		String attachfile = "";
 		//邮件标题
-		String subject = "【DSYG】订单已受理（" + order.getOrdercode() + "）";
+		String subject = "【东升盈港线上购买】订单已受理（" + order.getOrdercode() + "）";
 		//邮件内容
 		String body = "";
 		body += "非常感谢本次下订单给DSYG-Online。下记订单已受理。<br/>";
@@ -267,34 +274,49 @@ public class OrderServiceImpl implements OrderService {
 		body += "<br/>";
 		body += "■购买方<br/>";
 		body += "--------------------------------------------------------------------<br/>";
-		body += "公司名          : " + order.getCompanycn() + "<br/>";
-		body += "英文公司名      : " + order.getCompanyen() + "<br/>";
-		body += "所属部门        :" + order.getDepartment() + "<br/>";
-		body += "姓名            : " + order.getName() + "<br/>";
-		body += "邮编            : " + order.getPostcode() + "<br/>";
-		body += "地址            : " + order.getAddress() + "<br/>";
-		body += "电话号码        : " + order.getTell() + "<br/>";
-		body += "E-mail地址      : " + customerOnline.getCustomeremail() + "<br/>";
+		if (order.getCompanycn()!= null)
+			body += "公司名          : " + order.getCompanycn() + "<br/>";
+		if (order.getCompanyen()!= null)
+			body += "英文公司名      : " + order.getCompanyen() + "<br/>";
+		if (order.getDepartment()!= null)
+			body += "所属部门        :" + order.getDepartment() + "<br/>";
+		if (order.getName()!= null)
+			body += "姓名            : " + order.getName() + "<br/>";
+		if (order.getPostcode()!= null)
+			body += "邮编            : " + order.getPostcode() + "<br/>";
+		if (order.getAddress()!= null)
+			body += "地址            : " + order.getAddress() + "<br/>";
+		if (order.getTell()!= null)
+			body += "电话号码        : " + order.getTell() + "<br/>";
+		if (customerOnline.getCustomeremail()!= null)
+			body += "E-mail地址      : " + customerOnline.getCustomeremail() + "<br/>";
 		body += "<br/>";
-		body += "■开户银行<br/>";
-		body += "--------------------------------------------------------------------<br/>";
-		body += "公司名          : 上海东升营港<br/>";
-		body += "公司税号        : " + order.getCompanytax() + "<br/>";
-		body += "地址            : 上海市宝山区1000号<br/>";
-		body += "电话号码        : 62507788<br/>";
-		body += "公司开户行      : " + order.getAccountbank() + "<br/>";
-		body += "开户行帐号      : " + order.getAccountid() + "<br/>";
-		body += "发票            : 普通发票<br/>";
-		body += "<br/>";
+//		body += "■开户银行<br/>";
+//		body += "--------------------------------------------------------------------<br/>";
+//		body += "公司名          : 上海东升营港<br/>";
+//		body += "公司税号        : " + order.getCompanytax() + "<br/>";
+//		body += "地址            : 上海市宝山区1000号<br/>";
+//		body += "电话号码        : 62507788<br/>";
+//		body += "公司开户行      : " + order.getAccountbank() + "<br/>";
+//		body += "开户行帐号      : " + order.getAccountid() + "<br/>";
+//		body += "发票            : 普通发票<br/>";
+//		body += "<br/>";
 		body += "■收件人<br/>";
 		body += "--------------------------------------------------------------------<br/>";
-		body += "公司名          : " + order.getCompanycn2() + "<br/>";
-		body += "英文公司名      : " + order.getCompanyen2() + "<br/>";
-		body += "所属部门        :" + order.getDepartment2() + "<br/>";
-		body += "姓名            : " + order.getName2() + "<br/>";
-		body += "邮编            : " + order.getPostcode2() + "<br/>";
-		body += "地址            : " + order.getAddress2() + "<br/>";
-		body += "电话号码        : " + order.getTell2() + "<br/>";
+		if (order.getCompanycn2()!= null)
+			body += "公司名          : " + order.getCompanycn2() + "<br/>";
+		if (order.getCompanyen2()!= null)
+			body += "英文公司名      : " + order.getCompanyen2() + "<br/>";
+		if (order.getDepartment2()!= null)
+			body += "所属部门        :" + order.getDepartment2() + "<br/>";
+		if (order.getName2()!= null)
+			body += "姓名            : " + order.getName2() + "<br/>";
+		if (order.getPostcode2()!= null)
+			body += "邮编            : " + order.getPostcode2() + "<br/>";
+		if (order.getAddress2()!= null)
+			body += "地址            : " + order.getAddress2() + "<br/>";
+		if (order.getTell2()!= null)
+			body += "电话号码        : " + order.getTell2() + "<br/>";
 		if("2".equals(order.getPaytype())) {
 			body += "交货方法        : 自提<br/>";
 		} else {
@@ -318,7 +340,33 @@ public class OrderServiceImpl implements OrderService {
 		body += "含增值税        : " + order.getTaxamount() + "元<br/>";
 		body += "--------------------------------------------------------------------<br/>";
 		body += "<br/>";
-		body += "提示            : 7天内未支付货款，订单将被自动取消。<br/>";
+		body += "■汇款信息<br/><br/>";
+		
+		if (order.getTransfer()== null){
+			body += "公司名          : 上海东升盈港企业发展有限公司<br/>";
+//			body += "地址            : 上海市杨浦区控江路760号<br/>";
+			body += "电话号码        : 021－65388038－0<br/>";
+			
+		} else {
+			if (order.getTransfer()== 1){
+				body += "公司名          : 深圳市东升盈港科技有限公司<br/>";
+//				body += "地址            : 深圳市宝安区西乡街道宝民二路臣田综合楼一楼南面7，8号<br/>";
+				body += "电话号码        : 0755-61524201<br/>";
+			}
+		}
+		body += "公司开户行      : " + order.getAccountbank() + "<br/>";
+		body += "开户行帐号      : " + order.getAccountid() + "<br/>";
+		body += "<br/>";
+		body += "提示            : 7天内未支付货款，订单将被自动取消。<br/><br/>";
+		body += "===================================================<br/>";
+		body += "DSYG-Online<br/>";
+		body += "东升盈港企业发展有限公司<br/>";
+		body += "电话：021－65388038－0（总机）<br/>";
+		body += "受理时间: 08:30～12:00、12:45～17:15 (工作日)<br/>";
+		body += "Mail：sales@shdsyg.com<br/>";
+		body += "https://www.dsyg.com.cn/dsygonline/<br/>";
+		body += "===================================================<br/>";
+//		System.out.println(body);
 		MailSender.send(from, to, subject, body, username, attachfile);
 	}
 	
@@ -340,11 +388,11 @@ public class OrderServiceImpl implements OrderService {
 		//收件人姓名，若不填则使用MailSender的默认收件人。
 		String to = order.getCustomermail();
 		//发件人名
-		String username = "DSYG";
+		String username = "东升盈港";
 		//附件，格式：filename1,filename2,filename3...（这里需要在global.properties配置文件中指定附件目录）
 		String attachfile = "";
 		//邮件标题
-		String subject = "【DSYG】订单已受理（" + order.getOrdercode() + "）";
+		String subject = "【东升盈港线上购买】订单已受理（" + order.getOrdercode() + "）";
 		//邮件内容
 		String body = "";
 		body += customerOnline.getCompanycn() + " 先生/女士<br/>";
