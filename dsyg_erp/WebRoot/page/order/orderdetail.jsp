@@ -325,7 +325,7 @@
 						</td>
 					</tr>
 				</table>
-				<table class="input_table" border="0" cellspacing="0" cellpadding="10" style="margin-top: 40px; width: 100%;">
+				<table class="input_table" border="0" cellspacing="0" cellpadding="10" style="margin-left: 0px; margin-top: 40px; width: 50%;">
 					<tr>
 						<td colspan="2"><p style="font-size: 14px; font-weight: bold;">客户开户银行信息</p></td>
 					</tr>
@@ -356,7 +356,7 @@
 						</td>
 					</tr>
 				</table>
-				<table class="input_table" border="0" cellspacing="0" cellpadding="10" style="margin-top: 40px; width: 100%;">
+				<table class="input_table" border="0" cellspacing="0" cellpadding="10" style="margin-left: 0px; margin-top: 40px; width: 50%;">
 					<tr>
 						<td colspan="2">
 							<p style="font-size: 14px; font-weight: bold;">收件人信息</p>
@@ -467,7 +467,7 @@
 						</div>
 					</s:if>
  -->					
-					<s:if test="showOrderDto.status >= 40">
+					<s:if test="showOrderDto.status >= 40 && showOrderDto.status <= 50">
 						<div class="btn">
 							<div class="box1_left"></div>
 							<div class="box1_center">

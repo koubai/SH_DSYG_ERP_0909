@@ -376,7 +376,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setStatus(Constants.ONLINE_ORDER_STATUS_CONFIRM);
 		orderDao.updateOrder(order);
 		
-		if(order.getTransfer() != 1) {
+		if(order.getTransfer()== null || order.getTransfer() != 1) {
 			//这里需要生成warehouse、rpt和财务记录
 			confirmWarehouse(order);
 		}
