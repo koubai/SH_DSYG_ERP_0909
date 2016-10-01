@@ -15,8 +15,10 @@ import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dao.CustomerDao;
+import com.cn.dsyg.dao.CustomerOnlineDao;
 import com.cn.dsyg.dao.Dict01Dao;
 import com.cn.dsyg.dao.FinanceDao;
+import com.cn.dsyg.dao.OrderDao;
 import com.cn.dsyg.dao.PositionDao;
 import com.cn.dsyg.dao.ProductDao;
 import com.cn.dsyg.dao.PurchaseDao;
@@ -28,8 +30,10 @@ import com.cn.dsyg.dao.UserDao;
 import com.cn.dsyg.dao.WarehouseDao;
 import com.cn.dsyg.dao.WarehouserptDao;
 import com.cn.dsyg.dto.CustomerDto;
+import com.cn.dsyg.dto.CustomerOnlineDto;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.FinanceDto;
+import com.cn.dsyg.dto.OrderDto;
 import com.cn.dsyg.dto.PositionDto;
 import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.dto.ProductQuantityDto;
@@ -64,11 +68,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 	private WarehouserptDao warehouserptDao;
 	private SupplierDao supplierDao;
 	private CustomerDao customerDao;
+	private CustomerOnlineDao customerOnlineDao;
 	private FinanceDao financeDao;
 	private ProductDao productDao;
 	private PositionDao positionDao;
 	private UserDao userDao;
 	private Dict01Dao dict01Dao;
+	private OrderDao orderDao;
 	
 	@Override
 	public String checkProductAmount(String productInfo) {
@@ -577,6 +583,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 			String warehousename = "";
 			String supplierid = "";
 			String plandate = "";
+			String res06 = "";
 			for(int i = 0; i < idList.length; i++) {
 				String id = idList[i];
 				if(StringUtil.isNotBlank(id)) {
@@ -591,6 +598,10 @@ public class WarehouseServiceImpl implements WarehouseService {
 						if(StringUtil.isBlank(warehousename)) {
 							warehousename = warehouse.getWarehousename();
 						}
+						//是否是online订单
+						if(StringUtil.isBlank(res06)) {
+							res06 = warehouse.getRes06();
+						}
 						if(StringUtil.isBlank(plandate)) {
 							plandate = warehouse.getPlandate();
 						}
@@ -600,6 +611,10 @@ public class WarehouseServiceImpl implements WarehouseService {
 						
 						if(!warehousename.equals(warehouse.getWarehousename())) {
 							throw new RuntimeException("不同仓库记录不能合并成一个出库单！");
+						}
+						//判断是否来源一致
+						if(!res06.equals("" + warehouse.getRes06())) {
+							throw new RuntimeException("Online订单和非Online订单记录不能合并成一个出库单！");
 						}
 						//对于出库单，这里记录的是客户ID
 						if(!supplierid.equals("" + warehouse.getSupplierid())) {
@@ -618,6 +633,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 			String warehousenos = "";
 			//产品信息
 			String productinfo = "";
+			//warehouse theme2
+			String theme2 = "";
 			//产品合集
 			Map<String, BigDecimal> quantityMap = new HashMap<String, BigDecimal>();
 			Map<String, BigDecimal> amountMap = new HashMap<String, BigDecimal>();
@@ -631,6 +648,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 					warehouse = warehouseDao.queryWarehouseByID(id);
 					if(warehouse != null) {
 						customerid = "" + warehouse.getSupplierid();
+						
+						theme2 = warehouse.getTheme2();
 						
 						if(quantityMap.get(warehouse.getProductid()) != null) {
 							//发货单数量是负数，所以需要变成正的
@@ -766,17 +785,46 @@ public class WarehouseServiceImpl implements WarehouseService {
 			//收货人
 			warehouserpt.setHandler("");
 			
-			//查询客户信息
-			CustomerDto customer = customerDao.queryEtbCustomerByID(customerid);
 			//获得销售单的客户信息
 			warehouserpt.setSupplierid(customerid);
-			if(customer != null) {
-				warehouserpt.setSuppliername(customer.getCustomername());
-				warehouserpt.setSupplieraddress(customer.getCustomeraddress1());
-				warehouserpt.setSuppliermail(customer.getCustomermail1());
-				warehouserpt.setSuppliermanager(customer.getCustomermanager1());
-				warehouserpt.setSuppliertel(customer.getCustomertel1());
-				warehouserpt.setSupplierfax(customer.getCustomerfax1());
+			
+			CustomerDto customer = null;
+			CustomerOnlineDto customerOnline = null;
+			if("1".equals(res06)) {
+				//online订单
+				customerOnline = customerOnlineDao.queryCustomerOnlineByID(customerid);
+				if(customerOnline != null) {
+					warehouserpt.setSuppliername(customerOnline.getCompanycn());
+					warehouserpt.setSupplieraddress(customerOnline.getAddress());
+					warehouserpt.setSuppliermail(customerOnline.getCustomeremail());
+					warehouserpt.setSuppliermanager(customerOnline.getName());
+					warehouserpt.setSuppliertel(customerOnline.getTell());
+					warehouserpt.setSupplierfax("");
+				}
+			} else {
+				//非online订单
+				//查询客户信息
+				customer = customerDao.queryEtbCustomerByID(customerid);
+				if(customer != null) {
+					warehouserpt.setSuppliername(customer.getCustomername());
+					//默认地址=客户信息收货地址，但是订单的收货地址可能不是客户的收货地址，所以优先取订单的收货地址
+					String address = customer.getCustomeraddress2();
+					//查询订单信息
+					if(StringUtil.isNotBlank(theme2)) {
+						String ordercode = theme2.substring(0, theme2.length() - 3);
+						OrderDto order = orderDao.queryOrderByOrdercode(ordercode);
+						if(order != null) {
+							//订单的收货地址
+							address = order.getAddress2();
+						}
+					}
+					warehouserpt.setSupplieraddress(address);
+					
+					warehouserpt.setSuppliermail(customer.getCustomermail1());
+					warehouserpt.setSuppliermanager(customer.getCustomermanager1());
+					warehouserpt.setSuppliertel(customer.getCustomertel1());
+					warehouserpt.setSupplierfax(customer.getCustomerfax1());
+				}
 			}
 			//快递公司ID==============================这里不做填充，等发货单时填充
 			
@@ -810,13 +858,26 @@ public class WarehouseServiceImpl implements WarehouseService {
 			finance.setAmount(totaltaxamount);
 			//负责人
 			finance.setHandler(userid);
-			//客户信息
-			finance.setCustomerid(Long.valueOf(customerid));
-			finance.setCustomername(customer.getCustomername());
-			finance.setCustomertel(customer.getCustomertel1());
-			finance.setCustomermanager(customer.getCustomermanager1());
-			finance.setCustomeraddress(customer.getCustomeraddress1());
-			finance.setCustomermail(customer.getCustomermail1());
+			
+			if("1".equals(res06)) {
+				//online订单
+				//客户信息
+				finance.setCustomerid(Long.valueOf(customerid));
+				finance.setCustomername(customerOnline.getCompanycn());
+				finance.setCustomertel(customerOnline.getTell());
+				finance.setCustomermanager(customerOnline.getName());
+				finance.setCustomeraddress(customerOnline.getAddress());
+				finance.setCustomermail(customerOnline.getCustomeremail());
+			} else {
+				//非online订单
+				//客户信息
+				finance.setCustomerid(Long.valueOf(customerid));
+				finance.setCustomername(customer.getCustomername());
+				finance.setCustomertel(customer.getCustomertel1());
+				finance.setCustomermanager(customer.getCustomermanager1());
+				finance.setCustomeraddress(customer.getCustomeraddress1());
+				finance.setCustomermail(customer.getCustomermail1());
+			}
 			finance.setRank(Constants.ROLE_RANK_OPERATOR);
 			//状态=开票申请
 			finance.setStatus(Constants.FINANCE_STATUS_NEW);
@@ -1140,5 +1201,21 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 	public void setDict01Dao(Dict01Dao dict01Dao) {
 		this.dict01Dao = dict01Dao;
+	}
+
+	public CustomerOnlineDao getCustomerOnlineDao() {
+		return customerOnlineDao;
+	}
+
+	public void setCustomerOnlineDao(CustomerOnlineDao customerOnlineDao) {
+		this.customerOnlineDao = customerOnlineDao;
+	}
+
+	public OrderDao getOrderDao() {
+		return orderDao;
+	}
+
+	public void setOrderDao(OrderDao orderDao) {
+		this.orderDao = orderDao;
 	}
 }

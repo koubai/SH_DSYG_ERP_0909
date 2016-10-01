@@ -682,7 +682,28 @@
 						(select P.color from etb_product P where P.id = T.productid) as color,
 						(select P.packaging from etb_product P where P.id = T.productid) as packaging,
 						(select P.unit from etb_product P where P.id = T.productid) as unit
-					from etb_warehouse T where 1 = 1
+					from etb_warehouse T where 1 = 1 and T.res06 IS NULL
+						<isNotEmpty prepend="and" property="warehousetype">
+							T.warehousetype = #warehousetype#
+						</isNotEmpty>
+						<isNotEmpty prepend="and" property="theme1">
+							T.theme1 = #theme1#
+						</isNotEmpty>
+						<isNotEmpty prepend="and" property="warehousename">
+							T.warehousename like '%$warehousename$%' ESCAPE '/'
+						</isNotEmpty>
+						<isNotEmpty prepend="and" property="status">
+							T.status = #status#
+						</isNotEmpty>
+					UNION
+					select T.*,
+						(select S.companycn from otb_customer S where S.customerid = T.supplierid) as suppliername,
+						(select P.tradename from etb_product P where P.id = T.productid) as tradename,
+						(select P.typeno from etb_product P where P.id = T.productid) as typeno,
+						(select P.color from etb_product P where P.id = T.productid) as color,
+						(select P.packaging from etb_product P where P.id = T.productid) as packaging,
+						(select P.unit from etb_product P where P.id = T.productid) as unit
+					from etb_warehouse T where 1 = 1 and T.res06 = '1'
 						<isNotEmpty prepend="and" property="warehousetype">
 							T.warehousetype = #warehousetype#
 						</isNotEmpty>
@@ -725,7 +746,28 @@
 						(select P.color from etb_product P where P.id = T.productid) as color,
 						(select P.packaging from etb_product P where P.id = T.productid) as packaging,
 						(select P.unit from etb_product P where P.id = T.productid) as unit
-					from etb_warehouse T where 1 = 1
+					from etb_warehouse T where 1 = 1 and T.res06 IS NULL
+						<isNotEmpty prepend="and" property="warehousetype">
+							T.warehousetype = #warehousetype#
+						</isNotEmpty>
+						<isNotEmpty prepend="and" property="theme1">
+							T.theme1 = #theme1#
+						</isNotEmpty>
+						<isNotEmpty prepend="and" property="warehousename">
+							T.warehousename like '%$warehousename$%' ESCAPE '/'
+						</isNotEmpty>
+						<isNotEmpty prepend="and" property="status">
+							T.status = #status#
+						</isNotEmpty>
+					UNION
+					select T.*,
+						(select S.companycn from otb_customer S where S.customerid = T.supplierid) as suppliername,
+						(select P.tradename from etb_product P where P.id = T.productid) as tradename,
+						(select P.typeno from etb_product P where P.id = T.productid) as typeno,
+						(select P.color from etb_product P where P.id = T.productid) as color,
+						(select P.packaging from etb_product P where P.id = T.productid) as packaging,
+						(select P.unit from etb_product P where P.id = T.productid) as unit
+					from etb_warehouse T where 1 = 1 and T.res06 = '1'
 						<isNotEmpty prepend="and" property="warehousetype">
 							T.warehousetype = #warehousetype#
 						</isNotEmpty>
@@ -757,11 +799,12 @@
 	
 	<select id="queryProductBookByProductid" parameterClass="java.util.Map" resultMap="WarehouseOkDto">
 		select * from (
-			select id as ids,quantity,A.warehousetype,IF(A.warehousetype = 1, A.suppliername, A.customername) AS suppliername,A.tradename,A.typeno,A.color,A.packaging,A.item10,A.unit,A.makearea,A.supplierid,A.theme1,A.productid,A.warehousename,A.wwd plandate from (
+			select id as ids,quantity,A.warehousetype,IF(A.warehousetype = 1, A.suppliername, IF(A.res06 = '1', A.onlinecustomername, A.customername)) AS suppliername,A.tradename,A.typeno,A.color,A.packaging,A.item10,A.unit,A.makearea,A.supplierid,A.theme1,A.productid,A.warehousename,A.wwd plandate from (
 				select * from (
 				select T.*, R.warehousedate wwd,
 						(select S.suppliername from etb_supplier S where S.id = T.supplierid) as suppliername,
 						(SELECT S.customername FROM etb_customer S WHERE S.id = T.supplierid) as customername,
+						(SELECT S.companycn FROM otb_customer S WHERE S.customerid = T.supplierid) AS onlinecustomername,
 						(select P.tradename from etb_product P where P.id = T.productid) as tradename,
 						(select P.typeno from etb_product P where P.id = T.productid) as typeno,
 						(select P.color from etb_product P where P.id = T.productid) as color,
@@ -804,11 +847,12 @@
 	
 	<select id="queryWarehouseOkByPage" parameterClass="java.util.Map" resultMap="WarehouseOkDto">
 		select * from (
-			select GROUP_CONCAT(id) as ids,sum(A.quantity) as quantity,A.warehousetype,IF(A.warehousetype = 1, A.suppliername, A.customername) AS suppliername,A.tradename,A.typeno,A.color,A.packaging,A.item10,A.unit,A.makearea,A.supplierid,A.theme1,A.productid,A.warehousename,A.plandate from (
+			select GROUP_CONCAT(id) as ids,sum(A.quantity) as quantity,A.warehousetype,IF(A.warehousetype = 1, A.suppliername, IF(A.res06 = '1', A.onlinecustomername, A.customername)) AS suppliername,A.tradename,A.typeno,A.color,A.packaging,A.item10,A.unit,A.makearea,A.supplierid,A.theme1,A.productid,A.warehousename,A.plandate from (
 				select * from (
 					select T.*,
 						(select S.suppliername from etb_supplier S where S.id = T.supplierid) as suppliername,
 						(SELECT S.customername FROM etb_customer S WHERE S.id = T.supplierid) as customername,
+						(SELECT S.companycn FROM otb_customer S WHERE S.customerid = T.supplierid) AS onlinecustomername,
 						(select P.tradename from etb_product P where P.id = T.productid) as tradename,
 						(select P.typeno from etb_product P where P.id = T.productid) as typeno,
 						(select P.color from etb_product P where P.id = T.productid) as color,

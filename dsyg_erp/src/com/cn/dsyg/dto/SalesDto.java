@@ -186,7 +186,7 @@ public class SalesDto extends BaseAction {
 	private String res04;
 
 	/**
-	 * 预备项目5
+	 * 是否online订单，1为online，其他为非online
 	 */
 	private String res05;
 

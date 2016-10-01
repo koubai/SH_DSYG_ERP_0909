@@ -211,7 +211,10 @@
 											</s:if>
 										</s:iterator>
 									</td>
-									<td><s:property value="suppliername"/></td>
+									<td>
+										<s:property value="res06"/>
+										<s:property value="suppliername"/>
+									</td>
 									<td align="right"><a href="#" onclick="showDetail('<s:property value="productid"/>');"><u><s:property value="quantity"/></u></a></td>
 								</tr>
 							</s:iterator>

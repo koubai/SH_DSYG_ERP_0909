@@ -311,7 +311,7 @@ public class Constants {
 	public final static int PURCHASE_STATUS_WAREHOUSE_OK = 20;
 	
 	//销售单状态
-	//采购单 未发货
+	//销售单 未发货
 	public final static int SALES_STATUS_NEW = 10;
 	//销售单 部分发货
 	public final static int SALES_STATUS_WAREHOUSE_PART = 15;

@@ -294,7 +294,7 @@ public class SalesAction extends BaseAction {
 				}
 			//}
 			//数据验证(防止相同订单号)
-			SalesDto tmp_salesDto = salesService.querySalesByTheme2(updSalesDto.getTheme2());
+			SalesDto tmp_salesDto = salesService.querySalesByTheme2(updSalesDto.getTheme2(), "");
 			if(tmp_salesDto != null && tmp_salesDto.getStatus().intValue() != Constants.STATUS_DEL){
 				if (!tmp_salesDto.getId().equals(updSalesDto.getId())) {
 					this.addActionMessage("存在相同的销售订单号！");
@@ -364,7 +364,7 @@ public class SalesAction extends BaseAction {
 			//当前操作用户ID
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
 			//数据验证(防止相同订单号)
-			SalesDto salesDto = salesService.querySalesByTheme2(addSalesDto.getTheme2());
+			SalesDto salesDto = salesService.querySalesByTheme2(addSalesDto.getTheme2(), "");
 			if(salesDto != null && salesDto.getStatus().intValue() != Constants.STATUS_DEL) {
 				this.addActionMessage("存在相同的销售订单号！");
 				return "checkerror";

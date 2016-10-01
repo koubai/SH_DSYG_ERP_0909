@@ -78,10 +78,11 @@ public interface SalesService {
 
 	/**
 	 * 根据编号查询销售单数据(By theme2)
-	 * @param salesno
+	 * @param Theme2
+	 * @param res05
 	 * @return
 	 */
-	public SalesDto querySalesByTheme2(String Theme2);
+	public SalesDto querySalesByTheme2(String Theme2, String res05);
 
 	
 	/**

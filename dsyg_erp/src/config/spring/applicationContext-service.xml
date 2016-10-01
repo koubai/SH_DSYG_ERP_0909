@@ -45,6 +45,12 @@
 		<property name="financeDao">
 			<ref local="financeDao"/>
 		</property>
+		<property name="salesDao">
+			<ref local="salesDao"/>
+		</property>
+		<property name="salesItemDao">
+			<ref local="salesItemDao"/>
+		</property>
 	</bean>
 	
 	<bean id="orderDao" class="com.cn.dsyg.dao.impl.OrderDaoImpl">
@@ -281,6 +287,9 @@
 		<property name="customerDao">
 			<ref local="customerDao"/>
 		</property>
+		<property name="customerOnlineDao">
+			<ref local="customerOnlineDao"/>
+		</property>
 		<property name="productDao">
 			<ref local="productDao"/>
 		</property>
@@ -292,6 +301,9 @@
 		</property>
 		<property name="dict01Dao">
 			<ref local="dict01Dao"/>
+		</property>
+		<property name="orderDao">
+			<ref local="orderDao"/>
 		</property>
 	</bean>
 	

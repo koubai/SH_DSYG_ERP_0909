@@ -114,13 +114,13 @@ public interface SalesDao {
 	 */
 	public SalesDto querySalesByNo(String salesno);
 	
-	
 	/**
 	 * 根据THEME2编号查询销售单数据
 	 * @param theme2
+	 * @param res05
 	 * @return
 	 */
-	public SalesDto querySalesByTheme2(String theme2);
+	public SalesDto querySalesByTheme2(String theme2, String res05);
 
 	/**
 	 * 物理删除销售单

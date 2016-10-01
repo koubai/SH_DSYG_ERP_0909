@@ -531,8 +531,9 @@ public class SalesServiceImpl implements SalesService {
 		return salesDao.querySalesByNo(salesno);
 	}
 
-	public SalesDto querySalesByTheme2(String theme2){
-		return salesDao.querySalesByTheme2(theme2);
+	@Override
+	public SalesDto querySalesByTheme2(String theme2, String res05){
+		return salesDao.querySalesByTheme2(theme2, res05);
 	}
 
 	

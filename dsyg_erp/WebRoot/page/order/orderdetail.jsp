@@ -27,6 +27,7 @@
 	
 	//确认订单
 	function confirmOrder() {
+		/*
 		var companytax = $("#companytax").val().trim();
 		var accountbank = $("#accountbank").val().trim();
 		var accountid = $("#accountid").val().trim();
@@ -44,7 +45,7 @@
 			alert("开户行账号不能为空！");
 			$("#accountid").focus();
 			return;
-		}
+		}//*/
 		if(confirm("确定生成该订单吗？")) {
 			document.mainform.action = '<%=request.getContextPath()%>/order/confirmOrderAction.action';
 			document.mainform.submit();
@@ -138,6 +139,25 @@
 						<tr>
 							<td class="td_tittle" width="120">汇款用税号：</td>
 							<td>
+								<s:property value="showOrderDto.companytax"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="td_tittle" width="120">汇款用开户行：</td>
+							<td>
+								<s:property value="showOrderDto.accountbank"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="td_tittle" width="120">汇款用账号：</td>
+							<td>
+								<s:property value="showOrderDto.accountid"/>
+							</td>
+						</tr>
+						<!--
+						<tr>
+							<td class="td_tittle" width="120">汇款用税号：</td>
+							<td>
 								<s:textfield id="companytax" name="showOrderDto.companytax" cssStyle="width: 400px;" maxlength="32" theme="simple"></s:textfield>
 							</td>
 						</tr>
@@ -153,6 +173,7 @@
 								<s:textfield id="accountid" name="showOrderDto.accountid" cssStyle="width: 400px;" maxlength="32" theme="simple"></s:textfield>
 							</td>
 						</tr>
+						-->
 					</s:elseif>
 					<s:if test="showOrderDto.transfer == 1">
 						<tr>
