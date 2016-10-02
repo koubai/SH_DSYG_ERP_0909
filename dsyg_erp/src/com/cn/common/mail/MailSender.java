@@ -28,6 +28,7 @@ import com.cn.common.util.StringUtil;
  */
 public class MailSender {
 
+	private static String mailFlg = "";
 	private static String mailHost = "";
 	private static String mailAuthenUser = "";
 	private static String mailAuthPwd = "";
@@ -36,6 +37,8 @@ public class MailSender {
 	private static String defaultCharset = "GB2312";
 	// 默认 content type
 	private static String defaultContentType = "text/plain";
+	// MAIL_FLG
+	private final static String MAIL_FLG = PropertiesConfig.getPropertiesValueByKey("MAIL_FLG");
 	// 默认HOST
 	private static String MAIL_HOST = PropertiesConfig.getPropertiesValueByKey("MAIL_HOST");
 	// 默认AUTHEN_USER
@@ -64,6 +67,11 @@ public class MailSender {
 		mailAuthPwd = PropertiesConfig.getPropertiesValueByKey("MAIL_AUTHEN_PWD");
 		if (StringUtil.isBlank(mailAuthPwd)) {
 			mailAuthPwd = MAIL_AUTHEN_PWD;
+		}
+		// Mail flag
+		mailFlg = PropertiesConfig.getPropertiesValueByKey("MAIL_FLG");
+		if (StringUtil.isBlank(mailFlg)) {
+			mailFlg= MAIL_FLG;
 		}
 	}
 	
@@ -150,7 +158,16 @@ public class MailSender {
 		if (StringUtil.isBlank(username)) {
 			username = "";
 		}
-
+		
+		if (mailFlg != "1"){
+			System.out.println("Mail Flg is null");
+			System.out.println("From:" + from);
+			System.out.println("To:" + to);
+			System.out.println("Subject:" + subject);
+			System.out.println("Body:" + body);
+			return true;
+		}
+		
 		Properties props = new Properties();
 		Session session = Session.getInstance(props, null);
 		props.put("mail.smtp.host", mailHost);
@@ -243,6 +260,16 @@ public class MailSender {
 		if (from != null) {
 			msg.setFrom(new InternetAddress(from));
 		}
+		
+		if (mailFlg != "1"){
+			System.out.println("Mail Flg is null");
+			System.out.println("From:" + from);
+			System.out.println("To:" + to);
+			System.out.println("Subject:" + subject);
+			System.out.println("Body:" + body);
+			return true;
+		}
+		
 		// 发送附件
 		// 后面的BodyPart将加入到此处创建的Multipart中
 		Multipart mp = new MimeMultipart();
