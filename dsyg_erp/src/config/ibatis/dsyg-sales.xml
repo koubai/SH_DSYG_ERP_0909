@@ -139,7 +139,7 @@
 	<!-- detail -->
 	
 	<select id="querySalesCountByPage" resultClass="int" parameterClass="java.util.Map">
-		select count(*) from etb_sales T where 1 = 1 and status > 0
+		select count(*) from etb_sales T where 1 = 1 and status > 0 AND T.res05 IS NULL
 		<isNotEmpty prepend="and" property="bookdateLow">
 			T.bookdate <![CDATA[>=]]> #bookdateLow#
 		</isNotEmpty>
@@ -161,7 +161,7 @@
 	</select>
 	
 	<select id="querySalesByPage" parameterClass="java.util.Map" resultMap="SalesExtDto">
-		select T.*, "" as quantity from etb_sales T where 1 = 1 and status > 0
+		select T.*, "" as quantity from etb_sales T where 1 = 1 and status > 0 AND T.res05 IS NULL
 		<isNotEmpty prepend="and" property="bookdateLow">
 			T.bookdate <![CDATA[>=]]> #bookdateLow#
 		</isNotEmpty>
@@ -186,7 +186,7 @@
 
 	<select id="querySalesExtCountByPage" resultClass="int" parameterClass="java.util.Map">
 		select count(1) from etb_sales T, etb_salesitem T2 where 1 = 1 and T.status > 0
-		and T.salesno = T2.salesno
+		and T.salesno = T2.salesno and T.res05 is null
 		<isNotEmpty prepend="and" property="bookdateLow">
 			T.bookdate <![CDATA[>=]]> #bookdateLow#
 		</isNotEmpty>
@@ -212,7 +212,7 @@
 
 	<select id="querySalesExtByPage" parameterClass="java.util.Map" resultMap="SalesExtDto">
 		select T.*, T2.quantity as quantity from etb_sales T, etb_salesitem T2 where 1 = 1 and T.status > 0
-		and T.salesno = T2.salesno
+		and T.salesno = T2.salesno and T.res05 is null
 		<isNotEmpty prepend="and" property="bookdateLow">
 			T.bookdate <![CDATA[>=]]> #bookdateLow#
 		</isNotEmpty>

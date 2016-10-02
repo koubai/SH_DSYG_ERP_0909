@@ -795,7 +795,20 @@ public class WarehouseServiceImpl implements WarehouseService {
 				customerOnline = customerOnlineDao.queryCustomerOnlineByID(customerid);
 				if(customerOnline != null) {
 					warehouserpt.setSuppliername(customerOnline.getCompanycn());
-					warehouserpt.setSupplieraddress(customerOnline.getAddress());
+					
+					//默认地址=客户信息收货地址，但是订单的收货地址可能不是客户的收货地址，所以优先取订单的收货地址
+					String address = customerOnline.getAddress();
+					//查询订单信息
+					if(StringUtil.isNotBlank(theme2)) {
+						String ordercode = theme2.substring(0, theme2.length() - 3);
+						OrderDto order = orderDao.queryOrderByOrdercode(ordercode);
+						if(order != null) {
+							//订单的收货地址
+							address = order.getAddress2();
+						}
+					}
+					
+					warehouserpt.setSupplieraddress(address);
 					warehouserpt.setSuppliermail(customerOnline.getCustomeremail());
 					warehouserpt.setSuppliermanager(customerOnline.getName());
 					warehouserpt.setSuppliertel(customerOnline.getTell());
@@ -807,18 +820,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 				customer = customerDao.queryEtbCustomerByID(customerid);
 				if(customer != null) {
 					warehouserpt.setSuppliername(customer.getCustomername());
-					//默认地址=客户信息收货地址，但是订单的收货地址可能不是客户的收货地址，所以优先取订单的收货地址
-					String address = customer.getCustomeraddress2();
-					//查询订单信息
-					if(StringUtil.isNotBlank(theme2)) {
-						String ordercode = theme2.substring(0, theme2.length() - 3);
-						OrderDto order = orderDao.queryOrderByOrdercode(ordercode);
-						if(order != null) {
-							//订单的收货地址
-							address = order.getAddress2();
-						}
-					}
-					warehouserpt.setSupplieraddress(address);
+					warehouserpt.setSupplieraddress(customer.getCustomeraddress1());
 					
 					warehouserpt.setSuppliermail(customer.getCustomermail1());
 					warehouserpt.setSuppliermanager(customer.getCustomermanager1());

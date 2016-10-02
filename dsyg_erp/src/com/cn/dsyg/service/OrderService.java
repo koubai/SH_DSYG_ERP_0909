@@ -57,6 +57,13 @@ public interface OrderService {
 	public void sendProduct(OrderDto order) throws Exception;
 	
 	/**
+	 * 订单转移
+	 * @param order
+	 * @throws Exception
+	 */
+	public void transferOrder(OrderDto order);
+	
+	/**
 	 * 关闭订单
 	 * @param order
 	 * @throws Exception

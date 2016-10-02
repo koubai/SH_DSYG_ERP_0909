@@ -306,15 +306,13 @@ public class OrderAction extends BaseAction {
 			
 			//查询订单明细
 			OrderDto order = orderService.queryOrderByID(strOrderDetailId);
-			//未生成warehouse记录的订单都可以转移订单
-			if(order.getStatus() < Constants.ONLINE_ORDER_STATUS_CONFIRM) {
+			//未生成sales记录的订单都可以转移订单
+			if(order.getStatus() <= Constants.ONLINE_ORDER_STATUS_ORDER) {
 				//当前操作用户ID
 				String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
 				order.setUpdateip(this.getIP());
 				order.setUpdateuid(username);
-				//标记该订单为转移订单
-				order.setTransfer(1);
-				orderService.updateOrder(order);
+				orderService.transferOrder(order);
 				this.addActionMessage("订单转移成功！");
 			} else {
 				showOrderDto = orderService.queryOrderByID(strOrderDetailId);

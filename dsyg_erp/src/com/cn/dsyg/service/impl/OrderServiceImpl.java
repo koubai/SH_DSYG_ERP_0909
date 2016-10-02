@@ -459,6 +459,38 @@ public class OrderServiceImpl implements OrderService {
 			}
 		}
 	}
+	
+	@Override
+	public void transferOrder(OrderDto order) {
+		//标记该订单为转移订单
+		order.setTransfer(1);
+		orderDao.updateOrder(order);
+		
+		
+		//查询明细数据
+		List<OrderDetailDto> orderDetailList = orderDetailDao.queryOrderDetailByOrderid("" + order.getId());
+		Map<String, String> mapProductids = new HashMap<String, String>();
+		//删除sales、salesitem和warehouse记录
+		for(OrderDetailDto detail : orderDetailList) {
+			//online订单号+批号
+			String theme2 = order.getOrdercode() + detail.getBatchno();
+			if(mapProductids.get(theme2) == null) {
+				mapProductids.put(theme2, "");
+			}
+		}
+		for(Map.Entry<String, String> entry : mapProductids.entrySet()) {
+			SalesDto sales = salesDao.querySalesByTheme2(entry.getKey(), "1");
+			if(sales != null) {
+				String salesno = sales.getSalesno();
+				//物理删除warehouse
+				warehouseDao.deleteWarehouseByParentid(salesno, "", "");
+				//物理删除明细数据
+				salesItemDao.deleteAllSalesItemBySalesno(salesno);
+				//物理删除销售单
+				salesDao.deleteSales("" + sales.getId());
+			}
+		}
+	}
 
 	@Override
 	public void insertOrder(OrderDto order) {
