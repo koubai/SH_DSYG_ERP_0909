@@ -19,9 +19,21 @@
 	
 	//交期确认
 	function confirmDelivery() {
-		if(confirm("确定提交吗？")) {
-			document.mainform.action = '<%=request.getContextPath()%>/order/confirmDeliveryAction.action';
-			document.mainform.submit();
+		var chk_flg = 0;
+		for(var j=0; j < 10 && chk_flg == 0; j++){
+			var deli_date_element = document.getElementsByName("showOrderDto.orderDetailList["+j+"].deliverydate"); 
+			if (deli_date_element.length == 1){
+				if (deli_date_element[0].value.trim() == ""){
+					alert("交期未填写");
+					chk_flg=1;
+				}				
+			}
+		}
+		if (chk_flg==0){
+			if(confirm("确定提交吗？")) {
+				document.mainform.action = '<%=request.getContextPath()%>/order/confirmDeliveryAction.action';
+				document.mainform.submit();
+			}			
 		}
 	}
 	
@@ -371,8 +383,8 @@
 					<tr>
 						<td class="td_tittle" width="120">发票：</td>
 						<td>
-							<s:if test='showOrderDto.bankreceipt == "2"'>专用发票</s:if>
-							<s:elseif test='showOrderDto.bankreceipt == "1"'>普通发票</s:elseif>
+							<s:if test='showOrderDto.receipttype == "2"'>专用发票</s:if>
+							<s:elseif test='showOrderDto.receipttype == "1"'>普通发票</s:elseif>
 							<s:else></s:else>
 						</td>
 					</tr>

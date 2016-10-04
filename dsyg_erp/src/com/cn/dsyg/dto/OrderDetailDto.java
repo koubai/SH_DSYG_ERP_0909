@@ -187,6 +187,31 @@ public class OrderDetailDto extends BaseDto {
 		return batchno;
 	}
 
+	public String getBatchnoName(String batchno) {
+		String batchnoName="";
+		if (batchno.equals("001"))
+			batchnoName = "第一批次";
+		else if (batchno.equals("002"))
+			batchnoName = "第二批次";
+		else if (batchno.equals("003"))
+			batchnoName = "第三批次";
+		else if (batchno.equals("004"))
+			batchnoName = "第四批次";
+		else if (batchno.equals("005"))
+			batchnoName = "第五批次";
+		else if (batchno.equals("006"))
+			batchnoName = "第六批次";
+		else if (batchno.equals("007"))
+			batchnoName = "第七批次";
+		else if (batchno.equals("008"))
+			batchnoName = "第八批次";
+		else if (batchno.equals("009"))
+			batchnoName = "第九批次";
+		else if (batchno.equals("010"))
+			batchnoName = "第十批次";
+		return batchnoName;
+	}
+
 	public void setBatchno(String batchno) {
 		this.batchno = batchno;
 	}

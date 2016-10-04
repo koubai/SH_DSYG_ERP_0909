@@ -230,7 +230,7 @@ public class OrderServiceImpl implements OrderService {
 		body += "<br/>";
 		body += "<br/>";
 		body += "注意：<br/>";
-		body += "※交期确认的网站有效期为本公司的7个工作日。<br/>";
+		body += "※交期确认的网站有效期为本公司的3个工作日。<br/>";
 		body += "　3个工作日后数据将被删除，不能再确认交期及下订单。<br/>";
 		body += "※所回复的交期仅为当时确认本公司现有在库后的交期。<br/>";
 		body += "　在此之后根据在库的变动，所回复的交期与实际交期会存在变动。<br/>";
@@ -245,7 +245,7 @@ public class OrderServiceImpl implements OrderService {
 		body += "电话：021－65388038－0（总机）<br/>";
 		body += "受理时间: 08:30～12:00、12:45～17:15 (工作日)<br/>";
 		body += "Mail：sales@shdsyg.com<br/>";
-		body += "https://www.dsyg.com.cn/dsygonline/<br/>";
+		body += "https://www.shdsyg.cn/dsygonline/<br/>";
 		body += "===================================================<br/>";
 		MailSender.send(from, to, subject, body, username, attachfile);
 	}
@@ -337,12 +337,14 @@ public class OrderServiceImpl implements OrderService {
 		
 		for(int i = 0; i < order.getOrderDetailList().size(); i++) {
 			OrderDetailDto detail = order.getOrderDetailList().get(i);
-			body += "■商品 No." + (i + 1) + "<br/>";
+			body += "■商品 No." + (i + 1) +"&nbsp&nbsp&nbsp&nbsp" + detail.getBatchnoName(detail.getBatchno()) + "<br/>";
 			body += "--------------------------------------------------------------------<br/>";
 			body += "商品            : " + detail.getTradename() + "<br/>";
 			body += "单价            : " + detail.getTaxprice() + "元<br/>";
 			body += "变更数量        : " + detail.getNum() + "个<br/>";
 			body += "合计            : " + detail.getTaxamount() + "元<br/>";
+			body += "交期            : " + DateUtil.dateToShortStr(detail.getDeliverydate()) + "<br/>";
+			
 			body += "<br/>";
 		}
 		body += "<br/>";
@@ -350,6 +352,14 @@ public class OrderServiceImpl implements OrderService {
 		body += "合计            : " + order.getAmount() + "元<br/>";
 		body += "含增值税        : " + order.getTaxamount() + "元<br/>";
 		body += "--------------------------------------------------------------------<br/>";
+		body += "<br/>";
+		if(order.getReceipttype()== 1) {
+			body += "发票        : 普通发票<br/>";
+		}else if(order.getReceipttype() == 2) {
+			body += "发票        : 专用发票<br/>";
+		}else {
+			body += "发票        : <br/>";
+		}
 		body += "<br/>";
 		body += "■汇款信息<br/><br/>";
 		
@@ -375,7 +385,7 @@ public class OrderServiceImpl implements OrderService {
 		body += "电话：021－65388038－0（总机）<br/>";
 		body += "受理时间: 08:30～12:00、12:45～17:15 (工作日)<br/>";
 		body += "Mail：sales@shdsyg.com<br/>";
-		body += "https://www.dsyg.com.cn/dsygonline/<br/>";
+		body += "https://www.shdsyg.cn/dsygonline/<br/>";
 		body += "===================================================<br/>";
 //		System.out.println(body);
 		MailSender.send(from, to, subject, body, username, attachfile);

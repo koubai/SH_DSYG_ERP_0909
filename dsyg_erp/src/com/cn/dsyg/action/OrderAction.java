@@ -288,6 +288,7 @@ public class OrderAction extends BaseAction {
 			
 			//刷新页面数据
 			showOrderDto = orderService.queryOrderByID(strOrderDetailId);
+			this.addActionMessage("订单关闭成功！");
 		} catch(Exception e) {
 			log.error("cancelOrderAction error:" + e);
 			return ERROR;
