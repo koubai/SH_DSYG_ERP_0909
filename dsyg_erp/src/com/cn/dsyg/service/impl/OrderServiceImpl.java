@@ -418,14 +418,14 @@ public class OrderServiceImpl implements OrderService {
 		String body = "";
 		body += customerOnline.getCompanycn() + " 先生/女士<br/>";
 		body += "<br/>";
-		body += "订单[" + order.getOrdercode() + "] 款项已收到<br/>";
+		body += "订单[" + order.getOrdercode() + "] 款项已收到,我们会尽快安排发货，感谢您的选购。<br/>";
 		body += "===================================================<br/>";
 		body += "DSYG-Online<br/>";
 		body += "东升盈港企业发展有限公司<br/>";
 		body += "电话：021－65388038－0（总机）<br/>";
 		body += "受理时间: 08:30～12:00、12:45～17:15 (工作日)<br/>";
 		body += "Mail：sales@shdsyg.com<br/>";
-		body += "https://www.dsyg.com.cn/dsygonline/<br/>";
+		body += "https://www.shdsyg.cn/dsygonline/<br/>";
 		body += "===================================================<br/>";
 		MailSender.send(from, to, subject, body, username, attachfile);
 	}

@@ -795,24 +795,29 @@ public class WarehouseServiceImpl implements WarehouseService {
 				customerOnline = customerOnlineDao.queryCustomerOnlineByID(customerid);
 				if(customerOnline != null) {
 					warehouserpt.setSuppliername(customerOnline.getCompanycn());
-					
 					//默认地址=客户信息收货地址，但是订单的收货地址可能不是客户的收货地址，所以优先取订单的收货地址
-					String address = customerOnline.getAddress();
+					warehouserpt.setSupplieraddress(customerOnline.getAddress());
+					warehouserpt.setSuppliermanager(customerOnline.getName());
+					warehouserpt.setSuppliertel(customerOnline.getTell());
+					warehouserpt.setSuppliermail(customerOnline.getCustomeremail());					
+					warehouserpt.setSupplierfax("");
+					
 					//查询订单信息
 					if(StringUtil.isNotBlank(theme2)) {
 						String ordercode = theme2.substring(0, theme2.length() - 3);
 						OrderDto order = orderDao.queryOrderByOrdercode(ordercode);
 						if(order != null) {
-							//订单的收货地址
-							address = order.getAddress2();
 						}
 					}
-					
-					warehouserpt.setSupplieraddress(address);
-					warehouserpt.setSuppliermail(customerOnline.getCustomeremail());
-					warehouserpt.setSuppliermanager(customerOnline.getName());
-					warehouserpt.setSuppliertel(customerOnline.getTell());
-					warehouserpt.setSupplierfax("");
+					if (customerOnline.getCompanycn2()!= null)
+						warehouserpt.setSuppliername(customerOnline.getCompanycn2());
+					//订单的收货地址
+					if (customerOnline.getAddress2()!= null)
+						warehouserpt.setSupplieraddress(customerOnline.getAddress2());
+					if (customerOnline.getName2()!= null)
+						warehouserpt.setSuppliermanager(customerOnline.getName2());
+					if (customerOnline.getTell2()!= null)
+						warehouserpt.setSuppliertel(customerOnline.getTell2());
 				}
 			} else {
 				//非online订单
