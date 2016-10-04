@@ -280,6 +280,9 @@
 	<select id="querySalesByTheme2" parameterClass="java.util.Map" resultMap="SalesDto">
 		select * from etb_sales where 
 			theme2 = #theme2#
+			<isNotEmpty prepend="and" property="res05">
+				res05 = #res05#
+			</isNotEmpty>
 	</select>
 	
 	<delete id="deleteSales" parameterClass="java.util.Map">
