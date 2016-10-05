@@ -337,7 +337,7 @@ public class OrderServiceImpl implements OrderService {
 		
 		for(int i = 0; i < order.getOrderDetailList().size(); i++) {
 			OrderDetailDto detail = order.getOrderDetailList().get(i);
-			body += "■商品 No." + (i + 1) +"&nbsp&nbsp&nbsp&nbsp" + detail.getBatchnoName(detail.getBatchno()) + "<br/>";
+			body += "■商品 No." + (i + 1) +"        " + detail.getBatchnoName(detail.getBatchno()) + "<br/>";
 			body += "--------------------------------------------------------------------<br/>";
 			body += "商品            : " + detail.getTradename() + "<br/>";
 			body += "单价            : " + detail.getTaxprice() + "元<br/>";

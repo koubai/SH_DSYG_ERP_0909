@@ -159,7 +159,7 @@ public class MailSender {
 			username = "";
 		}
 		
-		if (mailFlg != "1"){
+		if (!mailFlg.equals("1")){
 			System.out.println("Mail Flg is null");
 			System.out.println("From:" + from);
 			System.out.println("To:" + to);
@@ -167,7 +167,8 @@ public class MailSender {
 			System.out.println("Body:" + body);
 			return true;
 		}
-		
+		System.out.println("Mail sent:"  + body);
+
 		Properties props = new Properties();
 		Session session = Session.getInstance(props, null);
 		props.put("mail.smtp.host", mailHost);
