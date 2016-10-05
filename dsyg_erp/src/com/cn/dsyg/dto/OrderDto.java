@@ -14,9 +14,10 @@ import com.cn.common.dto.BaseDto;
  */
 public class OrderDto extends BaseDto {
 
-	private static final long serialVersionUID = -5277224653340637835L;
 
- 	/**
+	private static final long serialVersionUID = -7001098710269765436L;
+
+	/**
 	 * ID
 	 */
 	private Integer id;

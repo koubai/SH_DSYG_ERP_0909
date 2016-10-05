@@ -13,7 +13,7 @@ import com.cn.common.dto.BaseDto;
  */
 public class OrderDetailDto extends BaseDto {
 
-	private static final long serialVersionUID = -5843901725073619762L;
+	private static final long serialVersionUID = -6855870760321920145L;
 
 	/**
 	 * ID
