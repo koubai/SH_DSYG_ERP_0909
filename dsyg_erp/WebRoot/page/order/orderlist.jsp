@@ -259,6 +259,7 @@
 							<tr class="tittle">
 								<td>&nbsp;</td>
 								<td>订单号</td>
+								<td>客户名</td>
 								<td>金额</td>
 								<td>含税金额</td>
 								<td>订单状态</td>
@@ -277,6 +278,7 @@
 									<td>
 										<a href="#" onclick="showDetail('<s:property value="id"/>');"><s:property value="ordercode"/></a>
 									</td>
+									<td><s:property value="companycn"/></td>
 									<td><s:property value="amount"/></td>
 									<td><s:property value="taxamount"/></td>
 									<td>

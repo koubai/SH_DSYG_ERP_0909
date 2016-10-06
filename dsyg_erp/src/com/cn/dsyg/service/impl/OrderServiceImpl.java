@@ -245,7 +245,7 @@ public class OrderServiceImpl implements OrderService {
 		body += "电话：021－65388038－0（总机）<br/>";
 		body += "受理时间: 08:30～12:00、12:45～17:15 (工作日)<br/>";
 		body += "Mail：sales@shdsyg.com<br/>";
-		body += "https://www.shdsyg.cn/dsygonline/<br/>";
+		body += "http://www.shdsyg.cn/dsygonline/<br/>";
 		body += "===================================================<br/>";
 		MailSender.send(from, to, subject, body, username, attachfile);
 	}
@@ -385,7 +385,7 @@ public class OrderServiceImpl implements OrderService {
 		body += "电话：021－65388038－0（总机）<br/>";
 		body += "受理时间: 08:30～12:00、12:45～17:15 (工作日)<br/>";
 		body += "Mail：sales@shdsyg.com<br/>";
-		body += "https://www.shdsyg.cn/dsygonline/<br/>";
+		body += "http://www.shdsyg.cn/dsygonline/<br/>";
 		body += "===================================================<br/>";
 //		System.out.println(body);
 		MailSender.send(from, to, subject, body, username, attachfile);
@@ -413,7 +413,7 @@ public class OrderServiceImpl implements OrderService {
 		//附件，格式：filename1,filename2,filename3...（这里需要在global.properties配置文件中指定附件目录）
 		String attachfile = "";
 		//邮件标题
-		String subject = "【东升盈港线上购买】订单已受理（" + order.getOrdercode() + "）";
+		String subject = "【东升盈港线上购买】订单已付款（" + order.getOrdercode() + "）";
 		//邮件内容
 		String body = "";
 		body += customerOnline.getCompanycn() + " 先生/女士<br/>";
@@ -425,7 +425,7 @@ public class OrderServiceImpl implements OrderService {
 		body += "电话：021－65388038－0（总机）<br/>";
 		body += "受理时间: 08:30～12:00、12:45～17:15 (工作日)<br/>";
 		body += "Mail：sales@shdsyg.com<br/>";
-		body += "https://www.shdsyg.cn/dsygonline/<br/>";
+		body += "http://www.shdsyg.cn/dsygonline/<br/>";
 		body += "===================================================<br/>";
 		MailSender.send(from, to, subject, body, username, attachfile);
 	}
