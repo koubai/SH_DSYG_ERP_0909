@@ -353,11 +353,15 @@ public class OrderServiceImpl implements OrderService {
 		body += "含增值税        : " + order.getTaxamount() + "元<br/>";
 		body += "--------------------------------------------------------------------<br/>";
 		body += "<br/>";
-		if(order.getReceipttype()== 1) {
-			body += "发票        : 普通发票<br/>";
-		}else if(order.getReceipttype() == 2) {
-			body += "发票        : 专用发票<br/>";
-		}else {
+		if(order.getReceipttype() != null) {
+			if(order.getReceipttype()== 1) {
+				body += "发票        : 普通发票<br/>";
+			} else if(order.getReceipttype() == 2) {
+				body += "发票        : 专用发票<br/>";
+			} else {
+				body += "发票        : <br/>";
+			}
+		} else {
 			body += "发票        : <br/>";
 		}
 		body += "<br/>";
