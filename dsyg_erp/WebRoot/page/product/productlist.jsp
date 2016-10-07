@@ -224,6 +224,8 @@
 								<td width="40">产地</td>
 								<td width="60">住友编码</td>
 								<td width="40">显示与否</td>
+								<td width="40">最小长度</td>
+								<td width="40">溢价比</td>
 							</tr>
 							<s:iterator id="productList" value="productList" status="st1">
 								<s:if test="#st1.odd==true">
@@ -274,6 +276,12 @@
 									<td>
 										<s:if test="%{rank <= 50}">显示</s:if>
 										<s:else>不显示</s:else>
+									</td>
+									<td>
+										<s:property value="item12"/>
+									</td>
+									<td>
+										<s:property value="item13"/>
 									</td>
 								</tr>
 							</s:iterator>
