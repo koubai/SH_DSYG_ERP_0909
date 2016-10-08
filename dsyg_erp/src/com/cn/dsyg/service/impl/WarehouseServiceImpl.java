@@ -613,7 +613,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 							throw new RuntimeException("不同仓库记录不能合并成一个出库单！");
 						}
 						//判断是否来源一致
-						if(!res06.equals("" + warehouse.getRes06())) {
+						if(warehouse.getRes06() != null && !res06.equals("" + warehouse.getRes06())) {
 							throw new RuntimeException("Online订单和非Online订单记录不能合并成一个出库单！");
 						}
 						//对于出库单，这里记录的是客户ID

@@ -1,4 +1,4 @@
-﻿package com.cn.dsyg.service.impl;
+package com.cn.dsyg.service.impl;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -310,7 +310,7 @@ public class OrderServiceImpl implements OrderService {
 //		body += "电话号码        : 62507788<br/>";
 //		body += "公司开户行      : " + order.getAccountbank() + "<br/>";
 //		body += "开户行帐号      : " + order.getAccountid() + "<br/>";
-//		body += "发票            : 普通发票<br/>"; 
+//		body += "发票            : 普通发票<br/>";
 //		body += "<br/>";
 		body += "■收件人<br/>";
 		body += "--------------------------------------------------------------------<br/>";
