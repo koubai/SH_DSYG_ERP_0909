@@ -354,13 +354,13 @@
 				$("#" + "scale" + i).focus();
 				return false;
 			}
-			if(gear%item12){
+			if((Number(gear)*1000)%(Number(item12)*1000)/1000 != 0){
 				alert("销售单位必须是最小销售单位的倍数！");
 				$("#" + "gear" + i).focus();
 				return false;
 			}
 			if(gear != ""){
-				item13 = item13 + gear/item12 + "-" + scale  + ";";
+				item13 = item13 + gear/Number(item12) + "-" + scale  + ";";
 			}
 		}
 		$("#item13").attr("value", item13);

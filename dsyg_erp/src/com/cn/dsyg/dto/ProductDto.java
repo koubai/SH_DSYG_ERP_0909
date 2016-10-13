@@ -1,5 +1,6 @@
 package com.cn.dsyg.dto;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import com.cn.common.dto.BaseDto;
@@ -1084,8 +1085,10 @@ public class ProductDto extends BaseDto {
 		String[] item13Online;
 		if(StringUtil.isNotBlank(item13)) {
 			item13Online = item13.split(";");
+			BigDecimal it12 = new BigDecimal(item12);
 			if(StringUtil.isNotBlank(item13Online[1])){
-				gear1 = String.valueOf(Integer.valueOf(item13Online[1].substring(0,item13Online[1].indexOf("-")))*Integer.valueOf(item12));
+				BigDecimal it13 = new BigDecimal(item13Online[1].substring(0,item13Online[1].indexOf("-")));
+				gear1 = it13.multiply(it12).toString();
 			}
 		}
 		return gear1;
@@ -1114,8 +1117,10 @@ public class ProductDto extends BaseDto {
 		String[] item13Online;
 		if(StringUtil.isNotBlank(item13)) {
 			item13Online = item13.split(";");
+			BigDecimal it12 = new BigDecimal(item12);
 			if(StringUtil.isNotBlank(item13Online[2])){
-				gear2 = String.valueOf(Integer.valueOf(item13Online[2].substring(0,item13Online[2].indexOf("-")))*Integer.valueOf(item12));
+				BigDecimal it13 = new BigDecimal(item13Online[2].substring(0,item13Online[2].indexOf("-")));
+				gear2 = it13.multiply(it12).toString();
 			}
 		}
 		return gear2;
@@ -1144,8 +1149,10 @@ public class ProductDto extends BaseDto {
 		String[] item13Online;
 		if(StringUtil.isNotBlank(item13)) {
 			item13Online = item13.split(";");
+			BigDecimal it12 = new BigDecimal(item12);
 			if(StringUtil.isNotBlank(item13Online[3])){
-				gear3 = String.valueOf(Integer.valueOf(item13Online[3].substring(0,item13Online[3].indexOf("-")))*Integer.valueOf(item12));
+				BigDecimal it13 = new BigDecimal(item13Online[3].substring(0,item13Online[3].indexOf("-")));
+				gear3 = it13.multiply(it12).toString();
 			}
 		}
 		return gear3;
@@ -1174,8 +1181,10 @@ public class ProductDto extends BaseDto {
 		String[] item13Online;
 		if(StringUtil.isNotBlank(item13)) {
 			item13Online = item13.split(";");
+			BigDecimal it12 = new BigDecimal(item12);
 			if(StringUtil.isNotBlank(item13Online[4])){
-				gear4 = String.valueOf(Integer.valueOf(item13Online[4].substring(0,item13Online[4].indexOf("-")))*Integer.valueOf(item12));
+				BigDecimal it13 = new BigDecimal(item13Online[4].substring(0,item13Online[4].indexOf("-")));
+				gear4 = it13.multiply(it12).toString();
 			}
 		}
 		return gear4;
@@ -1204,8 +1213,10 @@ public class ProductDto extends BaseDto {
 		String[] item13Online;
 		if(StringUtil.isNotBlank(item13)) {
 			item13Online = item13.split(";");
+			BigDecimal it12 = new BigDecimal(item12);
 			if(StringUtil.isNotBlank(item13Online[5])){
-				gear5 = String.valueOf(Integer.valueOf(item13Online[5].substring(0,item13Online[5].indexOf("-")))*Integer.valueOf(item12));
+				BigDecimal it13 = new BigDecimal(item13Online[5].substring(0,item13Online[5].indexOf("-")));
+				gear5 = it13.multiply(it12).toString();
 			}
 		}
 		return gear5;
@@ -1234,8 +1245,10 @@ public class ProductDto extends BaseDto {
 		String[] item13Online;
 		if(StringUtil.isNotBlank(item13)) {
 			item13Online = item13.split(";");
+			BigDecimal it12 = new BigDecimal(item12);
 			if(StringUtil.isNotBlank(item13Online[6])){
-				gear6 = String.valueOf(Integer.valueOf(item13Online[6].substring(0,item13Online[6].indexOf("-")))*Integer.valueOf(item12));
+				BigDecimal it13 = new BigDecimal(item13Online[6].substring(0,item13Online[6].indexOf("-")));
+				gear6 = it13.multiply(it12).toString();
 			}
 		}
 		return gear6;
@@ -1264,8 +1277,10 @@ public class ProductDto extends BaseDto {
 		String[] item13Online;
 		if(StringUtil.isNotBlank(item13)) {
 			item13Online = item13.split(";");
+			BigDecimal it12 = new BigDecimal(item12);
 			if(StringUtil.isNotBlank(item13Online[7])){
-				gear7 = String.valueOf(Integer.valueOf(item13Online[7].substring(0,item13Online[7].indexOf("-")))*Integer.valueOf(item12));
+				BigDecimal it13 = new BigDecimal(item13Online[7].substring(0,item13Online[7].indexOf("-")));
+				gear7 = it13.multiply(it12).toString();
 			}
 		}
 		return gear7;
@@ -1294,8 +1309,10 @@ public class ProductDto extends BaseDto {
 		String[] item13Online;
 		if(StringUtil.isNotBlank(item13)) {
 			item13Online = item13.split(";");
+			BigDecimal it12 = new BigDecimal(item12);
 			if(StringUtil.isNotBlank(item13Online[8])){
-				gear8 = String.valueOf(Integer.valueOf(item13Online[8].substring(0,item13Online[8].indexOf("-")))*Integer.valueOf(item12));
+				BigDecimal it13 = new BigDecimal(item13Online[8].substring(0,item13Online[8].indexOf("-")));
+				gear8 = it13.multiply(it12).toString();
 			}
 		}
 		return gear8;
@@ -1324,8 +1341,10 @@ public class ProductDto extends BaseDto {
 		String[] item13Online;
 		if(StringUtil.isNotBlank(item13)) {
 			item13Online = item13.split(";");
+			BigDecimal it12 = new BigDecimal(item12);
 			if(StringUtil.isNotBlank(item13Online[9])){
-				gear9 = String.valueOf(Integer.valueOf(item13Online[9].substring(0,item13Online[9].indexOf("-")))*Integer.valueOf(item12));
+				BigDecimal it13 = new BigDecimal(item13Online[9].substring(0,item13Online[9].indexOf("-")));
+				gear9 = it13.multiply(it12).toString();
 			}
 		}
 		return gear9;
@@ -1354,8 +1373,10 @@ public class ProductDto extends BaseDto {
 		String[] item13Online;
 		if(StringUtil.isNotBlank(item13)) {
 			item13Online = item13.split(";");
+			BigDecimal it12 = new BigDecimal(item12);
 			if(StringUtil.isNotBlank(item13Online[10])){
-				gear10 = String.valueOf(Integer.valueOf(item13Online[10].substring(0,item13Online[10].indexOf("-")))*Integer.valueOf(item12));
+				BigDecimal it13 = new BigDecimal(item13Online[10].substring(0,item13Online[10].indexOf("-")));
+				gear10 = it13.multiply(it12).toString();
 			}
 		}
 		return gear10;
