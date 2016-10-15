@@ -321,6 +321,8 @@ public class ProductAction extends BaseAction {
 			addProductDto.setCreateuid(username);
 			//默认状态=有效
 			addProductDto.setStatus(Constants.STATUS_NORMAL);
+
+			System.out.println(addProductDto.getRank());
 			
 			addProductDto.setSampleflag("0");
 			productService.insertProduct(addProductDto);

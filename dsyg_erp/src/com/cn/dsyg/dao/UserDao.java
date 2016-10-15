@@ -67,7 +67,7 @@ public interface UserDao {
 	 */
 	public void updateUser(UserDto user);
 	
-	public List<ProductDto> queryUserListByPage(String fieldno, String keyword, String useridfrom, String useridto, String status, int start, int end);
+	public List<ProductDto> queryUserListByPage(String fieldno, String keyword, String useridfrom, String useridto, String username, String status, int start, int end);
 
-	public int queryUserListCountByPage(String fieldno, String keyword, String useridfrom, String useridto, String status);
+	public int queryUserListCountByPage(String fieldno, String keyword, String useridfrom, String useridto, String username, String status);
 }

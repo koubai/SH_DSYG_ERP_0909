@@ -52,6 +52,31 @@ public interface WarehouserptService {
 			String createdateLow, String createdateHigh, Page page);
 	
 	/**
+	 * 合计含税金额查询
+	 * @param no 采购单OR订单
+	 * @param status
+	 * @param warehousetype
+	 * @param warehouseno
+	 * @param theme1
+	 * @param parentid
+	 * @param supplierid
+	 * @param productid
+	 * @param beginDate
+	 * @param endDate
+	 * @param strSuppliername
+	 * @param strWarehouseno
+	 * @param createdateLow
+	 * @param createdateHigh
+	 * @return
+	 */
+	public String queryWarehouserptTotalAmount(String no, String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,String strWarehouseno,
+			String createdateLow, String createdateHigh);
+
+	
+	
+	/**
 	 * 根据ID查询数据
 	 * @param id
 	 * @return

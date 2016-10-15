@@ -82,6 +82,10 @@ public class WarehouserptAction extends BaseAction {
 	
 	//采购单OR订单
 	private String strNo;
+	
+	//合计含税金额
+	private String strTotalAmount;
+
 
 	//发货单
 	/**
@@ -659,9 +663,15 @@ public class WarehouserptAction extends BaseAction {
 		initDictList();
 		//翻页查询所有预入库待确认数据
 		this.page.setStartIndex(startIndex);
+		System.out.println("queryData:start" + type);
+
 		page = warehouserptService.queryWarehouserptByPage(strNo, "", type, "", "", "", "", "", "", "",
 				strSuppliername, strWarehouseno, strCreatedateLow, strCreatedateHigh, page);
-		warehouserptList = (List<WarehouserptDto>) page.getItems();
+		warehouserptList = (List<WarehouserptDto>) page.getItems();		
+		strTotalAmount = "";
+		strTotalAmount = warehouserptService.queryWarehouserptTotalAmount(strNo, "", type, "", "", "", "", "", "", "",
+				strSuppliername, strWarehouseno, strCreatedateLow, strCreatedateHigh);
+		System.out.println("strTotalAmount:" + strTotalAmount);
 		this.setStartIndex(page.getStartIndex());
 	}
 	
@@ -895,6 +905,15 @@ public class WarehouserptAction extends BaseAction {
 
 	public void setStrCreatedateHigh(String strCreatedateHigh) {
 		this.strCreatedateHigh = strCreatedateHigh;
+	}
+
+	public String getStrTotalAmount() {
+		return strTotalAmount;
+	}
+
+
+	public void setStrTotalAmount(String strTotalAmount) {
+		this.strTotalAmount = strTotalAmount;
 	}
 
 }

@@ -120,7 +120,7 @@
 	<div id="container" style="width: 100%; height: 100%;">
 		<div class="searchbox">
 			<div class="box1">
-				<label class="pdf10">用户FROM：</label>
+				<label class="pdf10">用户ID FROM：</label>
 				<div class="box1_left"></div>
 				<div class="box1_center">
 					<s:textfield name="strUserIdFrom" id="strUserIdFrom" cssStyle="width:120px;" maxlength="32" theme="simple"></s:textfield>
@@ -128,10 +128,18 @@
 				<div class="box1_right"></div>
 			</div>
 			<div class="box1">
-				<label class="pdf10">用户TO：</label>
+				<label class="pdf10">用户ID TO：</label>
 				<div class="box1_left"></div>
 				<div class="box1_center">
 					<s:textfield name="strUserIdTo" id="strUserIdTo" cssStyle="width:120px;" maxlength="32" theme="simple"></s:textfield>
+				</div>
+				<div class="box1_right"></div>
+			</div>
+			<div class="box1">
+				<label class="pdf10">用户名：</label>
+				<div class="box1_left"></div>
+				<div class="box1_center">
+					<s:textfield name="strUserName" id="strUserName" cssStyle="width:120px;" maxlength="100" theme="simple"></s:textfield>
 				</div>
 				<div class="box1_right"></div>
 			</div>
@@ -154,8 +162,8 @@
 						<td style="display: none;"></td>
 						<td width="20"></td>
 						<td width="20">序号</td>
-						<td width="60">用户ID</td>
-						<td width="60">用户名</td>
+						<td width="20">用户ID</td>
+						<td width="100">用户名</td>
 					</tr>
 					<s:iterator id="userList" value="userList" status="st1">
 						<s:if test="#st1.odd==true">

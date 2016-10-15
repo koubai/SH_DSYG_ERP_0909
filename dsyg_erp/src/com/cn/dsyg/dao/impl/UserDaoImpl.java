@@ -82,12 +82,13 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 	
 	@Override
 	public List<ProductDto> queryUserListByPage(String fieldno, String keyword, String useridfrom,
-			String useridto, String status, int start, int end) {
+			String useridto, String username, String status, int start, int end) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("fieldno", fieldno);
 		paramMap.put("keyword", keyword);
 		paramMap.put("useridfrom", useridfrom);
 		paramMap.put("useridto", useridto);
+		paramMap.put("username", username);
 		paramMap.put("status", status);
 		paramMap.put("start", start);
 		paramMap.put("end", end);
@@ -98,12 +99,13 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 
 	@Override
 	public int queryUserListCountByPage(String fieldno, String keyword, String useridfrom,
-			String useridto, String status) {
+			String useridto, String username, String status) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("fieldno", fieldno);
 		paramMap.put("keyword", keyword);
 		paramMap.put("useridfrom", useridfrom);
 		paramMap.put("useridto", useridto);
+		paramMap.put("username", useridto);
 		paramMap.put("status", status);
 		return (Integer) getSqlMapClientTemplate().queryForObject("queryUserListCountByPage", paramMap);
 	}

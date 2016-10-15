@@ -64,6 +64,7 @@ public class ChartAction extends BaseAction {
 	private String strFieldno;
 	private String strUserIdFrom;
 	private String strUserIdTo;
+	private String strUserName;
 	private UserService userService;
 	private SupplierService supplierService;
 	private CustomerService customerService;
@@ -400,6 +401,13 @@ public class ChartAction extends BaseAction {
     public String getAccountSubDataAction() {  
         return SUCCESS;  
     }
+	public String getStrUserName() {
+		return strUserName;
+	}
+	public void setStrUserName(String strUserName) {
+		this.strUserName = strUserName;
+	}
+
           
 	//用户选择页面========================
 	/**
@@ -472,7 +480,7 @@ public class ChartAction extends BaseAction {
 		this.page.setStartIndex(startIndex);
 		System.out.println("strUserIdFrom:" +strUserIdFrom);
 		System.out.println("strUserIdTo:" +strUserIdTo);
-		page = userService.queryUserByPage(strFieldno, strKeyword, strUserIdFrom, strUserIdTo, "" + Constants.STATUS_NORMAL, page);
+		page = userService.queryUserByPage(strFieldno, strKeyword, strUserIdFrom, strUserIdTo, strUserName, "" + Constants.STATUS_NORMAL, page);
 		userList = (List<UserDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
 	}
@@ -548,7 +556,7 @@ public class ChartAction extends BaseAction {
 		this.page.setStartIndex(startIndex);
 		System.out.println("strUserIdFrom:" +strUserIdFrom);
 		System.out.println("strUserIdTo:" +strUserIdTo);
-		page = supplierService.querySupplierByPage(page,  strUserIdFrom, strUserIdTo, "");
+		page = supplierService.querySupplierByPage(page,  strUserIdFrom, strUserIdTo, strUserName);
 		supplierList = (List<SupplierDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
 	}
@@ -624,7 +632,7 @@ public class ChartAction extends BaseAction {
 		this.page.setStartIndex(startIndex);
 		System.out.println("strUserIdFrom:" +strUserIdFrom);
 		System.out.println("strUserIdTo:" +strUserIdTo);
-		page = customerService.queryEtbCustomerByPage(page,  strUserIdFrom, strUserIdTo, "");
+		page = customerService.queryEtbCustomerByPage(page,  strUserIdFrom, strUserIdTo, strUserName);
 		customerList = (List<CustomerDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
 	}
@@ -701,7 +709,7 @@ public class ChartAction extends BaseAction {
 		this.page.setStartIndex(startIndex);
 		System.out.println("strUserIdFrom:" +strUserIdFrom);
 		System.out.println("strUserIdTo:" +strUserIdTo);
-		page = deliveryService.queryEtbDeliveryByPage(page,  strUserIdFrom, strUserIdTo, "");
+		page = deliveryService.queryEtbDeliveryByPage(page,  strUserIdFrom, strUserIdTo, strUserName);
 		deliveryList = (List<DeliveryDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
 	}

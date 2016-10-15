@@ -284,59 +284,85 @@
 		
 		//线上产品信息
 		//最小销售单位
-		var item12 = $("#item12").val().trim();
-		var scale = $("#scale").val().trim();
-		if(item12 == "") {
-			if(scale != ""){
-				alert("请输入最小销售单位！");
-				$("#item12").focus();
-				return false;
-			}
-		}
-		if(scale == ""){
-			if(item12 != ""){
-				alert("请输入默认单价比例！");
-				$("#scale").focus();
-				return false;
-			}
-		}
-		var item13 = "1-" + scale + ";";
-		for(var i = 1; i <= 10; i++) {
-			var gear = $("#" + "gear" + i).val();
-			var scale = $("#" + "scale" + i).val();
+		var item13 ="";
+		if ($("#item12").val().trim() != "" ||
+				$("#scale").val().trim() != "" ||
+				$("#gear1").val().trim() != "" ||
+				$("#gear2").val().trim() != "" ||
+				$("#gear3").val().trim() != "" ||
+				$("#gear4").val().trim() != "" ||
+				$("#gear5").val().trim() != "" ||
+				$("#gear6").val().trim() != "" ||
+				$("#gear7").val().trim() != "" ||
+				$("#gear8").val().trim() != "" ||
+				$("#gear9").val().trim() != "" ||
+				$("#gear10").val().trim() != "" ||
+				$("#scale1").val().trim() != "" ||
+				$("#scale2").val().trim() != "" ||
+				$("#scale3").val().trim() != "" ||
+				$("#scale4").val().trim() != "" ||
+				$("#scale5").val().trim() != "" ||
+				$("#scale6").val().trim() != "" ||
+				$("#scale7").val().trim() != "" ||
+				$("#scale8").val().trim() != "" ||
+				$("#scale9").val().trim() != "" ||
+				$("#scale10").val().trim() != ""
+		){
+			var item12 = $("#item12").val().trim();
+			var scale = $("#scale").val().trim();
 			if(item12 == "") {
-				if(gear != "" || scale != ""){
+				if(scale != ""){
 					alert("请输入最小销售单位！");
 					$("#item12").focus();
 					return false;
 				}
 			}
-			if(i > 1){
-				var last = $("#" + "gear" + (i-1)).val();
-				if(last == "" && gear != ""){
-					alert("请输入第" + (i-1) +"档对应销售单位！");
-					$("#" + "gear" + (i-1)).focus();
+			if(scale == ""){
+				if(item12 != ""){
+					alert("请输入默认单价比例！");
+					$("#scale").focus();
 					return false;
 				}
 			}
-			if(gear == "" && scale != ""){
-				alert("请输入第" + i +"档对应销售单位！");
-				$("#" + "gear" + i).focus();
-				return false;
+			item13 = "1-" + scale + ";";
+			for(var i = 1; i <= 10; i++) {
+				var gear = $("#" + "gear" + i).val();
+				var scale = $("#" + "scale" + i).val();
+				if(item12 == "") {
+					if(gear != "" || scale != ""){
+						alert("请输入最小销售单位！");
+						$("#item12").focus();
+						return false;
+					}
+				}
+				if(i > 1){
+					var last = $("#" + "gear" + (i-1)).val();
+					if(last == "" && gear != ""){
+						alert("请输入第" + (i-1) +"档对应销售单位！");
+						$("#" + "gear" + (i-1)).focus();
+						return false;
+					}
+				}
+				if(gear == "" && scale != ""){
+					alert("请输入第" + i +"档对应销售单位！");
+					$("#" + "gear" + i).focus();
+					return false;
+				}
+				if(gear != "" && scale == ""){
+					alert("请输入第" + i +"档对应单价比例！");
+					$("#" + "scale" + i).focus();
+					return false;
+				}
+				if((Number(gear)*1000)%(Number(item12)*1000)/1000 != 0){
+					alert("销售单位必须是最小销售单位的倍数！");
+					$("#" + "gear" + i).focus();
+					return false;
+				}
+				if(gear != ""){
+					item13 = item13 + gear/Number(item12) + "-" + scale  + ";";
+				}			
 			}
-			if(gear != "" && scale == ""){
-				alert("请输入第" + i +"档对应单价比例！");
-				$("#" + "scale" + i).focus();
-				return false;
-			}
-			if((Number(gear)*1000)%(Number(item12)*1000)/1000 != 0){
-				alert("销售单位必须是最小销售单位的倍数！");
-				$("#" + "gear" + i).focus();
-				return false;
-			}
-			if(gear != ""){
-				item13 = item13 + gear/Number(item12) + "-" + scale  + ";";
-			}
+		
 		}
 		$("#item13").attr("value", item13);
 		//备注

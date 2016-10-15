@@ -85,13 +85,14 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public Page queryUserByPage(String fieldno, String keyword, String useridfrom,
-				String useridto, String status, Page page) {
+				String useridto, String username, String status, Page page) {
 		keyword = StringUtil.replaceDatabaseKeyword_mysql(keyword);
 		useridfrom = StringUtil.replaceDatabaseKeyword_mysql(useridfrom);
 		useridto = StringUtil.replaceDatabaseKeyword_mysql(useridto);
+		username = StringUtil.replaceDatabaseKeyword_mysql(username);
 		
 		//查询总记录数
-		int totalCount = userDao.queryUserListCountByPage(fieldno, keyword, useridfrom, useridto, status);
+		int totalCount = userDao.queryUserListCountByPage(fieldno, keyword, useridfrom, useridto, username, status);
 		page.setTotalCount(totalCount);
 		if(totalCount % page.getPageSize() > 0) {
 			page.setTotalPage(totalCount / page.getPageSize() + 1);
@@ -99,7 +100,7 @@ public class UserServiceImpl implements UserService {
 			page.setTotalPage(totalCount / page.getPageSize());
 		}
 		//翻页查询记录
-		List<ProductDto> list = userDao.queryUserListByPage(fieldno, keyword, useridfrom, useridto, status,
+		List<ProductDto> list = userDao.queryUserListByPage(fieldno, keyword, useridfrom, useridto, username, status,
 				page.getStartIndex() * page.getPageSize(), page.getPageSize());
 		page.setItems(list);
 		return page;

@@ -113,6 +113,9 @@ public class CustomerAction extends BaseAction {
 	//客户选择页面=================
 	//客户名
 	private String strSelectCustomerName;
+	
+	private String strUserName;
+	
 	//客户列表
 	private List<CustomerDto> listSelectCustomer;
 	//页码
@@ -589,7 +592,7 @@ public class CustomerAction extends BaseAction {
 		this.page.setStartIndex(startIndex);
 		System.out.println("strUserIdFrom:" +strUserIdFrom);
 		System.out.println("strUserIdTo:" +strUserIdTo);
-		page = userService.queryUserByPage(strFieldno, strKeyword, strUserIdFrom, strUserIdTo, "" + Constants.STATUS_NORMAL, page);
+		page = userService.queryUserByPage(strFieldno, strKeyword, strUserIdFrom, strUserIdTo, strUserName, "" + Constants.STATUS_NORMAL, page);
 
 		userList = (List<UserDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
@@ -821,4 +824,13 @@ public class CustomerAction extends BaseAction {
 	public void setIntPageSize(Integer intPageSize) {
 		this.intPageSize = intPageSize;
 	}
+	
+	public String getStrUserName() {
+		return strUserName;
+	}
+	
+	public void setStrUserName(String strUserName) {
+		this.strUserName = strUserName;
+	}
+
 }

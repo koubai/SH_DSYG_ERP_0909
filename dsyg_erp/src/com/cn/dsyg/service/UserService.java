@@ -57,6 +57,6 @@ public interface UserService {
 	 * @param 
 	 */
 	public Page queryUserByPage(String fieldno, String keyword, String useridfrom,
-			String useridto, String status, Page page);
+			String useridto, String username, String status, Page page);
 
 }

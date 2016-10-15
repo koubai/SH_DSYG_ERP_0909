@@ -104,7 +104,9 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void insertProduct(ProductDto product) {
-		product.setRank(Constants.ROLE_RANK_OPERATOR);
+		if (StringUtil.isBlank(Integer.toString(product.getRank()))) {
+			product.setRank(Constants.ROLE_RANK_OPERATOR);
+		}
 		product.setBelongto(PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_BELONG));
 		product.setStatus(Constants.STATUS_NORMAL);
 		

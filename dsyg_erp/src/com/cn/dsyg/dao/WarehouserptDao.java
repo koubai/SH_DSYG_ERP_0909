@@ -83,6 +83,28 @@ public interface WarehouserptDao {
 	public int queryWarehouserptCountByPage(String status, String warehousetype, String warehouseno,
 			String theme1, String parentid, String supplierid, String productid, String beginDate, String endDate,
 			String strSuppliername, String strWarehouseno, String createdateLow, String createdateHigh);
+
+	/**
+	 * 翻页查询
+	 * @param status
+	 * @param warehousetype
+	 * @param warehouseno
+	 * @param theme1
+	 * @param parentid
+	 * @param supplierid
+	 * @param productid
+	 * @param beginDate
+	 * @param endDate
+	 * @param strSuppliername
+	 * @param strWarehouseno
+	 * @param createdateLow
+	 * @param createdateHigh
+	 * @return
+	 */
+	public List<WarehouserptDto> queryWarehouserptTotalAmount(String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,
+			String strWarehouseno, String createdateLow, String createdateHigh);
 	
 	/**
 	 * 根据ID查询数据

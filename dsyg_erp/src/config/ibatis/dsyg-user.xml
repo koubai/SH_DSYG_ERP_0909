@@ -84,6 +84,9 @@
 		<isNotEmpty prepend="and" property="useridto">
 			T.userid <![CDATA[<=]]> #useridto#
 		</isNotEmpty>		
+		<isNotEmpty prepend="and" property="username">
+			T.username like '%$username$%' ESCAPE '/'
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="keyword">
 			T.keyword like '%$keyword$%' ESCAPE '/'
 		</isNotEmpty>
@@ -105,6 +108,9 @@
 		<isNotEmpty prepend="and" property="useridto">
 			T.userid <![CDATA[<=]]> #useridto#
 		</isNotEmpty>		
+		<isNotEmpty prepend="and" property="username">
+			T.username like '%$username$%' ESCAPE '/'
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="keyword">
 			T.keyword like '%$keyword$%' ESCAPE '/'
 		</isNotEmpty>
