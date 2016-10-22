@@ -94,6 +94,12 @@ public class WarehouseInOutOkDto extends BaseAction {
 	 * 仓库名
 	 */
 	private String warehousename;
+	
+	/**
+	 * 检索范围( "": 全部, "1":公司内部, "2"线上商城)
+	 */
+	private String strRange;
+	
 
 	public Long getSupplierid() {
 		return supplierid;
@@ -225,4 +231,13 @@ public class WarehouseInOutOkDto extends BaseAction {
 	public void setShowQuantity(BigDecimal showQuantity) {
 		this.showQuantity = showQuantity;
 	}
+
+	public String getStrRange() {
+		return strRange;
+	}
+
+	public void setStrRange(String strRange) {
+		this.strRange = strRange;
+	}
+
 }

@@ -1000,7 +1000,7 @@
 			<isNotEmpty prepend="and" property="keyword">
 				A.keyword like '%$keyword$%' ESCAPE '/'
 			</isNotEmpty>
-			ORDER BY A.updatedate,A.id desc
+			ORDER BY A.fieldno, A.tradename, A.typeno, A.color, A.item10, A.packaging, A.makearea	
 		LIMIT #start#, #end#
 	</select>
 	

@@ -227,6 +227,7 @@ public class OrderServiceImpl implements OrderService {
 		body += "请点击下记URL链接。<br/>";
 		body += "在交期确认的网站上可以确认交期以及下订单。<br/>";
 		body += url + "<br/>";
+		body += "也可登录线上商城在订单信息中进行确认。<br/>";
 		body += "<br/>";
 		body += "<br/>";
 		body += "注意：<br/>";

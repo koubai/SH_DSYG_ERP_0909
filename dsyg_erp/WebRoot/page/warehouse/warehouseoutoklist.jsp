@@ -45,8 +45,21 @@
 		return ids;
 	}
 	
+	function getSelectedRange() {
+		var ids = "";
+		var list = document.getElementsByName("srhRange");
+		for(var i = 0; i < list.length; i++) {
+			if(list[i].checked) {
+				ids = list[i].value;
+			}
+		}
+		return ids;
+	}
+
 	//查询数据
 	function queryList() {
+//		alert(getSelectedRange());
+//		alert(%{"#strRange.value});
 		document.mainform.action = '../warehouse/queryWarehouseOutOkAction.action';
 		document.mainform.submit();
 	}
@@ -114,6 +127,7 @@
 				<s:hidden name="startIndex" id="startIndex"/>
 				<s:hidden name="intPageSize" id="intPageSize"/>
 				<s:hidden name="strOkIds" id="strOkIds"/>
+				<s:hidden name="strRange" id="strRange" value="2" />
 				<div class="searchbox">
 					<!--
 					<div class="box1">
@@ -132,6 +146,26 @@
 							<s:textfield name="strSuppliername" cssStyle="width:200px;" id="strSuppliername" theme="simple"></s:textfield>
 						</div>
 						<div class="box1_right"></div>
+					</div>
+					<div class="box1" style="margin-left: 20px;">
+						<s:if test='%{#strRange==""}'>
+							<input type="radio" name="srhRange" value="" checked="checked">全部</input>
+						</s:if>
+						<s:else>
+							<input type="radio" name="srhRange" value="" >全部</input>
+						</s:else>
+						<s:if test='%{#strRange=="1"}'>
+							<input type="radio" name="srhRange" value="1" checked="checked">内部</input>
+						</s:if>
+						<s:else>
+							<input type="radio" name="srhRange" value="1" >内部</input>
+						</s:else>
+						<s:if test='%{#strRange=="2"}'>
+							<input type="radio" name="srhRange" value="2" checked="checked">网上</input>
+						</s:if>
+						<s:else>
+							<input type="radio" name="srhRange" value="2" >网上</input>
+						</s:else>
 					</div>
 					<div class="btn" style="margin-left: 160px;">
 						<div class="box1_left"></div>
