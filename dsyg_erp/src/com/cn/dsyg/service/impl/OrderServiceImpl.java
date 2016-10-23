@@ -637,6 +637,7 @@ public class OrderServiceImpl implements OrderService {
 			
 			//销售单明细数据
 			for(OrderDetailDto detail : orderDetailList) {
+				ProductDto productDto = productDao.queryProductByID("" + detail.getProductid());
 				//online订单号+批号
 				String theme2 = order.getOrdercode() + detail.getBatchno();
 				if(entry.getKey().equals(theme2)) {
@@ -644,7 +645,9 @@ public class OrderServiceImpl implements OrderService {
 					salesItem.setSalesno(salesno);
 					salesItem.setBelongto(belongto);
 					//销售主题1
-					salesItem.setTheme1(detail.getFieldno());
+					//salesItem.setTheme1(detail.getFieldno());
+					salesItem.setTheme1(productDto.getFieldno());
+					
 					salesItem.setTheme2(theme2);
 					salesItem.setProductid("" + detail.getProductid());
 					//数量
@@ -721,6 +724,9 @@ public class OrderServiceImpl implements OrderService {
 			if(sales != null) {
 				warehouse.setParentid(sales.getSalesno());
 			}
+			
+			warehouse.setTheme1(product.getFieldno());
+			
 			warehouse.setTheme2(theme2);
 			//库存类型=出库单
 			warehouse.setWarehousetype(Constants.WAREHOUSE_TYPE_OUT);
