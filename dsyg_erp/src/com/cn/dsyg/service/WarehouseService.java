@@ -159,6 +159,32 @@ public interface WarehouseService {
 	 */
 	public Page queryWarehouseOutOkByPage(String suppliername, String theme, String tradename,
 			String typeno, String color, String warehousename, String status, Page page);
+	
+	/**
+	 * ERP
+	 * @param theme
+	 * @param tradename
+	 * @param typeno
+	 * @param color
+	 * @param warehousename
+	 * @param status
+	 * @return
+	 */
+	public Page queryWarehouseOutOk1ByPage(String suppliername, String theme, String tradename,
+			String typeno, String color, String warehousename, String status, Page page);
+	
+	/**
+	 * online
+	 * @param theme
+	 * @param tradename
+	 * @param typeno
+	 * @param color
+	 * @param warehousename
+	 * @param status
+	 * @return
+	 */
+	public Page queryWarehouseOutOk2ByPage(String suppliername, String theme, String tradename,
+			String typeno, String color, String warehousename, String status, Page page);
 
 	/**
 	 * 翻页查询

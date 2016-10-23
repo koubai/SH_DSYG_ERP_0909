@@ -230,6 +230,81 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		paramMap.put("status", status);
 		return (Integer) getSqlMapClientTemplate().queryForObject("queryWarehouseOutOkCountByPage", paramMap);
 	}
+	
+	
+	@Override
+	public int queryWarehouseOutOk1CountByPage(String warehouseType, String suppliername, String theme,
+			String tradename, String typeno, String color,
+			String warehousename, String status) {
+		System.out.println("suppliername: " + suppliername);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("warehousetype", warehouseType);
+		paramMap.put("suppliername", suppliername);
+		paramMap.put("theme1", theme);
+		paramMap.put("tradename", tradename);
+		paramMap.put("typeno", typeno);
+		paramMap.put("color", color);
+		paramMap.put("warehousename", warehousename);
+		paramMap.put("status", status);
+		return (Integer) getSqlMapClientTemplate().queryForObject("queryWarehouseOutOk1CountByPage", paramMap);
+	}
+	
+	@Override
+	public List<WarehouseInOutOkDto> queryWarehouseOutOk1ByPage(String warehouseType, String suppliername, String theme, String tradename,
+			String typeno, String color, String warehousename, String status, int start, int end) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("warehousetype", warehouseType);
+		paramMap.put("suppliername", suppliername);
+		paramMap.put("theme1", theme);
+		paramMap.put("tradename", tradename);
+		paramMap.put("typeno", typeno);
+		paramMap.put("color", color);
+		paramMap.put("warehousename", warehousename);
+		paramMap.put("status", status);
+		paramMap.put("start", start);
+		paramMap.put("end", end);
+		@SuppressWarnings("unchecked")
+		List<WarehouseInOutOkDto> list = getSqlMapClientTemplate().queryForList("queryWarehouseOutOk1ByPage", paramMap);
+		return list;
+	}
+	
+	@Override
+	public int queryWarehouseOutOk2CountByPage(String warehouseType, String suppliername, String theme,
+			String tradename, String typeno, String color,
+			String warehousename, String status) {
+		System.out.println("suppliername: " + suppliername);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("warehousetype", warehouseType);
+		paramMap.put("suppliername", suppliername);
+		paramMap.put("theme1", theme);
+		paramMap.put("tradename", tradename);
+		paramMap.put("typeno", typeno);
+		paramMap.put("color", color);
+		paramMap.put("warehousename", warehousename);
+		paramMap.put("status", status);
+		return (Integer) getSqlMapClientTemplate().queryForObject("queryWarehouseOutOk2CountByPage", paramMap);
+	}
+	
+	@Override
+	public List<WarehouseInOutOkDto> queryWarehouseOutOk2ByPage(String warehouseType, String suppliername, String theme, String tradename,
+			String typeno, String color, String warehousename, String status, int start, int end) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("warehousetype", warehouseType);
+		paramMap.put("suppliername", suppliername);
+		paramMap.put("theme1", theme);
+		paramMap.put("tradename", tradename);
+		paramMap.put("typeno", typeno);
+		paramMap.put("color", color);
+		paramMap.put("warehousename", warehousename);
+		paramMap.put("status", status);
+		paramMap.put("start", start);
+		paramMap.put("end", end);
+		@SuppressWarnings("unchecked")
+		List<WarehouseInOutOkDto> list = getSqlMapClientTemplate().queryForList("queryWarehouseOutOk2ByPage", paramMap);
+		return list;
+	}
+	
+	
 
 	@Override
 	public int queryWarehouseOkCountByPage(String warehouseType, String theme, String tradename,

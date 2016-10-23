@@ -53,6 +53,9 @@ public class WarehouseOutOkAction extends BaseAction {
 	private String strOkIds;
 	private String strSuppliername;
 	
+	//查询条件：网上、内部
+	private String strFrom;
+	
 	/**
 	 * 显示预出库确认页面
 	 * @return
@@ -65,6 +68,7 @@ public class WarehouseOutOkAction extends BaseAction {
 			startIndex = 0;
 			//默认10条
 			intPageSize = 10;
+			strFrom = "";
 			page = new Page(intPageSize);
 			warehouseOutOkList = new ArrayList<WarehouseInOutOkDto>();
 			strOkIds = "";
@@ -149,7 +153,16 @@ public class WarehouseOutOkAction extends BaseAction {
 		initDictList();
 		//翻页查询所有预出库待确认数据
 		this.page.setStartIndex(startIndex);
-		page = warehouseService.queryWarehouseOutOkByPage(strSuppliername, "", "", "", "", "", "" + Constants.WAREHOUSE_STATUS_NEW, page);
+		if("1".equals(strFrom)) {
+			//内部ERP
+			page = warehouseService.queryWarehouseOutOk1ByPage(strSuppliername, "", "", "", "", "", "" + Constants.WAREHOUSE_STATUS_NEW, page);
+		} else if("2".equals(strFrom)) {
+			//online
+			page = warehouseService.queryWarehouseOutOk2ByPage(strSuppliername, "", "", "", "", "", "" + Constants.WAREHOUSE_STATUS_NEW, page);
+		} else {
+			//all
+			page = warehouseService.queryWarehouseOutOkByPage(strSuppliername, "", "", "", "", "", "" + Constants.WAREHOUSE_STATUS_NEW, page);
+		}
 		warehouseOutOkList = (List<WarehouseInOutOkDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
 	}
@@ -262,5 +275,13 @@ public class WarehouseOutOkAction extends BaseAction {
 
 	public void setStrSuppliername(String strSuppliername) {
 		this.strSuppliername = strSuppliername;
+	}
+
+	public String getStrFrom() {
+		return strFrom;
+	}
+
+	public void setStrFrom(String strFrom) {
+		this.strFrom = strFrom;
 	}
 }

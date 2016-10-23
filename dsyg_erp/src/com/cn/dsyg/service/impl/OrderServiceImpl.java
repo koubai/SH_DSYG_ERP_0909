@@ -743,8 +743,8 @@ public class OrderServiceImpl implements OrderService {
 			warehouse.setTheme1(product.getFieldno());
 			//产品ID
 			warehouse.setProductid("" + detail.getProductid());
-			//入库数量=预入库数
-			warehouse.setQuantity(detail.getNum());
+			//出库数量=预出库数，这里要乘以-1
+			warehouse.setQuantity(new BigDecimal(-1).multiply(detail.getNum()));
 			
 			//单价
 			warehouse.setUnitprice(detail.getTaxprice());

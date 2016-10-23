@@ -210,6 +210,60 @@ public interface WarehouseDao {
 	public List<WarehouseInOutOkDto> queryWarehouseOutOkByPage(String warehouseType, String suppliername, String theme, String tradename,
 			String typeno, String color, String warehousename, String status, int start, int end);
 	
+	
+	//erp
+	/**
+	 * 翻页查询库存汇总数据（出库）内部订单
+	 * @param warehouseType
+	 * @param status
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<WarehouseInOutOkDto> queryWarehouseOutOk1ByPage(String warehouseType, String suppliername, String theme, String tradename,
+			String typeno, String color, String warehousename, String status, int start, int end);
+	
+	/**
+	 * 查询出库汇总总记录数（出库）内部订单
+	 * @param warehouseType
+	 * @param theme
+	 * @param tradename
+	 * @param typeno
+	 * @param color
+	 * @param warehousename
+	 * @param status
+	 * @return
+	 */
+	public int queryWarehouseOutOk1CountByPage(String warehouseType, String suppliername, String theme, String tradename,
+			String typeno, String color, String warehousename, String status);
+	
+	//online
+	/**
+	 * 翻页查询库存汇总数据（出库）online
+	 * @param warehouseType
+	 * @param status
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<WarehouseInOutOkDto> queryWarehouseOutOk2ByPage(String warehouseType, String suppliername, String theme, String tradename,
+			String typeno, String color, String warehousename, String status, int start, int end);
+	
+	/**
+	 * 查询出库汇总总记录数（出库）online
+	 * @param warehouseType
+	 * @param theme
+	 * @param tradename
+	 * @param typeno
+	 * @param color
+	 * @param warehousename
+	 * @param status
+	 * @return
+	 */
+	public int queryWarehouseOutOk2CountByPage(String warehouseType, String suppliername, String theme, String tradename,
+			String typeno, String color, String warehousename, String status);
+	
+	
 	/**
 	 * 翻页查询库存汇总数据（ALL）
 	 * @param warehouseType

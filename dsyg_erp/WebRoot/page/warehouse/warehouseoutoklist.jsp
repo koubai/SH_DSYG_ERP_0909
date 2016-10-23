@@ -60,6 +60,7 @@
 	function queryList() {
 //		alert(getSelectedRange());
 //		alert(%{"#strRange.value});
+		getOrderFromVal();
 		document.mainform.action = '../warehouse/queryWarehouseOutOkAction.action';
 		document.mainform.submit();
 	}
@@ -68,6 +69,7 @@
 	function changepagesize(pagesize) {
 		$("#intPageSize").attr("value", pagesize);
 		$("#startIndex").attr("value", "0");
+		getOrderFromVal();
 		document.mainform.action = '../warehouse/queryWarehouseOutOkAction.action';
 		document.mainform.submit();
 	}
@@ -75,8 +77,21 @@
 	//翻页
 	function changePage(pageNum) {
 		$("#startIndex").attr("value", pageNum);
+		getOrderFromVal();
 		document.mainform.action = '../warehouse/turnWarehouseOutOkAction.action';
 		document.mainform.submit();
+	}
+	
+	function getOrderFromVal() {
+		var strFrom = "";
+		var list = document.getElementsByName("tmpfrom");
+		for(var i = 0; i < list.length; i++) {
+			if(list[i].checked) {
+				strFrom = list[i].value;
+				break;
+			}
+		}
+		$("#strFrom").attr("value", strFrom);
 	}
 
 	//页跳转
@@ -127,7 +142,7 @@
 				<s:hidden name="startIndex" id="startIndex"/>
 				<s:hidden name="intPageSize" id="intPageSize"/>
 				<s:hidden name="strOkIds" id="strOkIds"/>
-				<s:hidden name="strRange" id="strRange" value="2" />
+				<s:hidden name="strFrom" id="strFrom"/>
 				<div class="searchbox">
 					<!--
 					<div class="box1">
@@ -148,23 +163,20 @@
 						<div class="box1_right"></div>
 					</div>
 					<div class="box1" style="margin-left: 20px;">
-						<s:if test='%{#strRange==""}'>
-							<input type="radio" name="srhRange" value="" checked="checked">全部</input>
+						<s:if test='strFrom == "1"'>
+							<input type="radio" name="tmpfrom" value="">全部</input>
+							<input type="radio" name="tmpfrom" value="1" checked="checked">内部</input>
+							<input type="radio" name="tmpfrom" value="2">网上</input>
 						</s:if>
+						<s:elseif test='strFrom == "2"'>
+							<input type="radio" name="tmpfrom" value="">全部</input>
+							<input type="radio" name="tmpfrom" value="1">内部</input>
+							<input type="radio" name="tmpfrom" value="2" checked="checked">网上</input>
+						</s:elseif>
 						<s:else>
-							<input type="radio" name="srhRange" value="" >全部</input>
-						</s:else>
-						<s:if test='%{#strRange=="1"}'>
-							<input type="radio" name="srhRange" value="1" checked="checked">内部</input>
-						</s:if>
-						<s:else>
-							<input type="radio" name="srhRange" value="1" >内部</input>
-						</s:else>
-						<s:if test='%{#strRange=="2"}'>
-							<input type="radio" name="srhRange" value="2" checked="checked">网上</input>
-						</s:if>
-						<s:else>
-							<input type="radio" name="srhRange" value="2" >网上</input>
+							<input type="radio" name="tmpfrom" value="" checked="checked">全部</input>
+							<input type="radio" name="tmpfrom" value="1">内部</input>
+							<input type="radio" name="tmpfrom" value="2">网上</input>
 						</s:else>
 					</div>
 					<div class="btn" style="margin-left: 160px;">
@@ -196,7 +208,7 @@
 								<td width="60">颜色</td>
 								<td width="60">包装</td>
 								<td width="80">预出库数量</td>
-								<td width="120">预入库时间</td>
+								<td width="120">预出库时间</td>
 								<!--
 								<td width="60"></td>
 								-->
