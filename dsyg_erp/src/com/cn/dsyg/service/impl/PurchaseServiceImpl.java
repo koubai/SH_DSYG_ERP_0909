@@ -520,7 +520,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 		
 		warehouse.setBelongto(belongto);
 		//主题
-		warehouse.setTheme1(purchase.getTheme1());
+		warehouse.setTheme1(purchaseItem.getTheme1());
 		//产品ID
 		warehouse.setProductid("" + purchaseItem.getProductid());
 		//入库数量=预入库数

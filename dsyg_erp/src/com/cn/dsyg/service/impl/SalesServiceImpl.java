@@ -434,7 +434,8 @@ public class SalesServiceImpl implements SalesService {
 		
 		warehouse.setBelongto(belongto);
 		//主题
-		warehouse.setTheme1(sales.getTheme1());
+		//warehouse.setTheme1(sales.getTheme1());
+		warehouse.setTheme1(salesItem.getTheme1());
 		//用户自己输入的订单号
 		warehouse.setTheme2(sales.getTheme2());
 		//产品ID
