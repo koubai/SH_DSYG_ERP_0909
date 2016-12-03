@@ -150,7 +150,7 @@
 			<isNotEmpty prepend="and" property="supplierid">
 				T.supplierid = #supplierid#
 			</isNotEmpty>
-		) A where 1 = 1 and A.status1 != 20 order by A.updatedate,A.id desc
+		) A where 1 = 1 and A.status1 != 20 order by A.purchasedate,A.id desc
 	</select>
 	
 	<select id="queryRemainPurchaseItemCount" resultClass="int" parameterClass="java.util.Map">

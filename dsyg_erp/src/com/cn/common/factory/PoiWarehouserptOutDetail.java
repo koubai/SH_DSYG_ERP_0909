@@ -352,7 +352,7 @@ public class PoiWarehouserptOutDetail extends Poi2007Base {
 	@Override
 	public void writeHead(XSSFSheet sheet, XSSFWorkbook workbook) {
 		heads = new ArrayList<String>();
-		heads.add("编号");
+		heads.add("No");
 		sheet.setColumnWidth(0, 5 * 256);
 		
 		//货物信息

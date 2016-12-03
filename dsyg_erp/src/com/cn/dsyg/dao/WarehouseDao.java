@@ -355,13 +355,14 @@ public interface WarehouseDao {
 	 * @param typeno
 	 * @param color
 	 * @param warehousename
+	 * @param zerodisplay
 	 * @param start
 	 * @param end
 	 * @return
 	 */
 	public List<WarehouseDetailDto> queryWarehouseDetailByPage(String parentid, String keyword,
 			String warehousetype, String warehouseno, String theme1, String productid, String tradename,
-			String typeno, String color, String warehousename, int start, int end);
+			String typeno, String color, String warehousename, String zerodisplay, int start, int end);
 	
 	/**
 	 * 查询库存产品记录数
@@ -375,11 +376,12 @@ public interface WarehouseDao {
 	 * @param typeno
 	 * @param color
 	 * @param warehousename
+	 * @param zerodisplay
 	 * @return
 	 */
 	public int queryWarehouseDetailCountByPage(String parentid, String keyword, String warehousetype,
 			String warehouseno, String theme1, String productid, String tradename,
-			String typeno, String color, String warehousename);
+			String typeno, String color, String warehousename, String zerodisplay);
 	
 	/**
 	 * 根据ID查询数据
@@ -437,4 +439,5 @@ public interface WarehouseDao {
 	 * @return
 	 */
 	public List<WarehouseOkDto> queryProductBookByProductid(String productid);
+
 }

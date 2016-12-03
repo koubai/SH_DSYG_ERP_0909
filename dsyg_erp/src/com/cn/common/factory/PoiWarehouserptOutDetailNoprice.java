@@ -345,7 +345,7 @@ public class PoiWarehouserptOutDetailNoprice extends Poi2007Base {
 	@Override
 	public void writeHead(XSSFSheet sheet, XSSFWorkbook workbook) {
 		heads = new ArrayList<String>();
-		heads.add("编号");
+		heads.add("No");
 		sheet.setColumnWidth(0, 5 * 256);
 		
 		//货物信息
@@ -370,7 +370,7 @@ public class PoiWarehouserptOutDetailNoprice extends Poi2007Base {
 		//heads.add("含税金额");
 		//sheet.setColumnWidth(8, 12 * 256);
 		heads.add("备注");
-		sheet.setColumnWidth(8, 10 * 256);
+		sheet.setColumnWidth(8, 12 * 256);
 		
 		//Head部分颜色字体
 		XSSFFont font = workbook.createFont();

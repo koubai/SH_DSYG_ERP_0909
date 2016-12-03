@@ -220,7 +220,7 @@ public interface WarehouseService {
 	 */
 	public Page queryWarehouseDetailByPage(String parentid, String keyword, String warehousetype,
 			String warehouseno, String theme1, String productid, String tradename,
-			String typeno, String color, String warehousename, Page page);
+			String typeno, String color, String warehousename, String zeroDisplay, Page page);
 	
 	/**
 	 * 根据ID查询数据

@@ -29,6 +29,15 @@
 		window.showModalDialog(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
+	function changeZeroDisp(obj){
+		if(obj.checked) {
+			$("#zeroDisplay").attr("value", "1");
+		}else{
+			$("#zeroDisplay").attr("value", "0");
+		}
+	}
+	
+	
 	function showSales(id){
 		var url = '<%=request.getContextPath()%>/warehouse/showProductSalesPage.action';
 		//strFlag=1采购单，strFlag=2销售单
@@ -98,6 +107,7 @@
 			<s:form id="mainform" name="mainform" method="POST">
 				<s:hidden name="startIndex" id="startIndex"/>
 				<s:hidden name="intPageSize" id="intPageSize"/>
+				<s:hidden name="zeroDisplay" id="zeroDisplay"/>
 				<div class="searchbox">
 					<div class="box1">
 						<label class="pdf10">类型</label>
@@ -119,6 +129,17 @@
 						</div>
 						<div class="box1_right"></div>
 					</div>
+					<div class="box1">
+						<label class="pdf10">显示空</label>
+						<s:if test='zeroDisplay == "1"'>
+							<input id="tempzeroDisplay" type="checkbox" onclick="changeZeroDisp(this);" checked="checked" value="1"/>
+						</s:if>
+						<s:else>
+							<input id="tempzeroDisplay" type="checkbox" onclick="changeZeroDisp(this);" value="0"/>
+						</s:else>
+					</div>
+					
+					
 					<div class="btn" style="margin-left: 60px;">
 						<div class="box1_left"></div>
 						<div class="box1_center">

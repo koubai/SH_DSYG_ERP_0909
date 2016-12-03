@@ -1206,14 +1206,14 @@ public class WarehouseServiceImpl implements WarehouseService {
 	public Page queryWarehouseDetailByPage(String parentid, String keyword,
 			String warehousetype, String warehouseno, String theme1,
 			String productid, String tradename, String typeno, String color,
-			String warehousename, Page page) {
+			String warehousename, String zerodisplay, Page page) {
 		keyword = StringUtil.replaceDatabaseKeyword_mysql(keyword);
 		tradename = StringUtil.replaceDatabaseKeyword_mysql(tradename);
 		typeno = StringUtil.replaceDatabaseKeyword_mysql(typeno);
 		warehousename = StringUtil.replaceDatabaseKeyword_mysql(warehousename);
 		//查询总记录数
 		int totalCount = warehouseDao.queryWarehouseDetailCountByPage(parentid, keyword, 
-				warehousetype, warehouseno, theme1, productid, tradename, typeno, color, warehousename);
+				warehousetype, warehouseno, theme1, productid, tradename, typeno, color, warehousename, zerodisplay);
 		page.setTotalCount(totalCount);
 		if(totalCount % page.getPageSize() > 0) {
 			page.setTotalPage(totalCount / page.getPageSize() + 1);
@@ -1222,7 +1222,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 		}
 		//翻页查询记录
 		List<WarehouseDetailDto> list = warehouseDao.queryWarehouseDetailByPage(parentid, keyword,
-				warehousetype, warehouseno, theme1, productid, tradename, typeno, color, warehousename,
+				warehousetype, warehouseno, theme1, productid, tradename, typeno, color, warehousename, zerodisplay,
 				page.getStartIndex() * page.getPageSize(), page.getPageSize());
 		page.setItems(list);
 		return page;

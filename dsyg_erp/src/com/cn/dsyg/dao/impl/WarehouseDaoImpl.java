@@ -468,7 +468,7 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 	public List<WarehouseDetailDto> queryWarehouseDetailByPage(String parentid,
 			String keyword, String warehousetype, String warehouseno,
 			String theme1, String productid, String tradename, String typeno,
-			String color, String warehousename, int start, int end) {
+			String color, String warehousename, String zerodisplay, int start, int end) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("parentid", parentid);
 		paramMap.put("keyword", keyword);
@@ -480,6 +480,9 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		paramMap.put("typeno", typeno);
 		paramMap.put("color", color);
 		paramMap.put("warehousename", warehousename);
+		System.out.println("zerodisplay:" + zerodisplay);
+		if (zerodisplay.equals("0"))
+			paramMap.put("zerodisplay", zerodisplay);
 		paramMap.put("start", start);
 		paramMap.put("end", end);
 		@SuppressWarnings("unchecked")
@@ -491,7 +494,7 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 	public int queryWarehouseDetailCountByPage(String parentid, String keyword,
 			String warehousetype, String warehouseno, String theme1,
 			String productid, String tradename, String typeno, String color,
-			String warehousename) {
+			String warehousename, String zerodisplay) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("parentid", parentid);
 		paramMap.put("keyword", keyword);
@@ -503,6 +506,8 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		paramMap.put("typeno", typeno);
 		paramMap.put("color", color);
 		paramMap.put("warehousename", warehousename);
+		if (zerodisplay.equals("0"))
+			paramMap.put("zerodisplay", zerodisplay);
 		return (Integer) getSqlMapClientTemplate().queryForObject("queryWarehouseDetailCountByPage", paramMap);
 	}
 

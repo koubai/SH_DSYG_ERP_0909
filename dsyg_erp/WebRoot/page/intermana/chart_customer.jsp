@@ -164,7 +164,7 @@
 			<div class="icons"><a class="home" href="#" onclick="goHome();">返回首页</a><a class="quit" href="#" onclick="logout();">退出</a></div>
 			<div class="tittle_left">
 			</div>
-			<div class="tittle_center">客户查询
+			<div class="tittle_center">客户信息分析
 			</div>
 			<div class="tittle_right">
 			</div>

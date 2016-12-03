@@ -480,6 +480,7 @@
 								<td width="40">序号</td>
 								<td width="110">账目编号</td>
 								<td width="110">关联单据编号</td>
+								<td width="110">快递单号</td>
 								<td width="80">主题</td>
 								<td width="110">对象</td>
 								<td width="60">联系人</td>
@@ -502,6 +503,7 @@
 									<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
 									<td><s:property value="receiptid"/></td>
 									<td><s:property value="invoiceid"/></td>
+									<td><s:property value="res08"/></td>
 									<td>
 										<s:if test="financetype == 1">
 											采购

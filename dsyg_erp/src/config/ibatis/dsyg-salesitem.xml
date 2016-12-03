@@ -197,7 +197,7 @@
 			<isNotEmpty prepend="and" property="customerid">
 				T.customerid = #customerid#
 			</isNotEmpty>
-		) A where 1 = 1 and A.status1 != 20 order by A.updatedate,A.id desc
+		) A where 1 = 1 and A.status1 != 20 order by A.bookdate,A.id desc
 	</select>
 	
 	<select id="querySalesItemBySalesno" parameterClass="java.util.Map" resultMap="SalesItemDto">

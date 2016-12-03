@@ -1172,6 +1172,9 @@
 			<isNotEmpty prepend="and" property="keyword">
 				A.keyword like '%$keyword$%' ESCAPE '/'
 			</isNotEmpty>
+			<isNotEmpty prepend="and" property="zerodisplay">
+				(A.quantityp <![CDATA[>]]> 0 or A.inquantity <![CDATA[<]]><![CDATA[>]]> A.outquantity or A.quantitys <![CDATA[>]]> 0 or A.quantityw <![CDATA[>]]> 0)
+			</isNotEmpty>
 			ORDER BY A.fieldno, A.tradename, A.typeno, A.color, A.item10, A.packaging, A.makearea	
 		LIMIT #start#, #end#
 	</select>
@@ -1240,6 +1243,10 @@
 			<isNotEmpty prepend="and" property="keyword">
 				A.keyword like '%$keyword$%' ESCAPE '/'
 			</isNotEmpty>
+			<isNotEmpty prepend="and" property="zerodisplay">
+				(A.quantityp <![CDATA[>]]> 0 or A.inquantity <![CDATA[<]]><![CDATA[>]]> A.outquantity or A.quantitys <![CDATA[>]]> 0 or A.quantityw <![CDATA[>]]> 0)
+			</isNotEmpty>
+			
 		) B
 	</select>
 	<!-- warehousedetail end -->

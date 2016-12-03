@@ -106,8 +106,10 @@
 				var row = x.insertRow(0);   
 	            var col = row.insertCell(0);         
                 col.innerHTML = "<style>strong{background:#59c9ff}</style><strong>"+""+"</strong>";
+	            col = row.insertCell(1);         
+                col.innerHTML = "<style>strong{background:#59c9ff}</style><strong>"+""+"</strong>";
 	            for (var z=0; z< X_data.length; z++) {
-	    		    col = row.insertCell(z+1);   
+	    		    col = row.insertCell(z+2);   
 	                col.innerHTML = "<style>strong{background:#59c9ff}</style><strong>"+X_data[z]+"</strong>";
 	            }             
 				d=document.getElementById('planTable').deleteTFoot();
@@ -115,10 +117,12 @@
 		        $.each(jsonobj, function(i, u){	         				
 		    		 var row = x.insertRow(i); 
 		    		 var col = row.insertCell(0);                
+		             col.innerHTML = "<style>strong1{float: right;}</style><strong1>"+ (i+1) +"</strong1>";
+		    		 col = row.insertCell(1);                
 		             col.innerHTML = "<style>strong1{float: right;}</style><strong1>"+u.name+"</strong1>";
 			                
 		             for (var w=0; w< u.data.length; w++) {
-					 	col = row.insertCell(w+1);   
+					 	col = row.insertCell(w+2);   
 			            col.innerHTML = "<style>strong1{float: right;}</style><strong1>"+u.data[w].toFixed(2).toString()+"</strong1>";
 		             }
 		        });				

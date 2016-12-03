@@ -62,6 +62,9 @@ public class WarehouseDetailAction extends BaseAction {
 	private List<SalesItemDto> salesItemList;
 	private SalesItemService salesItemService;
 	
+	//显示空 (0: 空数据不显示, 1: 显示)
+	private String zeroDisplay;
+
 	//POPUT START
 	//订单、采购单新增和修改页面，产品对照
 	/**
@@ -142,6 +145,7 @@ public class WarehouseDetailAction extends BaseAction {
 			//默认10条
 			intPageSize = 10;
 			page = new Page(intPageSize);
+			zeroDisplay = "1";
 			warehouseDetailList = new ArrayList<WarehouseDetailDto>();
 			//初期化字典数据
 			initDictList();
@@ -239,9 +243,9 @@ public class WarehouseDetailAction extends BaseAction {
 		//初期化字典数据
 		initDictList();
 		//翻页查询所有入库汇总记录
-		this.page.setStartIndex(startIndex);
+		this.page.setStartIndex(startIndex); 
 		page = warehouseService.queryWarehouseDetailByPage("", strKeyword,
-				"", "", strTheme, "", "", "", "", "", page);
+				"", "", strTheme, "", "", "", "", "", zeroDisplay, page);
 		warehouseDetailList = (List<WarehouseDetailDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
 	}
@@ -400,4 +404,11 @@ public class WarehouseDetailAction extends BaseAction {
 		this.salesItemService = salesItemService;
 	}
 
+	public String getZeroDisplay() {
+		return zeroDisplay;
+	}
+
+	public void setZeroDisplay(String zeroDisplay) {
+		this.zeroDisplay = zeroDisplay;
+	}
 }
