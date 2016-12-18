@@ -3,6 +3,7 @@ package com.cn.dsyg.service;
 import java.util.List;
 
 import com.cn.common.util.Page;
+import com.cn.dsyg.dto.InOutStockDto;
 import com.cn.dsyg.dto.ProductQuantityDto;
 import com.cn.dsyg.dto.WarehouseCheckDto;
 import com.cn.dsyg.dto.WarehouseDto;
@@ -15,6 +16,44 @@ import com.cn.dsyg.dto.WarehouseOkDto;
  * @version 1.0
  */
 public interface WarehouseService {
+	
+	/**
+	 * 查询明细
+	 * @param productid
+	 * @param warehousetype
+	 * @param startdate
+	 * @param enddate
+	 * @return
+	 */
+	public List<InOutStockDto> queryInOutStockDetail(String productid, String warehousetype, String startdate, String enddate);
+	
+	/**
+	 * 查询入出库总数量
+	 * @param startdate
+	 * @param enddate
+	 * @param fieldno
+	 * @param tradename
+	 * @param item10
+	 * @param keyword
+	 * @param productid
+	 * @return
+	 */
+	public InOutStockDto querySumInOutStock(String startdate, String enddate, String fieldno,
+			String tradename, String item10, String keyword, String productid);
+	
+	/**
+	 * 翻页查询出入库明细数据
+	 * @param startdate
+	 * @param enddate
+	 * @param fieldno
+	 * @param tradename
+	 * @param item10
+	 * @param keyword
+	 * @param page
+	 * @return
+	 */
+	public Page queryInOutStockByPage(String startdate, String enddate, String fieldno,
+			String tradename, String item10, String keyword, Page page);
 	
 	/**
 	 * 产品数量验证

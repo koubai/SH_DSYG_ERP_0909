@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.cn.common.dao.BaseDao;
 import com.cn.dsyg.dao.WarehouseDao;
+import com.cn.dsyg.dto.InOutStockDto;
 import com.cn.dsyg.dto.ProductQuantityDto;
 import com.cn.dsyg.dto.WarehouseCheckDto;
 import com.cn.dsyg.dto.WarehouseDetailDto;
@@ -21,6 +22,69 @@ import com.cn.dsyg.dto.WarehouseProductDto;
  * @version 1.0
  */
 public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
+	
+	@Override
+	public List<InOutStockDto> queryInOutStockDetail(String productid, String warehousetype,
+			String startdate, String enddate) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("startdate", startdate);
+		paramMap.put("enddate", enddate);
+		paramMap.put("productid", productid);
+		paramMap.put("warehousetype", warehousetype);
+		@SuppressWarnings("unchecked")
+		List<InOutStockDto> list = getSqlMapClientTemplate().queryForList("queryInOutStockDetail", paramMap);
+		return list;
+	}
+	
+	@Override
+	public InOutStockDto querySumInOutStock(String startdate, String enddate,
+			String fieldno, String tradename, String item10, String keyword, String productid) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("startdate", startdate);
+		paramMap.put("enddate", enddate);
+		paramMap.put("fieldno", fieldno);
+		paramMap.put("tradename", tradename);
+		paramMap.put("item10", item10);
+		paramMap.put("keyword", keyword);
+		paramMap.put("productid", productid);
+		@SuppressWarnings("unchecked")
+		List<InOutStockDto> list = getSqlMapClientTemplate().queryForList("querySumInOutStock", paramMap);
+		if(list != null && list.size() > 0) {
+			return list.get(0);
+		}
+		return null;
+	}
+	
+	@Override
+	public int queryInOutStockCountByPage(String startdate, String enddate,
+			String fieldno, String tradename, String item10, String keyword) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("startdate", startdate);
+		paramMap.put("enddate", enddate);
+		paramMap.put("fieldno", fieldno);
+		paramMap.put("tradename", tradename);
+		paramMap.put("item10", item10);
+		paramMap.put("keyword", keyword);
+		return (Integer) getSqlMapClientTemplate().queryForObject("queryInOutStockCountByPage", paramMap);
+	}
+
+	@Override
+	public List<InOutStockDto> queryInOutStockByPage(String startdate,
+			String enddate, String fieldno, String tradename, String item10,
+			String keyword, int start, int end) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("startdate", startdate);
+		paramMap.put("enddate", enddate);
+		paramMap.put("fieldno", fieldno);
+		paramMap.put("tradename", tradename);
+		paramMap.put("item10", item10);
+		paramMap.put("keyword", keyword);
+		paramMap.put("start", start);
+		paramMap.put("end", end);
+		@SuppressWarnings("unchecked")
+		List<InOutStockDto> list = getSqlMapClientTemplate().queryForList("queryInOutStockByPage", paramMap);
+		return list;
+	}
 	
 	@Override
 	public WarehouseDto queryCbjWarehouseByProductid(String productid) {

@@ -33,6 +33,7 @@ import com.cn.dsyg.dto.CustomerDto;
 import com.cn.dsyg.dto.CustomerOnlineDto;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.FinanceDto;
+import com.cn.dsyg.dto.InOutStockDto;
 import com.cn.dsyg.dto.OrderDto;
 import com.cn.dsyg.dto.PositionDto;
 import com.cn.dsyg.dto.ProductDto;
@@ -75,6 +76,45 @@ public class WarehouseServiceImpl implements WarehouseService {
 	private UserDao userDao;
 	private Dict01Dao dict01Dao;
 	private OrderDao orderDao;
+	
+	@Override
+	public List<InOutStockDto> queryInOutStockDetail(String productid, String warehousetype,
+			String startdate, String enddate) {
+		return warehouseDao.queryInOutStockDetail(productid, warehousetype, startdate, enddate);
+	}
+	
+	@Override
+	public InOutStockDto querySumInOutStock(String startdate, String enddate,
+			String fieldno, String tradename, String item10, String keyword, String productid) {
+		tradename = StringUtil.replaceDatabaseKeyword_mysql(tradename);
+		item10 = StringUtil.replaceDatabaseKeyword_mysql(item10);
+		keyword = StringUtil.replaceDatabaseKeyword_mysql(keyword);
+		return warehouseDao.querySumInOutStock(startdate, enddate, fieldno, tradename, item10, keyword, productid);
+	}
+	
+	@Override
+	public Page queryInOutStockByPage(String startdate, String enddate,
+			String fieldno, String tradename, String item10, String keyword,
+			Page page) {
+		tradename = StringUtil.replaceDatabaseKeyword_mysql(tradename);
+		item10 = StringUtil.replaceDatabaseKeyword_mysql(item10);
+		keyword = StringUtil.replaceDatabaseKeyword_mysql(keyword);
+		//查询总记录数
+		int totalCount = warehouseDao.queryInOutStockCountByPage(startdate,
+				enddate, fieldno, tradename, item10, keyword);
+		page.setTotalCount(totalCount);
+		if(totalCount % page.getPageSize() > 0) {
+			page.setTotalPage(totalCount / page.getPageSize() + 1);
+		} else {
+			page.setTotalPage(totalCount / page.getPageSize());
+		}
+		//翻页查询记录
+		List<InOutStockDto> list = warehouseDao.queryInOutStockByPage(startdate,
+				enddate, fieldno, tradename, item10, keyword,
+				page.getStartIndex() * page.getPageSize(), page.getPageSize());
+		page.setItems(list);
+		return page;
+	}
 	
 	@Override
 	public String checkProductAmount(String productInfo) {

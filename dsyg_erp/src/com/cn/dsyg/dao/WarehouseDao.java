@@ -2,6 +2,7 @@ package com.cn.dsyg.dao;
 
 import java.util.List;
 
+import com.cn.dsyg.dto.InOutStockDto;
 import com.cn.dsyg.dto.ProductQuantityDto;
 import com.cn.dsyg.dto.WarehouseCheckDto;
 import com.cn.dsyg.dto.WarehouseDetailDto;
@@ -17,6 +18,58 @@ import com.cn.dsyg.dto.WarehouseProductDto;
  * @version 1.0
  */
 public interface WarehouseDao {
+	
+	/**
+	 * 查询明细
+	 * @param productid
+	 * @param warehousetype
+	 * @param startdate
+	 * @param enddate
+	 * @return
+	 */
+	public List<InOutStockDto> queryInOutStockDetail(String productid, String warehousetype, String startdate, String enddate);
+	
+	/**
+	 * 查询入出库总数量
+	 * @param startdate
+	 * @param enddate
+	 * @param fieldno
+	 * @param tradename
+	 * @param item10
+	 * @param keyword
+	 * @param productid
+	 * @return
+	 */
+	public InOutStockDto querySumInOutStock(String startdate, String enddate, String fieldno,
+			String tradename, String item10, String keyword, String productid);
+	
+	/**
+	 * 查询出入库明细数据数量
+	 * @param startdate
+	 * @param enddate
+	 * @param fieldno
+	 * @param tradename
+	 * @param item10
+	 * @param keyword
+	 * @return
+	 */
+	public int queryInOutStockCountByPage(String startdate, String enddate, String fieldno,
+			String tradename, String item10, String keyword);
+	
+	/**
+	 * 翻页查询出入库明细数据
+	 * @param startdate
+	 * @param enddate
+	 * @param fieldno
+	 * @param tradename
+	 * @param item10
+	 * @param keyword
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<InOutStockDto> queryInOutStockByPage(String startdate, String enddate, String fieldno,
+			String tradename, String item10, String keyword, int start, int end);
 	
 	/**
 	 * 成本价计算
