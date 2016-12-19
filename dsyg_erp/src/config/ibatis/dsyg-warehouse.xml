@@ -345,15 +345,6 @@
 	</resultMap>
 	
 	<resultMap id="InOutStockDto1" class="com.cn.dsyg.dto.InOutStockDto">
-		<result property="productid" column="productid" />
-		<result property="fieldno" column="fieldno" />
-		<result property="tradename" column="tradename" />
-		<result property="typeno" column="typeno" />
-		<result property="color" column="color" />
-		<result property="item10" column="item10" />
-		<result property="unit" column="unit" />
-		<result property="packaging" column="packaging" />
-		<result property="makearea" column="makearea" />
 		<result property="quantityin" column="quantityin" />
 		<result property="quantityout" column="quantityout" />
 	</resultMap>
@@ -376,7 +367,7 @@
 				W.id,W.productid,W.parentid,W.warehousetype,W.quantity,W.warehousedate,W.theme2,
 				(SELECT S.customername FROM etb_sales S WHERE S.salesno = W.parentid) AS customername
 			FROM etb_warehouse W WHERE 1 = 1 AND W.productid = #productid# AND W.warehousetype = '2'
-				AND W.status >= '20'
+				AND W.status <![CDATA[>=]]> 20
 				<isNotEmpty prepend="and" property="startdate">
 					W.updatedate <![CDATA[>=]]> #startdate#
 				</isNotEmpty>
@@ -390,7 +381,7 @@
 				W.id,W.productid,W.parentid,W.warehousetype,W.quantity,W.warehousedate,W.theme2,
 				(SELECT P.suppliername FROM etb_purchase P WHERE P.purchaseno = W.parentid) AS customername
 			FROM etb_warehouse W WHERE 1 = 1 AND W.productid = #productid# AND W.warehousetype = '1'
-				AND W.status >= '20'
+				AND W.status <![CDATA[>=]]> 20
 				<isNotEmpty prepend="and" property="startdate">
 					W.updatedate <![CDATA[>=]]> #startdate#
 				</isNotEmpty>
@@ -405,72 +396,72 @@
 	</select>
 	
 	<select id="querySumInOutStock" parameterClass="java.util.Map" resultMap="InOutStockDto1">
-		select sum(T.quantityin) as quantityin, sum(T.quantityout) as quantityout,
-			T.productid,T.fieldno,T.tradename,T.typeno,T.color,T.item10,T.unit,T.packaging,T.makearea
-		from (
-			SELECT DISTINCT(A.productid) AS productid,
-			(SELECT P.fieldno FROM etb_product P WHERE P.id = A.productid) AS fieldno,
-			(SELECT P.tradename FROM etb_product P WHERE P.id = A.productid) AS tradename,
-			(SELECT P.typeno FROM etb_product P WHERE P.id = A.productid) AS typeno,
-			(SELECT P.color FROM etb_product P WHERE P.id = A.productid) AS color,
-			(SELECT P.item10 FROM etb_product P WHERE P.id = A.productid) AS item10,
-			(SELECT P.unit FROM etb_product P WHERE P.id = A.productid) AS unit,
-			(SELECT P.packaging FROM etb_product P WHERE P.id = A.productid) AS packaging,
-			(SELECT P.makearea FROM etb_product P WHERE P.id = A.productid) AS makearea,
-			(SELECT P.keyword FROM etb_product P WHERE P.id = A.productid) AS keyword,
-			(SELECT SUM(B.quantity) FROM etb_warehouse B WHERE B.productid = A.productid AND B.warehousetype = 1) AS quantityin,
-			(SELECT SUM(B.quantity) FROM etb_warehouse B WHERE B.productid = A.productid AND B.warehousetype = 2) AS quantityout
-			FROM etb_warehouse A WHERE 1 = 1 AND (A.warehousetype = 1 OR A.warehousetype = 2)
-				AND A.status >= '20'
-			<isNotEmpty prepend="and" property="startdate">
-				A.updatedate <![CDATA[>=]]> #startdate#
+		SELECT 
+			SUM(IF(T.warehousetype = 1,T.quantity, 0)) AS quantityin,
+			SUM(IF(T.warehousetype = 2,T.quantity, 0)) AS quantityout
+		FROM (
+			SELECT B.* FROM (
+				SELECT  A.productid,
+					A.quantity,
+					A.warehousetype,
+					(SELECT P.fieldno FROM etb_product P WHERE P.id = A.productid) AS fieldno,
+					(SELECT P.tradename FROM etb_product P WHERE P.id = A.productid) AS tradename,
+					(SELECT P.typeno FROM etb_product P WHERE P.id = A.productid) AS typeno,
+					(SELECT P.color FROM etb_product P WHERE P.id = A.productid) AS color,
+					(SELECT P.item10 FROM etb_product P WHERE P.id = A.productid) AS item10,
+					(SELECT P.unit FROM etb_product P WHERE P.id = A.productid) AS unit,
+					(SELECT P.packaging FROM etb_product P WHERE P.id = A.productid) AS packaging,
+					(SELECT P.makearea FROM etb_product P WHERE P.id = A.productid) AS makearea,
+					(SELECT P.keyword FROM etb_product P WHERE P.id = A.productid) AS keyword
+				FROM etb_warehouse A WHERE 1 = 1
+					AND A.status <![CDATA[>=]]> 20
+					<isNotEmpty prepend="and" property="startdate">
+						A.updatedate <![CDATA[>=]]> #startdate#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="enddate">
+						A.updatedate <![CDATA[<=]]> #enddate#
+					</isNotEmpty>
+			) B WHERE 1 = 1
+			<isNotEmpty prepend="and" property="fieldno">
+				B.fieldno = #fieldno#
 			</isNotEmpty>
-			<isNotEmpty prepend="and" property="enddate">
-				A.updatedate <![CDATA[<=]]> #enddate#
+			<isNotEmpty prepend="and" property="tradename">
+				B.tradename like '%$tradename$%' ESCAPE '/'
 			</isNotEmpty>
-			<isNotEmpty prepend="and" property="productid">
-				A.productid = #productid#
+			<isNotEmpty prepend="and" property="item10">
+				B.item10 like '%$item10$%' ESCAPE '/'
 			</isNotEmpty>
-			ORDER BY A.productid
-		) T where 1 = 1
-		<isNotEmpty prepend="and" property="fieldno">
-			T.fieldno = #fieldno#
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="tradename">
-			T.tradename like '%$tradename$%' ESCAPE '/'
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="item10">
-			T.item10 like '%$item10$%' ESCAPE '/'
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="keyword">
-			T.keyword like '%$keyword$%' ESCAPE '/'
-		</isNotEmpty>
+			<isNotEmpty prepend="and" property="keyword">
+				B.keyword like '%$keyword$%' ESCAPE '/'
+			</isNotEmpty>
+		) T
 	</select>
 	
 	<select id="queryInOutStockCountByPage" resultClass="int" parameterClass="java.util.Map">
-		select count(*) from (
-			SELECT DISTINCT(A.productid) AS productid,
-			(SELECT P.fieldno FROM etb_product P WHERE P.id = A.productid) AS fieldno,
-			(SELECT P.tradename FROM etb_product P WHERE P.id = A.productid) AS tradename,
-			(SELECT P.typeno FROM etb_product P WHERE P.id = A.productid) AS typeno,
-			(SELECT P.color FROM etb_product P WHERE P.id = A.productid) AS color,
-			(SELECT P.item10 FROM etb_product P WHERE P.id = A.productid) AS item10,
-			(SELECT P.unit FROM etb_product P WHERE P.id = A.productid) AS unit,
-			(SELECT P.packaging FROM etb_product P WHERE P.id = A.productid) AS packaging,
-			(SELECT P.makearea FROM etb_product P WHERE P.id = A.productid) AS makearea,
-			(SELECT P.keyword FROM etb_product P WHERE P.id = A.productid) AS keyword,
-			(SELECT SUM(B.quantity) FROM etb_warehouse B WHERE B.productid = A.productid AND B.warehousetype = 1) AS quantityin,
-			(SELECT SUM(B.quantity) FROM etb_warehouse B WHERE B.productid = A.productid AND B.warehousetype = 2) AS quantityout
-			FROM etb_warehouse A WHERE 1 = 1 AND (A.warehousetype = 1 OR A.warehousetype = 2)
-				AND A.status >= '20'
-			<isNotEmpty prepend="and" property="startdate">
-				A.updatedate <![CDATA[>=]]> #startdate#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="enddate">
-				A.updatedate <![CDATA[<=]]> #enddate#
-			</isNotEmpty>
-			ORDER BY A.productid
-		) T where 1 = 1
+		SELECT COUNT(*) FROM (
+			SELECT
+				A.productid,
+				(SELECT P.fieldno FROM etb_product P WHERE P.id = A.productid) AS fieldno,
+				(SELECT P.tradename FROM etb_product P WHERE P.id = A.productid) AS tradename,
+				(SELECT P.typeno FROM etb_product P WHERE P.id = A.productid) AS typeno,
+				(SELECT P.color FROM etb_product P WHERE P.id = A.productid) AS color,
+				(SELECT P.item10 FROM etb_product P WHERE P.id = A.productid) AS item10,
+				(SELECT P.unit FROM etb_product P WHERE P.id = A.productid) AS unit,
+				(SELECT P.packaging FROM etb_product P WHERE P.id = A.productid) AS packaging,
+				(SELECT P.makearea FROM etb_product P WHERE P.id = A.productid) AS makearea,
+				(SELECT P.keyword FROM etb_product P WHERE P.id = A.productid) AS keyword,
+				SUM(IF(A.warehousetype = 1,A.quantity, 0)) AS quantityin,
+				SUM(IF(A.warehousetype = 2,A.quantity, 0)) AS quantityout
+			FROM etb_warehouse A WHERE 1 = 1
+				AND A.status <![CDATA[>=]]> 20
+				<isNotEmpty prepend="and" property="startdate">
+					A.updatedate <![CDATA[>=]]> #startdate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="enddate">
+					A.updatedate <![CDATA[<=]]> #enddate#
+				</isNotEmpty>
+			GROUP BY A.productid
+		) T WHERE 1 = 1
 		<isNotEmpty prepend="and" property="fieldno">
 			T.fieldno = #fieldno#
 		</isNotEmpty>
@@ -486,29 +477,30 @@
 	</select>
 	
 	<select id="queryInOutStockByPage" parameterClass="java.util.Map" resultMap="InOutStockDto">
-		select * from (
-			SELECT DISTINCT(A.productid) AS productid,
-			(SELECT P.fieldno FROM etb_product P WHERE P.id = A.productid) AS fieldno,
-			(SELECT P.tradename FROM etb_product P WHERE P.id = A.productid) AS tradename,
-			(SELECT P.typeno FROM etb_product P WHERE P.id = A.productid) AS typeno,
-			(SELECT P.color FROM etb_product P WHERE P.id = A.productid) AS color,
-			(SELECT P.item10 FROM etb_product P WHERE P.id = A.productid) AS item10,
-			(SELECT P.unit FROM etb_product P WHERE P.id = A.productid) AS unit,
-			(SELECT P.packaging FROM etb_product P WHERE P.id = A.productid) AS packaging,
-			(SELECT P.makearea FROM etb_product P WHERE P.id = A.productid) AS makearea,
-			(SELECT P.keyword FROM etb_product P WHERE P.id = A.productid) AS keyword,
-			(SELECT SUM(B.quantity) FROM etb_warehouse B WHERE B.productid = A.productid AND B.warehousetype = 1) AS quantityin,
-			(SELECT SUM(B.quantity) FROM etb_warehouse B WHERE B.productid = A.productid AND B.warehousetype = 2) AS quantityout
-			FROM etb_warehouse A WHERE 1 = 1 AND (A.warehousetype = 1 OR A.warehousetype = 2)
-				AND A.status >= '20'
-			<isNotEmpty prepend="and" property="startdate">
-				A.updatedate <![CDATA[>=]]> #startdate#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="enddate">
-				A.updatedate <![CDATA[<=]]> #enddate#
-			</isNotEmpty>
-			ORDER BY A.productid
-		) T where 1 = 1
+		SELECT T.* FROM (
+			SELECT
+				A.productid,
+				(SELECT P.fieldno FROM etb_product P WHERE P.id = A.productid) AS fieldno,
+				(SELECT P.tradename FROM etb_product P WHERE P.id = A.productid) AS tradename,
+				(SELECT P.typeno FROM etb_product P WHERE P.id = A.productid) AS typeno,
+				(SELECT P.color FROM etb_product P WHERE P.id = A.productid) AS color,
+				(SELECT P.item10 FROM etb_product P WHERE P.id = A.productid) AS item10,
+				(SELECT P.unit FROM etb_product P WHERE P.id = A.productid) AS unit,
+				(SELECT P.packaging FROM etb_product P WHERE P.id = A.productid) AS packaging,
+				(SELECT P.makearea FROM etb_product P WHERE P.id = A.productid) AS makearea,
+				(SELECT P.keyword FROM etb_product P WHERE P.id = A.productid) AS keyword,
+				SUM(IF(A.warehousetype = 1,A.quantity, 0)) AS quantityin,
+				SUM(IF(A.warehousetype = 2,A.quantity, 0)) AS quantityout
+			FROM etb_warehouse A WHERE 1 = 1
+				AND A.status <![CDATA[>=]]> 20
+				<isNotEmpty prepend="and" property="startdate">
+					A.updatedate <![CDATA[>=]]> #startdate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="enddate">
+					A.updatedate <![CDATA[<=]]> #enddate#
+				</isNotEmpty>
+			GROUP BY A.productid
+		) T WHERE 1 = 1
 		<isNotEmpty prepend="and" property="fieldno">
 			T.fieldno = #fieldno#
 		</isNotEmpty>
@@ -521,7 +513,7 @@
 		<isNotEmpty prepend="and" property="keyword">
 			T.keyword like '%$keyword$%' ESCAPE '/'
 		</isNotEmpty>
-		order by T.fieldno,T.tradename,T.typeno,T.color,T.item10,T.packaging,T.productid asc
+		ORDER BY T.fieldno,T.tradename,T.typeno,T.color,T.item10,T.packaging,T.productid ASC
 		LIMIT #start#, #end#
 	</select>
 	<!-- inoutstock end -->

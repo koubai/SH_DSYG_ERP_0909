@@ -15,7 +15,9 @@ import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.InOutStockDto;
+import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.service.Dict01Service;
+import com.cn.dsyg.service.ProductService;
 import com.cn.dsyg.service.WarehouseService;
 
 /**
@@ -31,6 +33,7 @@ public class InOutStockAction extends BaseAction {
 	private static final Logger log = LogManager.getLogger(InOutStockAction.class);
 	private Dict01Service dict01Service;
 	private WarehouseService warehouseService;
+	private ProductService productService;
 	
 	private List<InOutStockDto> listInOutStock;
 	//页码
@@ -67,6 +70,7 @@ public class InOutStockAction extends BaseAction {
 	
 	//明细
 	private String strProductid;
+	private ProductDto productDetail;
 	private InOutStockDto inOutStockDetail;
 	//入库明细
 	private List<InOutStockDto> inDetailList;
@@ -88,6 +92,9 @@ public class InOutStockAction extends BaseAction {
 			this.clearMessages();
 			//初期化字典数据
 			initDictList();
+			
+			//产品信息
+			productDetail = productService.queryProductByID(strProductid);
 			
 			sumInQuantity = new BigDecimal(0);
 			sumOutQuantity = new BigDecimal(0);
@@ -462,5 +469,21 @@ public class InOutStockAction extends BaseAction {
 
 	public void setSumOutQuantity(BigDecimal sumOutQuantity) {
 		this.sumOutQuantity = sumOutQuantity;
+	}
+
+	public ProductDto getProductDetail() {
+		return productDetail;
+	}
+
+	public void setProductDetail(ProductDto productDetail) {
+		this.productDetail = productDetail;
+	}
+
+	public ProductService getProductService() {
+		return productService;
+	}
+
+	public void setProductService(ProductService productService) {
+		this.productService = productService;
 	}
 }

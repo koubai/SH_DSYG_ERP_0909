@@ -17,21 +17,21 @@
 	<div id="container" style="width: 100%; height: 100%;">
 		<div class="searchbox">
 			<div class="box1">
-				<label class="pdf10">品名：<s:property value="inOutStockDetail.tradename"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<label class="pdf10">规格：<s:property value="inOutStockDetail.typeno"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<label class="pdf10">品名：<s:property value="productDetail.tradename"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<label class="pdf10">规格：<s:property value="productDetail.typeno"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 				<label class="pdf10">颜色：
 				<s:iterator id="colorList" value="colorList" status="st3">
-					<s:if test="%{colorList[#st3.index].code == inOutStockDetail.color}">
+					<s:if test="%{colorList[#st3.index].code == productDetail.color}">
 						<s:property value="fieldname"/>
 					</s:if>
 				</s:iterator>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				</label>
-				<label class="pdf10">包装：<s:property value="inOutStockDetail.item10"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<label class="pdf10">包装：<s:property value="productDetail.item10"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 				<label class="pdf10">形式：
-				<s:if test='%{inOutStockDetail.packaging == "0"}'>整箱</s:if>
-				<s:elseif test='%{inOutStockDetail.packaging == "1"}'>乱尺</s:elseif>
+				<s:if test='%{productDetail.packaging == "0"}'>整箱</s:if>
+				<s:elseif test='%{productDetail.packaging == "1"}'>乱尺</s:elseif>
 				<s:else>
-					<s:property value="inOutStockDetail.packaging"/>
+					<s:property value="productDetail.packaging"/>
 				</s:else>
 				</label>
 			</div>

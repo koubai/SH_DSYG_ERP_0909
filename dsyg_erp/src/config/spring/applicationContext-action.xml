@@ -9,6 +9,9 @@
 		<property name="warehouseService">
 			<ref bean="warehouseService" />
 		</property>
+		<property name="productService">
+			<ref bean="productService" />
+		</property>
 	</bean>
 
 	<!-- onlineorder -->
