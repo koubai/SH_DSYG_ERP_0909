@@ -375,7 +375,8 @@
 			SELECT
 				W.id,W.productid,W.parentid,W.warehousetype,W.quantity,W.warehousedate,W.theme2,
 				(SELECT S.customername FROM etb_sales S WHERE S.salesno = W.parentid) AS customername
-			FROM etb_warehouse W WHERE 1 = 1 AND W.productid = #productid# AND warehousetype = '2'
+			FROM etb_warehouse W WHERE 1 = 1 AND W.productid = #productid# AND W.warehousetype = '2'
+				AND W.status >= '20'
 				<isNotEmpty prepend="and" property="startdate">
 					W.updatedate <![CDATA[>=]]> #startdate#
 				</isNotEmpty>
@@ -388,7 +389,8 @@
 			SELECT
 				W.id,W.productid,W.parentid,W.warehousetype,W.quantity,W.warehousedate,W.theme2,
 				(SELECT P.suppliername FROM etb_purchase P WHERE P.purchaseno = W.parentid) AS customername
-			FROM etb_warehouse W WHERE 1 = 1 AND W.productid = #productid# AND warehousetype = '1'
+			FROM etb_warehouse W WHERE 1 = 1 AND W.productid = #productid# AND W.warehousetype = '1'
+				AND W.status >= '20'
 				<isNotEmpty prepend="and" property="startdate">
 					W.updatedate <![CDATA[>=]]> #startdate#
 				</isNotEmpty>
@@ -399,7 +401,7 @@
 		<isNotEmpty prepend="and" property="warehousetype">
 			A.warehousetype = #warehousetype#
 		</isNotEmpty>
-		ORDER BY A.warehousetype,A.parentid,A.warehousedate
+		ORDER BY A.warehousetype,A.productid,A.warehousedate
 	</select>
 	
 	<select id="querySumInOutStock" parameterClass="java.util.Map" resultMap="InOutStockDto1">
@@ -419,6 +421,7 @@
 			(SELECT SUM(B.quantity) FROM etb_warehouse B WHERE B.productid = A.productid AND B.warehousetype = 1) AS quantityin,
 			(SELECT SUM(B.quantity) FROM etb_warehouse B WHERE B.productid = A.productid AND B.warehousetype = 2) AS quantityout
 			FROM etb_warehouse A WHERE 1 = 1 AND (A.warehousetype = 1 OR A.warehousetype = 2)
+				AND A.status >= '20'
 			<isNotEmpty prepend="and" property="startdate">
 				A.updatedate <![CDATA[>=]]> #startdate#
 			</isNotEmpty>
@@ -459,6 +462,7 @@
 			(SELECT SUM(B.quantity) FROM etb_warehouse B WHERE B.productid = A.productid AND B.warehousetype = 1) AS quantityin,
 			(SELECT SUM(B.quantity) FROM etb_warehouse B WHERE B.productid = A.productid AND B.warehousetype = 2) AS quantityout
 			FROM etb_warehouse A WHERE 1 = 1 AND (A.warehousetype = 1 OR A.warehousetype = 2)
+				AND A.status >= '20'
 			<isNotEmpty prepend="and" property="startdate">
 				A.updatedate <![CDATA[>=]]> #startdate#
 			</isNotEmpty>
@@ -496,6 +500,7 @@
 			(SELECT SUM(B.quantity) FROM etb_warehouse B WHERE B.productid = A.productid AND B.warehousetype = 1) AS quantityin,
 			(SELECT SUM(B.quantity) FROM etb_warehouse B WHERE B.productid = A.productid AND B.warehousetype = 2) AS quantityout
 			FROM etb_warehouse A WHERE 1 = 1 AND (A.warehousetype = 1 OR A.warehousetype = 2)
+				AND A.status >= '20'
 			<isNotEmpty prepend="and" property="startdate">
 				A.updatedate <![CDATA[>=]]> #startdate#
 			</isNotEmpty>
