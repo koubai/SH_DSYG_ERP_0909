@@ -113,7 +113,7 @@ public class PoiWarehouserptOutDetail extends Poi2007Base {
 		WarehouserptDto warehouserpt = new WarehouserptDto();
 		XSSFFont font = workbook.createFont();
 		//字体大小
-		font.setFontHeightInPoints((short)12);
+		font.setFontHeightInPoints((short)10);
 		//式样
 		XSSFCellStyle style = workbook.createCellStyle();
 		//水平居中
@@ -365,9 +365,9 @@ public class PoiWarehouserptOutDetail extends Poi2007Base {
 		heads.add("品名");
 		sheet.setColumnWidth(3, 12 * 256);
 		heads.add("规格");
-		sheet.setColumnWidth(4, 24 * 256);
+		sheet.setColumnWidth(4, 25 * 256);
 		heads.add("颜色");
-		sheet.setColumnWidth(5, 5 * 256);
+		sheet.setColumnWidth(5, 6 * 256);
 		heads.add("单位");
 		sheet.setColumnWidth(6, 6 * 256);
 		heads.add("数量");
@@ -377,7 +377,7 @@ public class PoiWarehouserptOutDetail extends Poi2007Base {
 		heads.add("含税金额");
 		sheet.setColumnWidth(9, 12 * 256);
 		heads.add("备注");
-		sheet.setColumnWidth(10, 14 * 256);
+		sheet.setColumnWidth(10, 12 * 256);
 		
 		//Head部分颜色字体
 		XSSFFont font = workbook.createFont();

@@ -369,10 +369,10 @@
 			FROM etb_warehouse W WHERE 1 = 1 AND W.productid = #productid# AND W.warehousetype = '2'
 				AND W.status <![CDATA[>=]]> 20
 				<isNotEmpty prepend="and" property="startdate">
-					W.updatedate <![CDATA[>=]]> #startdate#
+					W.warehousedate <![CDATA[>=]]> #startdate#
 				</isNotEmpty>
 				<isNotEmpty prepend="and" property="enddate">
-					W.updatedate <![CDATA[<=]]> #enddate#
+					W.warehousedate <![CDATA[<=]]> #enddate#
 				</isNotEmpty>
 				
 			UNION
@@ -383,10 +383,10 @@
 			FROM etb_warehouse W WHERE 1 = 1 AND W.productid = #productid# AND W.warehousetype = '1'
 				AND W.status <![CDATA[>=]]> 20
 				<isNotEmpty prepend="and" property="startdate">
-					W.updatedate <![CDATA[>=]]> #startdate#
+					W.warehousedate <![CDATA[>=]]> #startdate#
 				</isNotEmpty>
 				<isNotEmpty prepend="and" property="enddate">
-					W.updatedate <![CDATA[<=]]> #enddate#
+					W.warehousedate <![CDATA[<=]]> #enddate#
 				</isNotEmpty>
 		) A where 1 = 1
 		<isNotEmpty prepend="and" property="warehousetype">
@@ -416,10 +416,10 @@
 				FROM etb_warehouse A WHERE 1 = 1
 					AND A.status <![CDATA[>=]]> 20
 					<isNotEmpty prepend="and" property="startdate">
-						A.updatedate <![CDATA[>=]]> #startdate#
+						A.warehousedate <![CDATA[>=]]> #startdate#
 					</isNotEmpty>
 					<isNotEmpty prepend="and" property="enddate">
-						A.updatedate <![CDATA[<=]]> #enddate#
+						A.warehousedate <![CDATA[<=]]> #enddate#
 					</isNotEmpty>
 			) B WHERE 1 = 1
 			<isNotEmpty prepend="and" property="fieldno">
@@ -455,10 +455,10 @@
 			FROM etb_warehouse A WHERE 1 = 1
 				AND A.status <![CDATA[>=]]> 20
 				<isNotEmpty prepend="and" property="startdate">
-					A.updatedate <![CDATA[>=]]> #startdate#
+					A.warehousedate <![CDATA[>=]]> #startdate#
 				</isNotEmpty>
 				<isNotEmpty prepend="and" property="enddate">
-					A.updatedate <![CDATA[<=]]> #enddate#
+					A.warehousedate <![CDATA[<=]]> #enddate#
 				</isNotEmpty>
 			GROUP BY A.productid
 		) T WHERE 1 = 1
@@ -494,10 +494,10 @@
 			FROM etb_warehouse A WHERE 1 = 1
 				AND A.status <![CDATA[>=]]> 20
 				<isNotEmpty prepend="and" property="startdate">
-					A.updatedate <![CDATA[>=]]> #startdate#
+					A.warehousedate <![CDATA[>=]]> #startdate#
 				</isNotEmpty>
 				<isNotEmpty prepend="and" property="enddate">
-					A.updatedate <![CDATA[<=]]> #enddate#
+					A.warehousedate <![CDATA[<=]]> #enddate#
 				</isNotEmpty>
 			GROUP BY A.productid
 		) T WHERE 1 = 1
