@@ -545,6 +545,8 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		paramMap.put("color", color);
 		paramMap.put("warehousename", warehousename);
 		System.out.println("zerodisplay:" + zerodisplay);
+		if (zerodisplay == null)
+			zerodisplay="";
 		if (zerodisplay.equals("0"))
 			paramMap.put("zerodisplay", zerodisplay);
 		paramMap.put("start", start);
@@ -570,6 +572,8 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		paramMap.put("typeno", typeno);
 		paramMap.put("color", color);
 		paramMap.put("warehousename", warehousename);
+		if (zerodisplay == null)
+			zerodisplay="";
 		if (zerodisplay.equals("0"))
 			paramMap.put("zerodisplay", zerodisplay);
 		return (Integer) getSqlMapClientTemplate().queryForObject("queryWarehouseDetailCountByPage", paramMap);

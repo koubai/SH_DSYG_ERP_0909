@@ -51,17 +51,17 @@
 				return;
 			}
 			//计算未税金额
-			var purchaseAmount = tds[16].getElementsByTagName("input")[0].value.trim();
+			var purchaseAmount = tds[17].getElementsByTagName("input")[0].value.trim();
 			if(purchaseAmount == "") {
 				purchaseAmount = 0;
 			}
 			var taxamount = parseFloat(purchaseAmount) * (1 + parseFloat(rate));
 			//计算含税金额
-			tds[17].getElementsByTagName("input")[0].value = taxamount.toFixed(2);
+			tds[18].getElementsByTagName("input")[0].value = taxamount.toFixed(2);
 			//隐藏域
 			//采购金额未税
-			inputs[12].value = purchaseAmount;
-			inputs[13].value = taxamount.toFixed(2);
+			inputs[13].value = purchaseAmount;
+			inputs[14].value = taxamount.toFixed(2);
 		} else {
 			//是否实数check
 			if(!isReal(obj.value)) {
@@ -72,18 +72,18 @@
 				return;
 			}
 			//采购金额已税
-			var purchaseTaxamount = tds[17].getElementsByTagName("input")[0].value.trim();
+			var purchaseTaxamount = tds[18].getElementsByTagName("input")[0].value.trim();
 			if(purchaseTaxamount == "") {
 				purchaseTaxamount = 0;
 			}
 			var amount = parseFloat(purchaseTaxamount) / (1 + parseFloat(rate));
 			//计算未税金额
-			tds[16].getElementsByTagName("input")[0].value = amount.toFixed(2);
+			tds[17].getElementsByTagName("input")[0].value = amount.toFixed(2);
 			
 			//隐藏域
 			//采购金额未税
-			inputs[12].value = amount.toFixed(2);
-			inputs[13].value = purchaseTaxamount;
+			inputs[13].value = amount.toFixed(2);
+			inputs[14].value = purchaseTaxamount;
 		}
 		
 		//采购金额未税
@@ -96,11 +96,11 @@
 		var rows = document.getElementById("productData").rows;
 		for(var i = 0; i < rows.length; i++) {
 			var childs = rows[i].cells[0].getElementsByTagName("input");
-			if(childs[12].value.trim() != "") {
-				calcAmount += parseFloat(childs[12].value.trim());
-			}
 			if(childs[13].value.trim() != "") {
-				calcTaxamount += parseFloat(childs[13].value.trim());
+				calcAmount += parseFloat(childs[13].value.trim());
+			}
+			if(childs[14].value.trim() != "") {
+				calcTaxamount += parseFloat(childs[14].value.trim());
 			}
 		}
 		
@@ -185,12 +185,12 @@
 		var tds = tr.getElementsByTagName("td");
 		var inputs = tds[0].getElementsByTagName("input");
 		
-		var inputPurchaseQuantitys = tds[10].getElementsByTagName("input");
-		var beforeQuantitys = tds[11].getElementsByTagName("input");
+		var inputPurchaseQuantitys = tds[11].getElementsByTagName("input");
+		var beforeQuantitys = tds[12].getElementsByTagName("input");
 		//采购单货物数量
 		var purchaseQuantity = inputPurchaseQuantitys[0].value;
 		//采购金额已税
-		var purchaseTaxamount = tds[17].getElementsByTagName("input")[0].value;
+		var purchaseTaxamount = tds[18].getElementsByTagName("input")[0].value;
 		//预入库数量
 		var beforeQuantity = beforeQuantitys[0].value;
 		
@@ -198,19 +198,19 @@
 		var paidamount = $("#tmpPaidamount").val();
 		
 		//备注
-		var res09 = tds[19].getElementsByTagName("input")[0].value.trim();
+		var res09 = tds[20].getElementsByTagName("input")[0].value.trim();
 		
 		//单价
-		var prices = tds[14].getElementsByTagName("input");
+		var prices = tds[15].getElementsByTagName("input");
 		//含税单价
-		var taxprices = tds[15].getElementsByTagName("input")[0].value.trim();
+		var taxprices = tds[16].getElementsByTagName("input")[0].value.trim();
 		if(taxprices == "") {
 			taxprices = 0;
 		}
 		
 		//rate为税率
 		var rate = parseFloat($("#common_rate").val());
-		//var price = tds[13].innerHTML;
+		//var price = tds[14].innerHTML;
 		var price = prices[0].value.trim();
 		if(price == "") {
 			price = 0;
@@ -219,12 +219,12 @@
 		if(type == "6") {
 			//计算未税单价
 			price = parseFloat(taxprices) / (1 + rate);
-			tds[14].getElementsByTagName("input")[0].value = price.toFixed(6);
+			tds[15].getElementsByTagName("input")[0].value = price.toFixed(6);
 		}
 		if(type == "4") {
 			//计算已税单价
 			taxprices = parseFloat(price) * (1 + rate);
-			tds[15].getElementsByTagName("input")[0].value = taxprices.toFixed(6);
+			tds[16].getElementsByTagName("input")[0].value = taxprices.toFixed(6);
 		}
 		
 		if(purchaseQuantity == "") {
@@ -238,7 +238,7 @@
 			beforeQuantity = parseFloat(beforeQuantity).toFixed(2);
 		}
 		//已入库数量
-		var inquantity = inputs[14].value;
+		var inquantity = inputs[15].value;
 		if(inquantity == "") {
 			inquantity = 0;
 		} else {
@@ -261,16 +261,16 @@
 		remain = remain - inquantity;
 		remain = remain.toFixed(2);
 		
-		tds[13].innerHTML = remain;
+		tds[14].innerHTML = remain;
 		
 		//补充隐藏TD中的数据内容
 		//===============================================
 		//入库数量
-		inputs[9].value = purchaseQuantity;
+		inputs[10].value = purchaseQuantity;
 		//预入库数量
-		inputs[10].value = beforeQuantity;
+		inputs[11].value = beforeQuantity;
 		//未入库数量
-		inputs[11].value = remain;
+		inputs[12].value = remain;
 	}
 	
 	function changeTheme() {
@@ -495,29 +495,31 @@
 			var productid = childs[1].value;
 			var theme1 = childs[2].value;
 			var tradename = childs[3].value;
-			var typeno = childs[4].value;
-			var color = childs[5].value;
-			var unit = childs[6].value;
-			var packaging = childs[7].value;
-			var unitprice = childs[8].value;
+			//住友编码
+			var sumicode = childs[4].value;
+			var typeno = childs[5].value;
+			var color = childs[6].value;
+			var unit = childs[7].value;
+			var packaging = childs[8].value;
+			var unitprice = childs[9].value;
 			
-			var quantity = childs[9].value;
+			var quantity = childs[10].value;
 			//预入库数
-			var beforequantity = childs[10].value;
-			var remainquantity = childs[11].value;
-			var amount = childs[12].value;
-			var taxamount = childs[13].value;
+			var beforequantity = childs[11].value;
+			var remainquantity = childs[12].value;
+			var amount = childs[13].value;
+			var taxamount = childs[14].value;
 			//已入库数
-			var inquantity = childs[14].value;
+			var inquantity = childs[15].value;
 			
 			//备注
-			var res09 = childs[15].value;
+			var res09 = childs[16].value;
 			
 			//含税单价
-			var taxunitprice = childs[16].value;
+			var taxunitprice = childs[17].value;
 			
 			//产地
-			var makearea = childs[17].value;
+			var makearea = childs[18].value;
 			
 			var tr = document.createElement("tr");
 			//采购货物列表
@@ -526,7 +528,7 @@
 			//货物数据check
 			if(quantity == "") {
 				alert("采购数量不能为空！");
-				$("#" + childs[9].alt).focus();
+				$("#" + childs[10].alt).focus();
 				return false;
 			}
 			
@@ -534,6 +536,7 @@
 			td.appendChild(createInput("updPurchaseItemList[" + i + "].productid", productid));
 			td.appendChild(createInput("updPurchaseItemList[" + i + "].theme1", theme1));
 			td.appendChild(createInput("updPurchaseItemList[" + i + "].tradename", tradename));
+			td.appendChild(createInput("updPurchaseItemList[" + i + "].res01", sumicode));
 			td.appendChild(createInput("updPurchaseItemList[" + i + "].typeno", typeno));
 			td.appendChild(createInput("updPurchaseItemList[" + i + "].color", color));
 			td.appendChild(createInput("updPurchaseItemList[" + i + "].unit", unit));
@@ -1005,6 +1008,7 @@
 											<td width="35">序号</td>
 											<td width="100">类型</td>
 											<td width="100">品名</td>
+											<td width="100">住友编码</td>
 											<td width="90">规格</td>
 											<td width="35">颜色</td>
 											<td width="35">单位</td>
@@ -1060,6 +1064,7 @@
 														</s:iterator>
 													</td>
 													<td><s:property value="tradename"/></td>
+													<td><s:property value="res01"/></td>
 													<td><s:property value="typeno"/></td>
 													<td>
 														<s:iterator id="colorList" value="colorList" status="st3">

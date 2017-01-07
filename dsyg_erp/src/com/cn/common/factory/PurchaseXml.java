@@ -63,8 +63,8 @@ public class PurchaseXml {
 	        area.setText(str_area);
 	        
 	        Node des01 = doc.selectSingleNode("//my:group1/my:group2/my:DESCRIPTION-01"); 
-	        if(StringUtil.isNotBlank(updPurchaseItemList.get(0).getItem11())){
-	        	des01.setText(updPurchaseItemList.get(0).getItem11());
+	        if(StringUtil.isNotBlank(updPurchaseItemList.get(0).getRes01())){
+	        	des01.setText(updPurchaseItemList.get(0).getRes01());
 	        }
 	        
 	        Node des02 = doc.selectSingleNode("//my:group1/my:group2/my:DESCRIPTION-02"); 
@@ -96,8 +96,8 @@ public class PurchaseXml {
 	        for (int i = 1; i < updPurchaseItemList.size(); i++) {  
 		        Element group1 = (Element) doc.selectSingleNode("//my:group1");
 		        
-		        if(StringUtil.isNotBlank(updPurchaseItemList.get(i).getItem11())){
-		        	str_des01 = updPurchaseItemList.get(i).getItem11();
+		        if(StringUtil.isNotBlank(updPurchaseItemList.get(i).getRes01())){
+		        	str_des01 = updPurchaseItemList.get(i).getRes01();
 		        }
 		        if(updPurchaseItemList.get(i).getQuantity() != null){
 		        	str_qty = updPurchaseItemList.get(i).getQuantity().toString();

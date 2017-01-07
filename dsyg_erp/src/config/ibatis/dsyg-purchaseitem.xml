@@ -35,11 +35,8 @@
 		<result property="approverid" column="approverid" />
 		<result property="note" column="note" />
 		<result property="rank" column="rank" />
-		<result property="status" column="status" />
-		
+		<result property="status" column="status" />	
 		<result property="item01" column="item01" />
-		<result property="item11" column="item11" />
-		
 		<result property="res01" column="res01" />
 		<result property="res02" column="res02" />
 		<result property="res03" column="res03" />
@@ -87,7 +84,6 @@
 		<result property="rank" column="rank" />
 		<result property="status" column="status" />
 		<result property="item01" column="item01" />
-		<result property="item11" column="item11" />
 		<result property="res01" column="baozhuang" />
 		<result property="res02" column="res02" />
 		<result property="res03" column="res03" />
@@ -112,7 +108,7 @@
 		(select P.packaging from etb_product P where P.id = T.productid) as packaging,
 		(select P.unit from etb_product P where P.id = T.productid) as unit,
 		(select P.item10 from etb_product P where P.id = T.productid) as item01,
-		(select P.item11 from etb_product P where P.id = T.productid) as item11,
+		(select P.item11 from etb_product P where P.id = T.productid) as res01,
 		(select C.suppliername from etb_purchase C where C.purchaseno = T.purchaseno) as suppliername,
 		(select C.purchasedate from etb_purchase C where C.purchaseno = T.purchaseno) as purchasedate,
 		(select S.res01 from etb_purchase S where S.purchaseno = T.purchaseno) as baozhuang,
@@ -137,7 +133,7 @@
 			(select P.packaging from etb_product P where P.id = T.productid) as packaging,
 			(select P.unit from etb_product P where P.id = T.productid) as unit,
 			(select P.item10 from etb_product P where P.id = T.productid) as item01,
-			(select P.item11 from etb_product P where P.id = T.productid) as item11,
+			(select P.item11 from etb_product P where P.id = T.productid) as res01,
 			(select C.suppliername from etb_purchase C where C.purchaseno = T.purchaseno) as suppliername,
 			(select C.purchasedate from etb_purchase C where C.purchaseno = T.purchaseno) as purchasedate,
 			(select S.res01 from etb_purchase S where S.purchaseno = T.purchaseno) as baozhuang,
@@ -164,7 +160,7 @@
 			(select P.unit from etb_product P where P.id = T.productid) as unit,
 			(select P.makearea from etb_product P where P.id = T.productid) as makearea,
 			(select P.item10 from etb_product P where P.id = T.productid) as item01,
-			(select P.item11 from etb_product P where P.id = T.productid) as item11,
+			(select P.item11 from etb_product P where P.id = T.productid) as res01,
 			(select "") as purchasedate
 			from etb_purchaseitem T where 1 = 1 and T.status != 20 and T.remainquantity > 0
 		) A where 1 = 1
@@ -184,7 +180,7 @@
 			(select P.unit from etb_product P where P.id = T.productid) as unit,
 			(select P.makearea from etb_product P where P.id = T.productid) as makearea,
 			(select P.item10 from etb_product P where P.id = T.productid) as item01,
-			(select P.item11 from etb_product P where P.id = T.productid) as item11,
+			(select P.item11 from etb_product P where P.id = T.productid) as res01,
 			(select "") as purchasedate
 			from etb_purchaseitem T where 1 = 1 and T.status != 20 and T.remainquantity > 0
 		) A where 1 = 1
@@ -204,7 +200,7 @@
 		(select P.unit from etb_product P where P.id = T.productid) as unit,
 		(select P.makearea from etb_product P where P.id = T.productid) as makearea,
 		(select P.item10 from etb_product P where P.id = T.productid) as item01,
-		(select P.item11 from etb_product P where P.id = T.productid) as item11,
+		(select P.item11 from etb_product P where P.id = T.productid) as res01,
 		(select "") as suppliername,
 		(select "") as purchasedate
 		from etb_purchaseitem T where 1 = 1 and T.status = 1

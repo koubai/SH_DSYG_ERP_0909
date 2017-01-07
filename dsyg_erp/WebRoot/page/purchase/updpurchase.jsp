@@ -579,7 +579,7 @@
 			//货物数据check
 			if(quantity == "") {
 				alert("采购数量不能为空！");
-				$("#" + childs[9].alt).focus();
+				$("#" + childs[10].alt).focus();
 				return false;
 			}
 			
@@ -620,8 +620,8 @@
 		var taxall = 0.00;
 		for(var i = 0; i < rows.length; i++) {
 			var childs = rows[i].cells[0].getElementsByTagName("input");
-			var amount = childs[12].value;
-			var taxamount = childs[13].value;
+			var amount = childs[13].value;
+			var taxamount = childs[14].value;
 			if(amount != "") {
 				all += parseFloat(amount);
 				taxall += parseFloat(taxamount);
@@ -1134,6 +1134,7 @@
 														<input type="hidden" value="<s:property value="productid"/>" />
 														<input type="hidden" value="<s:property value="theme1"/>" />
 														<input type="hidden" value="<s:property value="tradename"/>" />
+														<input type="hidden" value="<s:property value="res01"/>" />
 														<input type="hidden" value="<s:property value="typeno"/>" />
 														<input type="hidden" value="<s:property value="color"/>" />
 														<input type="hidden" value="<s:property value="unit"/>" />

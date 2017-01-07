@@ -180,7 +180,7 @@ public class SalesItemDto extends BaseAction {
 	private String item01;
 	
 	/**
-	 * 预备项目1
+	 * 住友编码
 	 */
 	private String res01;
 
