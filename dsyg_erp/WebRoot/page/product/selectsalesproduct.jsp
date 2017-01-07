@@ -442,8 +442,9 @@
 						<td width="60">类型</td>
 						<td width="60">品名</td>
 						<td width="60">规格</td>
-						<td width="60">颜色</td>
-						<td width="60">形式</td>
+						<td width="30">颜色</td>
+						<td width="30">形式</td>
+						<td width="60">住友编码</td>
 						<td width="60">包装</td>
 						<td width="60">产地</td>
 					</tr>
@@ -494,11 +495,14 @@
 							</td>
 							<td>
 								<s:if test='%{productList[#st1.index].packaging == "0"}'>整箱</s:if>
-								<s:elseif test='%{productList[#st1.index].packaging == "1"}'>乱尺</s:elseif>
+								<s:elseif test='%{productList[#st1.index].packaging == "1"}'><font color="red">乱尺</font></s:elseif>
 								<s:elseif test='%{productList[#st1.index].packaging == "2"}'>样品</s:elseif>
 								<s:else>
 									<s:property value="packaging"/>
 								</s:else>
+							</td>
+							<td>
+								<s:property value="item11"/>
 							</td>
 							<td>
 								<s:property value="item10"/>

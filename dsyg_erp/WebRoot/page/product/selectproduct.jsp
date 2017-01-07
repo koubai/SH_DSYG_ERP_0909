@@ -133,6 +133,8 @@
 		var item10 = inputs[15].value;
 		//产地名称
 		var makeareaname = inputs[16].value;
+		//住友编码
+		var item11 = inputs[17].value;
 		
 		//采购单货物表ID，这里ID为空
 		var input = createHidden("");
@@ -151,6 +153,12 @@
 		tr.appendChild(td);
 		var input = createHidden(tradename);
 		td0.appendChild(input);
+		//住友编码
+		td = createTd(item11);
+		tr.appendChild(td);
+		var input = createHidden(item11);
+		td0.appendChild(input);
+
 		//规格
 		td = createTd(typeno);
 		tr.appendChild(td);
@@ -447,8 +455,9 @@
 						<td width="60">类型</td>
 						<td width="60">品名</td>
 						<td width="60">规格</td>
-						<td width="60">颜色</td>
-						<td width="60">形式</td>
+						<td width="30">颜色</td>
+						<td width="30">形式</td>
+						<td width="60">住友编码</td>
 						<td width="60">包装</td>
 						<td width="60">产地</td>
 					</tr>
@@ -477,6 +486,7 @@
 								<input type="hidden" value="<s:property value="makearea"/>"/>
 								<input type="hidden" value="<s:property value="item10"/>"/>
 								<input type="hidden" value="<s:iterator id="makeareaList" value="makeareaList" status="st3"><s:if test="%{makeareaList[#st3.index].code == productList[#st1.index].makearea}"><s:property value="fieldname"/></s:if></s:iterator>"/>
+								<input type="hidden" value="<s:property value="item11"/>"/>
 							</td>
 							<!-- <td><input name="radioKey" type="radio" value="<s:property value="id"/>"/></td> -->
 							<td><input name="radioKey" type="checkbox" value="<s:property value="id"/>"/></td>
@@ -499,11 +509,14 @@
 							</td>
 							<td>
 								<s:if test='%{productList[#st1.index].packaging == "0"}'>整箱</s:if>
-								<s:elseif test='%{productList[#st1.index].packaging == "1"}'>乱尺</s:elseif>
+								<s:elseif test='%{productList[#st1.index].packaging == "1"}'><font color="red">乱尺</font></s:elseif>
 								<s:elseif test='%{productList[#st1.index].packaging == "2"}'>样品</s:elseif>
 								<s:else>
 									<s:property value="packaging"/>
 								</s:else>
+							</td>
+							<td>
+								<s:property value="item11"/>
 							</td>
 							<td>
 								<s:property value="item10"/>

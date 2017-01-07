@@ -252,7 +252,10 @@ public class PurchaseServiceImpl implements PurchaseService {
 			dict.setFieldcode(Constants.DICT_PURCHASE_ORDER + year);
 			dict.setFieldname("采购单番号" + year);
 			//番号默认从1开始
-			dict.setCode("1");
+			// Pei fix bug of new year code 1 twice ----- start. 20170107
+			//dict.setCode("1");
+			dict.setCode("2");
+			// Pei fix bug of new year code 1 twice ----- end
 			code = "1";
 			dict.setLang(PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
 			dict.setMean("采购单番号" + year);

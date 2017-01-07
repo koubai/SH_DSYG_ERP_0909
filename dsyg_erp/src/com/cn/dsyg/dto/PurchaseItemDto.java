@@ -177,11 +177,6 @@ public class PurchaseItemDto extends BaseAction {
 	/**
 	 * 住友代码
 	 */
-	private String item11;
-
-	/**
-	 * 预备项目1
-	 */
 	private String res01;
 
 	/**
@@ -572,14 +567,6 @@ public class PurchaseItemDto extends BaseAction {
 
 	public void setTaxunitprice(BigDecimal taxunitprice) {
 		this.taxunitprice = taxunitprice;
-	}
-
-	public String getItem11() {
-		return item11;
-	}
-
-	public void setItem11(String item11) {
-		this.item11 = item11;
 	}
 
 	public BigDecimal getQuantity() {
