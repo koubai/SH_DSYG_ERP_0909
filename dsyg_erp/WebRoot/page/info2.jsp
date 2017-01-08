@@ -61,5 +61,5 @@
 		parent.window.frames['mainFrame'].location = '<%=request.getContextPath()%>/qa/queryQaAction.action';
 	}
 	</script>
-<div id="qaDiv" style="position:absolute; margin-top:-3px; display: none;"><img width="19" height="19" style="cursor: pointer;" onclick="goQa();" alt="" src="<%=request.getContextPath()%>/images/mail.jpg" /></div>
+<div id="qaDiv" style="position:absolute; margin-top:-5px;margin-left:600px; display: none;"><img width="19" height="19" style="cursor: pointer;" onclick="goQa();" alt="" src="<%=request.getContextPath()%>/images/mail.jpg" /></div>
 <div class="user2"><span>用户：<%=session.getAttribute("user_name")%></span>&nbsp&nbsp<span>登录时间：<%=session.getAttribute("login_time")%></span></div>
