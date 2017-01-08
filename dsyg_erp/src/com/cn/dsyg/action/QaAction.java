@@ -87,6 +87,20 @@ public class QaAction extends BaseAction {
 	}
 	
 	/**
+	 * 确认QA明细页面
+	 * @return
+	 */
+	public String showUpdQaDetailAction() {
+		try {
+			this.clearMessages();
+			detailQaDto = qaService.queryQaDetail(detailQaId);
+		} catch(Exception e) {
+			log.error("showQaDetailAction error:" + e);
+		}
+		return SUCCESS;
+	}
+	
+	/**
 	 * QA页面
 	 * @return
 	 */

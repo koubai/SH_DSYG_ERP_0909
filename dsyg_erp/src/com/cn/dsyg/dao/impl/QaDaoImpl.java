@@ -63,4 +63,9 @@ public class QaDaoImpl extends BaseDao implements QaDao {
 	public void updateQa(QaDto qa) {
 		getSqlMapClientTemplate().update("updateQa", qa);
 	}
+	
+	@Override
+	public void updateQa2(QaDto qa) {
+		getSqlMapClientTemplate().update("updateQa2", qa);
+	}
 }

@@ -40,6 +40,13 @@ public interface QaService {
 	public QaDto queryQaDetail(String id);
 	
 	/**
+	 * 确认Q/A明细
+	 * @param id
+	 * @return
+	 */
+	public QaDto updQaDetail(String id);
+	
+	/**
 	 * 删除数据
 	 * @param id
 	 * @param curruser

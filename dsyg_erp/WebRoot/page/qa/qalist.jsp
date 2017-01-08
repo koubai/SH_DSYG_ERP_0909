@@ -91,6 +91,11 @@
 		url += "?detailQaId=" + id + "&date=" + new Date();
 		window.showModalDialog(url, window, "dialogheight:370px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
+	function updStatus(id) {
+		var url = '<%=request.getContextPath()%>/qa/showUpdQaDetailAction.action';
+		url += "?detailQaId=" + id + "&date=" + new Date();
+		window.showModalDialog(url, window, "dialogheight:370px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+	}
 </script>
 </head>
 <body>
@@ -139,6 +144,7 @@
 								<td width="100">电话</td>
 								<td width="80">状态</td>
 								<td width="80"></td>
+								<td width="80"></td>
 							</tr>
 							<s:iterator id="qaList" value="qaList" status="st1">
 								<s:if test="#st1.odd==true">
@@ -177,6 +183,14 @@
 									<td>
 										<input type="button" value="明细" onclick="showDetail('<s:property value="id"/>');"/>
 									</td>
+									<td>
+ 										<s:if test='updatedate != null'>
+										<s:property value="updateuid" />&nbsp&nbsp<s:property value="updatedate" />
+										</s:if>
+										<s:else>
+										<input type="button" value="确认" onclick="updStatus('<s:property value="id"/>');"/>
+										</s:else>
+ 									</td>
 								</tr>
 							</s:iterator>
 						</table>

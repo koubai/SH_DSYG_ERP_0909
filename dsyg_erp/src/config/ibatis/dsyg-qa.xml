@@ -104,4 +104,24 @@
 		where id = #id#
 	</update>
 	
-</sqlMap>
+	<update id="updateQa2" parameterClass="com.cn.dsyg.dto.QaDto">
+		update tbqa
+		set title = #title#,
+			data = #data#,
+			fullname = #fullname#,
+			company = #company#,
+			address = #address#,
+			tell = #tell#,
+			fax = #fax#,
+			status = #status#,
+			email = #email#,
+			res01 = #res01#,
+			res02 = #res02#,
+			res03 = #res03#,
+			res04 = #res04#,
+			res05 = #res05#,
+			updateuid = #updateuid#,
+			updatedate = NOW()
+		where id = #id# and (updateuid is null or updatedate is null)
+	</update>
+	</sqlMap>

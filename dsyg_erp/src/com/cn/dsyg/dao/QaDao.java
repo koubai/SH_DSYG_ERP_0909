@@ -52,4 +52,10 @@ public interface QaDao {
 	 * @param qa
 	 */
 	public void updateQa(QaDto qa);
+	
+	/**
+	 * 修改数据（有条件修改）
+	 * @param qa
+	 */
+	public void updateQa2(QaDto qa);
 }

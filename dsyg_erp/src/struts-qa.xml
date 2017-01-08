@@ -26,6 +26,10 @@
 			<result type="json"></result>
 		</action>
 		
+		<action name="showUpdQaDetailAction" class="qaAction" method="showUpdQaDetailAction">
+			<result name="success">/page/qa/qadetail.jsp</result>
+		</action>
+		
 	</package>
 
 </struts>

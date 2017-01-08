@@ -29,11 +29,20 @@ public class QaServiceImpl implements QaService {
 	public QaDto queryQaDetail(String id) {
 		QaDto qa = qaDao.queryQaByID(id);
 		//状态=已读
-		qa.setStatus("2");
-		qaDao.updateQa(qa);
+//		qa.setStatus("2");
+//		qaDao.updateQa(qa);
 		return qa;
 	}
 
+	@Override
+	public QaDto updQaDetail(String id) {
+		QaDto qa = qaDao.queryQaByID(id);
+		//状态=已读
+		qa.setStatus("2");
+		qaDao.updateQa2(qa);
+		return qa;
+	}
+	
 	@Override
 	public Page queryQaByPage(String title, String company, String tell,
 			Page page) {
