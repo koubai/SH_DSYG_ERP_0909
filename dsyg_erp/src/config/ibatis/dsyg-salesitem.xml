@@ -160,7 +160,6 @@
 		(select P.unit from etb_product P where P.id = T.productid) as unit,
 		(select P.makearea from etb_product P where P.id = T.productid) as makearea,
 		(select P.item10 from etb_product P where P.id = T.productid) as item01,
-		(select P.item11 from etb_product P where P.id = T.productid) as res01,
 		(select S.customername from etb_sales S where S.salesno = T.salesno) as customername,
 		(select S.bookdate from etb_sales S where S.salesno = T.salesno) as bookdate,
 		(select S.res01 from etb_sales S where S.salesno = T.salesno) as baozhuang,
@@ -186,7 +185,6 @@
 			(select P.unit from etb_product P where P.id = T.productid) as unit,
 			(select P.makearea from etb_product P where P.id = T.productid) as makearea,
 			(select P.item10 from etb_product P where P.id = T.productid) as item01,
-			(select P.item11 from etb_product P where P.id = T.productid) as res01,
 			(select S.customername from etb_sales S where S.salesno = T.salesno) as customername,
 			(select S.bookdate from etb_sales S where S.salesno = T.salesno) as bookdate,
 			(select S.res01 from etb_sales S where S.salesno = T.salesno) as baozhuang,
@@ -212,7 +210,6 @@
 		(select P.makearea from etb_product P where P.id = T.productid) as makearea,
 		
 		(select P.item10 from etb_product P where P.id = T.productid) as item01,
-		(select P.item11 from etb_product P where P.id = T.productid) as res01,
 		
 		(select "") as customername,
 		(select "") as bookdate
