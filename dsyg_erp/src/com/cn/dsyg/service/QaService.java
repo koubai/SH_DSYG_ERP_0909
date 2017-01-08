@@ -42,9 +42,10 @@ public interface QaService {
 	/**
 	 * 确认Q/A明细
 	 * @param id
+	 * @param userid
 	 * @return
 	 */
-	public QaDto updQaDetail(String id);
+	public QaDto updQaDetail(String id, String userid);
 	
 	/**
 	 * 删除数据

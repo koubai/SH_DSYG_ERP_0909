@@ -93,7 +93,8 @@ public class QaAction extends BaseAction {
 	public String showUpdQaDetailAction() {
 		try {
 			this.clearMessages();
-			detailQaDto = qaService.queryQaDetail(detailQaId);
+			String userid = (String)ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
+			detailQaDto = qaService.updQaDetail(detailQaId, userid);
 		} catch(Exception e) {
 			log.error("showQaDetailAction error:" + e);
 		}

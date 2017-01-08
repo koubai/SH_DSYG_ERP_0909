@@ -17,5 +17,49 @@
 		parent.window.frames['mainFrame'].location = '<%=request.getContextPath()%>/intermana/showCalendarAction.action';
 		//window.parent.location.href = '<c:url value="/home/showManageHomeAction.action"></c:url>';
 	}
-</script>
+	$(function() {
+		var rank = "${session.user_rank}";
+//		if(rank != "" && parseInt(rank) >= 80) {
+			//经理级以上用
+			setInterval("queryQa()", 60000);
+//		}
+	});
+	function queryQa() {
+		$.ajax({
+			type: "POST",
+	 		url:  '${pageContext.request.contextPath}/qa/queryQaCountAction.action?time=' + new Date(),
+	 		data: "",
+	   		dataType:"json",
+			success: function(data) {
+				if(data == "0") {
+					//没有新的Q/A数据
+					hideQa();
+				//} else if(data == "user is not login.") {
+				//	alert("user is not login.");
+				} else {
+					//有新的Q/A数据
+					showQa();
+				}
+			},
+			error:function(data){
+				//alert("data1=" + data);
+			}
+		});
+	}
+	
+	function showQa() {
+		$("#qaDiv").css("display", "block");
+	}
+	
+	function hideQa() {
+		$("#qaDiv").css("display", "none");
+	}
+	
+	function goQa() {
+		//$("#qaDiv").css("display", "none");
+		//显示Q/A页面
+		parent.window.frames['mainFrame'].location = '<%=request.getContextPath()%>/qa/queryQaAction.action';
+	}
+	</script>
+<div id="qaDiv" style="position:absolute; margin-top:-3px; display: none;"><img width="19" height="19" style="cursor: pointer;" onclick="goQa();" alt="" src="<%=request.getContextPath()%>/images/mail.jpg" /></div>
 <div class="user2"><span>用户：<%=session.getAttribute("user_name")%></span>&nbsp&nbsp<span>登录时间：<%=session.getAttribute("login_time")%></span></div>

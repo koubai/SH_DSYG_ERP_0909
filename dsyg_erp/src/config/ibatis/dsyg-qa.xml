@@ -42,7 +42,7 @@
 			T.email = #email#
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="status">
-			T.status = #status#
+			T.status <![CDATA[<=]]> #status#
 		</isNotEmpty>
 	</select>
 	
@@ -122,6 +122,6 @@
 			res05 = #res05#,
 			updateuid = #updateuid#,
 			updatedate = NOW()
-		where id = #id# and (updateuid is null or updatedate is null)
+		where id = #id# 
 	</update>
 	</sqlMap>

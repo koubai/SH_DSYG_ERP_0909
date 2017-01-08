@@ -95,6 +95,7 @@
 		var url = '<%=request.getContextPath()%>/qa/showUpdQaDetailAction.action';
 		url += "?detailQaId=" + id + "&date=" + new Date();
 		window.showModalDialog(url, window, "dialogheight:370px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		alert("确认完毕！");
 	}
 </script>
 </head>

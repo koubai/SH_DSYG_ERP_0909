@@ -35,10 +35,11 @@ public class QaServiceImpl implements QaService {
 	}
 
 	@Override
-	public QaDto updQaDetail(String id) {
+	public QaDto updQaDetail(String id, String userid) {
 		QaDto qa = qaDao.queryQaByID(id);
 		//状态=已读
 		qa.setStatus("2");
+		qa.setUpdateuid(userid);
 		qaDao.updateQa2(qa);
 		return qa;
 	}
