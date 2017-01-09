@@ -1038,6 +1038,7 @@
 														<input type="hidden" value="<s:property value="productid"/>" />
 														<input type="hidden" value="<s:property value="theme1"/>" />
 														<input type="hidden" value="<s:property value="tradename"/>" />
+														<input type="hidden" value="<s:property value="res01"/>" />
 														<input type="hidden" value="<s:property value="typeno"/>" />
 														<input type="hidden" value="<s:property value="color"/>" />
 														<input type="hidden" value="<s:property value="unit"/>" />

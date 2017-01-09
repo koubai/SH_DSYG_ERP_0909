@@ -36,7 +36,7 @@ public class PoiWarehouserptOutDetailNoprice extends Poi2007Base {
 		//设置打印参数
 		XSSFPrintSetup print = sheet.getPrintSetup();
 		print.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
-		print.setScale((short)73);
+		print.setScale((short)69);
 		//Head部分颜色字体
 		XSSFFont font = workbook.createFont();
 		//加粗
@@ -113,7 +113,7 @@ public class PoiWarehouserptOutDetailNoprice extends Poi2007Base {
 		WarehouserptDto warehouserpt = new WarehouserptDto();
 		XSSFFont font = workbook.createFont();
 		//字体大小
-		font.setFontHeightInPoints((short)12);
+		font.setFontHeightInPoints((short)10);
 		//式样
 		XSSFCellStyle style = workbook.createCellStyle();
 		//水平居中
@@ -225,7 +225,10 @@ public class PoiWarehouserptOutDetailNoprice extends Poi2007Base {
 //					cell8.setCellValue(StringUtil.BigDecimal2StrAbs(bdprice, 6));
 //					cell8.setCellStyle(style);
 //					cell8.setCellValue(product.getAmount());
-					cell8.setCellValue(product.getRes09());
+					if (product.getRes09()==null)
+						cell8.setCellValue("");
+					else
+						cell8.setCellValue(product.getRes09());
 					cell8.setCellStyle(style);
 					
 					/*
@@ -356,9 +359,11 @@ public class PoiWarehouserptOutDetailNoprice extends Poi2007Base {
 		heads.add("品牌");
 		sheet.setColumnWidth(2, 10 * 256);
 		heads.add("品名");
-		sheet.setColumnWidth(3, 16 * 256);
+//		sheet.setColumnWidth(3, 16 * 256);
+		sheet.setColumnWidth(3, 22 * 256);
 		heads.add("规格");
-		sheet.setColumnWidth(4, 30 * 256);
+//		sheet.setColumnWidth(4, 30 * 256);
+		sheet.setColumnWidth(4, 20 * 256);
 		heads.add("颜色");
 		sheet.setColumnWidth(5, 6 * 256);
 		heads.add("单位");

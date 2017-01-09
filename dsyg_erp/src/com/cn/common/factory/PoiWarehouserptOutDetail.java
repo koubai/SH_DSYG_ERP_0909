@@ -229,7 +229,10 @@ public class PoiWarehouserptOutDetail extends Poi2007Base {
 					}
 					cell9.setCellStyle(style);
 					cell9.setCellValue(product.getAmount());
-					cell10.setCellValue(product.getRes09());
+					if (product.getRes09()== null)
+						cell10.setCellValue("");
+					else
+						cell10.setCellValue(product.getRes09());
 					cell10.setCellStyle(style);
 					
 					/*
