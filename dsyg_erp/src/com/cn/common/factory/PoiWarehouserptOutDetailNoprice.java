@@ -36,7 +36,7 @@ public class PoiWarehouserptOutDetailNoprice extends Poi2007Base {
 		//设置打印参数
 		XSSFPrintSetup print = sheet.getPrintSetup();
 		print.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
-		print.setScale((short)69);
+		print.setScale((short)60);
 		//Head部分颜色字体
 		XSSFFont font = workbook.createFont();
 		//加粗

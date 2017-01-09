@@ -36,7 +36,7 @@ public class PoiWarehouserptOutDetail extends Poi2007Base {
 		//设置打印参数
 		XSSFPrintSetup print = sheet.getPrintSetup();
 		print.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
-		print.setScale((short)68);
+		print.setScale((short)60);
 		//Head部分颜色字体
 		XSSFFont font = workbook.createFont();
 		//加粗
@@ -368,7 +368,7 @@ public class PoiWarehouserptOutDetail extends Poi2007Base {
 		heads.add("品名");
 		sheet.setColumnWidth(2, 17 * 256);
 		heads.add("规格");
-		sheet.setColumnWidth(3, 25 * 256);
+		sheet.setColumnWidth(3, 22 * 256);
 		heads.add("颜色");
 		sheet.setColumnWidth(4, 6 * 256);
 		heads.add("单位");

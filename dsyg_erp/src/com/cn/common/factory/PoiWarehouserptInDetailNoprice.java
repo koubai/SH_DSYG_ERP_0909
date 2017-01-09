@@ -34,7 +34,7 @@ public class PoiWarehouserptInDetailNoprice extends Poi2007Base {
 		//设置打印参数
 		XSSFPrintSetup print = sheet.getPrintSetup();
 		print.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
-		print.setScale((short)73);
+		print.setScale((short)60);
 		//Head部分颜色字体
 		XSSFFont font = workbook.createFont();
 		//加粗
@@ -302,11 +302,11 @@ public class PoiWarehouserptInDetailNoprice extends Poi2007Base {
 		//heads.add("主题");
 		//sheet.setColumnWidth(1, 15 * 256);
 		heads.add("采购订单号");
-		sheet.setColumnWidth(1, 19 * 256);
+		sheet.setColumnWidth(1, 20 * 256);
 		heads.add("品牌");
 		sheet.setColumnWidth(2, 10 * 256);
 		heads.add("品名");
-		sheet.setColumnWidth(3, 16 * 256);
+		sheet.setColumnWidth(3, 20 * 256);
 		heads.add("规格");
 		sheet.setColumnWidth(4, 30 * 256);
 		heads.add("颜色");
