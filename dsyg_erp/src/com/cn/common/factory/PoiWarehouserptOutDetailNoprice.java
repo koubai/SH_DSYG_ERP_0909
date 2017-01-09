@@ -355,7 +355,7 @@ public class PoiWarehouserptOutDetailNoprice extends Poi2007Base {
 		//heads.add("主题");
 		//sheet.setColumnWidth(1, 15 * 256);
 		heads.add("销售订单号");
-		sheet.setColumnWidth(1, 19 * 256);
+		sheet.setColumnWidth(1, 22 * 256);
 		heads.add("品牌");
 		sheet.setColumnWidth(2, 10 * 256);
 		heads.add("品名");
