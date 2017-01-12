@@ -3,6 +3,14 @@
 
 <beans>
 
+	<!-- SZ sart -->
+	<bean id="warehouseSZDao" class="com.cn.dsyg.dao.impl.WarehouseSZDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClientSZ"/>
+		</property>
+	</bean>
+	<!-- SZ end -->
+
 	<!-- orderDetail -->
 	<bean id="orderDetailService" class="com.cn.dsyg.service.impl.OrderDetailServiceImpl" >
 		<property name="orderDetailDao">
@@ -304,6 +312,9 @@
 		</property>
 		<property name="orderDao">
 			<ref local="orderDao"/>
+		</property>
+		<property name="warehouseSZDao">
+			<ref local="warehouseSZDao"/>
 		</property>
 	</bean>
 	

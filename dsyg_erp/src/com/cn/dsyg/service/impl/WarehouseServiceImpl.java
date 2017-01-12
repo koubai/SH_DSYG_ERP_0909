@@ -28,6 +28,7 @@ import com.cn.dsyg.dao.SalesItemDao;
 import com.cn.dsyg.dao.SupplierDao;
 import com.cn.dsyg.dao.UserDao;
 import com.cn.dsyg.dao.WarehouseDao;
+import com.cn.dsyg.dao.WarehouseSZDao;
 import com.cn.dsyg.dao.WarehouserptDao;
 import com.cn.dsyg.dto.CustomerDto;
 import com.cn.dsyg.dto.CustomerOnlineDto;
@@ -76,6 +77,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 	private UserDao userDao;
 	private Dict01Dao dict01Dao;
 	private OrderDao orderDao;
+	
+	//SZ数据
+	private WarehouseSZDao warehouseSZDao;
 	
 	@Override
 	public List<InOutStockDto> queryInOutStockDetail(String productid, String warehousetype,
@@ -1264,6 +1268,22 @@ public class WarehouseServiceImpl implements WarehouseService {
 		List<WarehouseDetailDto> list = warehouseDao.queryWarehouseDetailByPage(parentid, keyword,
 				warehousetype, warehouseno, theme1, productid, tradename, typeno, color, warehousename, zerodisplay,
 				page.getStartIndex() * page.getPageSize(), page.getPageSize());
+		
+		if(list != null && list.size() > 0) {
+			for(WarehouseDetailDto warehouseDetailDto : list) {
+				//默认为0
+				warehouseDetailDto.setDiffquantity_sz(new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP));
+				//查询深圳数据
+				if(StringUtil.isNotBlank(warehouseDetailDto.getProductid())) {
+					WarehouseDetailDto szdetail = warehouseSZDao.queryWarehouseSZDetail(parentid, keyword, warehousetype,
+							warehouseno, theme1, warehouseDetailDto.getProductid(), tradename, typeno, color, warehousename, zerodisplay);
+					if(szdetail != null) {
+						warehouseDetailDto.setDiffquantity_sz(szdetail.getDiffquantity());
+					}
+				}
+			}
+		}
+		
 		page.setItems(list);
 		return page;
 	}
@@ -1319,5 +1339,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 	public void setOrderDao(OrderDao orderDao) {
 		this.orderDao = orderDao;
+	}
+
+	public WarehouseSZDao getWarehouseSZDao() {
+		return warehouseSZDao;
+	}
+
+	public void setWarehouseSZDao(WarehouseSZDao warehouseSZDao) {
+		this.warehouseSZDao = warehouseSZDao;
 	}
 }

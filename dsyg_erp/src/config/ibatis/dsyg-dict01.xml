@@ -2,7 +2,7 @@
 <!DOCTYPE sqlMap
         PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
         "http://www.ibatis.com/dtd/sql-map-2.dtd">
-<sqlMap namespace="com.cn.tbps">
+<sqlMap namespace="com.cn.dsyg">
 
 	<resultMap id="Dict01Dto" class="com.cn.dsyg.dto.Dict01Dto">
 		<result property="id" column="id" />
