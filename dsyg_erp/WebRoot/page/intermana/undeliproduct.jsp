@@ -85,13 +85,16 @@
 				<div class="tittle_left">
 				</div>
 				<div class="tittle_center">
-					订单未出货产品管理
+					未交割完产品管理
 				</div>
 				<div class="tittle_right">
 				</div>
 			</div>
 			<s:form id="mainform" name="mainform" method="POST">
+						<input type="hidden" name="fromDate" id="fromDate" value=#fromDate />
+						<input type="hidden" name="fromDate" id="toDate" value=#toDate />
 				<div class="searchbox">
+					<!-- 
 					<div class="box1_left"></div>
 					<div class="box1_center date_input">				
 						<input type="text" name="fromDate" id="fromDate" value=#fromDate />
@@ -103,7 +106,7 @@
 						<input type="text" name="toDate" id="toDate" value=#toDate />
 						<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('toDate'));"></a>
 					</div>
-					<div class="box1_right"></div>
+					<div class="box1_right"></div> -->
 					&nbsp&nbsp&nbsp&nbsp<select name="fieldno" id="fieldno" style="width: 100px;" onchange="changeFieldcode(this);">
 						<option value="" selected="selected">请选择</option>
 						<s:iterator value="goodsList" id="goodsList" status="st1">

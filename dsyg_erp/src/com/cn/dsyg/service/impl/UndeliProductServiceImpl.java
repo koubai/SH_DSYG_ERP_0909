@@ -33,12 +33,12 @@ public class UndeliProductServiceImpl implements UndeliProductService {
 		System.out.println("toDate" + toDate);
 		System.out.println("ioType" + ioType);
 		System.out.println("fieldno" + fieldno);
-		if (ioType.compareTo("1") == 0){
-			System.out.println("queryUnDeliProductByType 111");
+		if (ioType.compareTo("2") == 0){
+			System.out.println("queryUnDeliProductByType sale");
 			return undeliproductDao.queryUnDeliSaleProductByFieldno(fromDate, toDate, fieldno);
 		}
-		else if (ioType.compareTo("2") == 0){
-			System.out.println("queryUnDeliProductByType 222");
+		else if (ioType.compareTo("1") == 0){
+			System.out.println("queryUnDeliProductByType purchase");
 			return undeliproductDao.queryUnDeliPurchaseProductByFieldno(fromDate, toDate, fieldno);
 		} else 	
 			return undeliproductDao.queryUnDeliSaleProductByFieldno(fromDate, toDate, fieldno);
