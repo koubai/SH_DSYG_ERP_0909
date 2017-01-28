@@ -19,6 +19,12 @@ public class WarehouseDetailDto extends BaseDto {
 	 * ID
 	 */
 	private Long id;
+	
+	/**
+	 * 产品ID（查询深圳数据用） add by gqchen
+	 */
+	private String productid;
+	
 	/**
 	 * 采购数量
 	 */
@@ -49,6 +55,11 @@ public class WarehouseDetailDto extends BaseDto {
 	 * 差额数量
 	 */
 	private BigDecimal diffquantity;
+	
+	/**
+	 * 差额数量（深圳数据）
+	 */
+	private BigDecimal diffquantity_sz;
 
 	/**
 	 * 预计交货期
@@ -1068,6 +1079,22 @@ public class WarehouseDetailDto extends BaseDto {
 
 	public void setQuantityw(BigDecimal quantityw) {
 		this.quantityw = quantityw;
+	}
+
+	public BigDecimal getDiffquantity_sz() {
+		return diffquantity_sz;
+	}
+
+	public void setDiffquantity_sz(BigDecimal diffquantity_sz) {
+		this.diffquantity_sz = diffquantity_sz;
+	}
+
+	public String getProductid() {
+		return productid;
+	}
+
+	public void setProductid(String productid) {
+		this.productid = productid;
 	}
 
 
