@@ -65,13 +65,13 @@
 				return;
 			}
 			//采购金额已税
-			var purchaseTaxamount = tds[17].getElementsByTagName("input")[0].value.trim();
+			var purchaseTaxamount = tds[18].getElementsByTagName("input")[0].value.trim();
 			if(purchaseTaxamount == "") {
 				purchaseTaxamount = 0;
 			}
 			var amount = parseFloat(purchaseTaxamount) / (1 + parseFloat(rate));
 			//计算未税金额
-			tds[16].getElementsByTagName("input")[0].value = amount.toFixed(2);
+			tds[17].getElementsByTagName("input")[0].value = amount.toFixed(2);
 			
 			//隐藏域
 			//采购金额未税
@@ -231,7 +231,7 @@
 			beforeQuantity = parseFloat(beforeQuantity).toFixed(2);
 		}
 		//已入库数量
-		var inquantity = inputs[14].value;
+		var inquantity = inputs[15].value;
 		if(inquantity == "") {
 			inquantity = 0;
 		} else {

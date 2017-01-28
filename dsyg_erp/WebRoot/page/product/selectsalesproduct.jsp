@@ -154,6 +154,7 @@
 		td0.appendChild(input);
 		//住友编码
 		td = createTd(item11);
+		td.style.display = "none";
 		tr.appendChild(td);
 		var input = createHidden(item11);
 		td0.appendChild(input);

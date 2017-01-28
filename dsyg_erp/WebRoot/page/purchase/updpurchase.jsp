@@ -261,7 +261,7 @@
 		remain = remain - inquantity;
 		remain = remain.toFixed(2);
 		
-		tds[13].innerHTML = remain;
+		tds[14].innerHTML = remain;
 		//采购金额未税
 		var amount = purchaseQuantity * parseFloat(price);
 		tds[17].getElementsByTagName("input")[0].value = amount.toFixed(2);

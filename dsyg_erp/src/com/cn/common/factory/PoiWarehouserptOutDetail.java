@@ -113,7 +113,7 @@ public class PoiWarehouserptOutDetail extends Poi2007Base {
 		WarehouserptDto warehouserpt = new WarehouserptDto();
 		XSSFFont font = workbook.createFont();
 		//字体大小
-		font.setFontHeightInPoints((short)10);
+		font.setFontHeightInPoints((short)12);
 		//式样
 		XSSFCellStyle style = workbook.createCellStyle();
 		//水平居中
@@ -229,7 +229,7 @@ public class PoiWarehouserptOutDetail extends Poi2007Base {
 					}
 					cell8.setCellStyle(style);
 					cell8.setCellValue(product.getAmount());
-					if (product.getRes09()== null)
+					if (product.getRes09()== null || product.getRes09().equals("null"))
 						cell9.setCellValue("");
 					else
 						cell9.setCellValue(product.getRes09());

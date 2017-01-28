@@ -1199,7 +1199,7 @@
 											<td width="35">序号</td>
 											<td width="100">类型</td>
 											<td width="100">品名</td>
-											<td width="100">住友编码</td>
+											<td style="width: 0px; display: none">住友编码</td>
 											<td width="90">规格</td>
 											<td width="35">颜色</td>
 											<td width="35">单位</td>
@@ -1256,7 +1256,7 @@
 														</s:iterator>
 													</td>
 													<td><s:property value="tradename"/></td>
-													<td><s:property value="res01"/></td>
+													<td style="width: 0px; display: none"><s:property value="res01"/></td>
 													<td><s:property value="typeno"/></td>
 													<td>
 														<s:iterator id="colorList" value="colorList" status="st3">
