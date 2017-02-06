@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.jfree.util.Log;
+
 import com.cn.common.util.Constants;
 import com.cn.common.util.DateUtil;
 import com.cn.common.util.Page;
@@ -1275,10 +1277,27 @@ public class WarehouseServiceImpl implements WarehouseService {
 				warehouseDetailDto.setDiffquantity_sz(new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP));
 				//查询深圳数据
 				if(StringUtil.isNotBlank(warehouseDetailDto.getProductid())) {
-					WarehouseDetailDto szdetail = warehouseSZDao.queryWarehouseSZDetail(parentid, keyword, warehousetype,
-							warehouseno, theme1, warehouseDetailDto.getProductid(), tradename, typeno, color, warehousename, zerodisplay);
-					if(szdetail != null) {
-						warehouseDetailDto.setDiffquantity_sz(szdetail.getDiffquantity());
+					//先根据产品ID查询上海这边的产品数据
+					ProductDto productDto = productDao.queryProductByID(warehouseDetailDto.getProductid());
+					if(productDto != null) {
+						//根据产品特征查询深圳产品记录
+						ProductDto productSZDto = warehouseSZDao.queryProductByLogicId(productDto.getFieldno(), productDto.getTradename(), productDto.getTypeno(),
+								productDto.getColor(), productDto.getItem10(), productDto.getPackaging(), productDto.getUnit(), productDto.getMakearea());
+						
+						if(productSZDto != null) {
+							WarehouseDetailDto szdetail = warehouseSZDao.queryWarehouseSZDetail(parentid, keyword, warehousetype,
+									warehouseno, theme1, "" + productSZDto.getId(), tradename, typeno, color, warehousename, zerodisplay);
+							if(szdetail != null) {
+								//System.out.println("szdetail diffquantity=[" + szdetail.getDiffquantity() + "]");
+								warehouseDetailDto.setDiffquantity_sz(szdetail.getDiffquantity());
+							} else {
+								//System.out.println("szdetail is null,SZproductid=[" + productSZDto.getId() + "]");
+							}
+						} else {
+							//System.out.println("sz product is null....Shang hai productid=" + warehouseDetailDto.getProductid());
+						}
+					} else {
+						//没有产品记录，则数据问题，不做任何操作
 					}
 				}
 			}

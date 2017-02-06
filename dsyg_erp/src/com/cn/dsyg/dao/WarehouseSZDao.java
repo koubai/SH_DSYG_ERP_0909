@@ -1,5 +1,6 @@
 package com.cn.dsyg.dao;
 
+import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.dto.WarehouseDetailDto;
 
 /**
@@ -9,6 +10,21 @@ import com.cn.dsyg.dto.WarehouseDetailDto;
  * @version 1.0
  */
 public interface WarehouseSZDao {
+	
+	/**
+	 * 根据产品名称，型号，颜色（逻辑主键）查询产品
+	 * @param fieldno
+	 * @param tradename
+	 * @param typeno
+	 * @param color
+	 * @param item10
+	 * @param packaging
+	 * @param unit
+	 * @param makearea
+	 * @return
+	 */
+	public ProductDto queryProductByLogicId(String fieldno, String tradename, String typeno,
+			String color, String item10, String packaging, String unit, String makearea);
 	
 	/**
 	 * 查询深圳产品对比
