@@ -185,7 +185,7 @@
 										<input type="button" value="明细" onclick="showDetail('<s:property value="id"/>');"/>
 									</td>
 									<td>
- 										<s:if test='updatedate != null'>
+ 										<s:if test='updatedate != null && updatedate != createdate'>
 										<s:property value="updateuid" />&nbsp&nbsp<s:property value="updatedate" />
 										</s:if>
 										<s:else>
