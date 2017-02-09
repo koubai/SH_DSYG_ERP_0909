@@ -652,10 +652,17 @@ public class OrderServiceImpl implements OrderService {
 					salesItem.setProductid("" + detail.getProductid());
 					//数量
 					salesItem.setQuantity(detail.getNum());
-					//出库数量=数量
-					salesItem.setOutquantity(detail.getNum());
+					
+					//出库数量=0
+					//salesItem.setOutquantity(detail.getNum());
+					salesItem.setOutquantity(new BigDecimal(0));
+					
 					salesItem.setBeforequantity(new BigDecimal(0));
-					salesItem.setRemainquantity(new BigDecimal(0));
+					
+					//Remain数量=detail.getNum()
+					//salesItem.setRemainquantity(new BigDecimal(0));
+					salesItem.setRemainquantity(detail.getNum());
+					
 					//税前单价
 					salesItem.setUnitprice(calcMount(detail.getTaxprice()));
 					//税后单价
