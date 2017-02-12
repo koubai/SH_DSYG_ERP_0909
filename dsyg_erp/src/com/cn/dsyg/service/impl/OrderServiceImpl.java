@@ -36,6 +36,7 @@ import com.cn.dsyg.dto.SalesDto;
 import com.cn.dsyg.dto.SalesItemDto;
 import com.cn.dsyg.dto.WarehouseDto;
 import com.cn.dsyg.service.OrderService;
+import com.cn.dsyg.service.SalesItemService;
 
 /**
  * @name OrderServiceImpl.java
@@ -729,6 +730,19 @@ public class OrderServiceImpl implements OrderService {
 			WarehouseDto warehouse = new WarehouseDto();
 			//数据来源单号=销售单号
 			if(sales != null) {
+				//after pay 更新salesitem的remain数量 pei. 20170212
+//---------------------------------------------------------------
+				//查询online销售单明细记录
+				List<SalesItemDto> salesitemlist = salesItemDao.querySalesItemBySalesno(sales.getSalesno());
+				for (SalesItemDto salesItem : salesitemlist) {
+					//出库数量
+					salesItem.setOutquantity(salesItem.getQuantity());
+					//Remain数量=0
+					salesItem.setRemainquantity(new BigDecimal(0));
+					salesItemDao.updateSalesItem(salesItem);
+				}
+//---------------------------------------------------------------
+				
 				warehouse.setParentid(sales.getSalesno());
 			}
 			
@@ -1047,4 +1061,5 @@ public class OrderServiceImpl implements OrderService {
 	public void setSalesItemDao(SalesItemDao salesItemDao) {
 		this.salesItemDao = salesItemDao;
 	}
+	
 }

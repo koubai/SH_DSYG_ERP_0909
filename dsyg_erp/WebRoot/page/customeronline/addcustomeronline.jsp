@@ -48,11 +48,12 @@
 		}
 	
 		var companyen = $("#companyen").val().trim();
-		if(companyen == "") {
+/*		if(companyen == "") {
 			alert("购买方英文公司名或拼音不能为空！");
 			$("#companyen").focus();
 			return;
 		}
+*/		
 		
 		var name = $("#name").val();
 		if(name.trim() == "") {
@@ -97,11 +98,12 @@
 		}
 	
 		var companyen2 = $("#companyen2").val().trim();
-		if(companyen2 == "") {
+/*		if(companyen2 == "") {
 			alert("收货人英文公司名或拼音不能为空！");
 			$("#companyen2").focus();
 			return;
 		}
+*/		
 		
 		var name2 = $("#name2").val();
 		if(name2.trim() == "") {
@@ -404,7 +406,7 @@
 							</tr>
 							<tr>
 								<td>&nbsp;</td>
-								<td><font color="red">*</font>英文公司名或拼音</td>
+								<td><font color="red">&nbsp;</font>英文公司名或拼音</td>
 								<td>
 									<div class="box1_left"></div>
 									<div class="box1_center">
@@ -497,7 +499,7 @@
 							</tr>
 							<tr>
 								<td>&nbsp;</td>
-								<td><font color="red">*</font>英文公司名或拼音</td>
+								<td><font color="red">&nbsp;</font>英文公司名或拼音</td>
 								<td>
 									<div class="box1_left"></div>
 									<div class="box1_center">
