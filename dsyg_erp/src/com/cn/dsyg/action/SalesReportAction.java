@@ -14,6 +14,7 @@ import com.cn.common.util.FileUtil;
 import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
+import com.cn.dsyg.dto.SalesItemDto;
 import com.cn.dsyg.dto.SalesReportDto;
 import com.cn.dsyg.service.SalesReportService;
 import com.opensymphony.xwork2.ActionContext;
@@ -304,6 +305,31 @@ public class SalesReportAction extends BaseAction {
 		return SUCCESS;
 	}
 	
+	/**
+	 * 显示销售报告详细页面
+	 * @return
+	 */
+	public String showUpdSalesReportItemAction() {
+		try {
+			updReportFile01 = null;
+			updReportFile02 = null;
+			updReportFile03 = null;
+			this.clearMessages();
+			System.out.println("salesreportNo is: "+updateSalesReportNo);
+			updateSalesReportDto = salesreportService.querySalesReportByID(updateSalesReportNo);
+			if(updateSalesReportDto == null) {
+				this.addActionMessage("该数据不存在！");
+				return "checkerror";
+			}
+		} catch(Exception e) {
+			this.addActionMessage("系统错误，查询销售报告异常！");
+			log.error("showUpdSalesReportAction error:" + e);
+			return "checkerror";
+		}
+		return SUCCESS;
+	}		
+		
+		
 	/**
 	 * 修改销售报告
 	 * @return

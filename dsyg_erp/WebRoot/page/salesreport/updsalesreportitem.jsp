@@ -9,14 +9,14 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/common.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.5.1.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/Calendar3.js"></script>
-<title>SALES报告信息修改</title>
+<title>销售报告信息修改</title>
 <script type="text/javascript">
 	function upd() {
 		var salesreportname = $("#salesreportname").val().trim();
 		var tmpnote = $("#tmpnote").val();
 		$("#note").attr("value", tmpnote);
 		if(salesreportname == "") {
-			alert("SALES报告名不能为空！");
+			alert("销售报告名不能为空！");
 			$("#salesreportname").focus();
 			return;
 		}
@@ -67,12 +67,12 @@
 		$("#file02Name").val(file02Name);
 		$("#file03Name").val(file03Name);
 		
-		document.mainform.action = '<c:url value="/salesreport2/updSalesReport2Action.action"></c:url>';
+		document.mainform.action = '<c:url value="/salesreport/updSalesReportAction.action"></c:url>';
 		document.mainform.submit();
 	}
 	
 	function golist() {
-		document.mainform.action = '<c:url value="/salesreport2/querySalesReport2List.action"></c:url>';
+		document.mainform.action = '<c:url value="/salesreport/querySalesReportList.action"></c:url>';
 		document.mainform.submit();
 	};
 
@@ -88,8 +88,8 @@
 </head>
 <body style="background: url(''); overflow-x:hidden;overflow-y:scroll;">
 <s:form id="mainform" name="mainform" method="POST" enctype="multipart/form-data">
-	<s:hidden name="updateSalesReport2Dto.note" id="note"></s:hidden>
-	<s:hidden name="updateSalesReport2Dto.registerdate" id="registerdate"></s:hidden>
+	<s:hidden name="updateSalesReportDto.note" id="note"></s:hidden>
+	<s:hidden name="updateSalesReportDto.registerdate" id="registerdate"></s:hidden>
 	<s:hidden name="file01Name" id="file01Name"></s:hidden>
 	<s:hidden name="file02Name" id="file02Name"></s:hidden>
 	<s:hidden name="file03Name" id="file03Name"></s:hidden>
@@ -100,7 +100,7 @@
 				<div class="tittle_left">
 				</div>
 				<div class="tittle_center" style="width:150px;">
-					SALES报告信息修改
+					销售报告信息修改
 				</div>
 				<div class="tittle_right">
 				</div>
@@ -113,7 +113,7 @@
 			<tr>
 				<td width="130">
 					<label class="pdf10">报告编号</label></td>
-				<td width="500">&nbsp;<s:property value="updateSalesReport2Dto.salesreportno"/></td>
+				<td width="500">&nbsp;<s:property value="updateSalesReportDto.salesreportno"/></td>
 			</tr>
 			<tr>
 				<td>
@@ -121,7 +121,7 @@
 				<td>
 					<div class="box1_left"></div>
 					<div class="box1_center">
-						<s:textfield name="updateSalesReport2Dto.salesreportname" id="salesreportname" cssStyle="width:350px;" maxlength="40" theme="simple"></s:textfield>
+						<s:textfield name="updateSalesReportDto.salesreportname" id="salesreportname" disabled="true" cssStyle="width:350px;" maxlength="40" theme="simple"></s:textfield>
 					</div>
 					<div class="box1_right"></div>
 				</td>
@@ -136,17 +136,17 @@
 						<input type="hidden" id="customertel"/>
 						<input type="hidden" id="customerfax"/>
 						<input type="hidden" id="customermail"/>
-						<input type="hidden" id="customerid" value="<s:property value="updateSalesReport2Dto.customerid"/>"/>
-						<s:textfield name="updateSalesReport2Dto.customername" id="customername" cssStyle="width:350px;" maxlength="64" theme="simple"></s:textfield>
+						<input type="hidden" id="customerid" value="<s:property value="updateSalesReportDto.customerid"/>"/>
+						<s:textfield name="updateSalesReportDto.customername" id="customername" disabled="true" cssStyle="width:350px;" maxlength="64" theme="simple"></s:textfield>
 					</div>
 					<div class="box1_right" style="width:100px">
-						<div class="btn">
+						<!-- <div class="btn">
 							<div class="box1_left"></div>
 							<div class="box1_center">
 								<input id="btnCustomer" class="input40" type="button" value="检索" onclick="selectCustomer();" />
 							</div>
 							<div class="box1_right"></div>
-						</div>
+						</div>  -->
 					</div>
 				</td>
 			</tr>
@@ -156,7 +156,7 @@
 				<td>
 					<div class="box1_left"></div>
 					<div class="box1_center">
-						<s:textfield name="updateSalesReport2Dto.purpose" id="purpose" cssStyle="width:350px;" maxlength="64" theme="simple"></s:textfield>
+						<s:textfield name="updateSalesReportDto.purpose" id="purpose" disabled="true" cssStyle="width:350px;" maxlength="64" theme="simple"></s:textfield>
 					</div>
 					<div class="box1_right"></div>
 				</td>
@@ -167,7 +167,7 @@
 				<td>
 					<div class="box1_left"></div>
 					<div class="box1_center">
-						<s:textfield name="updateSalesReport2Dto.handler" id="handler" cssStyle="width:350px;" maxlength="32" theme="simple"></s:textfield>
+						<s:textfield name="updateSalesReportDto.handler" id="handler" disabled="true" cssStyle="width:350px;" maxlength="32" theme="simple"></s:textfield>
 					</div>
 					<div class="box1_right"></div>
 				</td>
@@ -178,8 +178,8 @@
 				<td>
 					<div class="box1_left"></div>
 					<div class="box1_center date_input">
-						<input type="text" disabled="disabled" style="width: 100px;" id="tmpregisterdate" value="<s:property value="updateSalesReport2Dto.showregisterdate"/>" maxlength="10" />
-						<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpregisterdate'));"></a>
+						<input type="text" disabled="true" style="width: 100px;" id="tmpregisterdate" value="<s:property value="updateSalesReportDto.showregisterdate"/>" maxlength="10" />
+						<!-- <a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpregisterdate'));"></a> -->
 					</div>
 					<div class="box1_right"></div>
 				</td>
@@ -188,46 +188,46 @@
 				<td class="td_tittle">
 					<label class="pdf10">文件1上传</label></td>
 				<td>
-					<input type="file" name="updReportFile01" id="updReportFile01" style="width: 500px;"/><br />
-					<a target="_blank" href="<s:property value="updateSalesReport2Dto.reporturl"/><s:property value="updateSalesReport2Dto.reportpath01"/>"><s:property value="updateSalesReport2Dto.reportpath01"/></a>
+					<!-- <input type="file" name="updReportFile01" id="updReportFile01" disabled="true" style="width: 500px;"/><br /> -->
+					<s:property value="updateSalesReportDto.reportpath01"/><br />
 				</td>
 			</tr>
 			<tr>
 				<td class="td_tittle">
 					<label class="pdf10">文件2上传</label></td>
 				<td>
-					<input type="file" name="updReportFile02" id="updReportFile02" style="width: 500px;"/><br />
-					<a target="_blank" href="<s:property value="updateSalesReport2Dto.reporturl"/><s:property value="updateSalesReport2Dto.reportpath02"/>"><s:property value="updateSalesReport2Dto.reportpath02"/></a>
+					<!-- <input type="file" name="updReportFile02" id="updReportFile02" disabled="true" style="width: 500px;"/><br /> -->
+					<s:property value="updateSalesReportDto.reportpath02"/><br />
 				</td>
 			</tr>
 			<tr>
 				<td class="td_tittle">
 					<label class="pdf10">文件3上传</label></td>
 				<td>
-					<input type="file" name="updReportFile03" id="updReportFile03" style="width: 500px;"/><br />
-					<a target="_blank" href="<s:property value="updateSalesReport2Dto.reporturl"/><s:property value="updateSalesReport2Dto.reportpath03"/>"><s:property value="updateSalesReport2Dto.reportpath03"/></a>
+					<!-- <input type="file" name="updReportFile03" id="updReportFile03" disabled="true" style="width: 500px;"/><br /> -->
+					<s:property value="updateSalesReportDto.reportpath03"/><br />
 				</td>
 			</tr>
 			<tr>
 				<td><label class="pdf10">备注</label></td>
 				<td>
-					<textarea name="" id="tmpnote" cols="" rows="10" style="width:400px;"><s:property value="updateSalesReport2Dto.note"/></textarea>
+					<textarea name="" id="tmpnote" disabled="true" cols="" rows="10" style="width:400px;"><s:property value="updateSalesReportDto.note"/></textarea>
 				</td>
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
 				<td>
-					<div class="btn">
+					<!-- <div class="btn">
 						<div class="box1_left"></div>
 						<div class="box1_center">
 							<input class="input80" type="button" value="修改" onclick="upd();"/>
 						</div>
 						<div class="box1_right"></div>
-					</div>
+					</div>  -->
 					<div class="btn">
 						<div class="box1_left"></div>
 						<div class="box1_center">
-							<input class="input80" type="button" value="关闭" onclick="golist();"/>
+							<input class="input80" type="button" value="关闭" onclick="window.close()"/>
 						</div>
 						<div class="box1_right"></div>
 					</div>

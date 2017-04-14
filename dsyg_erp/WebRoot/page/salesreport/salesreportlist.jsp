@@ -44,6 +44,19 @@
 		}
 	}
 	
+	function showDetail() {
+		var id = getSelectedID();
+		if(id == "") {
+			alert("请选择一条记录！");
+			return;
+		} else {
+			var url = "<%=request.getContextPath()%>/salesreport/showUpdSalesReportItemAction.action?updateSalesReportNo=" + id + "&date=" + new Date();
+			window.showModalDialog(url, window, "dialogheight:680px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no;scrollbars=yes;");
+			//document.mainform.action = "../sales/showUpdSalesReport2Action.action?updSalesId=" + id;
+			//document.mainform.submit();
+		}
+	}
+
 	function getSelectedID() {
 		var id = "";
 		var list = document.getElementsByName("radioKey");
@@ -284,6 +297,21 @@
 						</ul>
 					</div>
 				</div>
+				<!-- <div class="btns" style="margin-top:40px; margin-left:-90px;">
+					<table border="0" style="margin:0 auto;">
+						<tr>
+							<td>
+								<div class="btn">
+									<div class="box1_left"></div>
+									<div class="box1_center">
+										<input class="input80" type="button" value="详细" onclick="showDetail();" />
+									</div>
+									<div class="box1_right"></div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div> -->				
 			</s:form>
 		</div>
 	</div>

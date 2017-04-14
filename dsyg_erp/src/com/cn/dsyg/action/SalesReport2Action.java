@@ -308,6 +308,30 @@ public class SalesReport2Action extends BaseAction {
 	}
 	
 	/**
+	 * 显示修改SALES报告详细页面
+	 * @return
+	 */
+	public String showUpdSalesReport2ItemAction() {
+		try {
+			updReportFile01 = null;
+			updReportFile02 = null;
+			updReportFile03 = null;
+			this.clearMessages();
+			System.out.println("salesreport2No is: "+updateSalesReportNo);
+			updateSalesReport2Dto = salesreport2Service.querySalesReport2ByID(updateSalesReportNo);
+			if(updateSalesReport2Dto == null) {
+				this.addActionMessage("该数据不存在！");
+				return "checkerror";
+			}
+		} catch(Exception e) {
+			this.addActionMessage("系统错误，查询SALES报告异常！");
+			log.error("showUpdSalesReport2ItemAction error:" + e);
+			return "checkerror";
+		}
+		return SUCCESS;
+	}
+	
+	/**
 	 * 修改SALES报告
 	 * @return
 	 */

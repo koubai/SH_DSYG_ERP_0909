@@ -32,6 +32,11 @@
 			<result name="checkerror">/page/salesreport/updsalesreport.jsp</result>
 		</action>
 		
+		<action name="showUpdSalesReportItemAction" class="salesReportAction" method="showUpdSalesReportItemAction">
+			<result name="success">/page/salesreport/updsalesreportitem.jsp</result>
+			<result name="checkerror">/page/salesreport/updsalesreportitem.jsp</result>
+		</action>
+
 		<action name="updSalesReportAction" class="salesReportAction" method="updSalesReportAction">
 			<result name="success">/page/salesreport/updsalesreport.jsp</result>
 			<result name="checkerror">/page/salesreport/updsalesreport.jsp</result>

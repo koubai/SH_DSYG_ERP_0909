@@ -27,6 +27,11 @@
 			<result name="checkerror">/page/salesreport2/addsalesreport2.jsp</result>
 		</action>
 		
+		<action name="showUpdSalesReport2ItemAction" class="salesReport2Action" method="showUpdSalesReport2ItemAction">
+			<result name="success">/page/salesreport2/updsalesreport2item.jsp</result>
+			<result name="checkerror">/page/salesreport2/updsalesreport2item.jsp</result>
+		</action>
+		
 		<action name="showUpdSalesReport2Action" class="salesReport2Action" method="showUpdSalesReport2Action">
 			<result name="success">/page/salesreport2/updsalesreport2.jsp</result>
 			<result name="checkerror">/page/salesreport2/updsalesreport2.jsp</result>
