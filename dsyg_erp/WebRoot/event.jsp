@@ -49,7 +49,7 @@
     <input type="hidden" name="userId" value="<%=userId%>">
     <input type="text" name="userNm" value="<%=userNm%>" disabled="true">
 	<input id="color1" type="text" name="userColor" value="<%=userColor%>" >
-    <p>日程内容：<input type="text" class="input" name="event" id="event" style="width:320px" placeholder="记录你将要做的一件事..."></p>
+    <p>日程内容：<input type="text" class="input" name="event" id="event" style="width:320px" placeholder="<%=userNm%>:"+"记录你将要做的一件事..." value="<%=userNm%>:"></p>
     <p>开始时间：<input type="text" class="input datepicker" name="startdate" id="startdate" value="<%=date%>" readonly>
     <span id="sel_start" style="display:none;"><select name="s_hour">
     	<option value="00">00</option>
