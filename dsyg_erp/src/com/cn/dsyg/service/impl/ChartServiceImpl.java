@@ -24,6 +24,7 @@ import com.cn.dsyg.dao.ChartDao;
 import com.cn.dsyg.dao.UserDao;
 import com.cn.dsyg.dto.ChartDto;
 import com.cn.dsyg.dto.ChartSaleTotalDto;
+import com.cn.dsyg.dto.CustomerUnInvoiceDto;
 import com.cn.dsyg.dto.WarehouseCostDto;
 import com.cn.dsyg.dto.UserDto;
 import com.cn.dsyg.service.ChartService;
@@ -521,6 +522,9 @@ public class ChartServiceImpl implements ChartService{
     	int i_tm;
     	String user_id = "";
     	String tmp_user_id = "";
+    	String tmp_customer_name = "";
+    	String tmp_customer_id = "";
+    	String customer_untax_amount = "";
     	JSONArray jsonArr = new JSONArray();  
     	    
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
@@ -572,7 +576,6 @@ public class ChartServiceImpl implements ChartService{
                 }        	
         	} else {
             	List<ChartDto>  list = new ArrayList<ChartDto>();
-
             	// get Buyer's data 
             	if (pattern.equals("1")){
             		list = getBuyData(belongto, "", from_date, to_date, dur_type, handerList);
@@ -597,9 +600,29 @@ public class ChartServiceImpl implements ChartService{
             	else if (pattern.equals("6")){
             		list = getSupplierData(belongto, "", from_date, to_date, dur_type, handerList);
             	}
-            	// get Saler's detail data 
+            	// get Customer's detail data 
             	else if (pattern.equals("7")){
             		list = getCustomerData(belongto, "", from_date, to_date, dur_type, handerList);
+            		// get untax information
+        	        if (list.size() > 0) {
+        	            System.out.println("Get untax information:" + list.size());
+                    	List<CustomerUnInvoiceDto>  customerlist = new ArrayList<CustomerUnInvoiceDto>();
+        		        for (int ut = 0; ut < list.size(); ut++) {  
+        		            System.out.println("ut:" + ut);
+        		        	ChartDto chd = list.get(ut);
+        		        	tmp_customer_name = chd.getHandler();
+        		        	tmp_customer_id = chd.getId();
+        		            // 取得客户未选择已开票的数据
+        		        	customerlist= chartDao.queryCustomerUnInvoice(tmp_customer_id); 
+        		        	if (customerlist.size() == 1){
+        		        		customer_untax_amount = customerlist.get(0).getUninvoiceamount();
+	        		        	if (customer_untax_amount!= null && customer_untax_amount !="" ) {
+	            		        	chd.setHandler(tmp_customer_name + "$$" + customer_untax_amount);
+	            		        	list.set(ut, chd);        		        		
+	        		        	}
+        		        	}
+        		        }
+        		    }            		           		
             	}
             	// get Account's data 
             	else if (pattern.equals("9")){

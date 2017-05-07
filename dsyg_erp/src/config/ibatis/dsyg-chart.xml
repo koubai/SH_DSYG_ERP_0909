@@ -1508,5 +1508,21 @@
 	</isNotEmpty>
 	ORDER BY P.tradename, P.typeno, P.id
 	</select>	
+		<resultMap id="CustomerUnInvoiceDto" class="com.cn.dsyg.dto.CustomerUnInvoiceDto">
+		<result property="customerid" column="customerid" />
+		<result property="uninvoiceamount" column="uninvoiceamount" />
+	</resultMap>
 	
+	<select id="queryCustomerUnInvoice" parameterClass="java.util.Map" resultMap="CustomerUnInvoiceDto">
+	SELECT customerid, SUM(amount) as uninvoiceamount
+	FROM etb_finance F 
+	WHERE 1=1
+	AND F.financetype = '2'
+	AND F.mode = '1'
+	AND F.status <![CDATA[<]]> 20
+	<isNotEmpty prepend="and" property="customerid">
+		F.customerid = #customerid#
+	</isNotEmpty>
+	GROUP BY F.customerid
+	</select>	
 </sqlMap>

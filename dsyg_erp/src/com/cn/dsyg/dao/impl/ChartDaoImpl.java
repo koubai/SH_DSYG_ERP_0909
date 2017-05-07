@@ -8,6 +8,7 @@ import com.cn.common.dao.BaseDao;
 import com.cn.dsyg.dao.ChartDao;
 import com.cn.dsyg.dto.ChartDto;
 import com.cn.dsyg.dto.ChartSaleTotalDto;
+import com.cn.dsyg.dto.CustomerUnInvoiceDto;
 import com.cn.dsyg.dto.WarehouseCostDto;
 
 public class ChartDaoImpl extends BaseDao implements ChartDao {
@@ -216,4 +217,13 @@ public class ChartDaoImpl extends BaseDao implements ChartDao {
 		list = getSqlMapClientTemplate().queryForList("queryUnInWarehouseCost", paramMap);
 		return list;
 	}
+	
+	public List<CustomerUnInvoiceDto> queryCustomerUnInvoice (String customerid){
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("customerid", customerid);
+		List<CustomerUnInvoiceDto> list = null;
+		list = getSqlMapClientTemplate().queryForList("queryCustomerUnInvoice", paramMap);
+		return list;		
+	};
+
 }

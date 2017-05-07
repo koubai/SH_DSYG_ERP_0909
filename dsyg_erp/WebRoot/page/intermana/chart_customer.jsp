@@ -153,8 +153,149 @@
 	        });
 	    };  
 
+	    function ajaxRequestData(act, fromDate, toDate, dur_type, tit){
+			var o_data="";
+			var X_data = new Array();
+			X_data = get_X_Data(fromDate, toDate, dur_type);			
+//			alert("type: " + dur_type + " from_date:"+ fromDate+ " to_date:"+ toDate);		
+			
+			var handerList = $("#handerList").val().trim();
+			if( handerList== null) {
+				handerList="";
+			}
+//			alert("handerList: "+handerList);		
+            $.ajax({
+				url: '${pageContext.request.contextPath}/ChartServlet.servlet?action='+act+'&from_date='+fromDate+'&to_date='+toDate+'&dur_type='+dur_type+'&handerList='+handerList,
+                type: "POST",
+                dataType: "text",
+                async: false,
+                success: function (data) {
+	       			var pie_data = getPieData(data, tit);
+        			drawPie(pie_data, tit);
+        			o_data = getChartData(data);
+        			drawChart(fromDate, toDate, dur_type, o_data, tit);
+        			v_data = getViewData(data);
+        			viewData(X_data, v_data);
+                }
+            });
+            return o_data;
+        }	
+
+	    function getPieData(data, tit) {
+
+			var jsonobj=eval(data);  
+			var sum_data = new Array();
+			var total_data = new Number(0);
+
+			if (jsonobj.length >0){
+				for(var i=0;i<jsonobj.length;i++){  
+//				    alert(jsonobj[i].name);  
+//				    alert(jsonobj[i].data);  
+					if (jsonobj[i].data.length >0){
+						var sum_d = new Number(0);
+						for(var j=0;j<jsonobj[i].data.length;j++){  							
+							var ind_data = new Number(0);
+							ind_data = parseFloat(jsonobj[i].data[j]);  
+							sum_d = sum_d + ind_data; 
+							sum_data[i] = sum_d; 
+						}
+						total_data = total_data + sum_data[i]; 
+					}
+				}
+			}
+			var o_data = "[{type: 'pie', name:'"+tit+"分布',data:[";
+			if (jsonobj.length >0){
+				for(var k=0;k<jsonobj.length;k++){  
+					if (k == 0){
+						o_data = o_data + "[";
+					}else{
+						o_data = o_data + ",[";
+					}
+					if (jsonobj[k].name.indexOf("$$") != -1)
+						o_data = o_data  + "'" + jsonobj[k].name.substring(0, jsonobj[k].name.indexOf("$$")) + "',"+ sum_data[k]*100/total_data;
+					else
+						o_data = o_data  + "'" + jsonobj[k].name + "',"+ sum_data[k]*100/total_data;
+					o_data = o_data  + "]";
+				}
+			}
+			o_data = o_data + "]}]";				
+			return o_data;			
+   	    };
+   	    
+		function getChartData(data) {
+			var jsonobj=eval(data);  
+			if (jsonobj.length >0){
+//				alert("o_data:"+ data);
+				for(var k=0;k<jsonobj.length;k++){  
+					if (jsonobj[k].name.indexOf("$$") != -1){
+						jsonobj[k].name= "'"+ jsonobj[k].name.substring(0, jsonobj[k].name.indexOf("$$")) + "'";						
+					} else{
+						jsonobj[k].name= "'"+ jsonobj[k].name+"'";
+					}
+				}
+			}
+        	var str_data= JSON.stringify(jsonobj);
+        	var o_data= str_data.replace(/\"/g,"");
+//   			alert("o_data:"+o_data);
+           	return o_data;            
+		}
+
+		function getViewData(data) {
+			var jsonobj=eval(data);  
+   			if (jsonobj.length >0){
+				var uninvoice = "";
+				for(var k=0;k<jsonobj.length;k++){  
+					if (jsonobj[k].name.indexOf("$$") != -1){
+						uninvoice = jsonobj[k].name.substring(jsonobj[k].name.indexOf("$$")+2);
+						jsonobj[k].name= "'"+ jsonobj[k].name.substring(0, jsonobj[k].name.indexOf("$$")) + "'";						
+					} else {
+						jsonobj[k].name= "'"+ jsonobj[k].name+"'";
+					}
+					jsonobj[k].data[jsonobj[k].data.length]=uninvoice;
+//					jsonobj[k].data.add(uninvoice);
+				}
+			}
+        	var str_data= JSON.stringify(jsonobj);
+        	var o_data= str_data.replace(/\"/g,"");
+//   			alert("o_data:"+o_data);
+           	return o_data;            
+		}
 		
-		</script>
+		function viewData(X_data, data) {
+			var jsonobj=eval(data);  
+
+			var newLine = $("#planTable").length;
+			var d=document.getElementById('planTable').deleteTHead();
+			var x=document.getElementById('planTable').createTHead();
+			if (X_data.length>0){
+				var row = x.insertRow(0);   
+	            var col = row.insertCell(0);         
+                col.innerHTML = "<style>strong{background:#59c9ff}</style><strong>"+""+"</strong>";
+	            col = row.insertCell(1);         
+                col.innerHTML = "<style>strong{background:#59c9ff}</style><strong>"+""+"</strong>";
+	            for (var z=0; z< X_data.length; z++) {
+	    		    col = row.insertCell(z+2);   
+	                col.innerHTML = "<style>strong{background:#59c9ff}</style><strong>"+X_data[z]+"</strong>";
+	            }             
+    		    col = row.insertCell(z+2);   
+                col.innerHTML = "<style>strong{background:#59c9ff}</style><strong>"+"未开票金额"+"</strong>";
+				d=document.getElementById('planTable').deleteTFoot();
+				x=document.getElementById('planTable').createTFoot();
+		        $.each(jsonobj, function(i, u){	         				
+		    		 var row = x.insertRow(i); 
+		    		 var col = row.insertCell(0);                
+		             col.innerHTML = "<style>strong1{float: right;}</style><strong1>"+ (i+1) +"</strong1>";
+		    		 col = row.insertCell(1);                
+		             col.innerHTML = "<style>strong1{float: right;}</style><strong1>"+u.name+"</strong1>";
+			                
+		             for (var w=0; w< u.data.length; w++) {
+					 	col = row.insertCell(w+2);   
+			            col.innerHTML = "<style>strong1{float: right;}</style><strong1>"+u.data[w].toFixed(2).toString()+"</strong1>";
+		             }
+		        });				
+			}
+	    };  
+	    </script>
 		<!-- <script src="${pageContext.request.contextPath}/js/themes/gray.js"></script> -->
 	</head>
 	<body>

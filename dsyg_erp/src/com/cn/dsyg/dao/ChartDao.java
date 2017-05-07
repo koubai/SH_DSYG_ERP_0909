@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cn.dsyg.dto.ChartDto;
 import com.cn.dsyg.dto.ChartSaleTotalDto;
+import com.cn.dsyg.dto.CustomerUnInvoiceDto;
 import com.cn.dsyg.dto.WarehouseCostDto;
 
 public interface ChartDao {
@@ -24,5 +25,6 @@ public interface ChartDao {
 	public List<WarehouseCostDto> queryWarehouseCost();
 	public List<WarehouseCostDto> queryUnOutWarehouseCost();
 	public List<WarehouseCostDto> queryUnInWarehouseCost();
+	public List<CustomerUnInvoiceDto> queryCustomerUnInvoice (String customerid);
 
 }
