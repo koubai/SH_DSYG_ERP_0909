@@ -243,7 +243,7 @@
 		function getViewData(data) {
 			var jsonobj=eval(data);  
    			if (jsonobj.length >0){
-				var uninvoice = "";
+				var uninvoice = "0";
 				for(var k=0;k<jsonobj.length;k++){  
 					if (jsonobj[k].name.indexOf("$$") != -1){
 						uninvoice = jsonobj[k].name.substring(jsonobj[k].name.indexOf("$$")+2);
