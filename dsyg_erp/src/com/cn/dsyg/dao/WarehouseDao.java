@@ -1,5 +1,6 @@
 package com.cn.dsyg.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.cn.dsyg.dto.InOutStockDto;
@@ -77,6 +78,23 @@ public interface WarehouseDao {
 	 * @return
 	 */
 	public WarehouseDto queryCbjWarehouseByProductid(String productid);
+	
+	/**
+	 * 计算成本价 added by gqchen 2017-05-21
+	 * 根据产品ID按入库时间排序，找到能匹配数量的记录列表，再计算成本
+	 * 若该记录还有剩余，则取一部分，加一个字段res07保存剩余数量
+	 * @param productid
+	 * @param quantity
+	 * @return
+	 */
+	public WarehouseDto calcCurrentCbjByProductid(String productid, BigDecimal quantity);
+	
+	/**
+	 * 根据产品ID按入库时间asc查询未销售的入库记录列表（计算成本价） added by gqchen 2017-05-21
+	 * @param productid
+	 * @return
+	 */
+	public List<WarehouseDto> queryNoSaledWarehouseByProductid(String productid);
 	
 	/**
 	 * 根据产品ID，查询库存数量（状态=1，2，6的）

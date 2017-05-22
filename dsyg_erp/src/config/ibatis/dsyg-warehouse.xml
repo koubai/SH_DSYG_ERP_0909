@@ -526,6 +526,14 @@
 			W.warehousetype = 1 AND W.productid = #productid# GROUP BY W.productid ORDER BY W.productid
 	</select>
 	
+	<!-- chen ben jia start. added by gqchen -->
+	<select id="queryNoSaledWarehouseByProductid" parameterClass="java.util.Map" resultMap="WarehouseDto">
+		SELECT W.* FROM etb_warehouse W WHERE W.res07 <![CDATA[>]]> 0
+			AND W.warehousetype = 1 AND W.productid = #productid#  
+			ORDER BY W.warehousedate ASC, W.id ASC 
+	</select>
+	<!-- chen ben jia end. added by gqchen -->
+	
 	<select id="queryWarehouseByTheme2" parameterClass="java.util.Map" resultMap="WarehouseDto">
 		select T.* from etb_warehouse T where 1 = 1 and T.warehousetype = #warehousetype#
 			and T.theme2 LIKE '%$theme2$%' ESCAPE '/'

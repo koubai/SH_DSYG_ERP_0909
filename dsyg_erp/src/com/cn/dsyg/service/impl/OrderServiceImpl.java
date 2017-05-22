@@ -781,7 +781,8 @@ public class OrderServiceImpl implements OrderService {
 			warehouse.setRes03("" + product.getMakearea());
 			
 			//计算成本价
-			WarehouseDto cbj = warehouseDao.queryCbjWarehouseByProductid("" + detail.getProductid());
+			//WarehouseDto cbj = warehouseDao.queryCbjWarehouseByProductid("" + detail.getProductid());
+			WarehouseDto cbj = warehouseDao.calcCurrentCbjByProductid("" + detail.getProductid(), warehouse.getQuantity());
 			if(cbj != null) {
 				warehouse.setRes04(cbj.getRes04());
 			}

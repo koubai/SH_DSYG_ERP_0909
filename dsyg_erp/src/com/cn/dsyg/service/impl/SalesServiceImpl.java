@@ -457,7 +457,8 @@ public class SalesServiceImpl implements SalesService {
 		warehouse.setRes03("" + salesItem.getMakearea());
 		
 		//计算成本价
-		WarehouseDto cbj = warehouseDao.queryCbjWarehouseByProductid(salesItem.getProductid());
+		//WarehouseDto cbj = warehouseDao.queryCbjWarehouseByProductid(salesItem.getProductid());
+		WarehouseDto cbj = warehouseDao.calcCurrentCbjByProductid(salesItem.getProductid(), warehouse.getQuantity());
 		if(cbj != null) {
 			warehouse.setRes04(cbj.getRes04());
 		}

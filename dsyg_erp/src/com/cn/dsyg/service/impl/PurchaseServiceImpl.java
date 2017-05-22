@@ -528,6 +528,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 		warehouse.setProductid("" + purchaseItem.getProductid());
 		//入库数量=预入库数
 		warehouse.setQuantity(purchaseItem.getBeforequantity());
+		//预入库时，res07数量=预入库数量 added by gqchen 2017-05-21
+		warehouse.setRes07("" + purchaseItem.getBeforequantity());
 		
 		//判断数量是否是负数
 		if(purchaseItem.getBeforequantity().floatValue() < 0) {

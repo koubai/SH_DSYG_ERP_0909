@@ -193,12 +193,12 @@ public class WarehouseDto extends BaseAction {
 	private String res05;
 
 	/**
-	 * 预备项目6
+	 * 是否online订单
 	 */
 	private String res06;
 
 	/**
-	 * 预备项目7
+	 * 当前记录销售后剩余数量
 	 */
 	private String res07;
 

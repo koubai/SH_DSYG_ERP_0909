@@ -1,8 +1,11 @@
 package com.cn.dsyg.dao.impl;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.jfree.util.Log;
 
 import com.cn.common.dao.BaseDao;
 import com.cn.dsyg.dao.WarehouseDao;
@@ -97,6 +100,74 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		}
 		return null;
 	}
+	
+	//计算成本价start added by gqchen 2017-05-21
+	@Override
+	public WarehouseDto calcCurrentCbjByProductid(String productid,
+			BigDecimal quantity) {
+		//验证出库数量是否为空或者数量为0
+		if(quantity == null || new BigDecimal(0).equals(quantity)) {
+			return null;
+		}
+		quantity = new BigDecimal(-1).multiply(quantity);
+		try {
+			List<WarehouseDto> list = queryNoSaledWarehouseByProductid(productid);
+			if(list != null && list.size() > 0) {
+				WarehouseDto result = new WarehouseDto();
+				//总价格
+				BigDecimal totalPrice = new BigDecimal(0);
+				BigDecimal salesQuantity = quantity;
+				//循环匹配数量
+				for(WarehouseDto warehouse : list) {
+					//计算当前入库记录的剩余数量
+					BigDecimal currentRemain = new BigDecimal(0);
+					if(warehouse.getRes07() != null) {
+						currentRemain = new BigDecimal(warehouse.getRes07());
+						//判断当前入库单库存数量是否够出库
+						if(currentRemain.compareTo(salesQuantity) >= 0) {
+							//满足剩余数量，更新当前库存记录并跳出循环
+							warehouse.setRes07("" + currentRemain.subtract(salesQuantity));
+							//更新当前记录
+							updateWarehouse(warehouse);
+							totalPrice = totalPrice.add(warehouse.getUnitprice().multiply(salesQuantity));
+							salesQuantity = new BigDecimal(0);
+							break;
+						} else {
+							//未满足数量，更新当前库存记录继续循环
+							warehouse.setRes07("0");
+							//更新当前记录
+							updateWarehouse(warehouse);
+							salesQuantity = salesQuantity.subtract(currentRemain);
+							totalPrice = totalPrice.add(warehouse.getUnitprice().multiply(currentRemain));
+						}
+					}
+				}
+				if(salesQuantity.compareTo(new BigDecimal(0)) > 0) {
+					//当前库存数量不满足出库数量，
+				} else {
+					//计算成本价，保留6位有效数字
+					BigDecimal cbj = totalPrice.divide(quantity, 6, BigDecimal.ROUND_HALF_UP);
+					result.setRes04("" + cbj);
+					return result;
+				}
+			} else {
+				//没有库存记录，直接返回null
+			}
+		} catch (Exception e) {
+			System.out.println("productid=" + productid + ",calcCurrentCbjByProductid error:" + e);
+		}
+		return null;
+	}
+	
+	@Override
+	public List<WarehouseDto> queryNoSaledWarehouseByProductid(String productid) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("productid", productid);
+		@SuppressWarnings("unchecked")
+		List<WarehouseDto> list = getSqlMapClientTemplate().queryForList("queryNoSaledWarehouseByProductid", paramMap);
+		return list;
+	}
+	//计算成本价end added by gqchen 2017-05-21
 	
 	@Override
 	public List<WarehouseDto> queryWarehouseByTheme2(String warehousetype,

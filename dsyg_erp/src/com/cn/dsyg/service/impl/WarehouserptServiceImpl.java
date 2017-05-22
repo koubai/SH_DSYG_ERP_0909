@@ -751,6 +751,8 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 						//入出库数量=损毁数
 						//入库单，数量为负数
 						warehouse.setQuantity(new BigDecimal(product.getBrokennum()).multiply(new BigDecimal(-1)));
+						//入库单res07数量=预入库数量 added by gqchen 2017-05-21
+						warehouse.setRes07("" + warehouse.getQuantity());
 					} else {
 						//销售单价
 						taxamount = new BigDecimal(product.getBrokennum()).multiply(warehouse.getUnitprice());
