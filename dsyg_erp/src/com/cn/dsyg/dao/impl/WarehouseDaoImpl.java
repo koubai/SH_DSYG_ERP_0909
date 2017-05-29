@@ -131,10 +131,16 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 							updateWarehouse(warehouse);
 							
 							//计算总价格
-							if(warehouse.getWarehousetype() == Constants.WAREHOUSE_TYPE_REFOUND
-							|| warehouse.getWarehousetype() == Constants.WAREHOUSE_TYPE_OUT) {
-								//销售退货记录和库存修正记录，取成本价
-								totalPrice = totalPrice.add(new BigDecimal(warehouse.getRes04()).multiply(salesQuantity));
+							if(warehouse.getWarehousetype() == Constants.WAREHOUSE_TYPE_REFOUND) {
+								//库存修正成本为0，这里不做计算
+							} else if(warehouse.getWarehousetype() == Constants.WAREHOUSE_TYPE_OUT) {
+								if(warehouse.getRes04() != null) {
+									//销售记录，成本价不为空则取成本价
+									totalPrice = totalPrice.add(new BigDecimal(warehouse.getRes04()).multiply(salesQuantity));
+								} else {
+									//成本价为空，则取单价
+									totalPrice = totalPrice.add((warehouse.getUnitprice()).multiply(salesQuantity));
+								}
 							} else {
 								//默认取单价
 								totalPrice = totalPrice.add(warehouse.getUnitprice().multiply(salesQuantity));
@@ -147,8 +153,23 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 							warehouse.setRes07("0");
 							//更新当前记录
 							updateWarehouse(warehouse);
+							
+							//计算总价格
+							if(warehouse.getWarehousetype() == Constants.WAREHOUSE_TYPE_REFOUND) {
+								//库存修正成本为0，这里不做计算
+							} else if(warehouse.getWarehousetype() == Constants.WAREHOUSE_TYPE_OUT) {
+								if(warehouse.getRes04() != null) {
+									//销售记录，成本价不为空则取成本价
+									totalPrice = totalPrice.add(new BigDecimal(warehouse.getRes04()).multiply(currentRemain));
+								} else {
+									//成本价为空，则取单价
+									totalPrice = totalPrice.add((warehouse.getUnitprice()).multiply(currentRemain));
+								}
+							} else {
+								//默认取单价
+								totalPrice = totalPrice.add(warehouse.getUnitprice().multiply(currentRemain));
+							}
 							salesQuantity = salesQuantity.subtract(currentRemain);
-							totalPrice = totalPrice.add(warehouse.getUnitprice().multiply(currentRemain));
 						}
 					}
 				}
