@@ -90,7 +90,7 @@ public class WarehouseRefundAction extends BaseAction {
 			//当前操作用户ID
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
 			updWarehouseDto.setUpdateuid(username);
-			warehouseService.updateWarehouse(updWarehouseDto);
+			warehouseService.updateRefundWarehouse(updWarehouseDto);
 			
 			this.addActionMessage("修改成功！");
 		} catch(Exception e) {

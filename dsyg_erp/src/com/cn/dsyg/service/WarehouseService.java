@@ -317,6 +317,12 @@ public interface WarehouseService {
 	public void updateWarehouse(WarehouseDto warehouse);
 	
 	/**
+	 * 修改数据（库存修正及退换货时，需要计算成本价）
+	 * @param warehouse
+	 */
+	public void updateRefundWarehouse(WarehouseDto warehouse);
+	
+	/**
 	 * 根据产品id查询流水
 	 * @param productid
 	 * @return

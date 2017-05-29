@@ -268,6 +268,8 @@ public class Constants {
 	public final static int WAREHOUSE_TYPE_PD = 3;
 	//库存类型：4为online订单
 	public final static int WAREHOUSE_TYPE_ONLINE = 4;
+	//库存类型：6为库存修正
+	public final static int WAREHOUSE_TYPE_REFOUND = 6;
 	
 	//发货单数据来源：1为入库单
 	public final static int WAREHOUSERPT_TYPE_IN = 1;

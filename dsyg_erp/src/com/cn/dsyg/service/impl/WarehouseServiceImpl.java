@@ -1159,12 +1159,37 @@ public class WarehouseServiceImpl implements WarehouseService {
 		warehouse.setRank(Constants.ROLE_RANK_OPERATOR);
 		warehouse.setStatus(Constants.FINANCE_STATUS_PAY_INVOICE);
 		
+		if(warehouse.getQuantity().floatValue() >= 0) {
+			//库存数量大于0，则单价为0
+			warehouse.setRes04("0.000000");
+			//res07
+			warehouse.setRes07("" + warehouse.getQuantity());
+		} else {
+			//数量小于0，计算成本价
+			WarehouseDto cbj = warehouseDao.calcCurrentCbjByProductid(warehouse.getProductid(), warehouse.getQuantity());
+			if(cbj != null) {
+				warehouse.setRes04(cbj.getRes04());
+			}
+		}
+		
 		warehouseDao.insertWarehouse(warehouse);
 		return warehouseno;
 	}
 
 	@Override
 	public void updateWarehouse(WarehouseDto warehouse) {
+		warehouseDao.updateWarehouse(warehouse);
+	}
+	
+	@Override
+	public void updateRefundWarehouse(WarehouseDto warehouse) {
+//		if(warehouse.getQuantity().floatValue() >= 0) {
+//			//库存数量大于0，则单价为0
+//			warehouse.setRes04("0.000000");
+//		} else {
+//			//数量小于0，计算成本价
+//			warehouseDao.calcCurrentCbjByProductid(warehouse.getProductid(), warehouse.getQuantity());
+//		}
 		warehouseDao.updateWarehouse(warehouse);
 	}
 

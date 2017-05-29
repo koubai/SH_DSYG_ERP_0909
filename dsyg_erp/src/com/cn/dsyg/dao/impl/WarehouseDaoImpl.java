@@ -5,9 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jfree.util.Log;
-
 import com.cn.common.dao.BaseDao;
+import com.cn.common.util.Constants;
 import com.cn.dsyg.dao.WarehouseDao;
 import com.cn.dsyg.dto.InOutStockDto;
 import com.cn.dsyg.dto.ProductQuantityDto;
@@ -109,6 +108,7 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		if(quantity == null || new BigDecimal(0).equals(quantity)) {
 			return null;
 		}
+		//这里数量一定是负数，这里先变正数
 		quantity = new BigDecimal(-1).multiply(quantity);
 		try {
 			List<WarehouseDto> list = queryNoSaledWarehouseByProductid(productid);
@@ -129,7 +129,17 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 							warehouse.setRes07("" + currentRemain.subtract(salesQuantity));
 							//更新当前记录
 							updateWarehouse(warehouse);
-							totalPrice = totalPrice.add(warehouse.getUnitprice().multiply(salesQuantity));
+							
+							//计算总价格
+							if(warehouse.getWarehousetype() == Constants.WAREHOUSE_TYPE_REFOUND
+							|| warehouse.getWarehousetype() == Constants.WAREHOUSE_TYPE_OUT) {
+								//销售退货记录和库存修正记录，取成本价
+								totalPrice = totalPrice.add(new BigDecimal(warehouse.getRes04()).multiply(salesQuantity));
+							} else {
+								//默认取单价
+								totalPrice = totalPrice.add(warehouse.getUnitprice().multiply(salesQuantity));
+							}
+							
 							salesQuantity = new BigDecimal(0);
 							break;
 						} else {
