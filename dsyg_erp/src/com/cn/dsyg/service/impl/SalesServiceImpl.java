@@ -456,11 +456,26 @@ public class SalesServiceImpl implements SalesService {
 		//产地
 		warehouse.setRes03("" + salesItem.getMakearea());
 		
-		//计算成本价
-		//WarehouseDto cbj = warehouseDao.queryCbjWarehouseByProductid(salesItem.getProductid());
-		WarehouseDto cbj = warehouseDao.calcCurrentCbjByProductid(salesItem.getProductid(), warehouse.getQuantity());
-		if(cbj != null) {
-			warehouse.setRes04(cbj.getRes04());
+		//判断数量是否是负数，负数表示退换货，所以不用计算成本价
+		if(salesItem.getBeforequantity().floatValue() < 0) {
+			//成本价直接取当前销售单的本商品的成本价。
+			//根据销售单+产品ID查询记录，取得成本价
+			WarehouseDto cbjWarehouse = warehouseDao.queryWarehouseByParentidAndProductid(sales.getSalesno(), salesItem.getProductid());
+			if(cbjWarehouse != null) {
+				warehouse.setRes04(cbjWarehouse.getRes04());
+			} else {
+				//取单价
+				warehouse.setRes04("" + warehouse.getUnitprice());
+			}
+			//res07=数量
+			warehouse.setRes07("" + warehouse.getQuantity());
+		} else {
+			//计算成本价
+			//WarehouseDto cbj = warehouseDao.queryCbjWarehouseByProductid(salesItem.getProductid());
+			WarehouseDto cbj = warehouseDao.calcCurrentCbjByProductid(salesItem.getProductid(), warehouse.getQuantity());
+			if(cbj != null) {
+				warehouse.setRes04(cbj.getRes04());
+			}
 		}
 		
 		//出库金额=出库数量*单价
