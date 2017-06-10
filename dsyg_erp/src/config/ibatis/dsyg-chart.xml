@@ -1435,18 +1435,12 @@
 	<select id="queryWarehouseCost" parameterClass="java.util.Map" resultMap="WarehouseCostDto">
 	SELECT D.fieldname, C.warehousecost, C.leavequantity
 	FROM (
-		SELECT P.fieldno as typeno, sum(S.allleave) as warehousecost, sum(S.kc) as leavequantity
+		SELECT P.fieldno as typeno, sum(S.allleave) as leavequantity, sum(S.kc) as warehousecost
 		FROM (
-			SELECT W.productid, T.cbj, sum(quantity) as kc, T.cbj*sum(quantity) as allleave 
-			FROM (
-				SELECT productid, sum(taxamount) as sumamount, sum(quantity) as inquantity, (sum(taxamount)/sum(quantity)) as cbj
+				select productid, res07 as allleave, IFNULL(res04,IFNULL(unitprice,0))*1.17* res07 as kc 
 				FROM etb_warehouse
-				WHERE warehousetype = 1
-				AND status >= 20
-				GROUP BY productid
-			)T, etb_warehouse W
-			WHERE T.productid=W.productid
-			GROUP BY W.productid
+				WHERE res07 > 0
+				and warehousetype != 6
 		)S LEFT JOIN etb_product P
 		ON S.productid = P.id
 		GROUP BY P.fieldno
