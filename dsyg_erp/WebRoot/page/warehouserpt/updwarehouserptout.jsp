@@ -72,7 +72,7 @@
 			$("#expresstaxamount").focus();
 			return;
 		}
-		if(!isReal(expresstaxamount)) {
+		if(!isAllReal(expresstaxamount)) {
 			alert("转运费用合计必须为大于0的实数！");
 			$("#expresstaxamount").focus();
 			return;

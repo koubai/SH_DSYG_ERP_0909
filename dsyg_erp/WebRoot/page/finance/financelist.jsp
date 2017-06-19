@@ -91,7 +91,7 @@
 				$("#strBillamount1").focus();
 				return;
 			}
-			if(!isReal(strBillamount1)) {
+			if(!isAllReal(strBillamount1)) {
 				alert("发票金额1必须为大于0的实数！");
 				$("#strBillamount1").focus();
 				return;
