@@ -19,6 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.cn.common.util.Constants;
 import com.cn.common.util.DateUtil;
 import com.cn.common.util.StringUtil;
+import com.cn.common.util.Unitcase;
 import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.dto.PurchaseDto;
 import com.cn.dsyg.dto.WarehouserptDto;
@@ -35,7 +36,8 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 		//设置打印参数
 		XSSFPrintSetup print = sheet.getPrintSetup();
 		print.setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
-		print.setScale((short)69);
+//		print.setScale((short)69);
+		print.setScale((short)62);
 		//Head部分颜色字体
 		XSSFFont font = workbook.createFont();
 		//加粗
@@ -66,7 +68,7 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 		WarehouserptDto warehouserpt = new WarehouserptDto();
 		XSSFFont font = workbook.createFont();
 		//字体大小
-		font.setFontHeightInPoints((short)16);
+		font.setFontHeightInPoints((short)14);
 		//式样
 		XSSFCellStyle style = workbook.createCellStyle();
 		//水平居中
@@ -88,6 +90,8 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 				//对货物数据解析
 				for(int j = 0; j < warehouserpt.getListProduct().size(); j++) {
 					ProductDto product = warehouserpt.getListProduct().get(j);
+					Unitcase unitcase = new Unitcase(product.getItem10());
+					
 					row = sheet.createRow(num + 8);
 					XSSFCell cell0 = row.createCell(0);
 					XSSFCell cell1 = row.createCell(1);
@@ -100,6 +104,8 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 					XSSFCell cell8 = row.createCell(8);
 					XSSFCell cell9 = row.createCell(9);
 					XSSFCell cell10 = row.createCell(10);
+					XSSFCell cell11 = row.createCell(11);
+					XSSFCell cell12 = row.createCell(12);
 					
 					cell0.setCellValue(num + 1);
 					cell0.setCellStyle(style);
@@ -139,6 +145,26 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 					}
 					cell10.setCellStyle(style);
 					cell10.setCellValue(dictMap.get(Constants.DICT_MAKEAREA + "_" + product.getMakearea()));
+					cell11.setCellStyle(style);
+					if (product.getNum() != null && !"".equals(product.getNum())){
+						String str11 = StringUtil.BigDecimal2StrAbs(new BigDecimal(product.getNum()),2);
+						if (unitcase.getUnitAmount(str11) != "")
+							cell11.setCellValue(unitcase.getUnitAmount(str11)+unitcase.getBoxNameA());
+						else
+							cell11.setCellValue("");
+					} else {
+						cell11.setCellValue("");						
+					} 
+					cell12.setCellStyle(style);
+					if (product.getNum() != null && !"".equals(product.getNum())){
+						String str12 = StringUtil.BigDecimal2StrAbs(new BigDecimal(product.getNum()),2);
+						if (unitcase.getBoxAmout(str12) != "")
+							cell12.setCellValue(unitcase.getBoxAmout(str12)+unitcase.getBoxNameB());
+						else
+							cell12.setCellValue("");
+					} else {
+						cell12.setCellValue("");
+					}
 					num++;
 				}
 			} else {
@@ -154,6 +180,8 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 				XSSFCell cell8 = row.createCell(8);
 				XSSFCell cell9 = row.createCell(9);
 				XSSFCell cell10 = row.createCell(10);
+				XSSFCell cell11 = row.createCell(11);
+				XSSFCell cell12 = row.createCell(12);
 				
 				cell0.setCellValue(num + 1);
 				cell0.setCellStyle(style);
@@ -179,6 +207,10 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 				cell9.setCellStyle(style);
 				cell10.setCellValue("");
 				cell10.setCellStyle(style);
+				cell11.setCellValue("");
+				cell11.setCellStyle(style);
+				cell12.setCellValue("");
+				cell12.setCellStyle(style);
 				num++;
 			}
 		}
@@ -215,6 +247,10 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 		sheet.setColumnWidth(9, 14 * 256);
 		heads.add("产地");
 		sheet.setColumnWidth(10, 12 * 256);
+		heads.add("");
+		sheet.setColumnWidth(10, 6 * 256);
+		heads.add("");
+		sheet.setColumnWidth(10, 6 * 256);
 		//heads.add("税后金额");
 		//sheet.setColumnWidth(9, 15 * 256);
 		
@@ -223,7 +259,7 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 		//加粗
 		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 		//字体大小
-		font.setFontHeightInPoints((short)16);
+		font.setFontHeightInPoints((short)14);
 		
 		//式样
 		XSSFCellStyle style = workbook.createCellStyle();
