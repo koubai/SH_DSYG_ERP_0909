@@ -557,7 +557,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 			//之前的预入库金额（含税）
 			BigDecimal oldAmount = purchaseItem.getTaxunitprice().multiply(oldQuantity);
 			//当前库存记录的含税金额=含税总金额-之前的预入库金额（含税）
-			taxamount = purchaseItem.getTaxamount().subtract(oldAmount);
+			try {
+				taxamount = purchaseItem.getTaxamount().subtract(oldAmount);
+			} catch (Exception e){
+				taxamount = new BigDecimal(0);
+			}
 		} else {
 			//不是最后一部分预入库的ITEM
 			//入入库金额（含税）=入库金额*（1+税率）

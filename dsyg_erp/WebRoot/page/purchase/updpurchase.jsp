@@ -57,7 +57,11 @@
 			}
 			var taxamount = parseFloat(purchaseAmount) * (1 + parseFloat(rate));
 			//计算含税金额
-			tds[18].getElementsByTagName("input")[0].value = taxamount.toFixed(2);
+			if (taxamount == "") {
+				tds[18].getElementsByTagName("input")[0].value = (0).toFixed(2);
+				taxamount = 0;
+			} else
+				tds[18].getElementsByTagName("input")[0].value = taxamount.toFixed(2);
 			//隐藏域
 			//采购金额未税
 			inputs[13].value = purchaseAmount;
@@ -98,9 +102,13 @@
 			var childs = rows[i].cells[0].getElementsByTagName("input");
 			if(childs[13].value.trim() != "") {
 				calcAmount += parseFloat(childs[13].value.trim());
+			}else{
+				calcAmount += 0;
 			}
 			if(childs[14].value.trim() != "") {
 				calcTaxamount += parseFloat(childs[14].value.trim());
+			}else{
+				calcTaxamount += 0;
 			}
 		}
 		
@@ -291,6 +299,8 @@
 			inputs[14].value = vv.toFixed(2);
 			//输入框金额也对应变更
 			tds[18].getElementsByTagName("input")[0].value = vv.toFixed(2);
+		}else{
+			tds[18].getElementsByTagName("input")[0].value = (0).toFixed(2);			
 		}
 		//===============================================
 		//采购金额未税
@@ -305,9 +315,13 @@
 			var childs = rows[i].cells[0].getElementsByTagName("input");
 			if(childs[13].value != "") {
 				calcAmount += parseFloat(childs[13].value);
+			}else{
+				calcAmount += 0;				
 			}
 			if(childs[14].value != "") {
 				calcTaxamount += parseFloat(childs[14].value);
+			}else{
+				calcTaxamount += 0;
 			}
 		}
 		
@@ -622,9 +636,14 @@
 			var childs = rows[i].cells[0].getElementsByTagName("input");
 			var amount = childs[13].value;
 			var taxamount = childs[14].value;
+			if (taxamount == "")
+				taxamount = 0;
 			if(amount != "") {
 				all += parseFloat(amount);
 				taxall += parseFloat(taxamount);
+			}else{
+				all += 0;
+				taxall += 0;
 			}
 		}
 		//采购金额不含税
