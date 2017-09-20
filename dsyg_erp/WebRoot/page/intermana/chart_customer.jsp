@@ -212,7 +212,7 @@
 						o_data = o_data + ",[";
 					}
 					if (jsonobj[k].name.indexOf("$$") != -1)
-						o_data = o_data  + "'" + jsonobj[k].name.substring(0, jsonobj[k].name.indexOf("$$")) + "',"+ sum_data[k]*100/total_data;
+						o_data = o_data  + "'" + jsonobj[k].name.substring(0, jsonobj[k].name.indexOf("%%")) + "',"+ sum_data[k]*100/total_data;
 					else
 						o_data = o_data  + "'" + jsonobj[k].name + "',"+ sum_data[k]*100/total_data;
 					o_data = o_data  + "]";
@@ -228,7 +228,7 @@
 //				alert("o_data:"+ data);
 				for(var k=0;k<jsonobj.length;k++){  
 					if (jsonobj[k].name.indexOf("$$") != -1){
-						jsonobj[k].name= "'"+ jsonobj[k].name.substring(0, jsonobj[k].name.indexOf("$$")) + "'";						
+						jsonobj[k].name= "'"+ jsonobj[k].name.substring(0, jsonobj[k].name.indexOf("%%")) + "'";						
 					} else{
 						jsonobj[k].name= "'"+ jsonobj[k].name+"'";
 					}
@@ -249,6 +249,7 @@
 						uninvoice = jsonobj[k].name.substring(jsonobj[k].name.indexOf("$$")+2);
 						jsonobj[k].name= "'"+ jsonobj[k].name.substring(0, jsonobj[k].name.indexOf("$$")) + "'";						
 					} else {
+						uninvoice = "0";
 						jsonobj[k].name= "'"+ jsonobj[k].name+"'";
 					}
 					jsonobj[k].data[jsonobj[k].data.length]=uninvoice;
@@ -279,6 +280,8 @@
 	            }             
     		    col = row.insertCell(z+2);   
                 col.innerHTML = "<style>strong{background:#59c9ff}</style><strong>"+"未开票金额"+"</strong>";
+    		    col = row.insertCell(z+3);   
+                col.innerHTML = "<style>strong{background:#59c9ff}</style><strong>"+"金金金金"+"</strong>";
 				d=document.getElementById('planTable').deleteTFoot();
 				x=document.getElementById('planTable').createTFoot();
 		        $.each(jsonobj, function(i, u){	         				
@@ -286,12 +289,14 @@
 		    		 var col = row.insertCell(0);                
 		             col.innerHTML = "<style>strong1{float: right;}</style><strong1>"+ (i+1) +"</strong1>";
 		    		 col = row.insertCell(1);                
-		             col.innerHTML = "<style>strong1{float: right;}</style><strong1>"+u.name+"</strong1>";
+		             col.innerHTML = "<style>strong1{float: right;}</style><strong1>"+u.name.substring(0, u.name.indexOf("%%"))+ "</strong1>" ;
 			                
 		             for (var w=0; w< u.data.length; w++) {
 					 	col = row.insertCell(w+2);   
 			            col.innerHTML = "<style>strong1{float: right;}</style><strong1>"+u.data[w].toFixed(2).toString()+"</strong1>";
 		             }
+		             col = row.insertCell(w+2); 
+		             col.innerHTML = "<a href='www.shdsyg.cn' />";
 		        });				
 			}
 	    };  

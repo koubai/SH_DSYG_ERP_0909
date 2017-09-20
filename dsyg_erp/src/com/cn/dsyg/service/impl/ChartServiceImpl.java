@@ -617,9 +617,12 @@ public class ChartServiceImpl implements ChartService{
         		        	if (customerlist.size() == 1){
         		        		customer_untax_amount = customerlist.get(0).getUninvoiceamount();
 	        		        	if (customer_untax_amount!= null && customer_untax_amount !="" ) {
-	            		        	chd.setHandler(tmp_customer_name + "$$" + customer_untax_amount);
+	            		        	chd.setHandler(tmp_customer_name +"%%" + tmp_customer_id + "$$" + customer_untax_amount);
 	            		        	list.set(ut, chd);        		        		
 	        		        	}
+        		        	}else{
+            		        	chd.setHandler(tmp_customer_name +"%%" + tmp_customer_id + "$$0" );
+            		        	list.set(ut, chd);        		        		        		        		
         		        	}
         		        }
         		    }            		           		

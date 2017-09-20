@@ -267,7 +267,7 @@
 	<!-- detail -->
 	<select id="queryDetailProductCountByPage" resultClass="int" parameterClass="java.util.Map">
 		select count(*) from (select T.*, P.fieldno, P.tradename, P.typeno, P.color, P.packaging, P.unit, P.item10 as item01
-		from etb_salesitem T, etb_product P where T.productid = P.id
+		from etb_salesitem T, etb_product P where T.productid = P.id and T.res02 = '0'
 		<isNotEmpty prepend="and" property="customerid">
 			T.customerid = #customerid#
 		</isNotEmpty>
@@ -276,7 +276,7 @@
 	
 	<select id="queryDetailProductByPage" parameterClass="java.util.Map" resultMap="SalesItemDto3">
 		select T.*, P.fieldno, P.tradename, P.typeno, P.color, P.packaging, P.unit, P.item10 as item01, P.makearea
-		from etb_salesitem T, etb_product P where T.productid = P.id
+		from etb_salesitem T, etb_product P where T.productid = P.id and T.res02 = '0'
 		<isNotEmpty prepend="and" property="customerid">
 			T.customerid = #customerid#
 		</isNotEmpty>
