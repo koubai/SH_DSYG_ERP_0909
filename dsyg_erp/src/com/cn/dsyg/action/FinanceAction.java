@@ -54,6 +54,9 @@ public class FinanceAction extends BaseAction {
 	private String strBillno;
 	//客户名称
 	private String strCustomername;
+	//客户名称
+	private String strCustomerid;
+	
 	//入出库单
 	private String strInvoiceid;
 	
@@ -161,6 +164,26 @@ public class FinanceAction extends BaseAction {
 					strRes10, strFaPiaoCustomername, strFaPiaoInvoiceid);
 		} catch(Exception e) {
 			log.error("showKaiPiaoAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	
+
+	/**
+	 * 客户单位开票页面查询
+	 * @return
+	 */
+	public String showKaiPiaoCpAction() {
+		try {
+			this.clearMessages();
+			//查询财务记录
+			kaipiaoList = financeService.queryFinanceByCpDate("",
+					getStrCustomerid(), getStrReceiptdateLow(), getStrReceiptdateHigh());
+			if (kaipiaoList.size()>0)
+				setStrCustomername(kaipiaoList.get(0).getCustomername());
+		} catch(Exception e) {
+			log.error("showKaiPiaoCpAction error:" + e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -883,4 +906,13 @@ public class FinanceAction extends BaseAction {
 	public void setStrTotalAmount(String strTotalAmount) {
 		this.strTotalAmount = strTotalAmount;
 	}
+
+	public String getStrCustomerid() {
+		return strCustomerid;
+	}
+
+	public void setStrCustomerid(String strCustomerid) {
+		this.strCustomerid = strCustomerid;
+	}
+
 }

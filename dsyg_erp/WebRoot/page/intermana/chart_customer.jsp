@@ -34,9 +34,12 @@
 		  return fmt;   
 		}
 
-		$(function () {  
-			$("#fromDate").val("2015-08-01");
+		$(function () {  			
+			var fDate= new Date();
+			var toDate= new Date();
 			$("#toDate").val(new Date().Format("yyyy-MM-dd"));
+			fDate.setMonth(toDate.getMonth()+1-3);
+			$("#fromDate").val(fDate.Format("yyyy-MM-dd"));
 			getCustomerData3M();
 		});	     	    
 
@@ -262,6 +265,16 @@
            	return o_data;            
 		}
 		
+		function dcl(id) {
+			var fromDate = document.getElementById("fromDate").value;
+			var toDate = document.getElementById("toDate").value;
+//			alert("customerid=" +id+"fromDate="+ fromDate+"toDate="+ toDate);
+			//弹出页面
+			var url = "../finance/showKaiPiaoCpAction.action";
+			url += "?strCustomerid=" + id + "&strReceiptdateLow=" + fromDate + "&strReceiptdateHigh=" + toDate + "&date=" + new Date();
+			window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		}
+		
 		function viewData(X_data, data) {
 			var jsonobj=eval(data);  
 
@@ -281,10 +294,11 @@
     		    col = row.insertCell(z+2);   
                 col.innerHTML = "<style>strong{background:#59c9ff}</style><strong>"+"未开票金额"+"</strong>";
     		    col = row.insertCell(z+3);   
-                col.innerHTML = "<style>strong{background:#59c9ff}</style><strong>"+"金金金金"+"</strong>";
+                col.innerHTML = "<style>strong{background:#59c9ff}</style><strong>"+""+"</strong>";
 				d=document.getElementById('planTable').deleteTFoot();
 				x=document.getElementById('planTable').createTFoot();
-		        $.each(jsonobj, function(i, u){	         				
+
+				$.each(jsonobj, function(i, u){	         				
 		    		 var row = x.insertRow(i); 
 		    		 var col = row.insertCell(0);                
 		             col.innerHTML = "<style>strong1{float: right;}</style><strong1>"+ (i+1) +"</strong1>";
@@ -295,8 +309,12 @@
 					 	col = row.insertCell(w+2);   
 			            col.innerHTML = "<style>strong1{float: right;}</style><strong1>"+u.data[w].toFixed(2).toString()+"</strong1>";
 		             }
-		             col = row.insertCell(w+2); 
-		             col.innerHTML = "<a href='www.shdsyg.cn' />";
+		             
+				 	col = row.insertCell(w+2);   
+		             var A = document.createElement('a');
+		             A.innerHTML = "<a href='javascript:;' onclick='dcl("+ u.name.substring(u.name.indexOf("%%")+2)+ ")'>&nbsp&nbsp&nbsp&nbsp明细</a>";
+		             col.appendChild(A);
+		             row.appendChild(col); 
 		        });				
 			}
 	    };  

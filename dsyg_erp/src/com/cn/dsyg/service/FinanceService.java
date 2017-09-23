@@ -22,6 +22,16 @@ public interface FinanceService {
 	public void kaiPiao(String ids, String billno, String userid);
 	
 	/**
+	 * 根据状态查询财务记录(客户名，日期)
+	 * @param status
+	 * @param customername
+	 * @param accountdateLow
+	 * @param accountdateHigh
+	 * @return
+	 */
+	public List<FinanceDto> queryFinanceByCpDate(String status, String customerid, String accountdateLow, String accountdateHigh);
+
+	/**
 	 * 根据状态查询财务记录
 	 * @param status
 	 * @param res10

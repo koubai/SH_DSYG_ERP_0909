@@ -189,6 +189,9 @@
 			<result name="success">/page/finance/kaipiaolist.jsp</result>
 		</action>
 		
+		<action name="showKaiPiaoCpAction" class="financeAction" method="showKaiPiaoCpAction">
+			<result name="success">/page/finance/kaipiaocplist.jsp</result>
+		</action>
 	</package>
 
 </struts>

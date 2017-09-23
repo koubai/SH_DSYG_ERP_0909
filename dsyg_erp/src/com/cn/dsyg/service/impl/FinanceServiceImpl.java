@@ -54,6 +54,11 @@ public class FinanceServiceImpl implements FinanceService {
 	}
 	
 	@Override
+	public List<FinanceDto> queryFinanceByCpDate(String status, String customerid, String accountdateLow, String accountdateHigh){
+		return financeDao.queryFinanceByCpDate(status, customerid, accountdateLow, accountdateHigh);		
+	}
+	
+	@Override
 	public List<FinanceDto> queryFinanceByStatus(String status, String res10, String customername, String invoiceid) {
 		customername = StringUtil.replaceDatabaseKeyword_mysql(customername);
 		invoiceid = StringUtil.replaceDatabaseKeyword_mysql(invoiceid);
