@@ -302,8 +302,8 @@ public class InvoiceAction extends BaseAction {
 		this.okPage.setStartIndex(okStartIndex);
 		//不查询99的记录
 		okPage = invoiceService.queryInvoiceByPage("", strInvoiceno, "", "",
-				"" + Constants.INVOICE_STATUS_OK + "," + Constants.INVOICE_STATUS_RETURN, "", "", "", okPage);
-				//"" + Constants.INVOICE_STATUS_OK + "," + Constants.INVOICE_STATUS_RETURN + "," + Constants.INVOICE_STATUS_CANCEL, "", "", "", okPage);
+				//"" + Constants.INVOICE_STATUS_OK + "," + Constants.INVOICE_STATUS_RETURN, "", "", "", okPage);
+				"" + Constants.INVOICE_STATUS_OK + "," + Constants.INVOICE_STATUS_RETURN + "," + Constants.INVOICE_STATUS_CANCEL, "", "", "", okPage);
 		listInvoiceOk = (List<InvoiceDto>) okPage.getItems();
 		this.setNewStartIndex(okPage.getStartIndex());
 	}
