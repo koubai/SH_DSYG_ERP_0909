@@ -2,6 +2,7 @@ package com.cn.dsyg.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import com.cn.common.dto.BaseDto;
 import com.cn.common.util.StringUtil;
@@ -28,6 +29,16 @@ public class FinanceDto extends BaseDto {
 	private Integer financetype;
 	
 	/**
+	 * 关联发票信息记录列表
+	 */
+	private List<InvoiceDto> invoiceList;
+	
+	/**
+	 * 按产品集计
+	 */
+	private List<ProductDto> productList;
+	
+	/**
 	 * 主题（仅当financetype=4时有值）
 	 */
 	private String theme;
@@ -43,7 +54,7 @@ public class FinanceDto extends BaseDto {
 	private String belongto;
 
 	/**
-	 * 关联单据号
+	 * 关联单据号（入出库单编号）
 	 */
 	private String invoiceid;
 
@@ -76,6 +87,11 @@ public class FinanceDto extends BaseDto {
 	 * 金额
 	 */
 	private BigDecimal amount;
+	
+	/**
+	 * 已开票金额
+	 */
+	private BigDecimal invoiceAmount;
 
 	/**
 	 * 负责人
@@ -688,5 +704,29 @@ public class FinanceDto extends BaseDto {
 
 	public void setBillamount3(String billamount3) {
 		this.billamount3 = billamount3;
+	}
+
+	public List<InvoiceDto> getInvoiceList() {
+		return invoiceList;
+	}
+
+	public void setInvoiceList(List<InvoiceDto> invoiceList) {
+		this.invoiceList = invoiceList;
+	}
+
+	public List<ProductDto> getProductList() {
+		return productList;
+	}
+
+	public void setProductList(List<ProductDto> productList) {
+		this.productList = productList;
+	}
+
+	public BigDecimal getInvoiceAmount() {
+		return invoiceAmount;
+	}
+
+	public void setInvoiceAmount(BigDecimal invoiceAmount) {
+		this.invoiceAmount = invoiceAmount;
 	}
 }

@@ -2,6 +2,7 @@ package com.cn.dsyg.service.impl;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -12,14 +13,18 @@ import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dao.FinanceDao;
+import com.cn.dsyg.dao.InvoiceDao;
+import com.cn.dsyg.dao.ProductDao;
 import com.cn.dsyg.dao.UserDao;
 import com.cn.dsyg.dao.WarehouseDao;
-import com.cn.dsyg.dao.WarehouserptDao;
 import com.cn.dsyg.dto.FinanceDto;
+import com.cn.dsyg.dto.InvoiceDto;
+import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.dto.UserDto;
 import com.cn.dsyg.dto.WarehouseDto;
 import com.cn.dsyg.dto.WarehouserptDto;
 import com.cn.dsyg.service.FinanceService;
+import com.cn.dsyg.service.WarehouserptService;
 
 /**
  * @name FinanceServiceImpl.java
@@ -30,9 +35,11 @@ import com.cn.dsyg.service.FinanceService;
 public class FinanceServiceImpl implements FinanceService {
 	
 	private FinanceDao financeDao;
-	private WarehouserptDao warehouserptDao;
+	private WarehouserptService warehouserptService;
 	private WarehouseDao warehouseDao;
 	private UserDao userDao;
+	private InvoiceDao invoiceDao;
+	private ProductDao productDao;
 	
 	@Override
 	public void kaiPiao(String ids, String billno, String userid) {
@@ -103,10 +110,38 @@ public class FinanceServiceImpl implements FinanceService {
 				if(user != null) {
 					finance.setHandlername(user.getUsername());
 				}
+				//已开票金额含税，这里只查询status=1的
+				BigDecimal invoiceAmount = invoiceDao.querySumInvoiceByFinanceno(finance.getReceiptid(), "" + Constants.INVOICE_STATUS_OK);
+				finance.setInvoiceAmount(invoiceAmount);
 			}
 		}
 		page.setItems(list);
 		return page;
+	}
+	
+	@Override
+	public String queryInvoiceTotalAmount(String expressno, String status, String financetype, String invoiceid,
+			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh, String billno,
+			String res02, String expressName) {
+		expressName = StringUtil.replaceDatabaseKeyword_mysql(expressName);
+		expressno = StringUtil.replaceDatabaseKeyword_mysql(expressno);
+		invoiceid = StringUtil.replaceDatabaseKeyword_mysql(invoiceid);
+		receiptid = StringUtil.replaceDatabaseKeyword_mysql(receiptid);
+		billno = StringUtil.replaceDatabaseKeyword_mysql(billno);
+		
+		List<FinanceDto> list = financeDao.queryAllFinance(expressno, status, financetype, invoiceid, receiptid,
+				customerid, receiptdateLow, receiptdateHigh, billno, res02, expressName);
+		BigDecimal invoiceAmount = new BigDecimal(0);
+		if(list != null && list.size() > 0) {
+			for(FinanceDto finance : list) {
+				//根据财务记录查询已开票金额，这里只查询status=1的
+				BigDecimal amount = invoiceDao.querySumInvoiceByFinanceno(finance.getReceiptid(), "" + Constants.INVOICE_STATUS_OK);
+				if(amount != null) {
+					invoiceAmount = invoiceAmount.add(amount);
+				}
+			}
+		}
+		return "" + invoiceAmount;
 	}
 
 	@Override
@@ -140,6 +175,101 @@ public class FinanceServiceImpl implements FinanceService {
 			if(user != null) {
 				finance.setHandlername(user.getUsername());
 			}
+			//根据账目编号查询已开票数量invoiceList
+			List<InvoiceDto> invoiceList = invoiceDao.queryInvoiceByFinanceno(finance.getReceiptid(),
+					"" + Constants.INVOICE_STATUS_NEW + "," + Constants.INVOICE_STATUS_OK);
+			
+			List<ProductDto> productList = new ArrayList<ProductDto>();
+			if(StringUtil.isNotBlank(finance.getInvoiceid()) && (finance.getFinancetype() == 1 || finance.getFinancetype() == 2)) {
+				//关联单据编号不为空，并且为出入库单的情况
+				WarehouserptDto rpt = warehouserptService.queryWarehouserptByNo(finance.getInvoiceid());
+				if(rpt != null) {
+					//将开票的产品信息和RPT产品信息汇总
+					if(rpt.getListProduct() != null && rpt.getListProduct().size() > 0) {
+						for(ProductDto product : rpt.getListProduct()) {
+							//总数量， 总金额
+							BigDecimal num = new BigDecimal(product.getNumabs());
+							BigDecimal amount = new BigDecimal(product.getAmount());
+							if(amount.compareTo(new BigDecimal(0)) < 0) {
+								//金额为负数，则说明是退货，由于RPT中记录的数量可能为正数，所以要处理成负数
+								num = num.abs().multiply(new BigDecimal(-1));
+							}
+							product.setNum("" + num);
+							
+							//平均价格（取绝对值）
+							BigDecimal averagePrice = amount.divide(num, 6, BigDecimal.ROUND_HALF_UP).abs();
+							product.setAveragePrice(averagePrice);
+							
+							//查询退票列表
+							List<InvoiceDto> invoiceReturnList = invoiceDao.queryReturnInvoiceByFinancedelno(finance.getReceiptid(), "" + product.getId(), "" + Constants.INVOICE_STATUS_RETURN);
+							//退票数量（取绝对值）
+							BigDecimal returnNum = new BigDecimal(0);
+							if(invoiceReturnList != null && invoiceReturnList.size() > 0) {
+								for(InvoiceDto invoice : invoiceReturnList) {
+									if(invoice.getQuantity() != null) {
+										returnNum = returnNum.add(invoice.getQuantity()).setScale(2, BigDecimal.ROUND_HALF_UP);
+									}
+								}
+							}
+							product.setReturnNum(returnNum.abs());
+							
+							//已开票数量，已开票金额
+							BigDecimal invoicednum = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+							BigDecimal invoicedamount = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+							//未开票数量，未开票金额
+							BigDecimal remaininvoicenum = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+							BigDecimal remaininvoiceamount = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+							if(invoiceList != null && invoiceList.size() > 0) {
+								for(InvoiceDto invoice : invoiceList) {
+									if(invoice.getProductid().equals("" + product.getId())) {
+										//已开票数量，已开票金额
+										invoicednum = invoice.getQuantity();
+										invoicedamount = invoice.getAmounttax();
+										break;
+									}
+								}
+							}
+							//未开票数量和未开票金额
+							remaininvoicenum = num.subtract(invoicednum).subtract(returnNum.abs()).setScale(2, BigDecimal.ROUND_HALF_UP);
+							remaininvoiceamount = amount.subtract(invoicedamount).subtract(returnNum.abs().multiply(averagePrice)).setScale(6, BigDecimal.ROUND_HALF_UP);
+							
+							//已开票数量
+							product.setInvoicednum(invoicednum);
+							product.setInvoicedamount(invoicedamount);
+							product.setRemaininvoiceamount(remaininvoiceamount);
+							product.setRemaininvoicenum(remaininvoicenum);
+							//已开票数量old，为了显示时用
+							product.setOldinvoicednum(invoicednum);
+							product.setOldinvoicedamount(invoicedamount);
+							product.setOldremaininvoiceamount(remaininvoiceamount);
+							product.setOldremaininvoicenum(remaininvoicenum);
+							productList.add(product);
+						}
+					}
+				}
+			} else {
+				//非出入库单的情况，不做任何处理
+//				if(invoiceList != null && invoiceList.size() > 0) {
+//					for(InvoiceDto invoice : invoiceList) {
+//						ProductDto product = productDao.queryProductByID(invoice.getProductid());
+//						//发票数量=已经开票数量，所以未开票数量=0
+//						product.setNum(invoice.getQuantity());
+//						product.setAmount(invoice.getAmounttax());
+//						product.setInvoicednum(invoice.getQuantity());
+//						product.setInvoicedamount(invoice.getAmounttax());
+//						//未开票数量和未开票金额=0
+//						product.setRemaininvoiceamount(new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP));
+//						product.setRemaininvoicenum(new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP));
+//						//已开票数量old，为了显示时用
+//						product.setOldinvoicednum(invoicednum);
+//						product.setOldinvoicedamount(invoicedamount);
+//						product.setOldremaininvoiceamount(remaininvoiceamount);
+//						product.setOldremaininvoicenum(remaininvoicenum);
+//						productList.add(product);
+//					}
+//				}
+			}
+			finance.setProductList(productList);
 		}
 		return finance;
 	}
@@ -183,14 +313,32 @@ public class FinanceServiceImpl implements FinanceService {
 		FinanceDto oldFinance = financeDao.queryFinanceByID("" + finance.getId());
 		//判断是否是入出库单的财务记录
 		if(oldFinance.getFinancetype() == Constants.FINANCE_TYPE_PURCHASE || oldFinance.getFinancetype() == Constants.FINANCE_TYPE_SALES) {
+			//处理发票预出库
+			if(finance.getProductList() != null && finance.getProductList().size() > 0) {
+				for(ProductDto product : finance.getProductList()) {
+					//判断是否需要预开票
+					if("1".equals(product.getChecked())) {
+						//判断预出库数量是否不等于0
+						if(product.getCurrinvoicenum().compareTo(new BigDecimal(0)) > 0) {
+							//发票预出库，这里区分下预出库数量，预留用
+							addInvoice(finance, product);
+						} else if(product.getCurrinvoicenum().compareTo(new BigDecimal(0)) < 0) {
+							//退票预出库，这里区分下预出库数量，预留用
+							addInvoice(finance, product);
+						} else {
+							//预出库数量为0，则什么都不做。
+						}
+					}
+				}
+			}
 			//判断财务记录的状态是否修改
 			if(oldFinance.getStatus() != finance.getStatus()) {
 				//修改对应的入出库单状态
-				WarehouserptDto warehouserpt = warehouserptDao.queryWarehouserptByNo(finance.getInvoiceid());
+				WarehouserptDto warehouserpt = warehouserptService.queryWarehouserptByNo(finance.getInvoiceid());
 				if(warehouserpt != null) {
 					warehouserpt.setStatus(finance.getStatus());
 					warehouserpt.setUpdateuid(finance.getUpdateuid());
-					warehouserptDao.updateWarehouserpt(warehouserpt);
+					warehouserptService.updateWarehouserpt(warehouserpt);
 					//判断是否需要修改库存表的状态，当且仅当更新前的财务记录状态=99
 					if(oldFinance.getStatus() == Constants.FINANCE_STATUS_PAY_INVOICE) {
 						String parentid = warehouserpt.getParentid();
@@ -226,6 +374,58 @@ public class FinanceServiceImpl implements FinanceService {
 		}
 		financeDao.updateFinance(finance);
 	}
+	
+	/**
+	 * 发票预出库
+	 * @param finance
+	 * @param product
+	 */
+	private void addInvoice(FinanceDto finance, ProductDto product) {
+		InvoiceDto invoice = new InvoiceDto();
+		invoice.setBelongto(PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_BELONG));
+		//invoice.setWarehouseno(finance.getInvoiceid());
+		invoice.setWarehouserptno(finance.getInvoiceid());
+		invoice.setProductid("" + product.getId());
+		invoice.setFinanceno(finance.getReceiptid());
+		//发票号，在预开票的时候用户自己填写
+		invoice.setInvoiceno("");
+		invoice.setCustomerid(finance.getCustomerid());
+		invoice.setCustomername(finance.getCustomername());
+		invoice.setCustomer_info1("");
+		invoice.setCustomer_info2("");
+		invoice.setCustomer_info3("");
+		invoice.setCustomer_info4("");
+		invoice.setCustomer_info5("");
+		invoice.setQuantity(product.getCurrinvoicenum());
+		//invoice.setPrice("");
+		invoice.setPricetax(product.getAveragePrice());
+		//invoice.setAmount("");
+		invoice.setAmounttax(product.getCurrinvoiceamount());
+		if(finance.getFinancetype() == Constants.FINANCE_TYPE_PURCHASE) {
+			//收票
+			invoice.setRecpay(0);
+		} else if(finance.getFinancetype() == Constants.FINANCE_TYPE_SALES) {
+			//开票
+			invoice.setRecpay(1);
+		}
+		//状态=预开票0
+		invoice.setStatus(Constants.INVOICE_STATUS_NEW);
+		
+		//开票作废信息
+		invoice.setInvoicedelno("");
+		invoice.setQuantitydel(new BigDecimal(0));
+		invoice.setFinanacedelno("");
+		invoice.setWarehouserptdelno("");
+		
+		invoice.setNote("");
+		//开票时间
+		invoice.setInvoice_date(new Date());
+		//开票人
+		invoice.setInvoide_mem_id(finance.getUpdateuid());
+		invoice.setCreateuid(finance.getUpdateuid());
+		invoice.setUpdateuid(finance.getUpdateuid());
+		invoiceDao.insertInvoice(invoice);
+	}
 
 	public FinanceDao getFinanceDao() {
 		return financeDao;
@@ -243,19 +443,35 @@ public class FinanceServiceImpl implements FinanceService {
 		this.userDao = userDao;
 	}
 
-	public WarehouserptDao getWarehouserptDao() {
-		return warehouserptDao;
-	}
-
-	public void setWarehouserptDao(WarehouserptDao warehouserptDao) {
-		this.warehouserptDao = warehouserptDao;
-	}
-
 	public WarehouseDao getWarehouseDao() {
 		return warehouseDao;
 	}
 
 	public void setWarehouseDao(WarehouseDao warehouseDao) {
 		this.warehouseDao = warehouseDao;
+	}
+
+	public InvoiceDao getInvoiceDao() {
+		return invoiceDao;
+	}
+
+	public void setInvoiceDao(InvoiceDao invoiceDao) {
+		this.invoiceDao = invoiceDao;
+	}
+
+	public WarehouserptService getWarehouserptService() {
+		return warehouserptService;
+	}
+
+	public void setWarehouserptService(WarehouserptService warehouserptService) {
+		this.warehouserptService = warehouserptService;
+	}
+
+	public ProductDao getProductDao() {
+		return productDao;
+	}
+
+	public void setProductDao(ProductDao productDao) {
+		this.productDao = productDao;
 	}
 }

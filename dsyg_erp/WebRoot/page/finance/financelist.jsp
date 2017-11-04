@@ -332,6 +332,49 @@
 						</div>
 						<div class="box1_right"></div>
 						
+						<label class="pdf10">　主题</label>
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							<select id="strFinancetype" name="strFinancetype" style="width: 80px;">
+								<s:if test="strFinancetype == 1">
+									<option value="">请选择</option>
+									<option value="1" selected="selected">采购</option>
+									<option value="2">订单</option>
+									<option value="3">物流</option>
+									<option value="4">手动录入</option>
+								</s:if>
+								<s:elseif test="strFinancetype == 2">
+									<option value="">请选择</option>
+									<option value="1">采购</option>
+									<option value="2" selected="selected">订单</option>
+									<option value="3">物流</option>
+									<option value="4">手动录入</option>
+								</s:elseif>
+								<s:elseif test="strFinancetype == 3">
+									<option value="">请选择</option>
+									<option value="1">采购</option>
+									<option value="2">订单</option>
+									<option value="3" selected="selected">物流</option>
+									<option value="4">手动录入</option>
+								</s:elseif>
+								<s:elseif test="strFinancetype == 4">
+									<option value="">请选择</option>
+									<option value="1">采购</option>
+									<option value="2">订单</option>
+									<option value="3">物流</option>
+									<option value="4" selected="selected">手动录入</option>
+								</s:elseif>
+								<s:else>
+									<option value="" selected="selected">请选择</option>
+									<option value="1">采购</option>
+									<option value="2">订单</option>
+									<option value="3">物流</option>
+									<option value="4">手动录入</option>
+								</s:else>
+							</select>
+						</div>
+						<div class="box1_right"></div>
+						
 						<label class="pdf10">　客户名</label>
 						<div class="box1_left"></div>
 						<div class="box1_center">
@@ -342,11 +385,11 @@
 						<label class="pdf10">　入出库单</label>
 						<div class="box1_left"></div>
 						<div class="box1_center">
-							<s:textfield name="strInvoiceid" id="strInvoiceid" cssStyle="width:160px;" maxlength="32" theme="simple"></s:textfield>
+							<s:textfield name="strInvoiceid" id="strInvoiceid" cssStyle="width:130px;" maxlength="32" theme="simple"></s:textfield>
 						</div>
 						<div class="box1_right"></div>
 					</div>
-					<div class="btn" style="margin-left: 40px;">
+					<div class="btn" style="margin-left: 15px;">
 						<div class="box1_left"></div>
 						<div class="box1_center">
 							<input type="button" class="input40" value="检索" onclick="queryList();"/>
@@ -474,143 +517,160 @@
 							</table>
 						</div>
 						<div id="overlay" class="black_overlay"></div>
-						<table class="info_tab" width="100%" border="1" cellpadding="5" cellspacing="0">
-							<tr class="tittle">
-								<td width="30"></td>
-								<td width="40">序号</td>
-								<td width="110">账目编号</td>
-								<td width="110">关联单据编号</td>
-								<td width="110">快递单号</td>
-								<td width="80">主题</td>
-								<td width="110">对象</td>
-								<td width="60">联系人</td>
-								<td width="60">经手人</td>
-								<td width="90">单据日期</td>
-								<td width="100">金额（含税）</td>
-								<td width="90">结算日期</td>
-								<td width="120">发票号</td>
-								<td width="160">状态</td>
-								<td width="80">操作</td>
-							</tr>
-							<s:iterator id="financeList" value="financeList" status="st1">
-								<s:if test="#st1.odd==true">
-									<tr class="tr_bg" onclick="checkRadioTr(this, event);">
-								</s:if>
-								<s:else>
-									<tr onclick="checkRadioTr(this, event);">
-								</s:else>
-									<td><input name="radioKey" type="radio" alt="<s:property value="invoiceid"/>" value="<s:property value="id"/>"/></td>
-									<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
-									<td><s:property value="receiptid"/></td>
-									<td><s:property value="invoiceid"/></td>
-									<td><s:property value="res08"/></td>
-									<td>
-										<s:if test="financetype == 1">
-											采购
+						<div style="width: 130%; overflow: auto;">
+							<table class="info_tab" width="100%" border="1" cellpadding="5" cellspacing="0">
+								<tr class="tittle">
+									<td width="30"></td>
+									<td width="40">序号</td>
+									<td width="130">账目编号</td>
+									<td width="130">关联单据编号</td>
+									<td width="130">快递单号</td>
+									<td width="80">主题</td>
+									<td width="110">对象</td>
+									<td width="80">联系人</td>
+									<td width="80">经手人</td>
+									<td width="100">单据日期</td>
+									<td width="100">金额（含税）</td>
+									<td width="150">已开发票金额(含税)</td>
+									<td width="100">结算日期</td>
+									<td width="130">发票号</td>
+									<td width="160">状态</td>
+									<td width="80">操作</td>
+								</tr>
+								<s:iterator id="financeList" value="financeList" status="st1">
+									<s:if test="#st1.odd==true">
+										<tr class="tr_bg" onclick="checkRadioTr(this, event);">
+									</s:if>
+									<s:else>
+										<tr onclick="checkRadioTr(this, event);">
+									</s:else>
+										<td><input name="radioKey" type="radio" alt="<s:property value="invoiceid"/>" value="<s:property value="id"/>"/></td>
+										<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
+										<td><s:property value="receiptid"/></td>
+										<td><s:property value="invoiceid"/></td>
+										<td><s:property value="res08"/></td>
+										<td>
+											<s:if test="financetype == 1">
+												采购
+											</s:if>
+											<s:elseif test="financetype == 2">
+												订单
+											</s:elseif>
+											<s:elseif test="financetype == 3">
+												物流
+											</s:elseif>
+											<s:elseif test="financetype == 4">
+												<s:iterator id="financeDictList" value="financeDictList" status="st3">
+													<s:if test="%{financeDictList[#st3.index].code == financeList[#st1.index].theme}">
+														<s:property value="fieldname"/>
+													</s:if>
+												</s:iterator>
+											</s:elseif>
+											<s:else>
+												<s:property value="financetype"/>
+											</s:else>
+										</td>
+										<td><s:property value="customername"/></td>
+										<td><s:property value="customermanager"/></td>
+										<td><s:property value="handlername"/></td>
+										<td><s:property value="showReceiptdate"/></td>
+										<td align="right"><s:property value="amount"/></td>
+										
+										<s:if test="amount > invoiceAmount">
+											<td align="right" style="background-color: yellow;">
 										</s:if>
-										<s:elseif test="financetype == 2">
-											订单
-										</s:elseif>
-										<s:elseif test="financetype == 3">
-											物流
-										</s:elseif>
-										<s:elseif test="financetype == 4">
-											<s:iterator id="financeDictList" value="financeDictList" status="st3">
-												<s:if test="%{financeDictList[#st3.index].code == financeList[#st1.index].theme}">
-													<s:property value="fieldname"/>
-												</s:if>
-											</s:iterator>
+										<s:elseif test="amount < invoiceAmount">
+											<td align="right" style="background-color: red;">
 										</s:elseif>
 										<s:else>
-											<s:property value="financetype"/>
+											<td align="right">
 										</s:else>
-									</td>
-									<td><s:property value="customername"/></td>
-									<td><s:property value="customermanager"/></td>
-									<td><s:property value="handlername"/></td>
-									<td><s:property value="showReceiptdate"/></td>
-									<td align="right"><s:property value="amount"/></td>
-									<td><s:property value="showAccountdate"/></td>
-									<td>
-										<div noWrap title="<s:property value="res10"/>" style="width:105px;text-overflow:ellipsis;overflow:hidden">
-											<s:property value="res10"/>
-										</div>
-									</td>
-									<td>
-										<select id="statusList_<s:property value="id"/>" style="width: 150px;" onchange="showOkBtn('<s:property value="id"/>');">
-											<s:if test='mode == "1"'>
-												<s:if test="%{status == 1}">
-													<option value="1" selected="selected">未对帐</option>
-													<option value="10">已对帐, 未开票</option>
-													<option value="15">已收款, 未对账</option>
-													<option value="20">已开票, 未收款</option>
-													<option value="99">已开票, 已收款</option>
+											<s:property value="invoiceAmount"/>
+										</td>
+										
+										<td><s:property value="showAccountdate"/></td>
+										<td>
+											<div noWrap title="<s:property value="res10"/>" style="width:105px;text-overflow:ellipsis;overflow:hidden">
+												<s:property value="res10"/>
+											</div>
+										</td>
+										<td>
+											<select id="statusList_<s:property value="id"/>" style="width: 150px;" onchange="showOkBtn('<s:property value="id"/>');">
+												<s:if test='mode == "1"'>
+													<s:if test="%{status == 1}">
+														<option value="1" selected="selected">未对帐</option>
+														<option value="10">已对帐, 未开票</option>
+														<option value="15">已收款, 未对账</option>
+														<option value="20">已开票, 未收款</option>
+														<option value="99">已开票, 已收款</option>
+													</s:if>
+													<s:elseif test="%{status == 10}">
+														<option value="1">未对帐</option>
+														<option value="10" selected="selected">已对帐, 未开票</option>
+														<option value="15">已收款, 未对账</option>
+														<option value="20">已开票, 未收款</option>
+														<option value="99">已开票, 已收款</option>
+													</s:elseif>
+													<s:elseif test="%{status == 15}">
+														<option value="1">未对帐</option>
+														<option value="10">已对帐, 未开票</option>
+														<option value="15" selected="selected">已收款, 未对账</option>
+														<option value="20">已开票, 未收款</option>
+														<option value="99">已开票, 已收款</option>
+													</s:elseif>
+													<s:elseif test="%{status == 20}">
+														<option value="1">未对帐</option>
+														<option value="10">已对帐, 未开票</option>
+														<option value="15">已收款, 未对账</option>
+														<option value="20" selected="selected">已开票, 未收款</option>
+														<option value="99">已开票, 已收款</option>
+													</s:elseif>
+													<s:elseif test="%{status == 99}">
+														<option value="1">未对帐</option>
+														<option value="10">已对帐, 未开票</option>
+														<option value="15">已收款, 未对账</option>
+														<option value="20">已开票, 未收款</option>
+														<option value="99" selected="selected">已开票, 已收款</option>
+													</s:elseif>
 												</s:if>
-												<s:elseif test="%{status == 10}">
-													<option value="1">未对帐</option>
-													<option value="10" selected="selected">已对帐, 未开票</option>
-													<option value="15">已收款, 未对账</option>
-													<option value="20">已开票, 未收款</option>
-													<option value="99">已开票, 已收款</option>
-												</s:elseif>
-												<s:elseif test="%{status == 15}">
-													<option value="1">未对帐</option>
-													<option value="10">已对帐, 未开票</option>
-													<option value="15" selected="selected">已收款, 未对账</option>
-													<option value="20">已开票, 未收款</option>
-													<option value="99">已开票, 已收款</option>
-												</s:elseif>
-												<s:elseif test="%{status == 20}">
-													<option value="1">未对帐</option>
-													<option value="10">已对帐, 未开票</option>
-													<option value="15">已收款, 未对账</option>
-													<option value="20" selected="selected">已开票, 未收款</option>
-													<option value="99">已开票, 已收款</option>
-												</s:elseif>
-												<s:elseif test="%{status == 99}">
-													<option value="1">未对帐</option>
-													<option value="10">已对帐, 未开票</option>
-													<option value="15">已收款, 未对账</option>
-													<option value="20">已开票, 未收款</option>
-													<option value="99" selected="selected">已开票, 已收款</option>
-												</s:elseif>
-											</s:if>
-											<s:else>
-												<s:if test="%{status == 1}">
-													<option value="1" selected="selected">未收到发票, 未付款</option>
-													<option value="10">收到发票, 安排付款</option>
-													<option value="15">未收到发票, 已付款</option>
-													<option value="99">收到发票, 已付款</option>
-												</s:if>
-												<s:elseif test="%{status == 10}">
-													<option value="1">未收到发票, 未付款</option>
-													<option value="10" selected="selected">收到发票, 安排付款</option>
-													<option value="15">未收到发票, 已付款</option>
-													<option value="99">收到发票, 已付款</option>
-												</s:elseif>
-												<s:elseif test="%{status == 15}">
-													<option value="1">未收到发票, 未付款</option>
-													<option value="10">收到发票, 安排付款</option>
-													<option value="15" selected="selected">未收到发票, 已付款</option>
-													<option value="99">收到发票, 已付款</option>
-												</s:elseif>
-												<s:elseif test="%{status == 99}">
-													<option value="1">未收到发票, 未付款</option>
-													<option value="10">收到发票, 安排付款</option>
-													<option value="15">未收到发票, 已付款</option>
-													<option value="99" selected="selected">收到发票, 已付款</option>
-												</s:elseif>
-											</s:else>
-										</select>
-									</td>
-									<td><input id="okbtn_<s:property value="id"/>" style="display: none;" type="button" value="确认" onclick="auditor('<s:property value="id"/>', '<s:property value="mode"/>', '<s:property value="res10"/>')"/>
-									<br /></td>
-								</tr>
-							</s:iterator>
-						</table>
+												<s:else>
+													<s:if test="%{status == 1}">
+														<option value="1" selected="selected">未收到发票, 未付款</option>
+														<option value="10">收到发票, 安排付款</option>
+														<option value="15">未收到发票, 已付款</option>
+														<option value="99">收到发票, 已付款</option>
+													</s:if>
+													<s:elseif test="%{status == 10}">
+														<option value="1">未收到发票, 未付款</option>
+														<option value="10" selected="selected">收到发票, 安排付款</option>
+														<option value="15">未收到发票, 已付款</option>
+														<option value="99">收到发票, 已付款</option>
+													</s:elseif>
+													<s:elseif test="%{status == 15}">
+														<option value="1">未收到发票, 未付款</option>
+														<option value="10">收到发票, 安排付款</option>
+														<option value="15" selected="selected">未收到发票, 已付款</option>
+														<option value="99">收到发票, 已付款</option>
+													</s:elseif>
+													<s:elseif test="%{status == 99}">
+														<option value="1">未收到发票, 未付款</option>
+														<option value="10">收到发票, 安排付款</option>
+														<option value="15">未收到发票, 已付款</option>
+														<option value="99" selected="selected">收到发票, 已付款</option>
+													</s:elseif>
+												</s:else>
+											</select>
+										</td>
+										<td><input id="okbtn_<s:property value="id"/>" style="display: none;" type="button" value="确认" onclick="auditor('<s:property value="id"/>', '<s:property value="mode"/>', '<s:property value="res10"/>')"/>
+										<br /></td>
+									</tr>
+								</s:iterator>
+							</table>
+						</div>
 					</div>
 					<div class="pages">
-							合计金额: <s:textfield name="strTotalAmount" id="strTotalAmount" cssStyle="width:250px;" maxlength="32" theme="simple"></s:textfield>
+							合计金额: <s:textfield name="strTotalAmount" id="strTotalAmount" cssStyle="width:150px;" maxlength="32" theme="simple"></s:textfield>
+							&nbsp;&nbsp;&nbsp;&nbsp;已开发票合计金额：<s:textfield name="strTotalInvoiceAmount" id="strTotalInvoiceAmount" cssStyle="width:150px;" maxlength="32" theme="simple"></s:textfield>
 						<ul>
 							<li style="width: 180px;">
 								<s:if test="intPageSize != null && intPageSize == 20">

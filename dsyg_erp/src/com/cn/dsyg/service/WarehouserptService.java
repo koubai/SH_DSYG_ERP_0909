@@ -14,6 +14,19 @@ import com.cn.dsyg.dto.WarehouserptDto;
 public interface WarehouserptService {
 	
 	/**
+	 * 根据入出库单查询数据
+	 * @param warehouseno
+	 * @return
+	 */
+	public WarehouserptDto queryWarehouserptByNo(String warehouseno);
+	
+	/**
+	 * 修改数据
+	 * @param warehouserpt
+	 */
+	public void updateWarehouserpt(WarehouserptDto warehouserpt);
+	
+	/**
 	 * 导出入出库单数据
 	 * @param status
 	 * @param warehousetype

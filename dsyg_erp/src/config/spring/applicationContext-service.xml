@@ -3,6 +3,18 @@
 
 <beans>
 
+	<bean id="invoiceService" class="com.cn.dsyg.service.impl.InvoiceServiceImpl" >
+		<property name="invoiceDao">
+			<ref local="invoiceDao"/>
+		</property>
+	</bean>
+	
+	<bean id="invoiceDao" class="com.cn.dsyg.dao.impl.InvoiceDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
 	<!-- SZ sart -->
 	<bean id="warehouseSZDao" class="com.cn.dsyg.dao.impl.WarehouseSZDaoImpl">
 		<property name="sqlMapClient">
@@ -205,11 +217,17 @@
 		<property name="userDao">
 			<ref local="userDao"/>
 		</property>
-		<property name="warehouserptDao">
-			<ref local="warehouserptDao"/>
+		<property name="warehouserptService">
+			<ref local="warehouserptService"/>
 		</property>
 		<property name="warehouseDao">
 			<ref local="warehouseDao"/>
+		</property>
+		<property name="invoiceDao">
+			<ref local="invoiceDao"/>
+		</property>
+		<property name="productDao">
+			<ref local="productDao"/>
 		</property>
 	</bean>
 	

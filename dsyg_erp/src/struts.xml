@@ -12,6 +12,8 @@
 	
 	<constant name="struts.multipart.saveDir" value="/tmp"/>
 	
+	<!-- invoice -->
+	<include file="struts-invoice.xml"></include>
 	<!-- inoutstock -->
 	<include file="struts-inoutstock.xml"></include>
 	<!-- order -->

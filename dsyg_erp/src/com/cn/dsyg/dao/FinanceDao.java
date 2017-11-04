@@ -53,6 +53,24 @@ public interface FinanceDao {
 			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh,
 			String billno, String res02, String expressName, int start, int end);
 
+	/**
+	 * 根据条件查询所有财务记录
+	 * @param expressno
+	 * @param status
+	 * @param financetype
+	 * @param invoiceid
+	 * @param receiptid
+	 * @param customerid
+	 * @param receiptdateLow
+	 * @param receiptdateHigh
+	 * @param billno
+	 * @param res02
+	 * @param expressName
+	 * @return
+	 */
+	public List<FinanceDto> queryAllFinance(String expressno, String status, String financetype, String invoiceid,
+			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh,
+			String billno, String res02, String expressName);
 	
 	/**
 	 * 查询财务金额信息

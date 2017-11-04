@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" 
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="invoice" extends="struts-erp" namespace="/invoice">
+		
+		<action name="cancelInvoiceAction" class="invoiceAction" method="cancelInvoiceAction">
+			<result name="*">/page/invoice/invoicenewlist.jsp</result>
+		</action>
+		
+		<action name="delInvoiceAction" class="invoiceAction" method="delInvoiceAction">
+			<result name="*">/page/invoice/invoicenewlist.jsp</result>
+		</action>
+		
+		<action name="invoiceOKAction" class="invoiceAction" method="invoiceOKAction">
+			<result name="*">/page/invoice/invoicenewlist.jsp</result>
+		</action>
+	
+		<action name="showInvoiceNewAction" class="invoiceAction" method="showInvoiceNewAction">
+			<result name="*">/page/invoice/invoicenewlist.jsp</result>
+		</action>
+		
+		<action name="queryInvoiceNewAction" class="invoiceAction" method="queryInvoiceNewAction">
+			<result name="*">/page/invoice/invoicenewlist.jsp</result>
+		</action>
+		
+		<action name="turnInvoiceNewAction" class="invoiceAction" method="turnInvoiceNewAction">
+			<result name="*">/page/invoice/invoicenewlist.jsp</result>
+		</action>
+		
+		<action name="showInvoiceOKAction" class="invoiceAction" method="showInvoiceOKAction">
+			<result name="*">/page/invoice/invoiceoklist.jsp</result>
+		</action>
+		
+		<action name="queryInvoiceOKAction" class="invoiceAction" method="queryInvoiceOKAction">
+			<result name="*">/page/invoice/invoiceoklist.jsp</result>
+		</action>
+		
+		<action name="turnInvoiceOKAction" class="invoiceAction" method="turnInvoiceOKAction">
+			<result name="*">/page/invoice/invoiceoklist.jsp</result>
+		</action>
+		
+	</package>
+
+</struts>

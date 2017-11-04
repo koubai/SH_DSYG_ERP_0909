@@ -13,6 +13,8 @@ import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.FinanceDto;
+import com.cn.dsyg.dto.FinanceProductDetailDto;
+import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.service.Dict01Service;
 import com.cn.dsyg.service.FinanceService;
 import com.cn.dsyg.service.WarehouserptService;
@@ -46,6 +48,8 @@ public class FinanceAction extends BaseAction {
 	private List<Dict01Dto> financeDictList;
 	
 	//查询条件
+	//主题
+	private String strFinancetype;
 	//单据日期起
 	private String strReceiptdateLow;
 	//单据日期终
@@ -80,6 +84,9 @@ public class FinanceAction extends BaseAction {
 	private String strBillamount2;
 	private String strBillamount3;
 	
+	//新的开票
+	private List<FinanceProductDetailDto> productDetailList;
+	
 	//开票
 	private List<FinanceDto> kaipiaoList;
 	private String strRes10;
@@ -93,6 +100,19 @@ public class FinanceAction extends BaseAction {
 	
 	//合计金额（条件检索后）
 	private String strTotalAmount;
+	//已开票合计金额（条件检索后）
+	private String strTotalInvoiceAmount;
+	
+	//采购主题
+	private List<Dict01Dto> goodsList;
+	//颜色
+	private List<Dict01Dto> colorList;
+	//单位
+	private List<Dict01Dto> unitList;
+	//产地
+	private List<Dict01Dto> makeareaList;
+	//开票预出库列表
+	private List<ProductDto> tmpProductList;
 	
 	/**
 	 * 开票
@@ -285,6 +305,16 @@ public class FinanceAction extends BaseAction {
 	public String showUpdFinanceAction() {
 		try {
 			this.clearMessages();
+			tmpProductList = new ArrayList<ProductDto>();
+			//采购主题
+			goodsList = dict01Service.queryDict01ByFieldcode(Constants.DICT_GOODS_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			//单位
+			unitList = dict01Service.queryDict01ByFieldcode(Constants.DICT_UNIT_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			//产地
+			makeareaList = dict01Service.queryDict01ByFieldcode(Constants.DICT_MAKEAREA, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			//颜色
+			colorList = dict01Service.queryDict01ByFieldcode(Constants.DICT_COLOR_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			
 			//财务主题
 			financeDictList = dict01Service.queryDict01ByFieldcode(Constants.FINANCE_THEME, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
 			updFinanceDto = financeService.queryFinanceByID(updFinanceId);
@@ -302,6 +332,18 @@ public class FinanceAction extends BaseAction {
 	public String updFinanceAction() {
 		try {
 			this.clearMessages();
+			//将tmpProductList记录赋值到updFinanceDto中
+			updFinanceDto.setProductList(tmpProductList);
+			tmpProductList = new ArrayList<ProductDto>();
+			
+			//采购主题
+			goodsList = dict01Service.queryDict01ByFieldcode(Constants.DICT_GOODS_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			//单位
+			unitList = dict01Service.queryDict01ByFieldcode(Constants.DICT_UNIT_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			//产地
+			makeareaList = dict01Service.queryDict01ByFieldcode(Constants.DICT_MAKEAREA, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			//颜色
+			colorList = dict01Service.queryDict01ByFieldcode(Constants.DICT_COLOR_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
 			//财务主题
 			financeDictList = dict01Service.queryDict01ByFieldcode(Constants.FINANCE_THEME, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
 			//数据验证
@@ -370,6 +412,15 @@ public class FinanceAction extends BaseAction {
 	public String showAddFinanceAction() {
 		try {
 			this.clearMessages();
+			//采购主题
+			goodsList = dict01Service.queryDict01ByFieldcode(Constants.DICT_GOODS_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			//单位
+			unitList = dict01Service.queryDict01ByFieldcode(Constants.DICT_UNIT_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			//产地
+			makeareaList = dict01Service.queryDict01ByFieldcode(Constants.DICT_MAKEAREA, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			//颜色
+			colorList = dict01Service.queryDict01ByFieldcode(Constants.DICT_COLOR_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			
 			addFinanceDto = new FinanceDto();
 			//财务主题
 			financeDictList = dict01Service.queryDict01ByFieldcode(Constants.FINANCE_THEME, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
@@ -391,6 +442,15 @@ public class FinanceAction extends BaseAction {
 	public String addFinanceAction() {
 		try {
 			this.clearMessages();
+			//采购主题
+			goodsList = dict01Service.queryDict01ByFieldcode(Constants.DICT_GOODS_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			//单位
+			unitList = dict01Service.queryDict01ByFieldcode(Constants.DICT_UNIT_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			//产地
+			makeareaList = dict01Service.queryDict01ByFieldcode(Constants.DICT_MAKEAREA, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			//颜色
+			colorList = dict01Service.queryDict01ByFieldcode(Constants.DICT_COLOR_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			
 			//财务主题
 			financeDictList = dict01Service.queryDict01ByFieldcode(Constants.FINANCE_THEME, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
 			//数据验证
@@ -485,6 +545,7 @@ public class FinanceAction extends BaseAction {
 			strCustomername = "";
 			strInvoiceid = "";
 			financeList = new ArrayList<FinanceDto>();
+			strFinancetype = "";
 			
 			queryData();
 		} catch(Exception e) {
@@ -602,6 +663,7 @@ public class FinanceAction extends BaseAction {
 	 */
 	@SuppressWarnings("unchecked")
 	private void queryData() {
+		productDetailList = new ArrayList<FinanceProductDetailDto>();
 		strBillno1 = "";
 		strBillno2 = "";
 		strBillno3 = "";
@@ -619,10 +681,12 @@ public class FinanceAction extends BaseAction {
 		financeDictList = dict01Service.queryDict01ByFieldcode(Constants.FINANCE_THEME, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
 		//翻页查询所有委托公司
 		this.page.setStartIndex(startIndex);
-		page = financeService.queryFinanceByPage("", "", "", strInvoiceid,
+		page = financeService.queryFinanceByPage("", "", strFinancetype, strInvoiceid,
 				"", "", strReceiptdateLow, strReceiptdateHigh, strBillno, "", strCustomername, page);
 		financeList = (List<FinanceDto>) page.getItems();
 		strTotalAmount = financeService.queryFinanceTotalAmount("", "", "", strInvoiceid,
+				"", "", strReceiptdateLow, strReceiptdateHigh, strBillno, "", strCustomername);
+		strTotalInvoiceAmount = financeService.queryInvoiceTotalAmount("", "", "", strInvoiceid,
 				"", "", strReceiptdateLow, strReceiptdateHigh, strBillno, "", strCustomername);
 		this.setStartIndex(page.getStartIndex());
 	}
@@ -913,6 +977,70 @@ public class FinanceAction extends BaseAction {
 
 	public void setStrCustomerid(String strCustomerid) {
 		this.strCustomerid = strCustomerid;
+	}
+
+	public List<FinanceProductDetailDto> getProductDetailList() {
+		return productDetailList;
+	}
+
+	public void setProductDetailList(List<FinanceProductDetailDto> productDetailList) {
+		this.productDetailList = productDetailList;
+	}
+
+	public String getStrFinancetype() {
+		return strFinancetype;
+	}
+
+	public void setStrFinancetype(String strFinancetype) {
+		this.strFinancetype = strFinancetype;
+	}
+
+	public List<Dict01Dto> getGoodsList() {
+		return goodsList;
+	}
+
+	public void setGoodsList(List<Dict01Dto> goodsList) {
+		this.goodsList = goodsList;
+	}
+
+	public List<Dict01Dto> getColorList() {
+		return colorList;
+	}
+
+	public void setColorList(List<Dict01Dto> colorList) {
+		this.colorList = colorList;
+	}
+
+	public List<Dict01Dto> getUnitList() {
+		return unitList;
+	}
+
+	public void setUnitList(List<Dict01Dto> unitList) {
+		this.unitList = unitList;
+	}
+
+	public List<Dict01Dto> getMakeareaList() {
+		return makeareaList;
+	}
+
+	public void setMakeareaList(List<Dict01Dto> makeareaList) {
+		this.makeareaList = makeareaList;
+	}
+
+	public List<ProductDto> getTmpProductList() {
+		return tmpProductList;
+	}
+
+	public void setTmpProductList(List<ProductDto> tmpProductList) {
+		this.tmpProductList = tmpProductList;
+	}
+
+	public String getStrTotalInvoiceAmount() {
+		return strTotalInvoiceAmount;
+	}
+
+	public void setStrTotalInvoiceAmount(String strTotalInvoiceAmount) {
+		this.strTotalInvoiceAmount = strTotalInvoiceAmount;
 	}
 
 }

@@ -49,6 +49,20 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 	private FinanceDao financeDao;
 	
 	@Override
+	public WarehouserptDto queryWarehouserptByNo(String warehouseno) {
+		WarehouserptDto rpt = warehouserptDao.queryWarehouserptByNo(warehouseno);
+		if(rpt != null) {
+			return queryWarehouserptByID("" + rpt.getId());
+		}
+		return null;
+	}
+
+	@Override
+	public void updateWarehouserpt(WarehouserptDto warehouserpt) {
+		warehouserptDao.updateWarehouserpt(warehouserpt);
+	}
+	
+	@Override
 	public void approveWarehouserpt(String id, String userid, String res10,
 			String receiptdate, String status) {
 		WarehouserptDto warehouserpt = warehouserptDao.queryWarehouserptByID(id);

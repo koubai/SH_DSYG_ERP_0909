@@ -45,4 +45,6 @@
 	<sqlMap resource="/config/ibatis/dsyg-order.xml" />
 	<sqlMap resource="/config/ibatis/dsyg-orderdetail.xml" />
 	
+	<sqlMap resource="/config/ibatis/dsyg-invoice.xml" />
+	
 </sqlMapConfig>

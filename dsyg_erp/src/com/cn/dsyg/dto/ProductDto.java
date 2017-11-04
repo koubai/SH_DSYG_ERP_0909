@@ -106,6 +106,33 @@ public class ProductDto extends BaseDto {
 	 */
 	private String purchaseprice;
 	
+	//是否被选中，1为选中
+	private String checked;
+	//退票数量
+	private BigDecimal returnNum = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+	//当前发票数量
+	private BigDecimal currinvoicenum = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+	//当前发票金额
+	private BigDecimal currinvoiceamount = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+	//已开票数量
+	private BigDecimal invoicednum = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+	//已开票金额
+	private BigDecimal invoicedamount = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+	//未开票数量
+	private BigDecimal remaininvoicenum = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+	//未开票金额
+	private BigDecimal remaininvoiceamount = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+	//已开票数量（old）
+	private BigDecimal oldinvoicednum = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+	//已开票金额（old）
+	private BigDecimal oldinvoicedamount = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+	//未开票数量（old）
+	private BigDecimal oldremaininvoicenum = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+	//未开票金额（old）
+	private BigDecimal oldremaininvoiceamount = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
+	//平均价格（6位有效数字）
+	private BigDecimal averagePrice;
+	
 	//数量（入出库单显示用）
 	private String num;
 	//数量（入出库单显示用）
@@ -1399,5 +1426,109 @@ public class ProductDto extends BaseDto {
 
 	public void setScale10(String scale10) {
 		this.scale10 = scale10;
+	}
+
+	public BigDecimal getCurrinvoicenum() {
+		return currinvoicenum;
+	}
+
+	public void setCurrinvoicenum(BigDecimal currinvoicenum) {
+		this.currinvoicenum = currinvoicenum;
+	}
+
+	public BigDecimal getCurrinvoiceamount() {
+		return currinvoiceamount;
+	}
+
+	public void setCurrinvoiceamount(BigDecimal currinvoiceamount) {
+		this.currinvoiceamount = currinvoiceamount;
+	}
+
+	public BigDecimal getInvoicednum() {
+		return invoicednum;
+	}
+
+	public void setInvoicednum(BigDecimal invoicednum) {
+		this.invoicednum = invoicednum;
+	}
+
+	public BigDecimal getInvoicedamount() {
+		return invoicedamount;
+	}
+
+	public void setInvoicedamount(BigDecimal invoicedamount) {
+		this.invoicedamount = invoicedamount;
+	}
+
+	public BigDecimal getRemaininvoicenum() {
+		return remaininvoicenum;
+	}
+
+	public void setRemaininvoicenum(BigDecimal remaininvoicenum) {
+		this.remaininvoicenum = remaininvoicenum;
+	}
+
+	public BigDecimal getRemaininvoiceamount() {
+		return remaininvoiceamount;
+	}
+
+	public void setRemaininvoiceamount(BigDecimal remaininvoiceamount) {
+		this.remaininvoiceamount = remaininvoiceamount;
+	}
+
+	public BigDecimal getOldinvoicednum() {
+		return oldinvoicednum;
+	}
+
+	public void setOldinvoicednum(BigDecimal oldinvoicednum) {
+		this.oldinvoicednum = oldinvoicednum;
+	}
+
+	public BigDecimal getOldinvoicedamount() {
+		return oldinvoicedamount;
+	}
+
+	public void setOldinvoicedamount(BigDecimal oldinvoicedamount) {
+		this.oldinvoicedamount = oldinvoicedamount;
+	}
+
+	public BigDecimal getOldremaininvoicenum() {
+		return oldremaininvoicenum;
+	}
+
+	public void setOldremaininvoicenum(BigDecimal oldremaininvoicenum) {
+		this.oldremaininvoicenum = oldremaininvoicenum;
+	}
+
+	public BigDecimal getOldremaininvoiceamount() {
+		return oldremaininvoiceamount;
+	}
+
+	public void setOldremaininvoiceamount(BigDecimal oldremaininvoiceamount) {
+		this.oldremaininvoiceamount = oldremaininvoiceamount;
+	}
+
+	public String getChecked() {
+		return checked;
+	}
+
+	public void setChecked(String checked) {
+		this.checked = checked;
+	}
+
+	public void setAveragePrice(BigDecimal averagePrice) {
+		this.averagePrice = averagePrice;
+	}
+
+	public BigDecimal getAveragePrice() {
+		return averagePrice;
+	}
+
+	public BigDecimal getReturnNum() {
+		return returnNum;
+	}
+
+	public void setReturnNum(BigDecimal returnNum) {
+		this.returnNum = returnNum;
 	}
 }

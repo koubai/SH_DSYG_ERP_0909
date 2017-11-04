@@ -292,6 +292,16 @@ public class Constants {
 	//财务录入
 	public final static int FINANCE_TYPE_INPUT = 4;
 	
+	//发票状态
+	//预开票
+	public final static int INVOICE_STATUS_NEW = 0;
+	//开票
+	public final static int INVOICE_STATUS_OK = 1;
+	//退票
+	public final static int INVOICE_STATUS_RETURN = 2;
+	//作废
+	public final static int INVOICE_STATUS_CANCEL = 99;
+	
 	//库存记录状态
 	//新增
 	public final static int WAREHOUSE_STATUS_NEW = 10;
