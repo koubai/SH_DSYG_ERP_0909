@@ -14,6 +14,13 @@ public interface InvoiceDao {
 	 * @return
 	 */
 	public BigDecimal querySumInvoiceByFinanceno(String financeno, String status);
+	
+	/**
+	 * 根据状态查询所有记录
+	 * @param status
+	 * @return
+	 */
+	public List<InvoiceDto> queryAllInvoiceList(String status);
 
 	/**
 	 * 根据条件查询满足条件的发票数量
@@ -84,6 +91,12 @@ public interface InvoiceDao {
 	 * @param id
 	 */
 	public void deleteInvoice(String id);
+	
+	/**
+	 * 根据账目编号删除发票记录
+	 * @param financeno
+	 */
+	public void deleteAllInvoiceByFinanceno(String financeno);
 	
 	/**
 	 * 新增记录

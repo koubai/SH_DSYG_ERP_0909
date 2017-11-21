@@ -185,6 +185,33 @@
 		</isNotEmpty>
 	</select>
 	
+	<select id="queryInvoiceTotalAmount" resultClass="double" parameterClass="java.util.Map">
+		select sum(amounttax) from (
+			select T.amounttax,
+			(select F.receiptdate from etb_finance F where F.receiptid = T.financeno) as receiptdate,
+			(select F.customername from etb_finance F where F.receiptid = T.financeno) as customername
+			from etb_invoice T where 1 = 1
+			<isNotEmpty prepend="and" property="invoiceStatus">
+				T.status in ($invoiceStatus$)
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="invoiceid">
+				T.warehouserptno = #invoiceid#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="billno">
+				T.invoiceno = #billno#
+			</isNotEmpty>
+		) A where 1 = 1
+		<isNotEmpty prepend="and" property="customername">
+			customername like '%$customername$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="receiptdateLow">
+			A.receiptdate <![CDATA[>=]]> #receiptdateLow#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="receiptdateHigh">
+			A.receiptdate <![CDATA[<]]> #receiptdateHigh#
+		</isNotEmpty>
+	</select>
+	
 	<select id="queryFinance" resultClass="double" parameterClass="java.util.Map">
 		select sum(amount) from etb_finance T where 1 = 1
 		<isNotEmpty prepend="and" property="status">
@@ -224,6 +251,10 @@
 	
 	<select id="queryFinanceByID" parameterClass="java.util.Map" resultMap="FinanceDto">
 		select * from etb_finance where id = #id#
+	</select>
+	
+	<select id="queryFinanceByReceiptid" parameterClass="java.util.Map" resultMap="FinanceDto">
+		select * from etb_finance where receiptid = #receiptid#
 	</select>
 	
 	<select id="queryFinanceByInvoiceid" parameterClass="java.util.Map" resultMap="FinanceDto">

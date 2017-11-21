@@ -7,6 +7,9 @@
 		<property name="invoiceDao">
 			<ref local="invoiceDao"/>
 		</property>
+		<property name="financeDao">
+			<ref local="financeDao"/>
+		</property>
 	</bean>
 	
 	<bean id="invoiceDao" class="com.cn.dsyg.dao.impl.InvoiceDaoImpl">

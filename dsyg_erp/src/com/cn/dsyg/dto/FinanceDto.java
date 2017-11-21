@@ -59,7 +59,7 @@ public class FinanceDto extends BaseDto {
 	private String invoiceid;
 
 	/**
-	 * 发票号
+	 * 账目编号
 	 */
 	private String receiptid;
 

@@ -1,18 +1,24 @@
 package com.cn.dsyg.service.impl;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.cn.common.util.Constants;
+import com.cn.common.util.DateUtil;
 import com.cn.common.util.Page;
 import com.cn.common.util.StringUtil;
+import com.cn.dsyg.dao.FinanceDao;
 import com.cn.dsyg.dao.InvoiceDao;
+import com.cn.dsyg.dto.FinanceDto;
 import com.cn.dsyg.dto.InvoiceDto;
 import com.cn.dsyg.service.InvoiceService;
 
 public class InvoiceServiceImpl implements InvoiceService {
 	
 	private InvoiceDao invoiceDao;
+	private FinanceDao financeDao;
 	
 	@Override
 	public void cancelInvoice(String invoiceno, String note, String ids, String operator) {
@@ -24,6 +30,8 @@ public class InvoiceServiceImpl implements InvoiceService {
 		if(StringUtil.isNotBlank(ids)) {
 			//废票时只有一条记录
 			String[] ll = ids.split(",");
+			//用一个map记录账目编号，更新发票号时用
+			Map<String, String> financenoMap = new HashMap<String, String>();
 			for(String id : ll) {
 				if(StringUtil.isNotBlank(id)) {
 					InvoiceDto invoice = invoiceDao.queryInvoiceByID(id);
@@ -63,13 +71,57 @@ public class InvoiceServiceImpl implements InvoiceService {
 					}
 				}
 			}
-		}
-		//废除发票记录下所有invoice
-		for(InvoiceDto invoice : invoiceOKList) {
-			invoice.setNote(note);
-			invoice.setUpdateuid(operator);
-			invoice.setStatus(Constants.INVOICE_STATUS_CANCEL);
-			invoiceDao.updateInvoice(invoice);
+			//废除发票记录下所有invoice
+			for(InvoiceDto invoice : invoiceOKList) {
+				invoice.setNote(note);
+				invoice.setUpdateuid(operator);
+				invoice.setStatus(Constants.INVOICE_STATUS_CANCEL);
+				invoiceDao.updateInvoice(invoice);
+				if(!financenoMap.containsKey(invoice.getFinanceno())) {
+					String invoiceInfo = DateUtil.dateToShortStr(invoice.getInvoice_date()) + "&&" + invoice.getAmounttax();
+					financenoMap.put(invoice.getFinanceno(), invoiceInfo);
+				}
+			}
+			//将发票号从finance中去掉
+			for(Map.Entry<String, String> entry : financenoMap.entrySet()) {
+				FinanceDto finance = financeDao.queryFinanceByReceiptid(entry.getKey());
+				if(finance != null) {
+					String oldres09 = finance.getRes09();
+					String oldres10 = finance.getRes10();
+					//判断原发票信息是否为空
+					if(oldres10 != null) {
+						//判断是否存在当前发票信息
+						if((";" + oldres10).indexOf(";" + invoiceno + ";") >= 0) {
+							//存在该发票号，则去掉发票信息
+							String s09[] = oldres09.split("&&");
+							String s09date[] = s09[0].split(";");
+							String s09amount[] = s09[1].split(";");
+							String s10[] = oldres10.split(";");
+							String newres09date = "";
+							String newres09amount = "";
+							String newres10 = "";
+							for(int i = 0; i < s10.length; i++) {
+								if(!s10[i].equals(invoiceno)) {
+									newres09date += s09date[i] + ";";
+									newres09amount += s09amount[i] + ";";
+									newres10 += s10[i] + ";";
+								}
+							}
+							if(!"".equals(newres09date)) {
+								finance.setRes09(newres09date + "&&" + newres09amount);
+							} else {
+								finance.setRes09("");
+							}
+							finance.setRes10(newres10);
+							financeDao.updateFinance(finance);
+						} else {
+							//已记录该发票号，则什么都不做
+						}
+					} else {
+						//原发票信息为空，则什么都不做
+					}
+				}
+			}
 		}
 	}
 
@@ -78,6 +130,8 @@ public class InvoiceServiceImpl implements InvoiceService {
 		if(StringUtil.isNotBlank(ids)) {
 			String[] ll = ids.split(",");
 			String customerid = "";
+			//用一个map记录账目编号，更新发票号时用
+			Map<String, String> financenoMap = new HashMap<String, String>();
 			for(String id : ll) {
 				if(StringUtil.isNotBlank(id)) {
 					InvoiceDto invoice = invoiceDao.queryInvoiceByID(id);
@@ -99,12 +153,46 @@ public class InvoiceServiceImpl implements InvoiceService {
 							invoice.setStatus(Constants.INVOICE_STATUS_OK);
 						} else {
 							//预出库数量为负数，则是退票
-							throw new RuntimeException("预出库数量为负数不能进行开票，开票失败！");
+							throw new RuntimeException("预开票金额为负数不能进行开票，开票失败！");
 							//invoice.setStatus(Constants.INVOICE_STATUS_RETURN);
 						}
 						invoiceDao.updateInvoice(invoice);
+						if(!financenoMap.containsKey(invoice.getFinanceno())) {
+							String invoiceInfo = DateUtil.dateToShortStr(invoice.getInvoice_date()) + "&&" + invoice.getAmounttax();
+							financenoMap.put(invoice.getFinanceno(), invoiceInfo);
+						}
 					} else {
 						throw new RuntimeException("数据记录状态已改变，开票失败！");
+					}
+				}
+			}
+			//将发票号添加到finance表中
+			for(Map.Entry<String, String> entry : financenoMap.entrySet()) {
+				FinanceDto finance = financeDao.queryFinanceByReceiptid(entry.getKey());
+				if(finance != null) {
+					String val = entry.getValue();
+					String s[] = val.split("&&");
+					String invoicedate = s[0];
+					String amount = s[1];
+					String oldres09 = finance.getRes09();
+					String oldres10 = finance.getRes10();
+					//判断原发票信息是否为空
+					if(oldres10 != null) {
+						//判断是否存在当前发票信息
+						if((";" + oldres10).indexOf(";" + invoiceno + ";") < 0) {
+							//未记录该发票号
+							String s1[] = oldres09.split("&&");
+							finance.setRes09(s1[0] + invoicedate + ";" + "&&" + s1[1] + amount + ";");
+							finance.setRes10(finance.getRes10() + invoiceno + ";");
+							financeDao.updateFinance(finance);
+						} else {
+							//已记录该发票号，则什么都不做
+						}
+					} else {
+						//原发票信息为空，直接添加当前发票信息
+						finance.setRes09(invoicedate + ";" + "&&" + amount + ";");
+						finance.setRes10(invoiceno + ";");
+						financeDao.updateFinance(finance);
 					}
 				}
 			}
@@ -182,5 +270,13 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 	public void setInvoiceDao(InvoiceDao invoiceDao) {
 		this.invoiceDao = invoiceDao;
+	}
+
+	public FinanceDao getFinanceDao() {
+		return financeDao;
+	}
+
+	public void setFinanceDao(FinanceDao financeDao) {
+		this.financeDao = financeDao;
 	}
 }

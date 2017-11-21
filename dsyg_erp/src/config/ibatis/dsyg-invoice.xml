@@ -62,6 +62,13 @@
 		select sum(T.amounttax) from etb_invoice T where T.financeno = #financeno# and T.status = #status#
 	</select>
 	
+	<select id="queryAllInvoiceList" parameterClass="java.util.Map" resultMap="InvoiceDto">
+		select T.* from etb_invoice T where 1 = 1
+		<isNotEmpty prepend="and" property="status">
+			T.status in ($status$)
+		</isNotEmpty>
+	</select>
+	
 	<select id="queryInvoiceCountByPage" resultClass="int" parameterClass="java.util.Map">
 		select count(*) from etb_invoice T where 1 = 1
 		<isNotEmpty prepend="and" property="financeno">
@@ -131,6 +138,10 @@
 			T.status in ($status$)
 		</isNotEmpty>
 	</select>
+	
+	<delete id="deleteAllInvoiceByFinanceno" parameterClass="java.util.Map">
+		DELETE FROM etb_invoice WHERE financeno = #financeno#
+	</delete>
 	
 	<select id="queryReturnInvoiceByFinancedelno" parameterClass="java.util.Map" resultMap="SumInvoiceDto">
 		select T.productid,T.financeno,T.warehouserptno,T.customerid,

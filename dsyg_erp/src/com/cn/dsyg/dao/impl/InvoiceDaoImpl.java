@@ -64,6 +64,15 @@ public class InvoiceDaoImpl extends BaseDao implements InvoiceDao {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<InvoiceDto> queryAllInvoiceList(String status) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("status", status);
+		@SuppressWarnings("unchecked")
+		List<InvoiceDto> list = getSqlMapClientTemplate().queryForList("queryAllInvoiceList", paramMap);
+		return list;
+	}
 
 	@Override
 	public List<InvoiceDto> queryInvoiceByFinanceno(String financeno, String status) {
@@ -94,6 +103,13 @@ public class InvoiceDaoImpl extends BaseDao implements InvoiceDao {
 		@SuppressWarnings("unchecked")
 		List<InvoiceDto> list = getSqlMapClientTemplate().queryForList("queryInvoiceByInvoiceno", paramMap);
 		return list;
+	}
+	
+	@Override
+	public void deleteAllInvoiceByFinanceno(String financeno) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("financeno", financeno);
+		getSqlMapClientTemplate().delete("deleteAllInvoiceByFinanceno", paramMap);
 	}
 
 	@Override

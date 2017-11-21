@@ -108,6 +108,9 @@ public class InvoiceAction extends BaseAction {
 			invoiceService.invoiceOK(strInvoicenoOK, strNote, strIds, username);
 			this.addActionMessage("开票成功！");
 			//刷新预开票页面数据
+			strInvoicenoOK = "";
+			strNote = "";
+			//刷新预开票页面数据
 			queryInvoiceNewData();
 		} catch(RuntimeException e) {
 			this.addActionMessage(e.getMessage());

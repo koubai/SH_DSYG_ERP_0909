@@ -329,6 +329,7 @@
 				<div class="btns" style="margin-top:40px; margin-left: -90px;">
 					<table border="0" style="margin:0 auto;">
 						<tr>
+							<td width="200"></td>
 							<td align="right">发票号：</td>
 							<td>
 								<s:textfield id="strInvoicenoOK" name="strInvoicenoOK" cssStyle="width: 160px;" theme="simple"></s:textfield>
@@ -339,6 +340,7 @@
 							</td>
 						</tr>
 						<tr>
+							<td></td>
 							<td align="right">备注：</td>
 							<td colspan="3">
 								<s:textfield id="strNote" name="strNote" cssStyle="width: 280px;" theme="simple"></s:textfield>
@@ -347,7 +349,8 @@
 					</table>
 					<table border="0" style="margin:0 auto;">
 						<tr>
-							<td>
+							<td width="300"></td>
+							<td width="300">
 								<div class="btn">
 									<div class="box1_left"></div>
 									<div class="box1_center">

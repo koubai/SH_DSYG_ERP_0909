@@ -510,6 +510,9 @@
 		tds[10].style.color = "red";
 		tds[11].innerHTML = invoicedamount.toFixed(2);
 		tds[11].style.color = "red";
+		//默认该记录check=true
+		//TODO
+		tds[1].getElementsByTagName("input")[0].checked = true;
 	}
 	
 	//预出库------作废

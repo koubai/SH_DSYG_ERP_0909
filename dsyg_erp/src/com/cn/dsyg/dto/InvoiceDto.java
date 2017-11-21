@@ -105,7 +105,8 @@ public class InvoiceDto extends BaseDto {
 	private BigDecimal amounttax;
 
 	/**
-	 * 收到开出，收到发票rec:0，开出发票pay:1，对于进货单的发票:0对于发货单的发票:1
+	 * 0收到发票（支出），1开出发票（收款）
+	 * 对于进货单的发票0，对于发货单的发票:1
 	 */
 	private Integer recpay;
 

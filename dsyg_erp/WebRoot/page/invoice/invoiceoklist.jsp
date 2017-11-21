@@ -98,7 +98,6 @@
 				<s:hidden name="okIntPageSize" id="okIntPageSize"/>
 				<div class="searchbox">
 					<div class="box1">
-						<div class="box1_right"></div>
 						<label class="pdf10">　发票号</label>
 						<div class="box1_left"></div>
 						<div class="box1_center">

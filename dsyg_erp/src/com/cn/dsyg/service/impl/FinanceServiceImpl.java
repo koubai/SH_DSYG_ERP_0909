@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.cn.common.util.Constants;
@@ -129,19 +131,34 @@ public class FinanceServiceImpl implements FinanceService {
 		receiptid = StringUtil.replaceDatabaseKeyword_mysql(receiptid);
 		billno = StringUtil.replaceDatabaseKeyword_mysql(billno);
 		
-		List<FinanceDto> list = financeDao.queryAllFinance(expressno, status, financetype, invoiceid, receiptid,
+		//查询财务记录
+		BigDecimal totalInvoiceAmount = new BigDecimal(0);
+		List<FinanceDto> financeList = financeDao.queryAllFinance(expressno, status, financetype, invoiceid, receiptid,
 				customerid, receiptdateLow, receiptdateHigh, billno, res02, expressName);
-		BigDecimal invoiceAmount = new BigDecimal(0);
-		if(list != null && list.size() > 0) {
-			for(FinanceDto finance : list) {
-				//根据财务记录查询已开票金额，这里只查询status=1的
-				BigDecimal amount = invoiceDao.querySumInvoiceByFinanceno(finance.getReceiptid(), "" + Constants.INVOICE_STATUS_OK);
-				if(amount != null) {
-					invoiceAmount = invoiceAmount.add(amount);
+		if(financeList != null && financeList.size() > 0) {
+			Map<String, String> financeMap = new HashMap<String, String>();
+			for(FinanceDto finance : financeList) {
+				if(!financeMap.containsKey(finance.getReceiptid())) {
+					financeMap.put(finance.getReceiptid(), "");
+				}
+			}
+			//查询发票记录列表
+			List<InvoiceDto> invoiceList = invoiceDao.queryAllInvoiceList("" + Constants.INVOICE_STATUS_OK);
+			if(invoiceList != null && invoiceList.size() > 0) {
+				for(InvoiceDto invoiceDto : invoiceList) {
+					if(financeMap.containsKey(invoiceDto.getFinanceno()) && invoiceDto.getAmounttax() != null) {
+						totalInvoiceAmount = totalInvoiceAmount.add(invoiceDto.getAmounttax());
+					}
 				}
 			}
 		}
-		return "" + invoiceAmount;
+		
+//		Double totalInvoiceAmount = financeDao.queryInvoiceTotalAmount(expressno, status, "" + Constants.INVOICE_STATUS_OK, financetype,
+//				invoiceid, receiptid, customerid, receiptdateLow, receiptdateHigh, billno, res02, expressName);
+//		if (totalInvoiceAmount == null)
+//			totalInvoiceAmount = new Double(0);
+//		BigDecimal bdamount = new BigDecimal(totalInvoiceAmount).setScale(2, BigDecimal.ROUND_HALF_UP);  
+		return totalInvoiceAmount.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
 	}
 
 	@Override
@@ -231,7 +248,7 @@ public class FinanceServiceImpl implements FinanceService {
 							}
 							//未开票数量和未开票金额
 							remaininvoicenum = num.subtract(invoicednum).subtract(returnNum.abs()).setScale(2, BigDecimal.ROUND_HALF_UP);
-							remaininvoiceamount = amount.subtract(invoicedamount).subtract(returnNum.abs().multiply(averagePrice)).setScale(6, BigDecimal.ROUND_HALF_UP);
+							remaininvoiceamount = amount.subtract(invoicedamount).subtract(returnNum.abs().multiply(averagePrice)).setScale(2, BigDecimal.ROUND_HALF_UP);
 							
 							//已开票数量
 							product.setInvoicednum(invoicednum);
@@ -291,6 +308,46 @@ public class FinanceServiceImpl implements FinanceService {
 		finance.setReceiptid(no);
 		finance.setBelongto(belongto);
 		financeDao.insertFinance(finance);
+		//插入invoice记录
+		if(StringUtil.isNotBlank(finance.getRes10())) {
+			String s09[] = finance.getRes09().split("&&");
+			String s10[] = finance.getRes10().split(";");
+			String s09date[] = s09[0].split(";");
+			String s09amount[] = s09[1].split(";");
+			for(int i = 0; i < s10.length; i++) {
+				if(StringUtil.isNotBlank(s10[i])) {
+					InvoiceDto invoice = new InvoiceDto();
+					invoice.setBelongto(belongto);
+					invoice.setWarehouserptno(finance.getInvoiceid());
+					invoice.setFinanceno(finance.getReceiptid());
+					invoice.setInvoiceno(s10[i]);
+					invoice.setCustomerid(finance.getCustomerid());
+					invoice.setCustomername(finance.getCustomername());
+					invoice.setQuantity(new BigDecimal(0));
+					invoice.setPrice(new BigDecimal(0));
+					invoice.setPricetax(new BigDecimal(0));
+					invoice.setAmount(new BigDecimal(0));
+					invoice.setAmounttax(new BigDecimal(s09amount[i]));
+					//新增的财务记录
+					//方式：1为收款，2为付款
+					if("1".equals(finance.getMode())) {
+						//收款
+						invoice.setRecpay(1);
+					} else {
+						//付款，收到开出
+						invoice.setRecpay(0);
+					}
+					//发票号不为空，则直接是开票完了
+					invoice.setStatus(1);
+					invoice.setInvoice_date(DateUtil.strToDate(s09date[i], DateUtil.DATE_FORMAT_SHORT));
+					invoice.setInvoide_mem_id(finance.getCreateuid());
+					invoice.setCreateuid(finance.getCreateuid());
+					invoice.setUpdateuid(finance.getUpdateuid());
+					invoiceDao.insertInvoice(invoice);
+				}
+			}
+		}
+		
 		return no;
 	}
 	
@@ -368,6 +425,47 @@ public class FinanceServiceImpl implements FinanceService {
 								}
 							}
 						}						
+					}
+				}
+			}
+		} else {
+			//先删除invoice记录
+			invoiceDao.deleteAllInvoiceByFinanceno(finance.getReceiptid());
+			//非入出库单，插入发票1，2，3数据到invoice中
+			if(StringUtil.isNotBlank(finance.getRes10())) {
+				String s09[] = finance.getRes09().split("&&");
+				String s10[] = finance.getRes10().split(";");
+				String s09date[] = s09[0].split(";");
+				String s09amount[] = s09[1].split(";");
+				for(int i = 0; i < s10.length; i++) {
+					if(StringUtil.isNotBlank(s10[i])) {
+						InvoiceDto invoice = new InvoiceDto();
+						invoice.setBelongto(finance.getBelongto());
+						invoice.setWarehouserptno(finance.getInvoiceid());
+						invoice.setFinanceno(finance.getReceiptid());
+						invoice.setInvoiceno(s10[i]);
+						invoice.setCustomerid(finance.getCustomerid());
+						invoice.setCustomername(finance.getCustomername());
+						invoice.setQuantity(new BigDecimal(0));
+						invoice.setPrice(new BigDecimal(0));
+						invoice.setPricetax(new BigDecimal(0));
+						invoice.setAmount(new BigDecimal(0));
+						invoice.setAmounttax(new BigDecimal(s09amount[i]));
+						//方式：1为收款，2为付款
+						if("1".equals(finance.getMode())) {
+							//收款
+							invoice.setRecpay(1);
+						} else {
+							//付款，收到开出
+							invoice.setRecpay(0);
+						}
+						//发票号不为空，则直接是开票完了
+						invoice.setStatus(1);
+						invoice.setInvoice_date(DateUtil.strToDate(s09date[i], DateUtil.DATE_FORMAT_SHORT));
+						invoice.setInvoide_mem_id(finance.getCreateuid());
+						invoice.setCreateuid(finance.getCreateuid());
+						invoice.setUpdateuid(finance.getUpdateuid());
+						invoiceDao.insertInvoice(invoice);
 					}
 				}
 			}

@@ -91,6 +91,25 @@ public interface FinanceDao {
 			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh,
 			String billno, String res02, String expressName);
 	
+	/**
+	 * 查询已开票金额
+	 * @param expressno
+	 * @param status
+	 * @param invoiceStatus 发票状态
+	 * @param financetype
+	 * @param invoiceid
+	 * @param receiptid
+	 * @param customerid
+	 * @param receiptdateLow
+	 * @param receiptdateHigh
+	 * @param billno
+	 * @param res02
+	 * @param expressName
+	 * @return
+	 */
+	public Double queryInvoiceTotalAmount(String expressno, String status, String invoiceStatus, String financetype, String invoiceid,
+			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh, String billno,
+			String res02, String expressName);
 	
 	/**
 	 * 查询记录数
@@ -124,6 +143,13 @@ public interface FinanceDao {
 	 * @return
 	 */
 	public FinanceDto queryFinanceByInvoiceid(String invoiceid, String financetype);
+	
+	/**
+	 * 根据账目编号查询记录
+	 * @param receiptid
+	 * @return
+	 */
+	public FinanceDto queryFinanceByReceiptid(String receiptid);
 	
 	/**
 	 * 新增记录

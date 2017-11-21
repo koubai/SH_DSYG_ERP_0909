@@ -360,38 +360,43 @@ public class FinanceAction extends BaseAction {
 			//开票金额
 			String billamount = "";
 			
-			if(StringUtil.isNotBlank(strBillno1)) {
-				res10 += strBillno1 + ";";
-				receiptdate += strReceiptdate1 + ";";
-				billamount += strBillamount1 + ";";
+			if(StringUtil.isNotBlank(updFinanceDto.getInvoiceid()) &&
+					(updFinanceDto.getFinancetype() == 1 || updFinanceDto.getFinancetype() == 2)) {
 			} else {
-				//发票为空，则清空金额和开票日期
-				strReceiptdate1 = "";
-				strBillamount1 = "";
+				//非入出库单，需要发票1，2，3
+				if(StringUtil.isNotBlank(strBillno1)) {
+					res10 += strBillno1 + ";";
+					receiptdate += strReceiptdate1 + ";";
+					billamount += strBillamount1 + ";";
+				} else {
+					//发票为空，则清空金额和开票日期
+					strReceiptdate1 = "";
+					strBillamount1 = "";
+				}
+				if(StringUtil.isNotBlank(strBillno2)) {
+					res10 += strBillno2 + ";";
+					receiptdate += strReceiptdate2 + ";";
+					billamount += strBillamount2 + ";";
+				} else {
+					//发票为空，则清空金额和开票日期
+					strReceiptdate2 = "";
+					strBillamount2 = "";
+				}
+				if(StringUtil.isNotBlank(strBillno3)) {
+					res10 += strBillno3 + ";";
+					receiptdate += strReceiptdate3 + ";";
+					billamount += strBillamount3 + ";";
+				} else {
+					//发票为空，则清空金额和开票日期
+					strReceiptdate3 = "";
+					strBillamount3 = "";
+				}
+				if(StringUtil.isNotBlank(receiptdate)) {
+					receiptdate = receiptdate + "&&" + billamount;
+				}
+				updFinanceDto.setRes10(res10);
+				updFinanceDto.setRes09(receiptdate);
 			}
-			if(StringUtil.isNotBlank(strBillno2)) {
-				res10 += strBillno2 + ";";
-				receiptdate += strReceiptdate2 + ";";
-				billamount += strBillamount2 + ";";
-			} else {
-				//发票为空，则清空金额和开票日期
-				strReceiptdate2 = "";
-				strBillamount2 = "";
-			}
-			if(StringUtil.isNotBlank(strBillno3)) {
-				res10 += strBillno3 + ";";
-				receiptdate += strReceiptdate3 + ";";
-				billamount += strBillamount3 + ";";
-			} else {
-				//发票为空，则清空金额和开票日期
-				strReceiptdate3 = "";
-				strBillamount3 = "";
-			}
-			if(StringUtil.isNotBlank(receiptdate)) {
-				receiptdate = receiptdate + "&&" + billamount;
-			}
-			updFinanceDto.setRes10(res10);
-			updFinanceDto.setRes09(receiptdate);
 			
 			updFinanceDto.setUpdateuid(username);
 			financeService.updateFinance(updFinanceDto);

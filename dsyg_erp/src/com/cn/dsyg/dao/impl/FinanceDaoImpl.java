@@ -124,12 +124,46 @@ public class FinanceDaoImpl extends BaseDao implements FinanceDao {
 	}
 	
 	@Override
+	public Double queryInvoiceTotalAmount(String expressno, String status, String invoiceStatus, String financetype, String invoiceid,
+			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh, String billno,
+			String res02, String expressName) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("status", status);
+		paramMap.put("res08", expressno);
+		paramMap.put("financetype", financetype);
+		
+		paramMap.put("invoiceStatus", invoiceStatus);
+		
+		paramMap.put("invoiceid", invoiceid);
+		paramMap.put("receiptid", receiptid);
+		paramMap.put("customerid", customerid);
+		paramMap.put("receiptdateLow", receiptdateLow);
+		paramMap.put("receiptdateHigh", receiptdateHigh);
+		paramMap.put("billno", billno);
+		paramMap.put("res02", res02);
+		paramMap.put("customername", expressName);
+		return (Double) getSqlMapClientTemplate().queryForObject("queryInvoiceTotalAmount", paramMap);
+	}
+	
+	@Override
 	public FinanceDto queryFinanceByInvoiceid(String invoiceid, String financetype) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("invoiceid", invoiceid);
 		paramMap.put("financetype", financetype);
 		@SuppressWarnings("unchecked")
 		List<FinanceDto> list = getSqlMapClientTemplate().queryForList("queryFinanceByInvoiceid", paramMap);
+		if(list != null && list.size() > 0) {
+			return list.get(0);
+		}
+		return null;
+	}
+	
+	@Override
+	public FinanceDto queryFinanceByReceiptid(String receiptid) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("receiptid", receiptid);
+		@SuppressWarnings("unchecked")
+		List<FinanceDto> list = getSqlMapClientTemplate().queryForList("queryFinanceByReceiptid", paramMap);
 		if(list != null && list.size() > 0) {
 			return list.get(0);
 		}
