@@ -117,7 +117,7 @@
 				group_concat(distinct T.customerid) as customerid,group_concat(distinct T.customername) as customername,
 				group_concat(distinct DATE_FORMAT(T.invoice_date, '%Y-%m-%d')) as strInvoice_date,
 				group_concat(distinct T.invoide_mem_id) as invoide_mem_id,
-				sum(amounttax) as amounttax
+				sum(amounttax) as amounttax, max(status)
 			from etb_invoice T where 1 = 1
 				<isNotEmpty prepend="and" property="status">
 					T.status in ($status$)

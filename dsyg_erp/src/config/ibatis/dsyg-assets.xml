@@ -55,7 +55,7 @@
 		<isNotEmpty prepend="and" property="ID_HIGH">
 			T.assetsno <![CDATA[<=]]> #ID_HIGH#
 		</isNotEmpty>
-		order by T.updatedate desc
+		order by T.registerdate desc
 	</select>
 	
 	<select id="queryEtbAssetsByPage" parameterClass="java.util.Map" resultMap="AssetsDto">
@@ -70,7 +70,7 @@
 		<isNotEmpty prepend="and" property="ASSETS_NAME">
 			T.assetsname like '%$ASSETS_NAME$%'
 		</isNotEmpty>
-		order by T.updatedate desc
+		order by T.registerdate desc
 		LIMIT #start#, #end#
 	</select>
 	

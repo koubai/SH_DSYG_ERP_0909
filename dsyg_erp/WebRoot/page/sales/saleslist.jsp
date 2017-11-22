@@ -156,27 +156,6 @@
 			return;
 		}	
 	}
-	
-	
-	function showDDDetail(id) {
-		alert(id);
-/*		var temStr = "";
-		var c;
-		var result ="";
-		alert("BBB2");
-		if(id == "") {
-			alert("请选择一条记录！");
-			return;
-		} else {
-			var saleslst = document.getElementById("salesList");
-			alert(id);
-			var url = "<%=request.getContextPath()%>/sales/showUpdSalesitemAction.action?updSalesId=" + id + "&date=" + new Date();
-			window.showModalDialog(url, window, "dialogheight:680px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no;scrollbars=yes;");
-			//document.mainform.action = "../sales/showUpdSalesitemAction.action?updSalesId=" + id;
-			//document.mainform.submit();
-		}*/
-	}
-
 </script>
 </head>
 <body>
@@ -433,8 +412,7 @@
 											<s:property value="status"/>
 										</s:else>
 									</td>
-									<td><!--  <a href="#" onclick="showDDDetail('<s:property value="note"/>');" /><s:property value="note" /> -->
-									<input type="button" value="<s:property value="note"/>" onclick="javascript:alert('<s:property value="note"/>');"/></td>
+									<td><s:property value="note"/></td>
 								</tr>
 							</s:iterator>
 						</table>
