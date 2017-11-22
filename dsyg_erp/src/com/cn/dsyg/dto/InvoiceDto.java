@@ -144,6 +144,11 @@ public class InvoiceDto extends BaseDto {
 	 * 开票日
 	 */
 	private Date invoice_date;
+	
+	/**
+	 * 开票日（汇总）
+	 */
+	private String strInvoice_date;
 
 	/**
 	 * 开票人
@@ -554,5 +559,13 @@ public class InvoiceDto extends BaseDto {
 
 	public void setProductid(String productid) {
 		this.productid = productid;
+	}
+
+	public String getStrInvoice_date() {
+		return strInvoice_date;
+	}
+
+	public void setStrInvoice_date(String strInvoice_date) {
+		this.strInvoice_date = strInvoice_date;
 	}
 }

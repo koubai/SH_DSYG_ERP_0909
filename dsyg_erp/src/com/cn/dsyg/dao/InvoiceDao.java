@@ -21,6 +21,35 @@ public interface InvoiceDao {
 	 * @return
 	 */
 	public List<InvoiceDto> queryAllInvoiceList(String status);
+	
+	//InvoiceOK
+	/**
+	 * 根据条件查询满足条件的发票数量（按发票汇总）
+	 * @param financeno
+	 * @param invoiceno
+	 * @param invoiceDateHigh
+	 * @param invoiceDateLow
+	 * @param status
+	 * @param customername
+	 * @return
+	 */
+	public int queryInvoiceOKCountByPage(String financeno, String invoiceno, String invoiceDateHigh,
+			String invoiceDateLow, String status, String customername);
+	
+	/**
+	 * 根据条件查询满足条件的发票数量（按发票汇总）
+	 * @param financeno
+	 * @param invoiceno
+	 * @param invoiceDateHigh
+	 * @param invoiceDateLow
+	 * @param status
+	 * @param customername
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<InvoiceDto> queryInvoiceOKByPage(String financeno, String invoiceno, String invoiceDateHigh,
+			String invoiceDateLow, String status, String customername, int start, int end);
 
 	/**
 	 * 根据条件查询满足条件的发票数量

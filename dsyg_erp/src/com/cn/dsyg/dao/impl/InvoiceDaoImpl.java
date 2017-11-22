@@ -18,6 +18,36 @@ public class InvoiceDaoImpl extends BaseDao implements InvoiceDao {
 		paramMap.put("status", status);
 		return (BigDecimal) getSqlMapClientTemplate().queryForObject("querySumInvoiceByFinanceno", paramMap);
 	}
+	
+	@Override
+	public int queryInvoiceOKCountByPage(String financeno, String invoiceno, String invoiceDateHigh,
+			String invoiceDateLow, String status, String customername) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("financeno", financeno);
+		paramMap.put("invoiceno", invoiceno);
+		paramMap.put("invoiceDateHigh", invoiceDateHigh);
+		paramMap.put("invoiceDateLow", invoiceDateLow);
+		paramMap.put("status", status);
+		paramMap.put("customername", customername);
+		return (Integer) getSqlMapClientTemplate().queryForObject("queryInvoiceOKCountByPage", paramMap);
+	}
+
+	@Override
+	public List<InvoiceDto> queryInvoiceOKByPage(String financeno, String invoiceno, String invoiceDateHigh,
+			String invoiceDateLow, String status, String customername, int start, int end) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("financeno", financeno);
+		paramMap.put("invoiceno", invoiceno);
+		paramMap.put("invoiceDateHigh", invoiceDateHigh);
+		paramMap.put("invoiceDateLow", invoiceDateLow);
+		paramMap.put("status", status);
+		paramMap.put("customername", customername);
+		paramMap.put("start", start);
+		paramMap.put("end", end);
+		@SuppressWarnings("unchecked")
+		List<InvoiceDto> list = getSqlMapClientTemplate().queryForList("queryInvoiceOKByPage", paramMap);
+		return list;
+	}
 
 	@Override
 	public int queryInvoiceCountByPage(String financeno, String invoiceno, String invoiceDateHigh, String invoiceDateLow, String status,

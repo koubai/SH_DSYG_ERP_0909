@@ -100,10 +100,6 @@
 			alert("请选择一条记录！");
 			return;
 		}
-		if(count > 1) {
-			alert("只能选择一条记录进行作废操作！");
-			return;
-		}
 		$("#strIds").val(ids);
 		var strInvoicenoOK = $("#strInvoicenoOK").val().trim();
 		var strNote = $("#strNote").val().trim();

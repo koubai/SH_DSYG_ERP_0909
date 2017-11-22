@@ -28,7 +28,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 			throw new RuntimeException("未找到发票号=" + invoiceno + "的记录！");
 		}
 		if(StringUtil.isNotBlank(ids)) {
-			//废票时只有一条记录
 			String[] ll = ids.split(",");
 			//用一个map记录账目编号，更新发票号时用
 			Map<String, String> financenoMap = new HashMap<String, String>();
@@ -197,6 +196,29 @@ public class InvoiceServiceImpl implements InvoiceService {
 				}
 			}
 		}
+	}
+	
+	@Override
+	public Page queryInvoiceOKByPage(String financeno, String invoiceno, String invoiceDateHigh, String invoiceDateLow,
+			String status, String customername, Page page) {
+		financeno = StringUtil.replaceDatabaseKeyword_mysql(financeno);
+		customername = StringUtil.replaceDatabaseKeyword_mysql(customername);
+		if(StringUtil.isNotBlank(invoiceDateHigh)) {
+			invoiceDateHigh = invoiceDateHigh + " 23:59:59";
+		}
+		//查询总记录数
+		int totalCount = invoiceDao.queryInvoiceOKCountByPage(financeno, invoiceno, invoiceDateHigh, invoiceDateLow, status, customername);
+		page.setTotalCount(totalCount);
+		if(totalCount % page.getPageSize() > 0) {
+			page.setTotalPage(totalCount / page.getPageSize() + 1);
+		} else {
+			page.setTotalPage(totalCount / page.getPageSize());
+		}
+		//翻页查询记录
+		List<InvoiceDto> list = invoiceDao.queryInvoiceOKByPage(financeno, invoiceno, invoiceDateHigh, invoiceDateLow, status, customername,
+				page.getStartIndex() * page.getPageSize(), page.getPageSize());
+		page.setItems(list);
+		return page;
 	}
 
 	@Override

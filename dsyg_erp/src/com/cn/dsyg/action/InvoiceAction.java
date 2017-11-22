@@ -72,11 +72,6 @@ public class InvoiceAction extends BaseAction {
 				this.addActionMessage("请选择一条记录！");
 				return "checkerror";
 			}
-			String[] list = strIds.split(",");
-			if(list.length > 1) {
-				this.addActionMessage("只能选择一条记录进行作废操作！");
-				return "checkerror";
-			}
 			//废票处理
 			invoiceService.cancelInvoice(strInvoicenoOK, strNote, strIds, username);
 			this.addActionMessage("作废操作成功！");
@@ -304,9 +299,12 @@ public class InvoiceAction extends BaseAction {
 		//翻页查询所有委托公司
 		this.okPage.setStartIndex(okStartIndex);
 		//不查询99的记录
-		okPage = invoiceService.queryInvoiceByPage("", strInvoiceno, "", "",
-				//"" + Constants.INVOICE_STATUS_OK + "," + Constants.INVOICE_STATUS_RETURN, "", "", "", okPage);
-				"" + Constants.INVOICE_STATUS_OK + "," + Constants.INVOICE_STATUS_RETURN + "," + Constants.INVOICE_STATUS_CANCEL, "", "", "", okPage);
+		okPage = invoiceService.queryInvoiceOKByPage("", strInvoiceno, "", "",
+				"" + Constants.INVOICE_STATUS_OK + "," + Constants.INVOICE_STATUS_RETURN + "," + Constants.INVOICE_STATUS_CANCEL, "", okPage);
+//		okPage = invoiceService.queryInvoiceByPage("", strInvoiceno, "", "",
+//				//"" + Constants.INVOICE_STATUS_OK + "," + Constants.INVOICE_STATUS_RETURN, "", "", "", okPage);
+//				"" + Constants.INVOICE_STATUS_OK + "," + Constants.INVOICE_STATUS_RETURN + "," + Constants.INVOICE_STATUS_CANCEL, "", "", "", okPage);
+		
 		listInvoiceOk = (List<InvoiceDto>) okPage.getItems();
 		this.setNewStartIndex(okPage.getStartIndex());
 	}

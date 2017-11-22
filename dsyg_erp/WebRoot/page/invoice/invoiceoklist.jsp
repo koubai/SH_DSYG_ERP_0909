@@ -122,22 +122,22 @@
 						</table>
 					</div>
 					<div class="tab_content" style="height: <s:property value="okIntPageSize * 35"/>px;">
-						<div style="width: 120%; overflow: auto;">
+						<div style="width: 125%; overflow: auto;">
 							<table class="info_tab" width="100%" border="1" cellpadding="5" cellspacing="0">
 								<tr class="tittle">
 									<td width="30" style="display: none;"></td>
 									<td width="40">序号</td>
 									<td width="130">发票号</td>
-									<td width="130">关联单据编号</td>
-									<td width="130">账目编号</td>
-									<td width="150">客户名称</td>
-									<td width="130">开票日期</td>
-									<td width="70">开票人</td>
+									<td width="250">关联单据编号</td>
+									<td width="250">账目编号</td>
+									<td width="200">客户名称</td>
+									<td width="200">开票日期</td>
+									<td width="200">开票人</td>
 									<td width="110">开票金额(含税)</td>
-									<td width="160">备注</td>
+									<!-- <td width="160">备注</td>
 									<td width="70">状态</td>
 									<td width="130">退货单据号</td>
-									<td width="130">退货账目编号</td>
+									<td width="130">退货账目编号</td> -->
 								</tr>
 								<s:iterator id="listInvoiceOk" value="listInvoiceOk" status="st1">
 									<s:if test="#st1.odd==true">
@@ -149,15 +149,33 @@
 										<td style="display: none;"><input name="radioKey" type="checkbox" value="<s:property value="id"/>"/></td>
 										<td><s:property value="okPage.pageSize * (okPage.nextIndex - 1) + #st1.index + 1"/></td>
 										<td><s:property value="invoiceno"/></td>
-										<td><s:property value="warehouserptno"/></td>
-										<td><s:property value="financeno"/></td>
-										<td><s:property value="customername"/></td>
 										<td>
-											<s:date name="invoice_date" format="yyyy/MM/dd HH:mm:ss" />
+											<div noWrap title="<s:property value="warehouserptno"/>" style="width:230px;text-overflow:ellipsis;overflow:hidden">
+												<s:property value="warehouserptno"/>
+											</div>
 										</td>
-										<td><s:property value="invoide_mem_id"/></td>
-										<td align="right"><s:property value="amounttax"/></td>
 										<td>
+											<div noWrap title="<s:property value="financeno"/>" style="width:230px;text-overflow:ellipsis;overflow:hidden">
+												<s:property value="financeno"/>
+											</div>
+										</td>
+										<td>
+											<div noWrap title="<s:property value="customername"/>" style="width:190px;text-overflow:ellipsis;overflow:hidden">
+												<s:property value="customername"/>
+											</div>
+										</td>
+										<td>
+											<div noWrap title="<s:property value="strInvoice_date"/>" style="width:190px;text-overflow:ellipsis;overflow:hidden">
+												<s:property value="strInvoice_date"/>
+											</div>
+										</td>
+										<td>
+											<div noWrap title="<s:property value="invoide_mem_id"/>" style="width:190px;text-overflow:ellipsis;overflow:hidden">
+												<s:property value="invoide_mem_id"/>
+											</div>
+										</td>
+										<td align="right"><s:property value="amounttax"/></td>
+										<%-- <td>
 											<div noWrap title="<s:property value="note"/>" style="width:150px;text-overflow:ellipsis;overflow:hidden">
 												<s:property value="note"/>
 											</div>
@@ -180,7 +198,7 @@
 											</s:else>
 										</td>
 										<td><s:property value="warehouserptdelno"/></td>
-										<td><s:property value="finanacedelno"/></td>
+										<td><s:property value="finanacedelno"/></td> --%>
 									</tr>
 								</s:iterator>
 							</table>

@@ -24,6 +24,20 @@ public interface InvoiceService {
 	 * @param operator
 	 */
 	public void invoiceOK(String invoiceno, String note, String ids, String operator);
+	
+	/**
+	 * 根据条件查询满足条件的发票数量（按发票汇总）
+	 * @param financeno
+	 * @param invoiceno
+	 * @param invoiceDateHigh
+	 * @param invoiceDateLow
+	 * @param status
+	 * @param customername
+	 * @param page
+	 * @return
+	 */
+	public Page queryInvoiceOKByPage(String financeno, String invoiceno, String invoiceDateHigh,
+			String invoiceDateLow, String status, String customername, Page page);
 
 	/**
 	 * 翻页查询满足条件的发票记录
