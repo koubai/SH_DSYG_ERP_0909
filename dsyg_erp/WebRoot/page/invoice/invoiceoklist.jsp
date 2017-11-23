@@ -181,10 +181,10 @@
 											</div>
 										</td> --%>
 										<td>
- 											<s:if test="%{status == 0}">
+ 											<s:if test="status==0">
 												预开票
 											</s:if>
-											<s:elseif test="%{status == 1}">
+											<s:elseif test="status==1">
 												开票
 											</s:elseif>
 											<s:elseif test="%{status == 2}">

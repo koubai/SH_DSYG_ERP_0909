@@ -67,6 +67,7 @@
 		<result property="strInvoice_date" column="strInvoice_date" />
 		<result property="amounttax" column="amounttax" />
 		<result property="invoide_mem_id" column="invoide_mem_id" />
+		<result property="status" column="status" />
 	</resultMap>
 	
 	<select id="querySumInvoiceByFinanceno" resultClass="java.math.BigDecimal" parameterClass="java.util.Map">
@@ -117,7 +118,7 @@
 				group_concat(distinct T.customerid) as customerid,group_concat(distinct T.customername) as customername,
 				group_concat(distinct DATE_FORMAT(T.invoice_date, '%Y-%m-%d')) as strInvoice_date,
 				group_concat(distinct T.invoide_mem_id) as invoide_mem_id,
-				sum(amounttax) as amounttax, max(status)
+				sum(amounttax) as amounttax, max(status) as status
 			from etb_invoice T where 1 = 1
 				<isNotEmpty prepend="and" property="status">
 					T.status in ($status$)
@@ -139,7 +140,7 @@
 			<isNotEmpty prepend="and" property="customername">
 				A.customername like '%$customername$%' ESCAPE '/'
 			</isNotEmpty>
-			order by A.invoiceno desc
+			order by CONVERT(A.invoiceno,SIGNED) desc
 			LIMIT #start#, #end#
 	</select>
 	

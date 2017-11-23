@@ -172,7 +172,7 @@
 								<td width="80">订单数量</td>
 								<td width="80">库存数量</td>
 								<td width="80">差数</td>
-								<!-- <td width="80">深圳差数</td> -->
+								<td width="80">深圳差数</td>
 								<td width="80">采购数量</td>
 								<td width="80">预计交货期</td>
 							</tr>
@@ -225,14 +225,14 @@
 											<s:property value="diffquantity"/>
 										</s:else>
 									</td>
-									<!-- <td align="right">
+									<td align="right">
 										<s:if test="%{warehouseDetailList[#st1.index].diffquantity_sz <= 0}">
 											<span style="color: red"><s:property value="diffquantity_sz"/></span>
 										</s:if>
 										<s:else>
 											<s:property value="diffquantity_sz"/>
 										</s:else>
-									</td> -->
+									</td>
 									<td align="right"><a href="#" onclick="showPurchase('<s:property value="id"/>');"><u><s:property value="quantityp"/></u></a></td>
 									<td><s:property value="plandate"/></td>
 								</tr>
