@@ -122,20 +122,20 @@
 						</table>
 					</div>
 					<div class="tab_content" style="height: <s:property value="okIntPageSize * 35"/>px;">
-						<div style="width: 125%; overflow: auto;">
+						<div style="width: 100%; overflow: auto;">
 							<table class="info_tab" width="100%" border="1" cellpadding="5" cellspacing="0">
 								<tr class="tittle">
 									<td width="30" style="display: none;"></td>
 									<td width="40">序号</td>
-									<td width="130">发票号</td>
-									<td width="250">关联单据编号</td>
-									<td width="200">账目编号</td>
+									<td width="100">发票号</td>
+									<td width="150">关联单据编号</td>
+									<td width="150">账目编号</td>
 									<td width="200">客户名称</td>
 									<td width="100">开票日期</td>
 									<td width="100">开票人</td>
-									<td width="110">开票金额(含税)</td>
+									<td width="100">开票金额(含税)</td>
 									<!-- <td width="160">备注</td> -->
-									<td width="70">状态</td>
+									<td width="50">状态</td>
 									<!--  <td width="130">退货单据号</td>
 									<td width="130">退货账目编号</td> -->
 								</tr>
@@ -150,12 +150,12 @@
 										<td><s:property value="okPage.pageSize * (okPage.nextIndex - 1) + #st1.index + 1"/></td>
 										<td><s:property value="invoiceno"/></td>
 										<td>
-											<div noWrap title="<s:property value="warehouserptno"/>" style="width:230px;text-overflow:ellipsis;overflow:hidden">
+											<div noWrap title="<s:property value="warehouserptno"/>" style="width:140px;text-overflow:ellipsis;overflow:hidden">
 												<s:property value="warehouserptno"/>
 											</div>
 										</td>
 										<td>
-											<div noWrap title="<s:property value="financeno"/>" style="width:200px;text-overflow:ellipsis;overflow:hidden">
+											<div noWrap title="<s:property value="financeno"/>" style="width:140px;text-overflow:ellipsis;overflow:hidden">
 												<s:property value="financeno"/>
 											</div>
 										</td>
@@ -165,12 +165,12 @@
 											</div>
 										</td>
 										<td>
-											<div noWrap title="<s:property value="strInvoice_date"/>" style="width:100px;text-overflow:ellipsis;overflow:hidden">
+											<div noWrap title="<s:property value="strInvoice_date"/>" style="width:90px;text-overflow:ellipsis;overflow:hidden">
 												<s:property value="strInvoice_date"/>
 											</div>
 										</td>
 										<td>
-											<div noWrap title="<s:property value="invoide_mem_id"/>" style="width:100px;text-overflow:ellipsis;overflow:hidden">
+											<div noWrap title="<s:property value="invoide_mem_id"/>" style="width:90px;text-overflow:ellipsis;overflow:hidden">
 												<s:property value="invoide_mem_id"/>
 											</div>
 										</td>
@@ -187,14 +187,14 @@
 											<s:elseif test="status==1">
 												开票
 											</s:elseif>
-											<s:elseif test="%{status == 2}">
+											<s:elseif test="status == 2">
 												退票
 											</s:elseif>
-											<s:elseif test="%{status == 99}">
+											<s:elseif test="status == 99">
 												作废
 											</s:elseif>
 											<s:else>
-												<s:property value="%{status}"/>
+												<s:property value="status"/>
 											</s:else>
 										</td>
 										<%-- <td><s:property value="warehouserptdelno"/></td>
