@@ -579,7 +579,7 @@
 										<s:if test="amount > invoiceAmount">
 											<td align="right" style="background-color: yellow;">
 										</s:if>
-										<s:elseif test="amount < invoiceAmount">
+										<s:elseif test="amount > 0 && amount < invoiceAmount">
 											<td align="right" style="background-color: red;">
 										</s:elseif>
 										<s:else>
