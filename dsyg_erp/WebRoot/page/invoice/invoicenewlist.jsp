@@ -346,7 +346,7 @@
 					<table border="0" style="margin:0 auto;">
 						<tr>
 							<td width="300"></td>
-							<td width="300">
+							<td width="500">
 								<div class="btn">
 									<div class="box1_left"></div>
 									<div class="box1_center">

@@ -215,17 +215,29 @@
 		</isNotEmpty>
 	</select>
 	
-	<select id="queryInvoiceByReceptid" parameterClass="java.util.Map" resultMap="InvoiceDto">
+	<resultMap id="InvoiceRelDto" class="com.cn.dsyg.dto.InvoiceDto">
+		<result property="invoiceno" column="invoiceno" />
+		<result property="warehouserptno" column="warehouserptno" />
+		<result property="financeno" column="financeno" />
+		<result property="customerid" column="customerid" />
+		<result property="customername" column="customername" />
+		<result property="strInvoice_date" column="strInvoice_date" />
+		<result property="amounttax" column="amounttax" />
+		<result property="invoide_mem_id" column="invoide_mem_id" />
+		<result property="status" column="status" />
+	</resultMap>
+	<select id="queryInvoiceByReceptid" parameterClass="java.util.Map" resultMap="InvoiceRelDto">
 		select A.* from (
 			select T.invoiceno,group_concat(distinct T.warehouserptno) as warehouserptno,group_concat(distinct T.financeno) as financeno,
-				(distinct T.customerid) as customerid,(distinct T.customername) as customername,
-				(distinct DATE_FORMAT(T.invoice_date, '%Y-%m-%d')) as strInvoice_date,
-				group_concat(distinct T.invoide_mem_id) as invoide_mem_id,
+				T.customerid as customerid, T.customername as customername,
+ 				min(DATE_FORMAT(T.invoice_date, '%Y-%m-%d')) as strInvoice_date,
+ 				group_concat(distinct T.invoide_mem_id) as invoide_mem_id,
 				sum(amounttax) as amounttax, max(status) as status
 			from etb_invoice T where 1 = 1
 				and T.financeno = #financeno#
 			group by T.invoiceno
-		) A where 1 = 1
+		)A where 1 = 1
+		
 	</select>
 	
 	<delete id="deleteAllInvoiceByFinanceno" parameterClass="java.util.Map">

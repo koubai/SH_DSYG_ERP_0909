@@ -294,13 +294,6 @@ public class InvoiceAction extends BaseAction {
 		try {
 			System.out.println("act:" + strReceptid);
 			this.clearMessages();
-			//页面数据初期化
-			okStartIndex = 0;
-			//默认10条
-			if(okIntPageSize == null) {
-				okIntPageSize = 10;
-			}
-			okPage = new Page(okIntPageSize);
 			//刷新发票一览数据
 			listInvoiceOk = invoiceService.queryInvoiceByReceptid(strReceptid);			
 		} catch(Exception e) {

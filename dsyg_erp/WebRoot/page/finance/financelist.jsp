@@ -723,7 +723,7 @@
 						</div>
 						<div class="box1_right"></div>
 					</div>
-					<div class="btn" style="margin-left: 30px;margin-top: 20px;">
+					<div class="btn" style="margin-left: 60px;margin-top: 20px;">
 						<div class="box1_left"></div>
 						<div class="box1_center">
 							 <input type="button" class="input80" value="查看发票" onclick="showinvoice();"/> 

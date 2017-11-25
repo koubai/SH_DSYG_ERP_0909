@@ -667,6 +667,49 @@
 			$("#invoiceDiv").hide();
 		}
 	}
+	
+    function checkAll(checkall) {   
+    	var i;
+    	arr = document.getElementsByName('itemRadio' );   
+        if (checkall.checked == true) {   
+	        for(i=0;i<arr.length;i++){   
+	            arr[i].checked = true;
+	            
+				//设定数据
+				var tr = arr[i].parentNode.parentNode;
+				var tds = tr.getElementsByTagName("td");
+				var inputs = tds[0].getElementsByTagName("input");				
+				var remaininvoicenum = parseFloat(inputs[11].value);
+				var remaininvoiceamount = parseFloat(inputs[12].value);
+				var oldremaininvoicenum = parseFloat(inputs[15].value);
+				var oldremaininvoiceamount = parseFloat(inputs[16].value);
+
+				var input15 = tds[15].getElementsByTagName("input");				
+				var input16 = tds[16].getElementsByTagName("input");				
+				input15[0].value = remaininvoicenum;
+				input16[0].value = remaininvoiceamount;
+//	        	alert(input15[0].value);
+	        }  
+        }else{  
+            for(i=0;i<arr.length;i++){   
+            	arr[i].checked = false; 
+
+            	//设定数据
+				var tr = arr[i].parentNode.parentNode;
+				var tds = tr.getElementsByTagName("td");
+				var inputs = tds[0].getElementsByTagName("input");				
+				var remaininvoicenum = parseFloat(inputs[11].value);
+				var remaininvoiceamount = parseFloat(inputs[12].value);
+				var oldremaininvoicenum = parseFloat(inputs[15].value);
+				var oldremaininvoiceamount = parseFloat(inputs[16].value);
+
+				var input15 = tds[15].getElementsByTagName("input");				
+				var input16 = tds[16].getElementsByTagName("input");				
+				input15[0].value = 0.00;
+				input16[0].value = 0.00;
+            }  
+        }  
+    }
 </script>
 </head>
 <body>
@@ -1114,7 +1157,7 @@
 									<table id="productTable" class="info_tab" width="100%" border="1" cellpadding="5" cellspacing="0">
 										<tr style="background:#eee; border-top:black solid 1px;">
 											<td style="width: 0px; display: none"></td>
-											<td width="30"></td>
+											<td width="50"><input id="allitemRadio"  name="allitemRadio" type="checkbox" onclick="checkAll(allitemRadio)" />全选</td>
 											<td width="35">序号</td>
 											<td width="70">类型</td>
 											<td width="100">品名</td>
