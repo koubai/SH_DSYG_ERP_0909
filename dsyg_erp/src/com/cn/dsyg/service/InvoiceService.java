@@ -17,6 +17,14 @@ public interface InvoiceService {
 	public void cancelInvoice(String invoiceno, String note, String ids, String operator);
 	
 	/**
+	 * 根据发票号查询记录
+	 * @param invoiceno
+	 * @param status
+	 * @return
+	 */
+	public List<InvoiceDto> queryInvoiceByInvoiceno(String invoiceno, String status);
+	
+	/**
 	 * 开票
 	 * @param invoiceno
 	 * @param note
