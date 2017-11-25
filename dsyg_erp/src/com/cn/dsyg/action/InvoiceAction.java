@@ -99,6 +99,12 @@ public class InvoiceAction extends BaseAction {
 			this.clearMessages();
 			//当前操作用户ID
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
+			//判断发票号码是否存在，若存在则提示发票已存在，开票失败
+			List<InvoiceDto> invoiceList = invoiceService.queryInvoiceByInvoiceno(strInvoicenoOK, null);
+			if(invoiceList != null && invoiceList.size() > 0) {
+				this.addActionMessage("发票" + strInvoicenoOK + "已存在，开票失败");
+				return "checkerror";
+			}
 			//开票处理
 			invoiceService.invoiceOK(strInvoicenoOK, strNote, strIds, username);
 			this.addActionMessage("开票成功！");

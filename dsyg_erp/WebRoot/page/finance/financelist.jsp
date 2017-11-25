@@ -148,17 +148,24 @@
 	}
 	
 	//审核
-	function auditor(id, mode, billno) {
+	function auditor(financetype, id, mode, billno) {
 		var status = $("#" + "statusList_" + id).val();
 		if(mode == "1") {
 			//收款记录
 			if(status == "20" || status == "99") {
 				if(billno == "") {
-					//对于已开票记录，则弹出输入发票页面
-					$("#" + "tmpFinanceId").val(id);
-					$("#" + "tmpFinanceStatus").val(status);
-					$("#" + "overlay").show();
-					$("#" + "divbillno").show();
+					if(financetype != "1" && financetype != "2") {
+						//对于已开票记录，则弹出输入发票页面
+						$("#" + "tmpFinanceId").val(id);
+						$("#" + "tmpFinanceStatus").val(status);
+						$("#" + "overlay").show();
+						$("#" + "divbillno").show();
+					} else {
+						if(confirm("确认提交吗？")) {
+							document.mainform.action = "../finance/updFinanceStatusAction.action?updStatusFinanceId=" + id + "&updStatus=" + status;
+							document.mainform.submit();
+						}
+					}
 				} else {
 					if(confirm("确认提交吗？")) {
 						document.mainform.action = "../finance/updFinanceStatusAction.action?updStatusFinanceId=" + id + "&updStatus=" + status;
@@ -175,11 +182,18 @@
 			//付款记录
 			if(status == "10" || status == "99") {
 				if(billno == "") {
-					//对于已开票记录，则弹出输入发票页面
-					$("#" + "tmpFinanceId").val(id);
-					$("#" + "tmpFinanceStatus").val(status);
-					$("#" + "overlay").show();
-					$("#" + "divbillno").show();
+					if(financetype != "1" && financetype != "2") {
+						//对于已开票记录，则弹出输入发票页面
+						$("#" + "tmpFinanceId").val(id);
+						$("#" + "tmpFinanceStatus").val(status);
+						$("#" + "overlay").show();
+						$("#" + "divbillno").show();
+					} else {
+						if(confirm("确认提交吗？")) {
+							document.mainform.action = "../finance/updFinanceStatusAction.action?updStatusFinanceId=" + id + "&updStatus=" + status;
+							document.mainform.submit();
+						}
+					}
 				} else {
 					if(confirm("确认提交吗？")) {
 						document.mainform.action = "../finance/updFinanceStatusAction.action?updStatusFinanceId=" + id + "&updStatus=" + status;
@@ -661,7 +675,7 @@
 												</s:else>
 											</select>
 										</td>
-										<td><input id="okbtn_<s:property value="id"/>" style="display: none;" type="button" value="确认" onclick="auditor('<s:property value="id"/>', '<s:property value="mode"/>', '<s:property value="res10"/>')"/>
+										<td><input id="okbtn_<s:property value="id"/>" style="display: none;" type="button" value="确认" onclick="auditor('<s:property value="financetype"/>', '<s:property value="id"/>', '<s:property value="mode"/>', '<s:property value="res10"/>')"/>
 										<br /></td>
 									</tr>
 								</s:iterator>

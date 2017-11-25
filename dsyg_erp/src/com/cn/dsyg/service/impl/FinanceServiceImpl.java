@@ -52,10 +52,13 @@ public class FinanceServiceImpl implements FinanceService {
 			for(String id : list) {
 				if(StringUtil.isNotBlank(id)) {
 					finance = financeDao.queryFinanceByID(id);
-					finance.setRes10(billno);
+					//出库单和入库单不做处理
+					if(finance.getFinancetype() != Constants.FINANCE_TYPE_PURCHASE && finance.getFinancetype() != Constants.FINANCE_TYPE_SALES ) {
+						finance.setRes10(billno);
+						//开票日期+金额
+						finance.setRes09(DateUtil.dateToShortStr(date) + "&&" + finance.getAmount());
+					}
 					finance.setUpdateuid(userid);
-					//开票日期+金额
-					finance.setRes09(DateUtil.dateToShortStr(date) + "&&" + finance.getAmount());
 					financeDao.updateFinance(finance);
 				}
 			}

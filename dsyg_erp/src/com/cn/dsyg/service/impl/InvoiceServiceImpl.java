@@ -21,6 +21,11 @@ public class InvoiceServiceImpl implements InvoiceService {
 	private FinanceDao financeDao;
 	
 	@Override
+	public List<InvoiceDto> queryInvoiceByInvoiceno(String invoiceno, String status) {
+		return invoiceDao.queryInvoiceByInvoiceno(invoiceno, status);
+	}
+	
+	@Override
 	public void cancelInvoice(String invoiceno, String note, String ids, String operator) {
 		//根据发票号检索数据
 		List<InvoiceDto> invoiceOKList = invoiceDao.queryInvoiceByInvoiceno(invoiceno, "" + Constants.INVOICE_STATUS_OK);
@@ -176,7 +181,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 					String oldres09 = finance.getRes09();
 					String oldres10 = finance.getRes10();
 					//判断原发票信息是否为空
-					if(oldres10 != null) {
+					if(StringUtil.isNotBlank(oldres10)) {
 						//判断是否存在当前发票信息
 						if((";" + oldres10).indexOf(";" + invoiceno + ";") < 0) {
 							//未记录该发票号
