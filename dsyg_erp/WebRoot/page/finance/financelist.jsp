@@ -288,6 +288,16 @@
 		url += "?date=" + new Date();
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
+	
+	//显示发票信息
+	function showinvoice(){
+		alert("show invoice");
+/*		var url = "../finance/showKaiPiaoAction.action";
+		url += "?date=" + new Date();
+		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");		
+		*/
+	}
+	
 </script>
 </head>
 <body>
@@ -668,6 +678,22 @@
 							</table>
 						</div>
 					</div>
+					<div class="btn" style="margin-left: 300px;margin-top: 20px;">
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							 <input type="button" class="input40" value="开票" onclick="upd();"/> 
+						</div>
+						<div class="box1_right"></div>
+					</div>
+					<div class="btn" style="margin-left: 30px;margin-top: 20px;">
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							 <input type="button" class="input80" value="查看发票" onclick="showinvoice();"/> 
+						</div>
+						<div class="box1_right"></div>
+					</div>
+					
+					
 					<div class="pages">
 							合计金额: <s:textfield name="strTotalAmount" id="strTotalAmount" cssStyle="width:150px;" maxlength="32" theme="simple"></s:textfield>
 							&nbsp;&nbsp;&nbsp;&nbsp;已开发票合计金额：<s:textfield name="strTotalInvoiceAmount" id="strTotalInvoiceAmount" cssStyle="width:150px;" maxlength="32" theme="simple"></s:textfield>
