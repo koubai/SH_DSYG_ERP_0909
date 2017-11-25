@@ -59,6 +59,9 @@ public class InvoiceAction extends BaseAction {
 	private String strInvoicenoOK;
 	private String strNote;
 	
+	//账目编号
+	private String strReceptid;
+	
 	/**
 	 * 废票
 	 * @return
@@ -259,6 +262,50 @@ public class InvoiceAction extends BaseAction {
 			return ERROR;
 		}
 		return SUCCESS;
+	}
+
+	/**
+	 * 弹出关联发票页面
+	 * @return
+	 */
+	public String showInvoiceRelAction() {
+		try {
+			this.clearMessages();
+			//页面数据初期化
+			okStartIndex = 0;
+			//默认10条
+			okIntPageSize = 10;
+			okPage = new Page(okIntPageSize);
+			strInvoiceno = "";
+			
+			//刷新发票一览数据
+			queryInvoiceRelData(strReceptid);
+		} catch(Exception e) {
+			log.error("showInvoiceOKAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	/**
+	 * 根据账目编号查询发票一览
+	 * @return
+	 */
+	public void queryInvoiceRelData(String strReceptid){
+		try {
+			System.out.println("act:" + strReceptid);
+			this.clearMessages();
+			//页面数据初期化
+			okStartIndex = 0;
+			//默认10条
+			if(okIntPageSize == null) {
+				okIntPageSize = 10;
+			}
+			okPage = new Page(okIntPageSize);
+			//刷新发票一览数据
+			listInvoiceOk = invoiceService.queryInvoiceByReceptid(strReceptid);			
+		} catch(Exception e) {
+			log.error("queryInvoiceOKAction error:" + e);
+		}
 	}
 	
 	/**
@@ -466,4 +513,13 @@ public class InvoiceAction extends BaseAction {
 	public void setStrCustomerName(String strCustomerName) {
 		this.strCustomerName = strCustomerName;
 	}
+	
+	public String getStrReceptid() {
+		return strReceptid;
+	}
+
+	public void setStrReceptid(String strReceptid) {
+		this.strReceptid = strReceptid;
+	}
+
 }

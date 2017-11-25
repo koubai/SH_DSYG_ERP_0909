@@ -98,6 +98,13 @@ public interface InvoiceDao {
 	public List<InvoiceDto> queryInvoiceByFinanceno(String financeno, String status);
 	
 	/**
+	 * 根据账目编号查询发票记录
+	 * @param receptid
+	 * @return
+	 */
+	public List<InvoiceDto> queryInvoiceByReceptid(String receptid);
+	
+	/**
 	 * 根据作废financeNo和productid查询退货数量
 	 * @param finanacedelno
 	 * @param productid

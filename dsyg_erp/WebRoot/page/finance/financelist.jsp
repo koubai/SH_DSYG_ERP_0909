@@ -236,6 +236,23 @@
 		}
 		return alt;
 	}
+
+	function getSelectedRecId() {
+		var recid = "";
+		var list = document.getElementsByName("radioKey");
+		var id = -1;
+		for(var i = 0; i < list.length; i++) {
+			if(list[i].checked) {
+				id = i;
+				break;
+			}
+		}
+		var recidlist = document.getElementsByName('recid');
+		if (id > -1 && recidlist.length >= id){
+			recid = recidlist[id].value;			
+		}		
+		return recid;
+	}
 	
 	//查询日期赋值
 	function setQueryDate() {
@@ -305,11 +322,18 @@
 	
 	//显示发票信息
 	function showinvoice(){
-		alert("show invoice");
-/*		var url = "../finance/showKaiPiaoAction.action";
-		url += "?date=" + new Date();
-		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");		
-		*/
+		var id = getSelectedID();
+		var recid = getSelectedRecId();
+		if(id == "") {
+			alert("请选择一条记录！");
+			return;
+		} else {
+			if(recid != "") {
+				var url = "../invoice/showInvoiceRelAction.action";
+				url += "?strReceptid="+recid + "&" + "date=" + new Date();
+				window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");		
+			}
+		}
 	}
 	
 </script>
@@ -570,7 +594,7 @@
 									</s:else>
 										<td><input name="radioKey" type="radio" alt="<s:property value="invoiceid"/>" value="<s:property value="id"/>"/></td>
 										<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
-										<td><s:property value="receiptid"/></td>
+										<td><input name="recid" type="hidden" value="<s:property value="receiptid"/>"/><s:property value="receiptid"/></td>
 										<td><s:property value="invoiceid"/></td>
 										<td><s:property value="res08"/></td>
 										<td>

@@ -252,10 +252,20 @@ public class InvoiceServiceImpl implements InvoiceService {
 	public InvoiceDto queryInvoiceByID(String id) {
 		return invoiceDao.queryInvoiceByID(id);
 	}
-
+	
 	@Override
 	public List<InvoiceDto> queryInvoiceByFinanceno(String financeno, String status) {
 		return invoiceDao.queryInvoiceByFinanceno(financeno, status);
+	}
+	
+
+	/**
+	 * 根据账目编号查询发票记录
+	 */
+	@Override
+	public List<InvoiceDto> queryInvoiceByReceptid(String receptid){
+		System.out.println("service:" + receptid);
+		return invoiceDao.queryInvoiceByReceptid(receptid);		
 	}
 	
 	@Override

@@ -42,6 +42,10 @@
 			<result name="*">/page/invoice/invoiceoklist.jsp</result>
 		</action>
 		
+		<action name="showInvoiceRelAction" class="invoiceAction" method="showInvoiceRelAction">
+			<result name="*">/page/invoice/invoicerellist.jsp</result>
+		</action>
+		
 	</package>
 
 </struts>

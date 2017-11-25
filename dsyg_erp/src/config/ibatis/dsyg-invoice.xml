@@ -215,6 +215,19 @@
 		</isNotEmpty>
 	</select>
 	
+	<select id="queryInvoiceByReceptid" parameterClass="java.util.Map" resultMap="InvoiceDto">
+		select A.* from (
+			select T.invoiceno,group_concat(distinct T.warehouserptno) as warehouserptno,group_concat(distinct T.financeno) as financeno,
+				(distinct T.customerid) as customerid,(distinct T.customername) as customername,
+				(distinct DATE_FORMAT(T.invoice_date, '%Y-%m-%d')) as strInvoice_date,
+				group_concat(distinct T.invoide_mem_id) as invoide_mem_id,
+				sum(amounttax) as amounttax, max(status) as status
+			from etb_invoice T where 1 = 1
+				and T.financeno = #financeno#
+			group by T.invoiceno
+		) A where 1 = 1
+	</select>
+	
 	<delete id="deleteAllInvoiceByFinanceno" parameterClass="java.util.Map">
 		DELETE FROM etb_invoice WHERE financeno = #financeno#
 	</delete>

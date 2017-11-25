@@ -78,6 +78,14 @@ public interface InvoiceService {
 	 */
 	public List<InvoiceDto> queryInvoiceByFinanceno(String financeno, String status);
 	
+	
+	/**
+	 * 根据账目编号查询发票记录
+	 * @param receptid
+	 * @return
+	 */
+	public List<InvoiceDto> queryInvoiceByReceptid(String receptid);
+	
 	/**
 	 * 批量删除记录（物理删除）
 	 * @param ids
