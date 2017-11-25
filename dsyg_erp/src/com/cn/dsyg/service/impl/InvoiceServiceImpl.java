@@ -93,7 +93,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 					String oldres09 = finance.getRes09();
 					String oldres10 = finance.getRes10();
 					//判断原发票信息是否为空
-					if(oldres10 != null) {
+					if(StringUtil.isNotBlank(oldres10)) {
 						//判断是否存在当前发票信息
 						if((";" + oldres10).indexOf(";" + invoiceno + ";") >= 0) {
 							//存在该发票号，则去掉发票信息
