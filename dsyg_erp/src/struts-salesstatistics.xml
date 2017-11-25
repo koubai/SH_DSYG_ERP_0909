@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" 
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="salesstatistics" extends="struts-erp" namespace="/salesstatistics">
+	
+		<action name="showSalesStatisticsAction" class="salesStatisticsAction" method="showSalesStatisticsAction">
+			<result name="*">/page/salesstatistics/salesstatisticslist.jsp</result>
+		</action>
+		
+		<action name="querySalesStatisticsAction" class="salesStatisticsAction" method="querySalesStatisticsAction">
+			<result name="*">/page/salesstatistics/salesstatisticslist.jsp</result>
+		</action>
+		
+		<action name="turnSalesStatisticsAction" class="salesStatisticsAction" method="turnSalesStatisticsAction">
+			<result name="*">/page/salesstatistics/salesstatisticslist.jsp</result>
+		</action>
+		
+		<action name="querySalesStatisticsByDateAction" class="salesStatisticsAction" method="querySalesStatisticsByDateAction">
+			<result name="*">/page/salesstatistics/salesstatisticslist.jsp</result>
+		</action>
+		
+	</package>
+
+</struts>
