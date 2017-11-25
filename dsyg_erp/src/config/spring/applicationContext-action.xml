@@ -15,6 +15,18 @@
 		</property>
 	</bean>
 	
+	<bean id="salesStatisticsAction" class="com.cn.dsyg.action.SalesStatisticsAction" scope="session">
+		<property name="dict01Service">
+			<ref bean="dict01Service" />
+		</property>
+		<property name="warehouseService">
+			<ref bean="warehouseService" />
+		</property>
+		<property name="productService">
+			<ref bean="productService" />
+		</property>
+	</bean>
+	
 	<bean id="inOutStockAction" class="com.cn.dsyg.action.InOutStockAction" scope="session">
 		<property name="dict01Service">
 			<ref bean="dict01Service" />

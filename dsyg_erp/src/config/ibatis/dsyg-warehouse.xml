@@ -363,6 +363,303 @@
 		<result property="customername" column="customername" />
 	</resultMap>
 	
+	<resultMap id="SalesStatisticsDto" class="com.cn.dsyg.dto.SalesStatisticsDto">
+		<result property="productid" column="productid" />
+		<result property="fieldno" column="fieldno" />
+		<result property="tradename" column="tradename" />
+		<result property="typeno" column="typeno" />
+		<result property="color" column="color" />
+		<result property="item10" column="item10" />
+		<result property="unit" column="unit" />
+		<result property="packaging" column="packaging" />
+		<result property="makearea" column="makearea" />
+		<result property="keyword" column="keyword" />
+		<result property="X_Year" column="pur_year" />
+		<result property="Y_quantity_Month_01" column="pur_quantity_month01" />
+		<result property="Y_quantity_Month_02" column="pur_quantity_month02" />
+		<result property="Y_quantity_Month_03" column="pur_quantity_month03" />
+		<result property="Y_quantity_Month_04" column="pur_quantity_month04" />
+		<result property="Y_quantity_Month_05" column="pur_quantity_Month05" />
+		<result property="Y_quantity_Month_06" column="pur_quantity_month06" />
+		<result property="Y_quantity_Month_07" column="pur_quantity_month07" />
+		<result property="Y_quantity_Month_08" column="pur_quantity_month08" />
+		<result property="Y_quantity_Month_09" column="pur_quantity_month09" />
+		<result property="Y_quantity_Month_10" column="pur_quantity_month10" />
+		<result property="Y_quantity_Month_11" column="pur_quantity_month11" />
+		<result property="Y_quantity_Month_12" column="pur_quantity_month12" />
+		<result property="Y_taxamount_Month_01" column="pur_taxamount_month01" />
+		<result property="Y_taxamount_Month_02" column="pur_taxamount_month02" />
+		<result property="Y_taxamount_Month_03" column="pur_taxamount_month03" />
+		<result property="Y_taxamount_Month_04" column="pur_taxamount_month04" />
+		<result property="Y_taxamount_Month_05" column="pur_taxamount_Month05" />
+		<result property="Y_taxamount_Month_06" column="pur_taxamount_month06" />
+		<result property="Y_taxamount_Month_07" column="pur_taxamount_month07" />
+		<result property="Y_taxamount_Month_08" column="pur_taxamount_month08" />
+		<result property="Y_taxamount_Month_09" column="pur_taxamount_month09" />
+		<result property="Y_taxamount_Month_10" column="pur_taxamount_month10" />
+		<result property="Y_taxamount_Month_11" column="pur_taxamount_month11" />
+		<result property="Y_taxamount_Month_12" column="pur_taxamount_month12" />
+	</resultMap>
+	
+	<resultMap id="SalesStatisticsDto1" class="com.cn.dsyg.dto.SalesStatisticsDto">
+		<result property="X_Year" column="pur_year" />
+		<result property="Y_quantity_Month_01" column="pur_quantity_month01" />
+		<result property="Y_quantity_Month_02" column="pur_quantity_month02" />
+		<result property="Y_quantity_Month_03" column="pur_quantity_month03" />
+		<result property="Y_quantity_Month_04" column="pur_quantity_month04" />
+		<result property="Y_quantity_Month_05" column="pur_quantity_Month05" />
+		<result property="Y_quantity_Month_06" column="pur_quantity_month06" />
+		<result property="Y_quantity_Month_07" column="pur_quantity_month07" />
+		<result property="Y_quantity_Month_08" column="pur_quantity_month08" />
+		<result property="Y_quantity_Month_09" column="pur_quantity_month09" />
+		<result property="Y_quantity_Month_10" column="pur_quantity_month10" />
+		<result property="Y_quantity_Month_11" column="pur_quantity_month11" />
+		<result property="Y_quantity_Month_12" column="pur_quantity_month12" />
+		<result property="Y_taxamount_Month_01" column="pur_taxamount_month01" />
+		<result property="Y_taxamount_Month_02" column="pur_taxamount_month02" />
+		<result property="Y_taxamount_Month_03" column="pur_taxamount_month03" />
+		<result property="Y_taxamount_Month_04" column="pur_taxamount_month04" />
+		<result property="Y_taxamount_Month_05" column="pur_taxamount_Month05" />
+		<result property="Y_taxamount_Month_06" column="pur_taxamount_month06" />
+		<result property="Y_taxamount_Month_07" column="pur_taxamount_month07" />
+		<result property="Y_taxamount_Month_08" column="pur_taxamount_month08" />
+		<result property="Y_taxamount_Month_09" column="pur_taxamount_month09" />
+		<result property="Y_taxamount_Month_10" column="pur_taxamount_month10" />
+		<result property="Y_taxamount_Month_11" column="pur_taxamount_month11" />
+		<result property="Y_taxamount_Month_12" column="pur_taxamount_month12" />
+	</resultMap>
+	
+	<!-- salesstatistics start -->
+	<select id="querySumSalesStatistics" parameterClass="java.util.Map" resultMap="SalesStatisticsDto1">
+		SELECT 
+			C.pur_year,
+			SUM(C.pur_quantity_month01) AS pur_quantity_month01,
+			SUM(C.pur_quantity_month02) AS pur_quantity_month02,
+			SUM(C.pur_quantity_month03) AS pur_quantity_month03,
+			SUM(C.pur_quantity_month04) AS pur_quantity_month04,
+			SUM(C.pur_quantity_month05) AS pur_quantity_month05,
+			SUM(C.pur_quantity_month06) AS pur_quantity_month06,
+			SUM(C.pur_quantity_month07) AS pur_quantity_month07,
+			SUM(C.pur_quantity_month08) AS pur_quantity_month08,
+			SUM(C.pur_quantity_month09) AS pur_quantity_month09,
+			SUM(C.pur_quantity_month10) AS pur_quantity_month10,
+			SUM(C.pur_quantity_month11) AS pur_quantity_month11,
+			SUM(C.pur_quantity_month12) AS pur_quantity_month12,
+			SUM(C.pur_taxamount_month01) AS pur_taxamount_month01,
+			SUM(C.pur_taxamount_month02) AS pur_taxamount_month02,
+			SUM(C.pur_taxamount_month03) AS pur_taxamount_month03,
+			SUM(C.pur_taxamount_month04) AS pur_taxamount_month04,
+			SUM(C.pur_taxamount_month05) AS pur_taxamount_month05,
+			SUM(C.pur_taxamount_month06) AS pur_taxamount_month06,
+			SUM(C.pur_taxamount_month07) AS pur_taxamount_month07,
+			SUM(C.pur_taxamount_month08) AS pur_taxamount_month08,
+			SUM(C.pur_taxamount_month09) AS pur_taxamount_month09,
+			SUM(C.pur_taxamount_month10) AS pur_taxamount_month10,
+			SUM(C.pur_taxamount_month11) AS pur_taxamount_month11,
+			SUM(C.pur_taxamount_month12) AS pur_taxamount_month12
+		FROM (
+			SELECT B.* FROM(
+				SELECT productid, years as pur_year, 
+					SUM(case when months=01 then pur_sum_quantity else 0 end) 'pur_quantity_month01',   
+					SUM(case when months=02 then pur_sum_quantity else 0 end) 'pur_quantity_month02',   
+					SUM(case when months=03 then pur_sum_quantity else 0 end) 'pur_quantity_month03',   
+					SUM(case when months=04 then pur_sum_quantity else 0 end) 'pur_quantity_month04',   
+					SUM(case when months=05 then pur_sum_quantity else 0 end) 'pur_quantity_month05',   
+					SUM(case when months=06 then pur_sum_quantity else 0 end) 'pur_quantity_month06',   
+					SUM(case when months=07 then pur_sum_quantity else 0 end) 'pur_quantity_month07',   
+					SUM(case when months=08 then pur_sum_quantity else 0 end) 'pur_quantity_month08',   
+					SUM(case when months=09 then pur_sum_quantity else 0 end) 'pur_quantity_month09',   
+					SUM(case when months=10 then pur_sum_quantity else 0 end) 'pur_quantity_month10',   
+					SUM(case when months=11 then pur_sum_quantity else 0 end) 'pur_quantity_month11',   
+					SUM(case when months=12 then pur_sum_quantity else 0 end) 'pur_quantity_month12',
+					SUM(case when months=01 then pur_sum_taxamount else 0 end) 'pur_taxamount_month01',   
+					SUM(case when months=02 then pur_sum_taxamount else 0 end) 'pur_taxamount_month02',   
+					SUM(case when months=03 then pur_sum_taxamount else 0 end) 'pur_taxamount_month03',   
+					SUM(case when months=04 then pur_sum_taxamount else 0 end) 'pur_taxamount_month04',   
+					SUM(case when months=05 then pur_sum_taxamount else 0 end) 'pur_taxamount_month05',   
+					SUM(case when months=06 then pur_sum_taxamount else 0 end) 'pur_taxamount_month06',   
+					SUM(case when months=07 then pur_sum_taxamount else 0 end) 'pur_taxamount_month07',   
+					SUM(case when months=08 then pur_sum_taxamount else 0 end) 'pur_taxamount_month08',   
+					SUM(case when months=09 then pur_sum_taxamount else 0 end) 'pur_taxamount_month09',   
+					SUM(case when months=10 then pur_sum_taxamount else 0 end) 'pur_taxamount_month10',   
+					SUM(case when months=11 then pur_sum_taxamount else 0 end) 'pur_taxamount_month11',   
+					SUM(case when months=12 then pur_sum_taxamount else 0 end) 'pur_taxamount_month12',
+					(SELECT P.fieldno FROM etb_product P WHERE P.id = A.productid) AS fieldno,
+					(SELECT P.tradename FROM etb_product P WHERE P.id = A.productid) AS tradename,
+					(SELECT P.typeno FROM etb_product P WHERE P.id = A.productid) AS typeno,
+					(SELECT P.color FROM etb_product P WHERE P.id = A.productid) AS color,
+					(SELECT P.item10 FROM etb_product P WHERE P.id = A.productid) AS item10,
+					(SELECT P.unit FROM etb_product P WHERE P.id = A.productid) AS unit,
+					(SELECT P.packaging FROM etb_product P WHERE P.id = A.productid) AS packaging,
+					(SELECT P.makearea FROM etb_product P WHERE P.id = A.productid) AS makearea,
+					(SELECT P.keyword FROM etb_product P WHERE P.id = A.productid) AS keyword
+				FROM(   
+					select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, T.productid, sum(T.quantity) as pur_sum_quantity, sum(T.taxamount) as pur_sum_taxamount     
+					from etb_warehouse T
+					where 1=1 
+					and T.warehousetype = '2'
+					AND T.STATUS <![CDATA[>=]]> 20
+					<isNotEmpty prepend="and" property="startdate">
+						T.warehousedate <![CDATA[>=]]> #startdate#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="enddate">
+						T.warehousedate <![CDATA[<=]]> #enddate#
+					</isNotEmpty>
+					GROUP by productid, years, months
+				) A
+				GROUP by productid, pur_year
+			) B  WHERE 1 = 1
+			<isNotEmpty prepend="and" property="fieldno">
+				B.fieldno = #fieldno#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="tradename">
+				B.tradename like '%$tradename$%' ESCAPE '/'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="item10">
+				B.item10 like '%$item10$%' ESCAPE '/'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="keyword">
+				B.keyword like '%$keyword$%' ESCAPE '/'
+			</isNotEmpty>
+		) C
+			GROUP by pur_year
+	</select>
+	
+	<select id="querySalesStatisticsCountByPage" resultClass="int" parameterClass="java.util.Map">
+		SELECT COUNT(*) FROM(
+			SELECT productid, years as pur_year, 
+				SUM(case when months=01 then pur_sum_quantity else 0 end) 'pur_quantity_month01',   
+				SUM(case when months=02 then pur_sum_quantity else 0 end) 'pur_quantity_month02',   
+				SUM(case when months=03 then pur_sum_quantity else 0 end) 'pur_quantity_month03',   
+				SUM(case when months=04 then pur_sum_quantity else 0 end) 'pur_quantity_month04',   
+				SUM(case when months=05 then pur_sum_quantity else 0 end) 'pur_quantity_month05',   
+				SUM(case when months=06 then pur_sum_quantity else 0 end) 'pur_quantity_month06',   
+				SUM(case when months=07 then pur_sum_quantity else 0 end) 'pur_quantity_month07',   
+				SUM(case when months=08 then pur_sum_quantity else 0 end) 'pur_quantity_month08',   
+				SUM(case when months=09 then pur_sum_quantity else 0 end) 'pur_quantity_month09',   
+				SUM(case when months=10 then pur_sum_quantity else 0 end) 'pur_quantity_month10',   
+				SUM(case when months=11 then pur_sum_quantity else 0 end) 'pur_quantity_month11',   
+				SUM(case when months=12 then pur_sum_quantity else 0 end) 'pur_quantity_month12',
+				SUM(case when months=01 then pur_sum_taxamount else 0 end) 'pur_taxamount_month01',   
+				SUM(case when months=02 then pur_sum_taxamount else 0 end) 'pur_taxamount_month02',   
+				SUM(case when months=03 then pur_sum_taxamount else 0 end) 'pur_taxamount_month03',   
+				SUM(case when months=04 then pur_sum_taxamount else 0 end) 'pur_taxamount_month04',   
+				SUM(case when months=05 then pur_sum_taxamount else 0 end) 'pur_taxamount_month05',   
+				SUM(case when months=06 then pur_sum_taxamount else 0 end) 'pur_taxamount_month06',   
+				SUM(case when months=07 then pur_sum_taxamount else 0 end) 'pur_taxamount_month07',   
+				SUM(case when months=08 then pur_sum_taxamount else 0 end) 'pur_taxamount_month08',   
+				SUM(case when months=09 then pur_sum_taxamount else 0 end) 'pur_taxamount_month09',   
+				SUM(case when months=10 then pur_sum_taxamount else 0 end) 'pur_taxamount_month10',   
+				SUM(case when months=11 then pur_sum_taxamount else 0 end) 'pur_taxamount_month11',   
+				SUM(case when months=12 then pur_sum_taxamount else 0 end) 'pur_taxamount_month12',
+				(SELECT P.fieldno FROM etb_product P WHERE P.id = A.productid) AS fieldno,
+				(SELECT P.tradename FROM etb_product P WHERE P.id = A.productid) AS tradename,
+				(SELECT P.typeno FROM etb_product P WHERE P.id = A.productid) AS typeno,
+				(SELECT P.color FROM etb_product P WHERE P.id = A.productid) AS color,
+				(SELECT P.item10 FROM etb_product P WHERE P.id = A.productid) AS item10,
+				(SELECT P.unit FROM etb_product P WHERE P.id = A.productid) AS unit,
+				(SELECT P.packaging FROM etb_product P WHERE P.id = A.productid) AS packaging,
+				(SELECT P.makearea FROM etb_product P WHERE P.id = A.productid) AS makearea,
+				(SELECT P.keyword FROM etb_product P WHERE P.id = A.productid) AS keyword
+			FROM(   
+				select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, T.productid, sum(T.quantity) as pur_sum_quantity, sum(T.taxamount) as pur_sum_taxamount     
+				from etb_warehouse T
+				where 1=1 
+				and T.warehousetype = '2'
+				AND T.STATUS <![CDATA[>=]]> 20
+				<isNotEmpty prepend="and" property="startdate">
+					T.warehousedate <![CDATA[>=]]> #startdate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="enddate">
+					T.warehousedate <![CDATA[<=]]> #enddate#
+				</isNotEmpty>
+				GROUP by productid, years, months
+			) A 
+			GROUP by productid, pur_year
+		) B WHERE 1 = 1
+		<isNotEmpty prepend="and" property="fieldno">
+			B.fieldno = #fieldno#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradename">
+			B.tradename like '%$tradename$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="item10">
+			B.item10 like '%$item10$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="keyword">
+			B.keyword like '%$keyword$%' ESCAPE '/'
+		</isNotEmpty>
+	</select>
+	
+	<select id="querySalesStatisticsByPage" parameterClass="java.util.Map" resultMap="SalesStatisticsDto">
+		SELECT B.* FROM(
+			SELECT productid, years as pur_year, 
+				SUM(case when months=01 then pur_sum_quantity else 0 end) 'pur_quantity_month01',   
+				SUM(case when months=02 then pur_sum_quantity else 0 end) 'pur_quantity_month02',   
+				SUM(case when months=03 then pur_sum_quantity else 0 end) 'pur_quantity_month03',   
+				SUM(case when months=04 then pur_sum_quantity else 0 end) 'pur_quantity_month04',   
+				SUM(case when months=05 then pur_sum_quantity else 0 end) 'pur_quantity_month05',   
+				SUM(case when months=06 then pur_sum_quantity else 0 end) 'pur_quantity_month06',   
+				SUM(case when months=07 then pur_sum_quantity else 0 end) 'pur_quantity_month07',   
+				SUM(case when months=08 then pur_sum_quantity else 0 end) 'pur_quantity_month08',   
+				SUM(case when months=09 then pur_sum_quantity else 0 end) 'pur_quantity_month09',   
+				SUM(case when months=10 then pur_sum_quantity else 0 end) 'pur_quantity_month10',   
+				SUM(case when months=11 then pur_sum_quantity else 0 end) 'pur_quantity_month11',   
+				SUM(case when months=12 then pur_sum_quantity else 0 end) 'pur_quantity_month12',
+				SUM(case when months=01 then pur_sum_taxamount else 0 end) 'pur_taxamount_month01',   
+				SUM(case when months=02 then pur_sum_taxamount else 0 end) 'pur_taxamount_month02',   
+				SUM(case when months=03 then pur_sum_taxamount else 0 end) 'pur_taxamount_month03',   
+				SUM(case when months=04 then pur_sum_taxamount else 0 end) 'pur_taxamount_month04',   
+				SUM(case when months=05 then pur_sum_taxamount else 0 end) 'pur_taxamount_month05',   
+				SUM(case when months=06 then pur_sum_taxamount else 0 end) 'pur_taxamount_month06',   
+				SUM(case when months=07 then pur_sum_taxamount else 0 end) 'pur_taxamount_month07',   
+				SUM(case when months=08 then pur_sum_taxamount else 0 end) 'pur_taxamount_month08',   
+				SUM(case when months=09 then pur_sum_taxamount else 0 end) 'pur_taxamount_month09',   
+				SUM(case when months=10 then pur_sum_taxamount else 0 end) 'pur_taxamount_month10',   
+				SUM(case when months=11 then pur_sum_taxamount else 0 end) 'pur_taxamount_month11',   
+				SUM(case when months=12 then pur_sum_taxamount else 0 end) 'pur_taxamount_month12',
+				(SELECT P.fieldno FROM etb_product P WHERE P.id = A.productid) AS fieldno,
+				(SELECT P.tradename FROM etb_product P WHERE P.id = A.productid) AS tradename,
+				(SELECT P.typeno FROM etb_product P WHERE P.id = A.productid) AS typeno,
+				(SELECT P.color FROM etb_product P WHERE P.id = A.productid) AS color,
+				(SELECT P.item10 FROM etb_product P WHERE P.id = A.productid) AS item10,
+				(SELECT P.unit FROM etb_product P WHERE P.id = A.productid) AS unit,
+				(SELECT P.packaging FROM etb_product P WHERE P.id = A.productid) AS packaging,
+				(SELECT P.makearea FROM etb_product P WHERE P.id = A.productid) AS makearea,
+				(SELECT P.keyword FROM etb_product P WHERE P.id = A.productid) AS keyword
+			FROM(   
+				select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, T.productid, sum(T.quantity) as pur_sum_quantity, sum(T.taxamount) as pur_sum_taxamount     
+				from etb_warehouse T
+				where 1=1 
+				and T.warehousetype = '2'
+				AND T.STATUS <![CDATA[>=]]> 20
+				<isNotEmpty prepend="and" property="startdate">
+					T.warehousedate <![CDATA[>=]]> #startdate#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="enddate">
+					T.warehousedate <![CDATA[<=]]> #enddate#
+				</isNotEmpty>
+				GROUP by productid, years, months
+			) A
+			GROUP by productid, pur_year
+		) B WHERE 1 = 1
+		<isNotEmpty prepend="and" property="fieldno">
+			B.fieldno = #fieldno#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="tradename">
+			B.tradename like '%$tradename$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="item10">
+			B.item10 like '%$item10$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="keyword">
+			B.keyword like '%$keyword$%' ESCAPE '/'
+		</isNotEmpty>
+		ORDER BY B.fieldno,B.tradename,B.typeno,B.color,B.item10,B.packaging,B.productid ASC
+		LIMIT #start#, #end#
+	</select>
+	<!-- salesstatistics end -->
+	
 	<!-- inoutstock start -->
 	<select id="queryInOutStockDetail" parameterClass="java.util.Map" resultMap="InOutStockDetailDto">
 		select A.* from (

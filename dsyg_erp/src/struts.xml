@@ -76,7 +76,9 @@
 	<include file="struts-issue.xml"></include>
 	<!-- customeronline -->
 	<include file="struts-customeronline.xml"></include>
-	
+	<!-- salesstatistics -->
+	<include file="struts-salesstatistics.xml"></include>
+		
 	<package name="index" extends="struts-default, json-default" namespace="/index">
 		
 		<!-- 验证码 -->

@@ -10,6 +10,7 @@ import com.cn.common.util.Constants;
 import com.cn.dsyg.dao.WarehouseDao;
 import com.cn.dsyg.dto.InOutStockDto;
 import com.cn.dsyg.dto.ProductQuantityDto;
+import com.cn.dsyg.dto.SalesStatisticsDto;
 import com.cn.dsyg.dto.WarehouseCheckDto;
 import com.cn.dsyg.dto.WarehouseDetailDto;
 import com.cn.dsyg.dto.WarehouseDto;
@@ -85,6 +86,55 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		paramMap.put("end", end);
 		@SuppressWarnings("unchecked")
 		List<InOutStockDto> list = getSqlMapClientTemplate().queryForList("queryInOutStockByPage", paramMap);
+		return list;
+	}
+	@Override
+	public SalesStatisticsDto querySumSalesStatistics(String startdate, String enddate,
+			String fieldno, String tradename, String item10, String keyword, String productid) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("startdate", startdate);
+		paramMap.put("enddate", enddate);
+		paramMap.put("fieldno", fieldno);
+		paramMap.put("tradename", tradename);
+		paramMap.put("item10", item10);
+		paramMap.put("keyword", keyword);
+		paramMap.put("productid", productid);
+		@SuppressWarnings("unchecked")
+		List<SalesStatisticsDto> list = getSqlMapClientTemplate().queryForList("querySumSalesStatistics", paramMap);
+		if(list != null && list.size() > 0) {
+			return list.get(0);
+		}
+		return null;
+	}
+	
+	@Override
+	public int querySalesStatisticsCountByPage(String startdate, String enddate,
+			String fieldno, String tradename, String item10, String keyword) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("startdate", startdate);
+		paramMap.put("enddate", enddate);
+		paramMap.put("fieldno", fieldno);
+		paramMap.put("tradename", tradename);
+		paramMap.put("item10", item10);
+		paramMap.put("keyword", keyword);
+		return (Integer) getSqlMapClientTemplate().queryForObject("querySalesStatisticsCountByPage", paramMap);
+	}
+
+	@Override
+	public List<SalesStatisticsDto> querySalesStatisticsByPage(String startdate,
+			String enddate, String fieldno, String tradename, String item10,
+			String keyword, int start, int end) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("startdate", startdate);
+		paramMap.put("enddate", enddate);
+		paramMap.put("fieldno", fieldno);
+		paramMap.put("tradename", tradename);
+		paramMap.put("item10", item10);
+		paramMap.put("keyword", keyword);
+		paramMap.put("start", start);
+		paramMap.put("end", end);
+		@SuppressWarnings("unchecked")
+		List<SalesStatisticsDto> list = getSqlMapClientTemplate().queryForList("querySalesStatisticsByPage", paramMap);
 		return list;
 	}
 	

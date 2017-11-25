@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.cn.dsyg.dto.InOutStockDto;
 import com.cn.dsyg.dto.ProductQuantityDto;
+import com.cn.dsyg.dto.SalesStatisticsDto;
 import com.cn.dsyg.dto.WarehouseCheckDto;
 import com.cn.dsyg.dto.WarehouseDetailDto;
 import com.cn.dsyg.dto.WarehouseDto;
@@ -70,6 +71,48 @@ public interface WarehouseDao {
 	 * @return
 	 */
 	public List<InOutStockDto> queryInOutStockByPage(String startdate, String enddate, String fieldno,
+			String tradename, String item10, String keyword, int start, int end);
+
+	/**
+	 * 查询产品销售总数量
+	 * @param startdate
+	 * @param enddate
+	 * @param fieldno
+	 * @param tradename
+	 * @param item10
+	 * @param keyword
+	 * @param productid
+	 * @return
+	 */
+	public SalesStatisticsDto querySumSalesStatistics(String startdate, String enddate, String fieldno,
+			String tradename, String item10, String keyword, String productid);
+	
+	/**
+	 * 查询产品销售明细总数量
+	 * @param startdate
+	 * @param enddate
+	 * @param fieldno
+	 * @param tradename
+	 * @param item10
+	 * @param keyword
+	 * @return
+	 */
+	public int querySalesStatisticsCountByPage(String startdate, String enddate, String fieldno,
+			String tradename, String item10, String keyword);
+	
+	/**
+	 * 翻页查询产品销售明细
+	 * @param startdate
+	 * @param enddate
+	 * @param fieldno
+	 * @param tradename
+	 * @param item10
+	 * @param keyword
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<SalesStatisticsDto> querySalesStatisticsByPage(String startdate, String enddate, String fieldno,
 			String tradename, String item10, String keyword, int start, int end);
 	
 	/**

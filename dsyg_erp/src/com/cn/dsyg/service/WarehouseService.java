@@ -5,6 +5,7 @@ import java.util.List;
 import com.cn.common.util.Page;
 import com.cn.dsyg.dto.InOutStockDto;
 import com.cn.dsyg.dto.ProductQuantityDto;
+import com.cn.dsyg.dto.SalesStatisticsDto;
 import com.cn.dsyg.dto.WarehouseCheckDto;
 import com.cn.dsyg.dto.WarehouseDto;
 import com.cn.dsyg.dto.WarehouseOkDto;
@@ -53,6 +54,34 @@ public interface WarehouseService {
 	 * @return
 	 */
 	public Page queryInOutStockByPage(String startdate, String enddate, String fieldno,
+			String tradename, String item10, String keyword, Page page);
+	
+	/**
+	 * 查询产品销售记录
+	 * @param startdate
+	 * @param enddate
+	 * @param fieldno
+	 * @param tradename
+	 * @param item10
+	 * @param keyword
+	 * @param productid
+	 * @return
+	 */
+	public SalesStatisticsDto querySumSalesStatistics(String startdate, String enddate, String fieldno,
+			String tradename, String item10, String keyword, String productid);
+	
+	/**
+	 * 翻页查询产品销售记录
+	 * @param startdate
+	 * @param enddate
+	 * @param fieldno
+	 * @param tradename
+	 * @param item10
+	 * @param keyword
+	 * @param page
+	 * @return
+	 */
+	public Page querySalesStatisticsByPage(String startdate, String enddate, String fieldno,
 			String tradename, String item10, String keyword, Page page);
 	
 	/**

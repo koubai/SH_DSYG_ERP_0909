@@ -3,10 +3,14 @@ package com.cn.dsyg.service.impl;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.UUID;
 
 import org.jfree.util.Log;
@@ -45,6 +49,7 @@ import com.cn.dsyg.dto.PurchaseDto;
 import com.cn.dsyg.dto.PurchaseItemDto;
 import com.cn.dsyg.dto.SalesDto;
 import com.cn.dsyg.dto.SalesItemDto;
+import com.cn.dsyg.dto.SalesStatisticsDto;
 import com.cn.dsyg.dto.SupplierDto;
 import com.cn.dsyg.dto.UserDto;
 import com.cn.dsyg.dto.WarehouseCheckDto;
@@ -122,6 +127,40 @@ public class WarehouseServiceImpl implements WarehouseService {
 		return page;
 	}
 	
+	@Override
+	public SalesStatisticsDto querySumSalesStatistics(String startdate, String enddate,
+			String fieldno, String tradename, String item10, String keyword, String productid) {
+		tradename = StringUtil.replaceDatabaseKeyword_mysql(tradename);
+		item10 = StringUtil.replaceDatabaseKeyword_mysql(item10);
+		keyword = StringUtil.replaceDatabaseKeyword_mysql(keyword);
+        return warehouseDao.querySumSalesStatistics(startdate, enddate, fieldno, tradename, item10, keyword, productid);
+	}
+	
+	@Override
+	public Page querySalesStatisticsByPage(String startdate, String enddate,
+			String fieldno, String tradename, String item10, String keyword,
+			Page page) { 
+        
+		tradename = StringUtil.replaceDatabaseKeyword_mysql(tradename);
+		item10 = StringUtil.replaceDatabaseKeyword_mysql(item10);
+		keyword = StringUtil.replaceDatabaseKeyword_mysql(keyword);
+		//查询总记录数
+		int totalCount = warehouseDao.querySalesStatisticsCountByPage(startdate,
+				enddate, fieldno, tradename, item10, keyword);
+		page.setTotalCount(totalCount);
+		if(totalCount % page.getPageSize() > 0) {
+			page.setTotalPage(totalCount / page.getPageSize() + 1);
+		} else {
+			page.setTotalPage(totalCount / page.getPageSize());
+		}
+		//翻页查询记录
+		List<SalesStatisticsDto> list = warehouseDao.querySalesStatisticsByPage(startdate,
+				enddate, fieldno, tradename, item10, keyword,
+				page.getStartIndex() * page.getPageSize(), page.getPageSize());  
+		page.setItems(list);
+		return page;
+	}
+
 	@Override
 	public String checkProductAmount(String productInfo) {
 		String result = "";
