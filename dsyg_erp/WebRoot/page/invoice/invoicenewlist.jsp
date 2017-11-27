@@ -169,6 +169,34 @@
 		sumAmount = sumAmount.toFixed(2);
 		$("#sumAmount").val(sumAmount);
 	}
+	
+    function checkAll(checkall) {   
+    	var i;
+    	arr = document.getElementsByName('listInvoiceNewTR' );   
+    	$("#sumAmount").val(0);
+    	if (arr.length > 0 ){
+            for(i=0;i<arr.length;i++){   
+                checkItem(arr[i]);
+            }    		
+	   	}
+    }
+    
+	function checkItem(tr) {
+		var tds = tr.getElementsByTagName("td");
+		var inputs = tds[0].getElementsByTagName("input");
+		var amountinputs = tds[1].getElementsByTagName("input");
+		var sumAmount = parseFloat($("#sumAmount").val());
+		if(inputs[0].checked) {
+			inputs[0].checked = false;
+			sumAmount -= parseFloat(amountinputs[0].value);
+		} else {
+			inputs[0].checked = true;
+			sumAmount += parseFloat(amountinputs[0].value);
+		}
+		sumAmount = sumAmount.toFixed(2);
+		$("#sumAmount").val(sumAmount);
+	}
+	
 </script>
 </head>
 <body>
@@ -233,7 +261,7 @@
 					<div class="tab_content" style="height: <s:property value="newIntPageSize * 35"/>px;">
 						<table class="info_tab" width="100%" border="1" cellpadding="5" cellspacing="0">
 							<tr class="tittle">
-								<td width="30"></td>
+								<td width="30"><input id="allitemRadio"  name="allitemRadio" type="checkbox" onclick="checkAll(allitemRadio)" />全选</td>
 								<td style="display: none;"></td>
 								<td width="40">序号</td>
 								<td width="110">客户名称</td>
@@ -246,10 +274,10 @@
 							</tr>
 							<s:iterator id="listInvoiceNew" value="listInvoiceNew" status="st1">
 								<s:if test="#st1.odd==true">
-									<tr class="tr_bg" onclick="checkCheckboxTr(this, event);">
+									<tr name="listInvoiceNewTR" class="tr_bg" onclick="checkCheckboxTr(this, event);">
 								</s:if>
 								<s:else>
-									<tr onclick="checkCheckboxTr(this, event);">
+									<tr name="listInvoiceNewTR" onclick="checkCheckboxTr(this, event);">
 								</s:else>
 									<td><input name="radioKey" type="checkbox" value="<s:property value="id"/>"/></td>
 									<td style="display: none;">

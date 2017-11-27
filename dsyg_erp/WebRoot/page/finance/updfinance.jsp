@@ -688,11 +688,11 @@
 				var input16 = tds[16].getElementsByTagName("input");				
 				input15[0].value = remaininvoicenum;
 				input16[0].value = remaininvoiceamount;
+				calcNum(input15[0], '1');
 //	        	alert(input15[0].value);
 	        }  
         }else{  
             for(i=0;i<arr.length;i++){   
-            	arr[i].checked = false; 
 
             	//设定数据
 				var tr = arr[i].parentNode.parentNode;
@@ -707,6 +707,8 @@
 				var input16 = tds[16].getElementsByTagName("input");				
 				input15[0].value = 0.00;
 				input16[0].value = 0.00;
+				calcNum(input15[0], '1');
+            	arr[i].checked = false; 
             }  
         }  
     }
