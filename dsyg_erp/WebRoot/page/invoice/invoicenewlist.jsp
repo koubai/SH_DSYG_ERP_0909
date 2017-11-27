@@ -173,22 +173,22 @@
     function checkAll(checkall) {   
     	var i;
     	arr = document.getElementsByName('listInvoiceNewTR' );   
-    	$("#sumAmount").val(0);
     	if (arr.length > 0 ){
+			sumAmount = parseFloat(0);
             for(i=0;i<arr.length;i++){   
-                checkItem(arr[i]);
+                checkItem(arr[i], checkall.checked);
             }    		
 	   	}
     }
     
-	function checkItem(tr) {
+	function checkItem(tr, ck) {
 		var tds = tr.getElementsByTagName("td");
 		var inputs = tds[0].getElementsByTagName("input");
 		var amountinputs = tds[1].getElementsByTagName("input");
 		var sumAmount = parseFloat($("#sumAmount").val());
-		if(inputs[0].checked) {
+		if(!ck) {
 			inputs[0].checked = false;
-			sumAmount -= parseFloat(amountinputs[0].value);
+			sumAmount = parseFloat(0);
 		} else {
 			inputs[0].checked = true;
 			sumAmount += parseFloat(amountinputs[0].value);
