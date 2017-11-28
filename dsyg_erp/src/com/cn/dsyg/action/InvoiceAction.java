@@ -62,6 +62,8 @@ public class InvoiceAction extends BaseAction {
 	//账目编号
 	private String strReceptid;
 	
+	//是否含退货标志（0：不含， 1：含）
+	private String strReturnflg;
 	/**
 	 * 废票
 	 * @return
@@ -109,7 +111,8 @@ public class InvoiceAction extends BaseAction {
 				return "checkerror";
 			}
 			//开票处理
-			invoiceService.invoiceOK(strInvoicenoOK, strNote, strIds, username);
+//			System.out.print("strReturnflg:" + strReturnflg);
+			invoiceService.invoiceOK(strInvoicenoOK, strNote, strIds, username, strReturnflg);
 			this.addActionMessage("开票成功！");
 			//刷新预开票页面数据
 			strInvoicenoOK = "";
@@ -513,6 +516,14 @@ public class InvoiceAction extends BaseAction {
 
 	public void setStrReceptid(String strReceptid) {
 		this.strReceptid = strReceptid;
+	}
+
+	public String getStrReturnflg() {
+		return strReturnflg;
+	}
+
+	public void setStrReturnflg(String strReturnflg) {
+		this.strReturnflg = strReturnflg;
 	}
 
 }

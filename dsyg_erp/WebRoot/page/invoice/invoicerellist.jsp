@@ -69,10 +69,10 @@
 									<s:property value="status"/>
 								</s:else>
 							</td>
-							<td>
-								<div noWrap title="<s:property value="note"/>" style="width:135px;text-overflow:ellipsis;overflow:hidden">
+							<td><s:property value="note"/>
+								<!-- <div noWrap title="<s:property value="note"/>" style="width:135px;text-overflow:ellipsis;overflow:hidden">
 									<s:property value="note"/>
-								</div>
+								</div> -->
 							</td>
 						</tr>
 					</s:iterator>

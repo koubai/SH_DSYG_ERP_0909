@@ -425,11 +425,11 @@
 				}
 			} else {
 				if(oldremaininvoicenum < parseFloat(obj.value)) {
-					alert("开票数量不能大于" + oldremaininvoicenum + "！");
+					alert("开票数量大于" + oldremaininvoicenum + "！");
 					checkflag = ture;//故意写错
 					obj.focus();
-					checkflag = false;
-					return;
+//					checkflag = false;
+//					return;
 				}
 				if(0 > parseFloat(obj.value)) {
 					alert("开票数量不能小于0！");
@@ -471,11 +471,11 @@
 				}
 			} else {
 				if(oldremaininvoiceamount < parseFloat(obj.value)) {
-					alert("开票金额不能大于" + oldremaininvoiceamount + "！");
+					alert("开票金额大于" + oldremaininvoiceamount + "！");
 					checkflag = ture;//故意写错
 					obj.focus();
-					checkflag = false;
-					return;
+//					checkflag = false;
+//					return;
 				}
 				if(0 > parseFloat(obj.value)) {
 					alert("开票金额不能小于0！");
@@ -488,9 +488,10 @@
 			currinvoiceamount = parseFloat(obj.value).toFixed(2);
 			currinvoicenum = currinvoiceamount / averagePrice;
 			currinvoicenum = currinvoicenum.toFixed(2);
-			inputs[7].value = currinvoicenum;
+			inputs[7].value = currinvoicenum;				
 			inputs[8].value = obj.value;
 			tds[15].getElementsByTagName("input")[0].value = currinvoicenum;
+
 		}
 		var invoicednum = parseFloat(inputs[13].value) + parseFloat(currinvoicenum);
 		var invoicedamount = parseFloat(inputs[14].value) + parseFloat(currinvoiceamount);

@@ -130,7 +130,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 	}
 
 	@Override
-	public void invoiceOK(String invoiceno, String note, String ids, String operator) {
+	public void invoiceOK(String invoiceno, String note, String ids, String operator, String returnflg) {
 		if(StringUtil.isNotBlank(ids)) {
 			String[] ll = ids.split(",");
 			String customerid = "";
@@ -156,9 +156,14 @@ public class InvoiceServiceImpl implements InvoiceService {
 							//预出库数量为正数，则是正常开票
 							invoice.setStatus(Constants.INVOICE_STATUS_OK);
 						} else {
-							//预出库数量为负数，则是退票
-							throw new RuntimeException("预开票金额为负数不能进行开票，开票失败！");
-							//invoice.setStatus(Constants.INVOICE_STATUS_RETURN);
+//							System.out.print("returnflg:" + returnflg);
+							if (returnflg.equals("0"))
+								//预出库数量为负数，则是退票
+								throw new RuntimeException("预开票金额为负数不能进行开票，开票失败！");
+								//invoice.setStatus(Constants.INVOICE_STATUS_RETURN);
+							else
+								//预出库数量为负数，含退货场合，OK
+								invoice.setStatus(Constants.INVOICE_STATUS_OK);
 						}
 						invoiceDao.updateInvoice(invoice);
 						if(!financenoMap.containsKey(invoice.getFinanceno())) {

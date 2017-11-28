@@ -31,7 +31,7 @@ public interface InvoiceService {
 	 * @param ids
 	 * @param operator
 	 */
-	public void invoiceOK(String invoiceno, String note, String ids, String operator);
+	public void invoiceOK(String invoiceno, String note, String ids, String operator, String returnflg);
 	
 	/**
 	 * 根据条件查询满足条件的发票数量（按发票汇总）

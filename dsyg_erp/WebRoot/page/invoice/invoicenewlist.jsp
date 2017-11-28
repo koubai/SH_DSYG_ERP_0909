@@ -121,7 +121,7 @@
 	}
 	
 	//预开发票确认
-	function invoiceOK() {
+	function invoiceOK(rtn) {
 		var ids = getSelectedID();
 		$("#strIds").val(ids);
 		if(ids == "") {
@@ -136,6 +136,7 @@
 			return;
 		}
 		if(confirm("确定开票吗？")) {
+			$("#strReturnflg").attr("value", rtn);
 			document.mainform.action = '../invoice/invoiceOKAction.action';
 			document.mainform.submit();
 		}
@@ -220,6 +221,7 @@
 				<s:hidden name="strCustomerid" id="strCustomerid"/>
 				<s:hidden name="newIntPageSize" id="newIntPageSize"/>
 				<s:hidden name="strIds" id="strIds"/>
+				<s:hidden name="strReturnflg" id="strReturnflg"/>
 				<div class="searchbox">
 					<div class="box1">
 						<label class="pdf10">开票日期</label>
@@ -303,21 +305,41 @@
 					</div>
 					<div class="pages">
 						<ul>
-							<li style="width: 180px;">
+							<li style="width: 280px;">
 								<s:if test="newIntPageSize != null && newIntPageSize == 20">
 									显示：<input name="tmpPagesize" type="radio" value="10" onclick="changepagesize('10')"/>10 
 									<input name="tmpPagesize" type="radio" value="20" checked="checked" onclick="changepagesize('20')"/>20 
 									<input name="tmpPagesize" type="radio" value="30" onclick="changepagesize('30')"/>30
+									<input name="tmpPagesize" type="radio" value="50" onclick="changepagesize('50')"/>50
+									<input name="tmpPagesize" type="radio" value="100" onclick="changepagesize('100')"/>100
 								</s:if>
 								<s:elseif test="newIntPageSize != null && newIntPageSize == 30">
 									显示：<input name="tmpPagesize" type="radio" value="10" onclick="changepagesize('10')"/>10 
 									<input name="tmpPagesize" type="radio" value="20" onclick="changepagesize('20')"/>20 
 									<input name="tmpPagesize" type="radio" value="30" checked="checked" onclick="changepagesize('30')"/>30
+									<input name="tmpPagesize" type="radio" value="50" onclick="changepagesize('50')"/>50
+									<input name="tmpPagesize" type="radio" value="100" onclick="changepagesize('100')"/>100
+								</s:elseif>
+								<s:elseif test="newIntPageSize != null && newIntPageSize == 50">
+									显示：<input name="tmpPagesize" type="radio" value="10" onclick="changepagesize('10')"/>10 
+									<input name="tmpPagesize" type="radio" value="20" onclick="changepagesize('20')"/>20 
+									<input name="tmpPagesize" type="radio" value="30" onclick="changepagesize('30')"/>30
+									<input name="tmpPagesize" type="radio" value="50" checked="checked" onclick="changepagesize('50')"/>50
+									<input name="tmpPagesize" type="radio" value="100" onclick="changepagesize('100')"/>100
+								</s:elseif>
+								<s:elseif test="newIntPageSize != null && newIntPageSize == 100">
+									显示：<input name="tmpPagesize" type="radio" value="10" onclick="changepagesize('10')"/>10 
+									<input name="tmpPagesize" type="radio" value="20" onclick="changepagesize('20')"/>20 
+									<input name="tmpPagesize" type="radio" value="30" onclick="changepagesize('30')"/>30
+									<input name="tmpPagesize" type="radio" value="50" onclick="changepagesize('50')"/>50
+									<input name="tmpPagesize" type="radio" value="100" checked="checked" onclick="changepagesize('100')"/>100
 								</s:elseif>
 								<s:else>
 									显示：<input name="tmpPagesize" type="radio" value="10" checked="checked" onclick="changepagesize('10')"/>10 
 									<input name="tmpPagesize" type="radio" value="20" onclick="changepagesize('20')"/>20 
 									<input name="tmpPagesize" type="radio" value="30" onclick="changepagesize('30')"/>30
+									<input name="tmpPagesize" type="radio" value="50" onclick="changepagesize('50')"/>50
+									<input name="tmpPagesize" type="radio" value="100" onclick="changepagesize('100')"/>100
 								</s:else>
 							</li>
 							<li>第<strong>${newPage.startIndex + 1}</strong>页/共<strong>${newPage.totalPage==0?1:newPage.totalPage}</strong>页/共<strong>${newPage.totalCount}</strong>条记录</li>
@@ -373,12 +395,21 @@
 					</table>
 					<table border="0" style="margin:0 auto;">
 						<tr>
-							<td width="300"></td>
-							<td width="500">
+							<td width="200"></td>
+							<td width="200">
 								<div class="btn">
 									<div class="box1_left"></div>
 									<div class="box1_center">
-										<input class="input80" type="button" value="开票" onclick="invoiceOK();" />
+										<input class="input80" type="button" value="开票" onclick="invoiceOK('0');" />
+									</div>
+									<div class="box1_right"></div>
+								</div>
+							</td>
+							<td width="200">
+								<div class="btn">
+									<div class="box1_left"></div>
+									<div class="box1_center">
+										<input class="input100" type="button" value="开票(含退货)" onclick="invoiceOK('1');" />
 									</div>
 									<div class="box1_right"></div>
 								</div>
