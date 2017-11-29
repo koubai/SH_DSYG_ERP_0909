@@ -270,7 +270,7 @@
 							return;
 						}
 					} else {
-						if(oldremaininvoiceamount < parseFloat(currinvoiceamount)) {
+/*						if(oldremaininvoiceamount < parseFloat(currinvoiceamount)) {
 							alert("开票金额不能大于" + oldremaininvoiceamount + "！");
 							return;
 						}
@@ -278,7 +278,7 @@
 							alert("开票金额不能小于0！");
 							return;
 						}
-					}
+*/					}
 				}
 			}
 		}
@@ -388,8 +388,6 @@
 		var tds = tr.getElementsByTagName("td");
 		var inputs = tds[0].getElementsByTagName("input");
 		var averagePrice = parseFloat(inputs[3].value);
-		var currinvoicenum = "";
-		var currinvoiceamount = "";
 		var num = parseFloat(inputs[5].value).toFixed(2);
 		var amount = parseFloat(inputs[6].value).toFixed(2);
 		var remaininvoicenum = parseFloat(inputs[11].value);
@@ -399,6 +397,8 @@
 		var oldremaininvoicenum = parseFloat(inputs[15].value);
 		var oldremaininvoiceamount = parseFloat(inputs[16].value);
 		var returnNum = parseFloat(inputs[22].value);
+		var currinvoicenum = oldremaininvoicenum;
+		var currinvoiceamount = oldremaininvoiceamount;
 		if(type == "1") {
 			//根据数量计算金额
 			if(!isAllReal(obj.value)) {
@@ -470,13 +470,13 @@
 					return;
 				}
 			} else {
-				if(oldremaininvoiceamount < parseFloat(obj.value)) {
-					alert("开票金额大于" + oldremaininvoiceamount + "！");
-					checkflag = ture;//故意写错
-					obj.focus();
+//				if(oldremaininvoiceamount < parseFloat(obj.value)) {
+//					alert("开票金额大于" + oldremaininvoiceamount + "！");
+//					checkflag = ture;//故意写错
+//					obj.focus();
 //					checkflag = false;
 //					return;
-				}
+//				}
 				if(0 > parseFloat(obj.value)) {
 					alert("开票金额不能小于0！");
 					checkflag = ture;//故意写错
@@ -486,12 +486,24 @@
 				}
 			}
 			currinvoiceamount = parseFloat(obj.value).toFixed(2);
-			currinvoicenum = currinvoiceamount / averagePrice;
-			currinvoicenum = currinvoicenum.toFixed(2);
+//			currinvoicenum = currinvoiceamount / averagePrice;
+/*			if(!isAllReal(currinvoicenum)) 
+				currinvoicenum = 0.00;
+			else
+*/				currinvoicenum = currinvoicenum.toFixed(2);
 			inputs[7].value = currinvoicenum;				
 			inputs[8].value = obj.value;
+//			tds[15].getElementsByTagName("input")[0].value = currinvoicenum;
+		} else if(type == "3") {
+			//全选
+			//根据数量计算金额
+			currinvoicenum = oldremaininvoicenum;
+			currinvoiceamount = oldremaininvoiceamount;
+			currinvoiceamount = currinvoiceamount.toFixed(2);
+			inputs[8].value = currinvoiceamount;
+			inputs[7].value = currinvoicenum;
 			tds[15].getElementsByTagName("input")[0].value = currinvoicenum;
-
+			tds[16].getElementsByTagName("input")[0].value = currinvoiceamount;
 		}
 		var invoicednum = parseFloat(inputs[13].value) + parseFloat(currinvoicenum);
 		var invoicedamount = parseFloat(inputs[14].value) + parseFloat(currinvoiceamount);
@@ -555,10 +567,10 @@
 						alert("开票金额格式不正确！");
 						return;
 					}
-					if(amount < parseFloat(currinvoiceamount)) {
+/*					if(amount < parseFloat(currinvoiceamount)) {
 						alert("开票金额不能大于" + amount + "！");
 						return;
-					}
+					}*/
 					if(parseFloat(currinvoiceamount) < 0 && parseFloat(currinvoiceamount) * -1 > oldinvoicedamount) {
 						alert("退票金额不能小于-" + (-1 * oldinvoicedamount) + "！");
 						return;
@@ -689,7 +701,7 @@
 				var input16 = tds[16].getElementsByTagName("input");				
 				input15[0].value = remaininvoicenum;
 				input16[0].value = remaininvoiceamount;
-				calcNum(input15[0], '1');
+				calcNum(input15[0], '3');
 //	        	alert(input15[0].value);
 	        }  
         }else{  
