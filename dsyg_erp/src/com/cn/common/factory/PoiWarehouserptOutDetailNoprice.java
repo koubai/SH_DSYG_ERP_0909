@@ -1,16 +1,26 @@
 package com.cn.common.factory;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
+
+import javax.imageio.ImageIO;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFPatriarch;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFDrawing;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -101,6 +111,28 @@ public class PoiWarehouserptOutDetailNoprice extends Poi2007Base {
 		XSSFCell cell_detail = row7.createCell(0);
 		cell_detail.setCellValue("出库明细单：");
 		cell_detail.setCellStyle(style_cus);
+		
+		if (!getImagepath().equals("")){
+			File imagefile = new File(getImagepath());
+			if (imagefile.exists()) {
+				ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+			    BufferedImage bufferImg;
+				try {
+					bufferImg = ImageIO.read(imagefile);
+				    ImageIO.write(bufferImg, "jpeg", byteArrayOut);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			    XSSFDrawing patriarch = sheet.createDrawingPatriarch();
+//			    HSSFClientAnchor anchor = new HSSFClientAnchor(0, 150, 100, 210, (short) 0, 0, (short) 1, 1);
+//			    patriarch.createPicture(anchor, workbook.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_JPEG));
+			    XSSFClientAnchor anchor =
+			    	new XSSFClientAnchor(0, 0, 0, 0,(short) 8, 0,(short)9, 4);
+			    patriarch.createPicture(anchor ,workbook.addPicture(byteArrayOut.toByteArray(),
+			    	HSSFWorkbook.PICTURE_TYPE_JPEG));
+			}
+		}				
 	}
 	
 	/**

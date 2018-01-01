@@ -126,6 +126,35 @@
 			return;
 		}	
 	}
+	
+/*	function createBarCode(){
+		createBarCodeSub("01571-000-3456789012341");
+		createBarCodeSub("01571-000-3456789012342");
+		createBarCodeSub("01571-000-3456789012343");
+		alert("Success!");
+	}
+	*/
+	function createBarCode(){
+		var fso, tf, tf2, str_barcode, barcode, i;
+		   fso = new ActiveXObject("Scripting.FileSystemObject");
+		   barcode = "3456789012341";
+			for (i = 0; i<6; i++) {
+				   tf = fso.CreateTextFile("c:\\bartest001.ext", true);
+				   // 写一行，并且带有新行字符。
+				   tf.WriteLine("N") ;
+				   str_barcode = "B30,20,0,1,1,6,60,B,\"01571-000-" + barcode + "\"" ;
+				   tf.WriteLine(str_barcode) ;
+				   tf.WriteLine("P1") ;
+				   // 写一行。
+				   tf2 = fso.GetFile("c:\\bartest001.ext");
+				   tf2.Copy("\\\\WATERMELON\\GK888d\\testfile.txt");
+//				   tf2.Close();
+//				   tf2.Delete();
+				   tf.Close();
+//				   tf.Delete();
+				barcode++;
+			}
+	}
 </script>
 </head>
 <body>
@@ -193,6 +222,13 @@
 						<div class="box1_left"></div>
 						<div class="box1_center">
 							<input type="button" class="input40" value="检索" onclick="queryList();"/>
+						</div>
+						<div class="box1_right"></div>
+					</div>
+					<div class="btn" style="margin-left: 50px;">
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							<input type="button" class="input40" width="100" value="条形码打印" onclick="createBarCode();"/>
 						</div>
 						<div class="box1_right"></div>
 					</div>

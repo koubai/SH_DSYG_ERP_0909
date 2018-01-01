@@ -433,6 +433,19 @@ public class StringUtil {
 		name = sdf.format(date);
 		return pre + name + ".xml";
 	}
+
+	/**
+	 * 创建文件名
+	 * @param pre
+	 * @return
+	 */
+	public static String createImageFileName(String pre) {
+		String name = null;
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		name = sdf.format(date);
+		return pre + name + ".jpg";
+	}
 	
 	/**
 	 * 将字符串补满位数（前面补0）

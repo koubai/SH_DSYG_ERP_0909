@@ -10,6 +10,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import com.cn.common.action.BaseAction;
+import com.cn.common.factory.MatrixImageBase;
+import com.cn.common.factory.MatrixImageFactory;
 import com.cn.common.factory.Poi2007Base;
 import com.cn.common.factory.PoiFactory;
 import com.cn.common.util.Constants;
@@ -583,6 +585,21 @@ public class WarehouserptAction extends BaseAction {
 				rpt = warehouserptService.queryWarehouserptByID(strExportDetailId);
 			}
 		}
+		String jpgname = StringUtil.createImageFileName(exceltype);
+		
+		MatrixImageBase imagebase = MatrixImageFactory.getImage(exceltype);
+		//根据ID查询数据
+		List<WarehouserptDto> list1 = new ArrayList<WarehouserptDto>();
+		if(rpt != null) {
+			list1.add(rpt);
+		} else {
+			log.warn("queryWarehouserptByID is null, id=" + strExportDetailId);
+		}
+		imagebase.setName(PropertiesConfig.getPropertiesValueByKey(Constants.PROPERTIES_IMAGES_PATH) +"//"+jpgname);
+		imagebase.setDatas(list1);
+		imagebase.setDictMap(dictMap);
+		imagebase.createMatrixImage();
+		
 		String name = StringUtil.createFileName(exceltype);
 		response.setHeader("Content-Disposition","attachment;filename=" + name);//指定下载的文件名
 		response.setContentType("application/vnd.ms-excel");
@@ -597,7 +614,9 @@ public class WarehouserptAction extends BaseAction {
 		base.setDatas(list);
 		base.setSheetName(exceltype);
 		base.setDictMap(dictMap);
+		base.setImagepath(PropertiesConfig.getPropertiesValueByKey(Constants.PROPERTIES_IMAGES_PATH) +"//"+jpgname);
 		base.exportExcel(response.getOutputStream());
+		
 	}
 	
 	/**

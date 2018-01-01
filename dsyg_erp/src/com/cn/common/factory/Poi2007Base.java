@@ -62,6 +62,11 @@ public class Poi2007Base {
 	protected List<?> datas;
 	
 	/**
+	 * 图片路径
+	 */
+	protected String imagepath;
+	
+	/**
 	 * 创建Excel2007
 	 */
 	public void createExcel() {
@@ -265,4 +270,13 @@ public class Poi2007Base {
 	public void setDictMap(Map<String, String> dictMap) {
 		this.dictMap = dictMap;
 	}
+	
+	public String getImagepath() {
+		return imagepath;
+	}
+
+	public void setImagepath(String imagepath) {
+		this.imagepath = imagepath;
+	}
+
 }
