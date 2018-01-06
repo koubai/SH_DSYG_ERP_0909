@@ -7,9 +7,10 @@ import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dao.Dict01Dao;
+import com.cn.dsyg.dao.ProductBarcodeDao;
 import com.cn.dsyg.dao.ProductDao;
 import com.cn.dsyg.dto.Dict01Dto;
-import com.cn.dsyg.dto.ProductCostDto;
+import com.cn.dsyg.dto.ProductBarcodeDto;
 import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.service.ProductService;
 
@@ -23,6 +24,7 @@ public class ProductServiceImpl implements ProductService {
 	
 	private ProductDao productDao;
 	private Dict01Dao dict01Dao;
+	private ProductBarcodeDao productBarcodeDao;
 	
 	@Override
 	public ProductDto queryProductByLogicId(String tradename, String typeno,
@@ -58,6 +60,19 @@ public class ProductServiceImpl implements ProductService {
 		//翻页查询记录
 		List<ProductDto> list = productDao.queryProductByPage(fieldno, item01, keyword, packaging, tradename, typeno, color, supplierId, status,
 				page.getStartIndex() * page.getPageSize(), page.getPageSize());
+		if(list != null && list.size() > 0) {
+			//查询条形码码序列号信息
+			for(ProductDto product : list) {
+				ProductBarcodeDto productBarcode = productBarcodeDao.queryProductBarcodeByProductID("" + product.getId());
+				if(productBarcode != null) {
+					product.setBarcodeseq(productBarcode.getBarcodeseq());
+				} else {
+					//没有记录则默认1
+					product.setBarcodeseq(1);
+				}
+			}
+			//productBarcodeDao
+		}
 		page.setItems(list);
 		return page;
 	}
@@ -287,5 +302,13 @@ public class ProductServiceImpl implements ProductService {
 		
 		//查询记录
 		return productDao.queryProductCostToExport(fieldno, item01, keyword, tradename, typeno, color, supplierId, belongto, status);
+	}
+
+	public ProductBarcodeDao getProductBarcodeDao() {
+		return productBarcodeDao;
+	}
+
+	public void setProductBarcodeDao(ProductBarcodeDao productBarcodeDao) {
+		this.productBarcodeDao = productBarcodeDao;
 	}
 }

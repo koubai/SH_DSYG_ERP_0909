@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dao.ResourceDao;
 import com.cn.dsyg.dto.ResourceDto;
 import com.cn.dsyg.service.ResourceService;
@@ -28,16 +29,18 @@ public class ResourceServiceImpl implements ResourceService {
 			if(list != null && list.size() > 0) {
 				Map<String, Integer> map = new HashMap<String, Integer>();
 				for(ResourceDto r : listAll) {
-					//默认没有权限
-					int right = 0;
-					for(ResourceDto r1 : list) {
-						if(r.getUrl().equals(r1.getUrl())) {
-							//有权限
-							right = 1;
-							break;
+					if(r != null && StringUtil.isNotBlank(r.getUrl())) {
+						//默认没有权限
+						int right = 0;
+						for(ResourceDto r1 : list) {
+							if(r.getUrl().equals(r1.getUrl())) {
+								//有权限
+								right = 1;
+								break;
+							}
 						}
+						map.put(r.getUrl(), right);
 					}
-					map.put(r.getUrl(), right);
 				}
 				return map;
 			}

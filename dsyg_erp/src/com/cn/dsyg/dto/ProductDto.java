@@ -30,6 +30,11 @@ public class ProductDto extends BaseDto {
 	 * 类型01：电线，02：套管，03：扁平线，04：线束，05：连接器，06：FPC
 	 */
 	private String fieldno;
+	
+	/**
+	 * BARCODE顺序号（来自productBarcode）
+	 */
+	private Integer barcodeseq;
 
 	/**
 	 * 品牌
@@ -1530,5 +1535,13 @@ public class ProductDto extends BaseDto {
 
 	public void setReturnNum(BigDecimal returnNum) {
 		this.returnNum = returnNum;
+	}
+
+	public Integer getBarcodeseq() {
+		return barcodeseq;
+	}
+
+	public void setBarcodeseq(Integer barcodeseq) {
+		this.barcodeseq = barcodeseq;
 	}
 }

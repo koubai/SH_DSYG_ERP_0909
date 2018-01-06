@@ -55,6 +55,16 @@ public class Constants {
 	//客户跟踪编号前缀
 	public final static String CUSTOMER_TRACK_NO_PRE = "CTN";
 	
+	//条形码前缀
+	public final static String BARCODE_NO_PRE = "BARCODE";
+	public final static int BARCODE_LOG_OPERATE_TYPE_NEW = 10;//新增
+	public final static int BARCODE_LOG_OPERATE_TYPE_PRINT = 20;//打印
+	public final static int BARCODE_LOG_OPERATE_TYPE_ONLINE = 30;//贴标
+	public final static int BARCODE_LOG_OPERATE_TYPE_IN = 40;//扫码入库
+	public final static int BARCODE_LOG_OPERATE_TYPE_OUT = 50;//扫码出库
+	public final static int BARCODE_LOG_OPERATE_TYPE_CANCEL = 60;//作废
+	public final static int BARCODE_LOG_OPERATE_TYPE_DEL = 99;//删除
+	
 	//数据导出常量
 	//采购单数据
 	public final static String EXCEL_TYPE_PURCHASELIST = "purchase";

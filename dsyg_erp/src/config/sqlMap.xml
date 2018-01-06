@@ -47,4 +47,8 @@
 	
 	<sqlMap resource="/config/ibatis/dsyg-invoice.xml" />
 	
+	<sqlMap resource="/config/ibatis/dsyg-barcodeinfo.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-barcodelog.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-productbarcode.xml" />
+	
 </sqlMapConfig>

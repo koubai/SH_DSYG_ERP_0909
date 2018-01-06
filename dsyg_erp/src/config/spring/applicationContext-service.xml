@@ -3,6 +3,51 @@
 
 <beans>
 
+	<bean id="productBarcodeService" class="com.cn.dsyg.service.impl.ProductBarcodeServiceImpl" >
+		<property name="productBarcodeDao">
+			<ref local="productBarcodeDao"/>
+		</property>
+	</bean>
+	
+	<bean id="productBarcodeDao" class="com.cn.dsyg.dao.impl.ProductBarcodeDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
+	<bean id="barcodeInfoService" class="com.cn.dsyg.service.impl.BarcodeInfoServiceImpl" >
+		<property name="barcodeInfoDao">
+			<ref local="barcodeInfoDao"/>
+		</property>
+		<property name="productDao">
+			<ref local="productDao"/>
+		</property>
+		<property name="barcodeLogDao">
+			<ref local="barcodeLogDao"/>
+		</property>
+		<property name="productBarcodeDao">
+			<ref local="productBarcodeDao"/>
+		</property>
+	</bean>
+	
+	<bean id="barcodeInfoDao" class="com.cn.dsyg.dao.impl.BarcodeInfoDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
+	<bean id="barcodeLogService" class="com.cn.dsyg.service.impl.BarcodeLogServiceImpl" >
+		<property name="barcodeLogDao">
+			<ref local="barcodeLogDao"/>
+		</property>
+	</bean>
+	
+	<bean id="barcodeLogDao" class="com.cn.dsyg.dao.impl.BarcodeLogDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+
 	<bean id="invoiceService" class="com.cn.dsyg.service.impl.InvoiceServiceImpl" >
 		<property name="invoiceDao">
 			<ref local="invoiceDao"/>
@@ -402,6 +447,9 @@
 		</property>
 		<property name="dict01Dao">
 			<ref local="dict01Dao"/>
+		</property>
+		<property name="productBarcodeDao">
+			<ref local="productBarcodeDao"/>
 		</property>
 	</bean>
 	
