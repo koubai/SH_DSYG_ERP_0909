@@ -271,6 +271,7 @@
 						</div>
 						<div class="box1_right"></div>
 					</div>
+					<!--
 					<div class="btn" style="margin-left: 50px;">
 						<div class="box1_left"></div>
 						<div class="box1_center">
@@ -278,6 +279,7 @@
 						</div>
 						<div class="box1_right"></div>
 					</div>
+					-->
 					<div class="box1" style="margin-top:-3px; margin-left: -240px; color: red;">
 						<s:actionmessage />
 					</div>
