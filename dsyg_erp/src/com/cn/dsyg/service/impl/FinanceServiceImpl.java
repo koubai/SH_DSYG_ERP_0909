@@ -241,8 +241,8 @@ public class FinanceServiceImpl implements FinanceService {
 							BigDecimal remaininvoiceamount = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP);
 							if(invoiceList != null && invoiceList.size() > 0) {
 								for(InvoiceDto invoice : invoiceList) {
-									String invoiceKey = invoice.getProductid() + "_" + averagePrice;
-									String productKey = "" + product.getId() + "_" + product.getRpttaxprice();
+									String invoiceKey = invoice.getProductid() + "_" + invoice.getPricetax();
+									String productKey = "" + product.getId() + "_" + product.getAveragePrice();
 									if(invoiceKey.equals(productKey)) {
 										//已开票数量，已开票金额
 										invoicednum = invoice.getQuantity();
