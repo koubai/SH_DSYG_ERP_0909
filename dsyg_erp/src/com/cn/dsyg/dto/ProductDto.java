@@ -138,6 +138,9 @@ public class ProductDto extends BaseDto {
 	//平均价格（6位有效数字）
 	private BigDecimal averagePrice;
 	
+	//rpt含税单价（计算已开票用）
+	private BigDecimal rpttaxprice;
+	
 	//数量（入出库单显示用）
 	private String num;
 	//数量（入出库单显示用）
@@ -1543,5 +1546,13 @@ public class ProductDto extends BaseDto {
 
 	public void setBarcodeseq(Integer barcodeseq) {
 		this.barcodeseq = barcodeseq;
+	}
+
+	public BigDecimal getRpttaxprice() {
+		return rpttaxprice;
+	}
+
+	public void setRpttaxprice(BigDecimal rpttaxprice) {
+		this.rpttaxprice = rpttaxprice;
 	}
 }

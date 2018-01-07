@@ -103,7 +103,7 @@ public class BarcodeInfoServiceImpl implements BarcodeInfoService {
 							maxSeq = productBarcode.getBarcodeseq();
 						} else {
 							//更新最大序列号
-							productBarcode.setBarcodeseq(seq + quantity);
+							productBarcode.setBarcodeseq(seq + quantity - 1);
 							productBarcode.setProductqty(item14);
 							productBarcode.setUpdateuid(userid);
 							productBarcodeDao.updateProductBarcode(productBarcode);
@@ -115,7 +115,7 @@ public class BarcodeInfoServiceImpl implements BarcodeInfoService {
 						productBarcode.setProductid(productid);
 						productBarcode.setProductqty(item14);
 						//默认取最大值
-						productBarcode.setBarcodeseq(maxSeq);
+						productBarcode.setBarcodeseq(maxSeq - 1);
 						productBarcode.setStatus(Constants.STATUS_NORMAL);
 						productBarcode.setCreateuid(userid);
 						productBarcode.setUpdateuid(userid);

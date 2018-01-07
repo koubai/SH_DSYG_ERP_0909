@@ -65,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
 			for(ProductDto product : list) {
 				ProductBarcodeDto productBarcode = productBarcodeDao.queryProductBarcodeByProductID("" + product.getId());
 				if(productBarcode != null) {
-					product.setBarcodeseq(productBarcode.getBarcodeseq());
+					product.setBarcodeseq(productBarcode.getBarcodeseq() + 1);
 				} else {
 					//没有记录则默认1
 					product.setBarcodeseq(1);
