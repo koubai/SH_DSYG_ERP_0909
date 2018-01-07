@@ -158,7 +158,7 @@
 						//TODO
 						//printBarCode
 					}); */
-					printBarCode(productid, belongto, n.barcodenostart, n.quantity);
+					//printBarCode(productid, belongto, n.barcodenostart, n.quantity);
 				});
 			} else {
 				alert(data.msg);

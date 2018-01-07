@@ -13,8 +13,8 @@
 		<property name="productBarcodeService">
 			<ref bean="productBarcodeService" />
 		</property>
-		<property name="barcodeInfoService">
-			<ref bean="barcodeInfoService" />
+		<property name="barcodeLogService">
+			<ref bean="barcodeLogService" />
 		</property>
 	</bean>
 	

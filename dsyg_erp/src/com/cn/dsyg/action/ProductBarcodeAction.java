@@ -15,10 +15,10 @@ import com.cn.common.util.Constants;
 import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.dsyg.dto.AjaxResultDto;
-import com.cn.dsyg.dto.BarcodeInfoDto;
+import com.cn.dsyg.dto.BarcodeLogDto;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.ProductDto;
-import com.cn.dsyg.service.BarcodeInfoService;
+import com.cn.dsyg.service.BarcodeLogService;
 import com.cn.dsyg.service.Dict01Service;
 import com.cn.dsyg.service.ProductBarcodeService;
 import com.cn.dsyg.service.ProductService;
@@ -40,7 +40,7 @@ public class ProductBarcodeAction extends BaseAction {
 	private ProductService productService;
 	private Dict01Service dict01Service;
 	private ProductBarcodeService productBarcodeService;
-	private BarcodeInfoService barcodeInfoService;
+	private BarcodeLogService barcodeLogService;
 	
 	//页码
 	private int startIndex;
@@ -88,7 +88,7 @@ public class ProductBarcodeAction extends BaseAction {
 			this.clearMessages();
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
 			//生成条形码
-			List<BarcodeInfoDto> barcodeInfoList = barcodeInfoService.createBarcodeBatch(strBarcodeProductIds, strBarcodeSeq, strBarcodeQuantity, strProductItem14, username);
+			List<BarcodeLogDto> barcodeInfoList = barcodeLogService.createBarcodeBatch(strBarcodeProductIds, strBarcodeSeq, strBarcodeQuantity, strProductItem14, username);
 			ajaxResult.setCode(0);
 			ajaxResult.setMsg("succ");
 			ajaxResult.setData(barcodeInfoList);
@@ -354,11 +354,11 @@ public class ProductBarcodeAction extends BaseAction {
 		this.strProductItem14 = strProductItem14;
 	}
 
-	public BarcodeInfoService getBarcodeInfoService() {
-		return barcodeInfoService;
+	public BarcodeLogService getBarcodeLogService() {
+		return barcodeLogService;
 	}
 
-	public void setBarcodeInfoService(BarcodeInfoService barcodeInfoService) {
-		this.barcodeInfoService = barcodeInfoService;
+	public void setBarcodeLogService(BarcodeLogService barcodeLogService) {
+		this.barcodeLogService = barcodeLogService;
 	}
 }

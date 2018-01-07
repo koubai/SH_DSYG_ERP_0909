@@ -7,11 +7,14 @@
 	<resultMap id="BarcodeInfoDto" class="com.cn.dsyg.dto.BarcodeInfoDto">
 		<result property="id" column="id" />
 		<result property="belongto" column="belongto" />
-		<result property="batchno" column="batchno" />
 		<result property="productid" column="productid" />
-		<result property="barcodenostart" column="barcodenostart" />
-		<result property="quantity" column="quantity" />
+		<result property="batchno" column="batchno" />
+		<result property="barcode" column="barcode" />
+		<result property="barcodeno" column="barcodeno" />
+		<result property="scanno" column="scanno" />
 		<result property="barcodetype" column="barcodetype" />
+		<result property="quantity" column="quantity" />
+		<result property="operatetype" column="operatetype" />
 		<result property="note" column="note" />
 		<result property="status" column="status" />
 		<result property="res01" column="res01" />
@@ -33,14 +36,14 @@
 		<isNotEmpty prepend="and" property="batchno">
 			T.batchno = #batchno#
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="barcode">
+			T.barcode = #barcode#
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="barcodetype">
 			T.barcodetype = #barcodetype#
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="createdateHigh">
-			T.createdate <![CDATA[<]]> #createdateHigh#
-		</isNotEmpty>
-		<isNotEmpty prepend="and" property="createdateLow">
-			T.createdate <![CDATA[>=]]> #createdateLow#
+		<isNotEmpty prepend="and" property="operatetype">
+			T.operatetype = #operatetype#
 		</isNotEmpty>
 	</select>
 	
@@ -52,16 +55,16 @@
 		<isNotEmpty prepend="and" property="batchno">
 			T.batchno = #batchno#
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="barcode">
+			T.barcode = #barcode#
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="barcodetype">
 			T.barcodetype = #barcodetype#
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="createdateHigh">
-			T.createdate <![CDATA[<]]> #createdateHigh#
+		<isNotEmpty prepend="and" property="operatetype">
+			T.operatetype = #operatetype#
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="createdateLow">
-			T.createdate <![CDATA[>=]]> #createdateLow#
-		</isNotEmpty>
-		order by T.createdate desc
+		order by T.updatedate desc
 		LIMIT #start#, #end#
 	</select>
 	
@@ -82,15 +85,11 @@
 		select * from etb_barcode_info where id = #id#
 	</select>
 	
-	<select id="queryBarcodeInfoByLogicID" parameterClass="java.util.Map" resultMap="BarcodeInfoDto">
-		select * from etb_barcode_info where status = 1 and batchno = #batchno#
-	</select>
-	
 	<insert id="insertBarcodeInfo" parameterClass="com.cn.dsyg.dto.BarcodeInfoDto">
-		insert into etb_barcode_info(belongto,batchno,productid,barcodenostart,quantity,barcodetype,note,status,res01,
-			res02,res03,res04,res05,createuid,createdate,updateuid,updatedate)
-		values(#belongto#,#batchno#,#productid#,#barcodenostart#,#quantity#,#barcodetype#,#note#,#status#,#res01#,
-			#res02#,#res03#,#res04#,#res05#,#createuid#,NOW(),#updateuid#,NOW())
+		insert into etb_barcode_info(belongto,productid,batchno,barcode,barcodeno,scanno,barcodetype,quantity,
+			operatetype,note,status,res01,res02,res03,res04,res05,createuid,createdate,updateuid,updatedate)
+		values(#belongto#,#productid#,#batchno#,#barcode#,#barcodeno#,#scanno#,#barcodetype#,#quantity#,
+			#operatetype#,#note#,#status#,#res01#,#res02#,#res03#,#res04#,#res05#,#createuid#,NOW(),#updateuid#,NOW())
 		<selectKey resultClass="long" keyProperty="id" >
 			select LAST_INSERT_ID() as value
 		</selectKey>
@@ -98,9 +97,12 @@
 	
 	<update id="updateBarcodeInfo" parameterClass="com.cn.dsyg.dto.BarcodeInfoDto">
 		update etb_barcode_info
-		set barcodenostart = #barcodenostart#,
-			quantity = #quantity#,
+		set barcode = #barcode#,
+			barcodeno = #barcodeno#,
+			scanno = #scanno#,
 			barcodetype = #barcodetype#,
+			quantity = #quantity#,
+			operatetype = #operatetype#,
 			note = #note#,
 			status = #status#,
 			res01 = #res01#,

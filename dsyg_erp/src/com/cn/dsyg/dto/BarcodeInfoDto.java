@@ -1,7 +1,6 @@
 package com.cn.dsyg.dto;
 
 import java.util.Date;
-import java.util.List;
 
 import com.cn.common.dto.BaseDto;
 
@@ -18,34 +17,46 @@ public class BarcodeInfoDto extends BaseDto {
 	 * belongto
 	 */
 	private String belongto;
-	
-	/**
-	 * 生成barcode批号，逻辑主键
-	 */
-	private String batchno;
 
 	/**
 	 * 产品ID号
 	 */
 	private String productid;
-
-	/**
-	 * BARCODE起始编号
-	 */
-	private Integer barcodenostart;
 	
 	/**
-	 * BARCODE生成的数量
+	 * 生成barcode批号
 	 */
-	private Integer quantity;
-
+	private String batchno;
+	
+	/**
+	 * BARCODE
+	 */
+	private String barcode;
+	
+	/**
+	 * BARCODE后面15位编号
+	 */
+	private String barcodeno;
+	
+	/**
+	 * 扫码枪编号
+	 */
+	private String scanno;
+	
 	/**
 	 * BARCODE类型，1为入库单，2为出库单
 	 */
 	private Integer barcodetype;
 	
-	private Integer barcodeseq;
-	private List<BarcodeLogDto> barcodeLogList;
+	/**
+	 * 数量
+	 */
+	private Integer quantity;
+	
+	/**
+	 * 操作类型，10为生成，20为打印，30为贴标，40为扫码入库，50为扫码出库，60为作废，99为删除
+	 */
+	private Integer operatetype;
 
 	/**
 	 * 备注
@@ -126,12 +137,36 @@ public class BarcodeInfoDto extends BaseDto {
 		this.productid = productid;
 	}
 
-	public Integer getBarcodenostart() {
-		return barcodenostart;
+	public String getBarcode() {
+		return barcode;
 	}
 
-	public void setBarcodenostart(Integer barcodenostart) {
-		this.barcodenostart = barcodenostart;
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
+	}
+
+	public String getBarcodeno() {
+		return barcodeno;
+	}
+
+	public void setBarcodeno(String barcodeno) {
+		this.barcodeno = barcodeno;
+	}
+
+	public String getScanno() {
+		return scanno;
+	}
+
+	public void setScanno(String scanno) {
+		this.scanno = scanno;
+	}
+
+	public Integer getBarcodetype() {
+		return barcodetype;
+	}
+
+	public void setBarcodetype(Integer barcodetype) {
+		this.barcodetype = barcodetype;
 	}
 
 	public Integer getQuantity() {
@@ -142,12 +177,12 @@ public class BarcodeInfoDto extends BaseDto {
 		this.quantity = quantity;
 	}
 
-	public Integer getBarcodetype() {
-		return barcodetype;
+	public Integer getOperatetype() {
+		return operatetype;
 	}
 
-	public void setBarcodetype(Integer barcodetype) {
-		this.barcodetype = barcodetype;
+	public void setOperatetype(Integer operatetype) {
+		this.operatetype = operatetype;
 	}
 
 	public String getNote() {
@@ -244,21 +279,5 @@ public class BarcodeInfoDto extends BaseDto {
 
 	public void setBatchno(String batchno) {
 		this.batchno = batchno;
-	}
-
-	public List<BarcodeLogDto> getBarcodeLogList() {
-		return barcodeLogList;
-	}
-
-	public void setBarcodeLogList(List<BarcodeLogDto> barcodeLogList) {
-		this.barcodeLogList = barcodeLogList;
-	}
-
-	public Integer getBarcodeseq() {
-		return barcodeseq;
-	}
-
-	public void setBarcodeseq(Integer barcodeseq) {
-		this.barcodeseq = barcodeseq;
 	}
 }
