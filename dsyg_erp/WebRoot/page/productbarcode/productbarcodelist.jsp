@@ -92,32 +92,32 @@
 				var barcodequantity = $("#barcodequantity_" + productid).val();
 				if(item14 == "") {
 					alert("单位长度不能为空！");
-					$("#item14_" + productid).focus()
+					$("#item14_" + productid).focus();
 					return;
 				}
 				if(!isNumber(item14)) {
 					alert("单位长度格式不正确！");
-					$("#item14_" + productid).focus()
+					$("#item14_" + productid).focus();
 					return;
 				}
 				if(barcodeseq == "") {
 					alert("条码开始号不能为空！");
-					$("#barcodeseq_" + productid).focus()
+					$("#barcodeseq_" + productid).focus();
 					return;
 				}
 				if(!isNumber(barcodeseq)) {
 					alert("条码开始号格式不正确！");
-					$("#barcodeseq_" + productid).focus()
+					$("#barcodeseq_" + productid).focus();
 					return;
 				}
 				if(barcodequantity == "") {
 					alert("新增数不能为空！");
-					$("#barcodequantity_" + productid).focus()
+					$("#barcodequantity_" + productid).focus();
 					return;
 				}
 				if(!isNumber(barcodequantity)) {
 					alert("新增数格式不正确！");
-					$("#barcodequantity_" + productid).focus()
+					$("#barcodequantity_" + productid).focus();
 					return;
 				}
 				
@@ -152,39 +152,67 @@
 						var barcode = nn.barcode;
 						//条形码后面15位顺序号
 						var barcodeno = nn.barcodeno;
-						alert("barcode=" + barcode + ",maxSeq=" + maxSeq);
+//						alert("barcode=" + barcode + ",maxSeq=" + maxSeq);
 						//这里调用打印函数
 						//TODO
 						//printBarCode
 					});
+					printBarCode(productid, "000",n.barcodenostart,n.quantity);
 				});
 			} else {
 				alert(data.msg);
 			}
 		});
+		alert("条形码生成完毕");
 	}
 	
-	//打印
-	function printBarCode(){
-		var fso, tf, tf2, str_barcode, barcode, i;
-		   fso = new ActiveXObject("Scripting.FileSystemObject");
-		   barcode = "3456789012341";
-			for (i = 0; i<6; i++) {
-				   tf = fso.CreateTextFile("c:\\bartest001.ext", true);
-				   // 写一行，并且带有新行字符。
-				   tf.WriteLine("N") ;
-				   str_barcode = "B30,20,0,1,1,6,60,B,\"01571-000-" + barcode + "\"" ;
-				   tf.WriteLine(str_barcode) ;
-				   tf.WriteLine("P1") ;
-				   // 写一行。
-				   tf2 = fso.GetFile("c:\\bartest001.ext");
-				   tf2.Copy("\\\\WATERMELON\\GK888d\\testfile.txt");
-//				   tf2.Close();
-//				   tf2.Delete();
-				   tf.Close();
-//				   tf.Delete();
-				barcode++;
-			}
+	function PrefixInteger(num, length) {
+		 return (Array(length).join('0') + num).slice(-length);
+	}
+	function printBarCode(product_id, area_code, start_barcode, num){
+		var str_product_id, str_area_code, str_start_barcode;
+		var fso, tf, tf2, str_barcode;
+		if (product_id != ""){
+			str_product_id =PrefixInteger(product_id, 5);
+		}
+		else {
+			alert("产品编号不正确");
+			return;			
+		}
+		if (area_code != ""){
+			str_area_code =PrefixInteger(area_code,3);
+		}else {
+			str_area_code ="000";
+		}
+		if (start_barcode == ""){
+			alert("BarCode编号不正确");
+			return;			
+		}
+		if (num == "" || num <= 0){
+			return;
+		}
+		//Barcode generate process
+		fso = new ActiveXObject("Scripting.FileSystemObject");
+		var WshShell =new ActiveXObject("WScript.Shell");
+		var hostname = WshShell.ExpandEnvironmentStrings("%COMPUTERNAME%");
+		for (var i = 0; i<num; i++) {
+			   if(fso.FileExists("c:\\bartmp.ext")){
+				   tf = fso.GetFile("c:\\bartmp.ext");
+				   tf.Delete();
+			   }
+			   tf = fso.CreateTextFile("c:\\bartmp.ext", true);
+			   // 写一行，并且带有新行字符。
+			   tf.WriteLine("N") ;
+			   str_start_barcode =PrefixInteger((parseInt(start_barcode) + parseInt(i)),13);
+			   str_barcode = "B20,20,0,1,1,6,60,B,\""+str_product_id+"-"+str_area_code + "-" + str_start_barcode + "\"" ;
+			   tf.WriteLine(str_barcode) ;
+			   tf.WriteLine("P1") ;
+			   tf.Close();
+//				alert(str_barcode);
+			   // 写一行。
+			   tf2 = fso.GetFile("c:\\bartmp.ext");
+			   tf2.Copy("\\\\"+ hostname +"\\GK888d\\testfile.txt");
+		}		
 	}
 </script>
 </head>

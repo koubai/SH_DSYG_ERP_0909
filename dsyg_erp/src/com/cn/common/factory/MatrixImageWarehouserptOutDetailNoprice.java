@@ -74,9 +74,9 @@ public class MatrixImageWarehouserptOutDetailNoprice extends MatrixImageBase {
 						setContent(getContent() + ""+ ",");
 					}
 					if (product.getRes09()==null || product.getRes09().equals("null"))
-						setContent(getContent() + ""+ ",");
+						setContent(getContent() + ""+ "\r\n");
 					else
-						setContent(getContent() + product.getRes09() + ",");					
+						setContent(getContent() + product.getRes09() + "\r\n");					
 					num++;
 				}
 			}

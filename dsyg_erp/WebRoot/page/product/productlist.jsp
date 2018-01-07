@@ -134,7 +134,59 @@
 		alert("Success!");
 	}
 	*/
-	function createBarCode(){
+	function PrefixInteger(num, length) {
+		 return (Array(length).join('0') + num).slice(-length);
+	}
+	function createBarCode(product_id, area_code, start_barcode, num){
+		var str_product_id, str_area_code, str_start_barcode;
+		var fso, tf, tf2, str_barcode;
+		if (product_id != ""){
+			str_product_id =PrefixInteger(product_id, 5);
+		}
+		else {
+			alert("产品编号不正确");
+			return;			
+		}
+		if (area_code != ""){
+			str_area_code =PrefixInteger(area_code,3);
+		}else {
+			str_area_code ="000";
+		}
+		if (start_barcode == ""){
+			alert("BarCode编号不正确");
+			return;			
+		}
+		if (num == "" || num <= 0){
+			return;
+		}
+		//Barcode generate process
+		fso = new ActiveXObject("Scripting.FileSystemObject");
+		var WshShell =new ActiveXObject("WScript.Shell");
+		var hostname = WshShell.ExpandEnvironmentStrings("%COMPUTERNAME%");
+		for (var i = 0; i<num; i++) {
+			   if(fso.FileExists("c:\\bartmp.ext")){
+				   tf = fso.GetFile("c:\\bartmp.ext");
+				   tf.Delete();
+			   }
+			   tf = fso.CreateTextFile("c:\\bartmp.ext", true);
+			   // 写一行，并且带有新行字符。
+			   tf.WriteLine("N") ;
+			   str_start_barcode =PrefixInteger((parseInt(start_barcode) + parseInt(i)),13);
+			   str_barcode = "B20,20,0,1,1,6,60,B,\""+str_product_id+"-"+str_area_code + "-" + str_start_barcode + "\"" ;
+			   tf.WriteLine(str_barcode) ;
+			   tf.WriteLine("P1") ;
+			   tf.Close();
+//				alert(str_barcode);
+			   // 写一行。
+			   tf2 = fso.GetFile("c:\\bartmp.ext");
+			   tf2.Copy("\\\\"+ hostname +"\\GK888d\\testfile.txt");
+		}		
+		alert("条形码生成完毕");
+	}
+	function createBarCode123(){
+		createBarCode("123", "000", "1", 6);
+	}
+/*		
 		var fso, tf, tf2, str_barcode, barcode, i;
 		   fso = new ActiveXObject("Scripting.FileSystemObject");
 		   barcode = "3456789012341";
@@ -142,7 +194,7 @@
 				   tf = fso.CreateTextFile("c:\\bartest001.ext", true);
 				   // 写一行，并且带有新行字符。
 				   tf.WriteLine("N") ;
-				   str_barcode = "B30,20,0,1,1,6,60,B,\"01571-000-" + barcode + "\"" ;
+				   str_barcode = "B20,20,0,1,1,6,60,B,\"01571-000-" + barcode + "\"" ;
 				   tf.WriteLine(str_barcode) ;
 				   tf.WriteLine("P1") ;
 				   // 写一行。
@@ -155,6 +207,7 @@
 				barcode++;
 			}
 	}
+	*/
 </script>
 </head>
 <body>
@@ -228,7 +281,7 @@
 					<div class="btn" style="margin-left: 50px;">
 						<div class="box1_left"></div>
 						<div class="box1_center">
-							<input type="button" class="input40" width="100" value="条形码打印" onclick="createBarCode();"/>
+							<input type="button" class="input40" width="100" value="条形码打印" onclick="createBarCode123();"/>
 						</div>
 						<div class="box1_right"></div>
 					</div>
