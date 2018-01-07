@@ -11,26 +11,26 @@ import com.cn.dsyg.dto.BarcodeLogDto;
 public class BarcodeLogDaoImpl extends BaseDao implements BarcodeLogDao {
 
 	@Override
-	public int queryBarcodeLogCountByPage(String productid, String batchno, String barcode, String barcodetype,
-			String operatetype) {
+	public int queryBarcodeLogCountByPage(String productid, String batchno, String barcodetype, String createdateHigh,
+			String createdateLow) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("productid", productid);
 		paramMap.put("batchno", batchno);
-		paramMap.put("barcode", barcode);
 		paramMap.put("barcodetype", barcodetype);
-		paramMap.put("operatetype", operatetype);
+		paramMap.put("createdateHigh", createdateHigh);
+		paramMap.put("createdateLow", createdateLow);
 		return (Integer) getSqlMapClientTemplate().queryForObject("queryBarcodeLogCountByPage", paramMap);
 	}
 
 	@Override
-	public List<BarcodeLogDto> queryBarcodeLogByPage(String productid, String batchno, String barcode,
-			String barcodetype, String operatetype, int start, int end) {
+	public List<BarcodeLogDto> queryBarcodeLogByPage(String productid, String batchno, String barcodetype,
+			String createdateHigh, String createdateLow, int start, int end) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("productid", productid);
 		paramMap.put("batchno", batchno);
-		paramMap.put("barcode", barcode);
 		paramMap.put("barcodetype", barcodetype);
-		paramMap.put("operatetype", operatetype);
+		paramMap.put("createdateHigh", createdateHigh);
+		paramMap.put("createdateLow", createdateLow);
 		paramMap.put("start", start);
 		paramMap.put("end", end);
 		@SuppressWarnings("unchecked")
@@ -55,6 +55,18 @@ public class BarcodeLogDaoImpl extends BaseDao implements BarcodeLogDao {
 		paramMap.put("id", id);
 		@SuppressWarnings("unchecked")
 		List<BarcodeLogDto> list = getSqlMapClientTemplate().queryForList("queryBarcodeLogByID", paramMap);
+		if(list != null && list.size() > 0) {
+			return list.get(0);
+		}
+		return null;
+	}
+
+	@Override
+	public BarcodeLogDto queryBarcodeLogByLogicID(String batchno) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("batchno", batchno);
+		@SuppressWarnings("unchecked")
+		List<BarcodeLogDto> list = getSqlMapClientTemplate().queryForList("queryBarcodeLogByLogicID", paramMap);
 		if(list != null && list.size() > 0) {
 			return list.get(0);
 		}

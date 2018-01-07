@@ -19,15 +19,6 @@
 		<property name="barcodeInfoDao">
 			<ref local="barcodeInfoDao"/>
 		</property>
-		<property name="productDao">
-			<ref local="productDao"/>
-		</property>
-		<property name="barcodeLogDao">
-			<ref local="barcodeLogDao"/>
-		</property>
-		<property name="productBarcodeDao">
-			<ref local="productBarcodeDao"/>
-		</property>
 	</bean>
 	
 	<bean id="barcodeInfoDao" class="com.cn.dsyg.dao.impl.BarcodeInfoDaoImpl">
@@ -37,8 +28,17 @@
 	</bean>
 
 	<bean id="barcodeLogService" class="com.cn.dsyg.service.impl.BarcodeLogServiceImpl" >
+		<property name="barcodeInfoDao">
+			<ref local="barcodeInfoDao"/>
+		</property>
+		<property name="productDao">
+			<ref local="productDao"/>
+		</property>
 		<property name="barcodeLogDao">
 			<ref local="barcodeLogDao"/>
+		</property>
+		<property name="productBarcodeDao">
+			<ref local="productBarcodeDao"/>
 		</property>
 	</bean>
 	

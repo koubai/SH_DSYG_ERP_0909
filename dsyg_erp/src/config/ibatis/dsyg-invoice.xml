@@ -56,6 +56,7 @@
 		<result property="quantity" column="quantity" />
 		<result property="amount" column="amount" />
 		<result property="amounttax" column="amounttax" />
+		<result property="pricetax" column="pricetax" />
 	</resultMap>
 	
 	<resultMap id="InvoiceOKDto" class="com.cn.dsyg.dto.InvoiceDto">
@@ -256,13 +257,13 @@
 	</select>
 	
 	<select id="queryInvoiceByFinanceno" parameterClass="java.util.Map" resultMap="SumInvoiceDto">
-		select T.productid,T.financeno,T.warehouserptno,T.customerid,
+		select T.productid,T.financeno,T.warehouserptno,T.customerid,T.pricetax,
 			sum(T.quantity) as quantity,sum(T.amount) as amount,sum(T.amounttax) as amounttax
 		from etb_invoice T where T.financeno = #financeno#
 			<isNotEmpty prepend="and" property="status">
 				T.status in ($status$)
 			</isNotEmpty>
-			group by T.productid,T.financeno,T.warehouserptno,T.customerid
+			group by T.productid,T.financeno,T.warehouserptno,T.customerid,T.pricetax
 	</select>
 
 	<delete id="deleteInvoice" parameterClass="java.util.Map">

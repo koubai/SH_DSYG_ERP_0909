@@ -144,10 +144,11 @@
 					var productid = n.productid;
 					//更新列表里的最大序列号值
 					var maxSeq = n.barcodeseq;
+					var belongto = n.belongto;
 					$("#barcodeseq_td_" + productid).html(maxSeq);
 					$("#barcodeseq_" + productid).val(maxSeq);
 					
-					$.each(n.barcodeLogList, function(ii, nn){
+					/* $.each(n.barcodeLogList, function(ii, nn){
 						//条形码数据XXXXX-XXX-XXXXXXXXXXXXXXX
 						var barcode = nn.barcode;
 						//条形码后面15位顺序号
@@ -156,8 +157,8 @@
 						//这里调用打印函数
 						//TODO
 						//printBarCode
-					});
-					printBarCode(productid, "000",n.barcodenostart,n.quantity);
+					}); */
+					//printBarCode(productid, belongto, n.barcodenostart, n.quantity);
 				});
 			} else {
 				alert(data.msg);

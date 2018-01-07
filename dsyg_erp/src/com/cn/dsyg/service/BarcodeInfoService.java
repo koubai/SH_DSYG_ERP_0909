@@ -8,29 +8,17 @@ import com.cn.dsyg.dto.BarcodeInfoDto;
 public interface BarcodeInfoService {
 	
 	/**
-	 * 批量生成条形码
-	 * @param productids
-	 * @param barcodeSeq
-	 * @param barcodeQuantity
-	 * @param productItem14
-	 * @param userid
-	 * @return
-	 */
-	public List<BarcodeInfoDto> createBarcodeBatch(String productids, String barcodeSeq,
-			String barcodeQuantity, String productItem14, String userid);
-	
-	/**
 	 * 分页查询数据
 	 * @param productid
 	 * @param batchno
+	 * @param barcode
 	 * @param barcodetype
-	 * @param createdateHigh
-	 * @param createdateLow
+	 * @param operatetype
 	 * @param page
 	 * @return
 	 */
-	public Page queryBarcodeInfoByPage(String productid, String batchno, String barcodetype,
-			String createdateHigh, String createdateLow, Page page);
+	public Page queryBarcodeInfoByPage(String productid, String batchno,
+			String barcode, String barcodetype, String operatetype, Page page);
 	
 	/**
 	 * 根据条件查询所有记录
@@ -47,13 +35,6 @@ public interface BarcodeInfoService {
 	 * @return
 	 */
 	public BarcodeInfoDto queryBarcodeInfoByID(String id);
-	
-	/**
-	 * 根据逻辑主键查询数据
-	 * @param batchno
-	 * @return
-	 */
-	public BarcodeInfoDto queryBarcodeInfoByLogicID(String batchno);
 	
 	/**
 	 * 插入数据
