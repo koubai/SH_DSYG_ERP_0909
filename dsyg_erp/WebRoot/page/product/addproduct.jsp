@@ -956,7 +956,31 @@
 								<label class="pdf10">%</label>
 							</td>
 						</tr>
+						<tr>
+							<td align="right">
+								<label class="pdf10">每箱单价长度</label>
+							</td>
+							<td align="right">
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.item14" id="item14" maxlength="100" cssStyle="width:80px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+							</td>
+						</tr>
 						
+						<tr>
+							<td align="right">
+								<label class="pdf10">每箱单位数</label>
+							</td>
+							<td align="right">
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.item15" id="item15" maxlength="100" cssStyle="width:80px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+							</td>
+						</tr>
 						<tr>
 							<td align="right">
 								<label class="pdf10">备注</label>

@@ -150,6 +150,8 @@ public class ProductAction extends BaseAction {
 	 */
 	public String updProductAction() {
 		try {
+			System.out.println("item114=" + updProductDto.getItem14());
+			System.out.println("item115=" + updProductDto.getItem15());
 			this.clearMessages();
 			//初期化字典数据
 			initDictList();
@@ -201,6 +203,8 @@ public class ProductAction extends BaseAction {
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
 			updProductDto.setUpdateuid(username);
 			productService.updateProduct(updProductDto);
+			System.out.println("item14=" + updProductDto.getItem14());
+			System.out.println("item15=" + updProductDto.getItem15());
 			//清空数据
 			updPicFile01 = null;
 			updPicFile02 = null;

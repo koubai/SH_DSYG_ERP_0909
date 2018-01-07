@@ -127,13 +127,6 @@
 		}	
 	}
 	
-/*	function createBarCode(){
-		createBarCodeSub("01571-000-3456789012341");
-		createBarCodeSub("01571-000-3456789012342");
-		createBarCodeSub("01571-000-3456789012343");
-		alert("Success!");
-	}
-	*/
 	function PrefixInteger(num, length) {
 		 return (Array(length).join('0') + num).slice(-length);
 	}
@@ -315,6 +308,8 @@
 								<td width="40">显示与否</td>
 								<td width="40">最小长度</td>
 								<td width="40">溢价比</td>
+								<td width="40">单位长度</td>
+								<td width="40">每箱单位数</td>
 							</tr>
 							<s:iterator id="productList" value="productList" status="st1">
 								<s:if test="#st1.odd==true">
@@ -371,6 +366,12 @@
 									</td>
 									<td>
 										<s:property value="item13"/>
+									</td>
+									<td>
+										<s:property value="item14"/>
+									</td>
+									<td>
+										<s:property value="item15"/>
 									</td>
 								</tr>
 							</s:iterator>
