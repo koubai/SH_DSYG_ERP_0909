@@ -60,6 +60,18 @@ public class BarcodeInfoDaoImpl extends BaseDao implements BarcodeInfoDao {
 		}
 		return null;
 	}
+	
+	@Override
+	public BarcodeInfoDto queryBarcodeInfoByLogicId(String barcode) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("barcode", barcode);
+		@SuppressWarnings("unchecked")
+		List<BarcodeInfoDto> list = getSqlMapClientTemplate().queryForList("queryBarcodeInfoByLogicId", paramMap);
+		if(list != null && list.size() > 0) {
+			return list.get(0);
+		}
+		return null;
+	}
 
 	@Override
 	public void insertBarcodeInfo(BarcodeInfoDto barcodeInfo) {

@@ -69,31 +69,6 @@ public class BarcodeLogServiceImpl implements BarcodeLogService {
 					barcodeLog.setUpdateuid(userid);
 					barcodeLogDao.insertBarcodeLog(barcodeLog);
 					
-//					List<BarcodeInfoDto> barcodeInfoList = new ArrayList<BarcodeInfoDto>();
-//					//生成条形码
-//					for(int n = seq; n < seq + quantity; n++) {
-//						BarcodeInfoDto barcodeInfo = new BarcodeInfoDto();
-//						barcodeInfo.setBelongto(belongto);
-//						barcodeInfo.setProductid(productid);
-//						barcodeInfo.setBatchno(batchno);
-//						
-//						//barcode
-//						String barcodeno = StringUtil.replenishStr("" + n, 15);
-//						String barcode = StringUtil.replenishStr(productid, 5) + "-" + StringUtil.replenishStr(belongto, 3) + "-" + barcodeno;
-//						barcodeInfo.setBarcode(barcode);
-//						barcodeInfo.setBarcodeno(barcodeno);
-//						
-//						barcodeInfo.setScanno(null);
-//						//barcodeInfo.setBarcodetype("");
-//						//barcodeInfo.setQuantity("");
-//						barcodeInfo.setOperatetype(Constants.BARCODE_LOG_OPERATE_TYPE_NEW);
-//						barcodeInfo.setStatus(Constants.STATUS_NORMAL);
-//						barcodeInfo.setCreateuid(userid);
-//						barcodeInfo.setUpdateuid(userid);
-//						barcodeInfoDao.insertBarcodeInfo(barcodeInfo);
-//						barcodeInfoList.add(barcodeInfo);
-//					}
-					
 					//该产品序列号信息
 					ProductBarcodeDto productBarcode = productBarcodeDao.queryProductBarcodeByProductID(productid);
 					int maxSeq = seq + quantity;

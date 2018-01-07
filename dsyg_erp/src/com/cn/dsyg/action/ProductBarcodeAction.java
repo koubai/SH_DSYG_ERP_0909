@@ -14,10 +14,12 @@ import com.cn.common.action.BaseAction;
 import com.cn.common.util.Constants;
 import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
+import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dto.AjaxResultDto;
 import com.cn.dsyg.dto.BarcodeLogDto;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.ProductDto;
+import com.cn.dsyg.service.BarcodeInfoService;
 import com.cn.dsyg.service.BarcodeLogService;
 import com.cn.dsyg.service.Dict01Service;
 import com.cn.dsyg.service.ProductBarcodeService;
@@ -41,6 +43,7 @@ public class ProductBarcodeAction extends BaseAction {
 	private Dict01Service dict01Service;
 	private ProductBarcodeService productBarcodeService;
 	private BarcodeLogService barcodeLogService;
+	private BarcodeInfoService barcodeInfoService;
 	
 	//页码
 	private int startIndex;
@@ -73,6 +76,45 @@ public class ProductBarcodeAction extends BaseAction {
 	private String strBarcodeQuantity;
 	//单位长度（product表Item14为空时，需要用户手输入）
 	private String strProductItem14;
+	
+	//条形码扫码入库
+	private String strScanBarcodeInfo;
+	
+	/**
+	 * 条形码扫码入库
+	 * @return
+	 * @throws IOException
+	 */
+	public String scanBarcodeInfoAction() throws IOException {
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out;
+		AjaxResultDto ajaxResult = new AjaxResultDto();
+		try {
+			if(StringUtil.isNotBlank(strScanBarcodeInfo)) {
+				String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
+				//解析条形码数据。注意：这里用\n分割，具体扫码枪是否是\n分割，需要现场调试。
+				String[] barcodeList = strScanBarcodeInfo.split("\n");
+				barcodeInfoService.barcodeInfoInBatch(barcodeList, username);
+				ajaxResult.setCode(0);
+				ajaxResult.setMsg("succ");
+			} else {
+				ajaxResult.setCode(1);
+				ajaxResult.setMsg("条形码为空！");
+			}
+		} catch(Exception e) {
+			ajaxResult.setCode(-1);
+			ajaxResult.setMsg("系统异常，请联系管理员！");
+			log.error("scanBarcodeInfoAction error:" + e);
+		}
+		out = response.getWriter();
+		String result = JSONArray.fromObject(ajaxResult).toString();
+		result = result.substring(1, result.length() - 1);
+		log.info(result);
+		out.write(result);
+		out.flush();
+		return null;
+	}
 	
 	/**
 	 * 生成条形码
@@ -360,5 +402,21 @@ public class ProductBarcodeAction extends BaseAction {
 
 	public void setBarcodeLogService(BarcodeLogService barcodeLogService) {
 		this.barcodeLogService = barcodeLogService;
+	}
+
+	public String getStrScanBarcodeInfo() {
+		return strScanBarcodeInfo;
+	}
+
+	public void setStrScanBarcodeInfo(String strScanBarcodeInfo) {
+		this.strScanBarcodeInfo = strScanBarcodeInfo;
+	}
+
+	public BarcodeInfoService getBarcodeInfoService() {
+		return barcodeInfoService;
+	}
+
+	public void setBarcodeInfoService(BarcodeInfoService barcodeInfoService) {
+		this.barcodeInfoService = barcodeInfoService;
 	}
 }

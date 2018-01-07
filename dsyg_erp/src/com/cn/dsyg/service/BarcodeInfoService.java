@@ -8,6 +8,14 @@ import com.cn.dsyg.dto.BarcodeInfoDto;
 public interface BarcodeInfoService {
 	
 	/**
+	 * 条形码入库
+	 * @param barcodeList
+	 * @param userid
+	 * @return
+	 */
+	public List<BarcodeInfoDto> barcodeInfoInBatch(String[] barcodeList, String userid);
+	
+	/**
 	 * 分页查询数据
 	 * @param productid
 	 * @param batchno
@@ -35,6 +43,13 @@ public interface BarcodeInfoService {
 	 * @return
 	 */
 	public BarcodeInfoDto queryBarcodeInfoByID(String id);
+	
+	/**
+	 * 根据逻辑主键查询数据
+	 * @param barcode
+	 * @return
+	 */
+	public BarcodeInfoDto queryBarcodeInfoByLogicId(String barcode);
 	
 	/**
 	 * 插入数据

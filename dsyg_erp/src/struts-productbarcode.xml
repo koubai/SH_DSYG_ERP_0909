@@ -6,6 +6,10 @@
 
 	<package name="productbarcode" extends="struts-erp" namespace="/productbarcode">
 	
+		<action name="scanBarcodeInfoAction" class="productBarcodeAction" method="scanBarcodeInfoAction">
+			<result type="json"></result>
+		</action>
+		
 		<action name="createProductBarcodeAction" class="productBarcodeAction" method="createProductBarcodeAction">
 			<result type="json"></result>
 		</action>

@@ -16,6 +16,9 @@
 		<property name="barcodeLogService">
 			<ref bean="barcodeLogService" />
 		</property>
+		<property name="barcodeInfoService">
+			<ref bean="barcodeInfoService" />
+		</property>
 	</bean>
 	
 	<!-- invoice -->

@@ -85,6 +85,10 @@
 		select * from etb_barcode_info where id = #id#
 	</select>
 	
+	<select id="queryBarcodeInfoByLogicId" parameterClass="java.util.Map" resultMap="BarcodeInfoDto">
+		select * from etb_barcode_info where status = 1 and barcode = #barcode#
+	</select>
+	
 	<insert id="insertBarcodeInfo" parameterClass="com.cn.dsyg.dto.BarcodeInfoDto">
 		insert into etb_barcode_info(belongto,productid,batchno,barcode,barcodeno,scanno,barcodetype,quantity,
 			operatetype,note,status,res01,res02,res03,res04,res05,createuid,createdate,updateuid,updatedate)

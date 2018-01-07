@@ -221,10 +221,76 @@
 			   tf2.Copy("\\\\"+ hostname +"\\GK888d\\testfile.txt");
 		}		
 	}
+	
+	//条形码扫描
+	function sacnBarCode() {
+		$("#barcodeInfoList").val("");
+		$("#" + "overlay").show();
+		$("#" + "scanBarcodeDiv").show();
+	}
+	
+	//入库
+	function commitBarcode() {
+		var barcodeInfoList = $("#barcodeInfoList").val();
+		if(barcodeInfoList == "") {
+			alert("条形码为空！");
+			$("#barcodeInfoList").focus();
+			return;
+		}
+		if(confirm("确定入库吗？")) {
+			var param = new Object();
+			param.strScanBarcodeInfo = barcodeInfoList;
+			$.getJSON('../productbarcode/scanBarcodeInfoAction.action', param, function(data) {
+				if(data.code == 0) {
+					alert("入库成功！");
+					cancelSacnBarCode();
+				} else {
+					alert(data.msg);
+				}
+			});
+		}
+	}
+	
+	function cancelSacnBarCode() {
+		$("#" + "overlay").hide();
+		$("#" + "scanBarcodeDiv").hide();
+	}
 </script>
 </head>
 <body>
 	<div id="containermain">
+		<div id="overlay" class="black_overlay"></div>
+		<div id="scanBarcodeDiv" style="position: absolute; margin-top: 160px; margin-left: 250px; display: none; z-index:1111;">
+			<table style="height: 250px; width: 550px;" border="0" cellpadding="0" cellspacing="0" bgcolor="white">
+				<tr style="height: 20px;">
+					<td colspan="2"> </td>
+				</tr>
+				<tr>
+					<td width="80" align="right" valign="top">条形码：</td>
+					<td align="left" valign="top">
+						<textarea id="barcodeInfoList" rows="11" cols="65"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<div class="btn" style="margin-left: 170px;">
+							<div class="box1_left"></div>
+							<div class="box1_center">
+								<input type="button" class="input80" value="确定入库" onclick="commitBarcode();"/>
+							</div>
+							<div class="box1_right"></div>
+						</div>
+						<div class="btn" style="margin-left: 20px;">
+							<div class="box1_left"></div>
+							<div class="box1_center">
+								<input type="button" class="input80" value="取消" onclick="cancelSacnBarCode();"/>
+							</div>
+							<div class="box1_right"></div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
 		<div class="content">
 			<jsp:include page="../info.jsp" flush="true" />
 			<div class="tittle">
@@ -295,6 +361,13 @@
 						<div class="box1_left"></div>
 						<div class="box1_center">
 							<input type="button" class="input80" value="条形码生成" onclick="createBarCode();"/>
+						</div>
+						<div class="box1_right"></div>
+					</div>
+					<div class="btn" style="margin-left: 10px;">
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							<input type="button" class="input80" value="条形码入库" onclick="sacnBarCode();"/>
 						</div>
 						<div class="box1_right"></div>
 					</div>

@@ -49,6 +49,13 @@ public interface BarcodeInfoDao {
 	public BarcodeInfoDto queryBarcodeInfoByID(String id);
 	
 	/**
+	 * 根据逻辑主键查询数据
+	 * @param barcode
+	 * @return
+	 */
+	public BarcodeInfoDto queryBarcodeInfoByLogicId(String barcode);
+	
+	/**
 	 * 插入数据
 	 * @param barcodeInfo
 	 */
