@@ -158,12 +158,18 @@
 						//TODO
 						//printBarCode
 					}); */
-					//printBarCode(productid, belongto, n.barcodenostart, n.quantity);
+					printBarCode(productid, belongto, n.barcodenostart, n.quantity);
 				});
 			} else {
 				alert(data.msg);
 			}
 		});
+		for(i = 0; i < list.length; i++) {
+			if(list[i].checked) {
+				list[i].checked=false;
+				$("#barcodequantity_" + list[i].value).val("");
+			}
+		}
 		alert("条形码生成完毕");
 	}
 	
@@ -285,14 +291,7 @@
 						</div>
 						<div class="box1_right"></div>
 					</div>
-					<div class="btn" style="margin-left: 50px;">
-						<div class="box1_left"></div>
-						<div class="box1_center">
-							<input type="button" class="input80" value="条形码打印" onclick="printBarCode();"/>
-						</div>
-						<div class="box1_right"></div>
-					</div>
-					<div class="btn" style="margin-left: 30px;">
+					<div class="btn" style="margin-left: 100px;">
 						<div class="box1_left"></div>
 						<div class="box1_center">
 							<input type="button" class="input80" value="条形码生成" onclick="createBarCode();"/>
@@ -442,21 +441,6 @@
 							</li>
 						</ul>
 					</div>
-				</div>
-				<div class="btns" style="margin-top:40px; margin-left:-90px;">
-					<table border="0" style="margin:0 auto;">
-						<tr>
-							<td>
-								<div class="btn">
-									<div class="box1_left"></div>
-									<div class="box1_center">
-										<input class="input80" type="button" value="详细" onclick="showDetail();" />
-									</div>
-									<div class="box1_right"></div>
-								</div>
-							</td>
-						</tr>
-					</table>
 				</div>
 			</s:form>
 		</div>
