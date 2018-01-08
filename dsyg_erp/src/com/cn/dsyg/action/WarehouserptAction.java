@@ -595,10 +595,12 @@ public class WarehouserptAction extends BaseAction {
 		} else {
 			log.warn("queryWarehouserptByID is null, id=" + strExportDetailId);
 		}
-		imagebase.setName(PropertiesConfig.getPropertiesValueByKey(Constants.PROPERTIES_IMAGES_PATH) +"//"+jpgname);
-		imagebase.setDatas(list1);
-		imagebase.setDictMap(dictMap);
-		imagebase.createMatrixImage();
+		if (imagebase != null){
+			imagebase.setName(PropertiesConfig.getPropertiesValueByKey(Constants.PROPERTIES_IMAGES_PATH) +"//"+jpgname);
+			imagebase.setDatas(list1);
+			imagebase.setDictMap(dictMap);
+			imagebase.createMatrixImage();			
+		}
 		
 		String name = StringUtil.createFileName(exceltype);
 		response.setHeader("Content-Disposition","attachment;filename=" + name);//指定下载的文件名
