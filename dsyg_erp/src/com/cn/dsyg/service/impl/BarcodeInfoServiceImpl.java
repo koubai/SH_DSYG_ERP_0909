@@ -8,12 +8,15 @@ import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dao.BarcodeInfoDao;
+import com.cn.dsyg.dao.ProductDao;
 import com.cn.dsyg.dto.BarcodeInfoDto;
+import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.service.BarcodeInfoService;
 
 public class BarcodeInfoServiceImpl implements BarcodeInfoService {
 	
 	private BarcodeInfoDao barcodeInfoDao;
+	private ProductDao productDao;
 	
 	@Override
 	public List<BarcodeInfoDto> barcodeInfoInBatch(String[] barcodeList, String userid) {
@@ -41,34 +44,42 @@ public class BarcodeInfoServiceImpl implements BarcodeInfoService {
 					productid = info[0];
 					barcodeno = info[2];
 				}
-				//判断barcode是否存在
-				BarcodeInfoDto oldBarcodeInfo = barcodeInfoDao.queryBarcodeInfoByLogicId(barcode);
-				if(oldBarcodeInfo != null) {
-					//更新原来的记录
-					//扫码入库
-					oldBarcodeInfo.setScanno(scanno);
-					oldBarcodeInfo.setNote(barcodeList[i]);
-					oldBarcodeInfo.setOperatetype(Constants.BARCODE_LOG_OPERATE_TYPE_IN);
-					oldBarcodeInfo.setUpdateuid(userid);
-					barcodeInfoDao.updateBarcodeInfo(oldBarcodeInfo);
-					barcodeInfoList.add(oldBarcodeInfo);
-				} else {
-					//新增
-					BarcodeInfoDto barcodeInfo = new BarcodeInfoDto();
-					barcodeInfo.setBelongto(belongto);
-					barcodeInfo.setProductid("" + Integer.valueOf(productid));
-					barcodeInfo.setBarcode(barcode);
-					barcodeInfo.setBarcodeno(barcodeno);
-					
-					barcodeInfo.setScanno(scanno);
-					barcodeInfo.setNote(barcodeList[i]);
-					//扫码入库
-					barcodeInfo.setOperatetype(Constants.BARCODE_LOG_OPERATE_TYPE_IN);
-					barcodeInfo.setStatus(Constants.STATUS_NORMAL);
-					barcodeInfo.setCreateuid(userid);
-					barcodeInfo.setUpdateuid(userid);
-					barcodeInfoDao.insertBarcodeInfo(barcodeInfo);
-					barcodeInfoList.add(barcodeInfo);
+				//判断产品是否存在
+				Integer i_productid = Integer.valueOf(productid);
+				ProductDto product = productDao.queryProductByID(i_productid.toString());
+				
+				if (product != null){					
+					//判断barcode是否存在
+					BarcodeInfoDto oldBarcodeInfo = barcodeInfoDao.queryBarcodeInfoByLogicId(barcode);
+					if(oldBarcodeInfo != null) {
+						//更新原来的记录
+						//扫码入库
+						oldBarcodeInfo.setScanno(scanno);
+						oldBarcodeInfo.setNote(barcodeList[i]);
+						oldBarcodeInfo.setOperatetype(Constants.BARCODE_LOG_OPERATE_TYPE_IN);
+						oldBarcodeInfo.setUpdateuid(userid);
+						barcodeInfoDao.updateBarcodeInfo(oldBarcodeInfo);
+						barcodeInfoList.add(oldBarcodeInfo);
+					} else {
+						//新增
+						BarcodeInfoDto barcodeInfo = new BarcodeInfoDto();
+						barcodeInfo.setBelongto(belongto);
+						barcodeInfo.setProductid("" + Integer.valueOf(productid));
+						barcodeInfo.setBarcode(barcode);
+						barcodeInfo.setBarcodeno(barcodeno);
+						
+						barcodeInfo.setScanno(scanno);
+						barcodeInfo.setBarcodetype(1);
+						barcodeInfo.setQuantity(Integer.valueOf(product.getItem14()));
+						barcodeInfo.setNote(barcodeList[i]);
+						//扫码入库
+						barcodeInfo.setOperatetype(Constants.BARCODE_LOG_OPERATE_TYPE_IN);
+						barcodeInfo.setStatus(Constants.STATUS_NORMAL);
+						barcodeInfo.setCreateuid(userid);
+						barcodeInfo.setUpdateuid(userid);
+						barcodeInfoDao.insertBarcodeInfo(barcodeInfo);
+						barcodeInfoList.add(barcodeInfo);
+					}
 				}
 			}
 		}
@@ -124,5 +135,13 @@ public class BarcodeInfoServiceImpl implements BarcodeInfoService {
 
 	public void setBarcodeInfoDao(BarcodeInfoDao barcodeInfoDao) {
 		this.barcodeInfoDao = barcodeInfoDao;
+	}
+	
+	public ProductDao getProductDao() {
+		return productDao;
+	}
+
+	public void setProductDao(ProductDao productDao) {
+		this.productDao = productDao;
 	}
 }

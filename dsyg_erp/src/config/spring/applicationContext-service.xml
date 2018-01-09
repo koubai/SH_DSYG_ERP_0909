@@ -19,6 +19,9 @@
 		<property name="barcodeInfoDao">
 			<ref local="barcodeInfoDao"/>
 		</property>
+		<property name="productDao">
+			<ref local="productDao"/>
+		</property>
 	</bean>
 	
 	<bean id="barcodeInfoDao" class="com.cn.dsyg.dao.impl.BarcodeInfoDaoImpl">
