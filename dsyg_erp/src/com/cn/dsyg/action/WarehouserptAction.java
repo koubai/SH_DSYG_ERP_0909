@@ -97,7 +97,7 @@ public class WarehouserptAction extends BaseAction {
 	public String showUpdWarehouserptOutAction() {
 		try {
 			this.clearMessages();
-			updWarehouserptDto = warehouserptService.queryWarehouserptByID(updWarehouserptId);
+			updWarehouserptDto = warehouserptService.queryWarehouserptByID(updWarehouserptId, null);
 			//初期化字典数据
 			initDictList();
 		} catch(Exception e) {
@@ -116,7 +116,7 @@ public class WarehouserptAction extends BaseAction {
 	public String showUpdWarehouserptOutItemAction() {
 		try {
 			this.clearMessages();
-			updWarehouserptDto = warehouserptService.queryWarehouserptByID(updWarehouserptId);
+			updWarehouserptDto = warehouserptService.queryWarehouserptByID(updWarehouserptId, null);
 			//初期化字典数据
 			initDictList();
 		} catch(Exception e) {
@@ -301,7 +301,7 @@ public class WarehouserptAction extends BaseAction {
 	public String showUpdWarehouserptInAction() {
 		try {
 			this.clearMessages();
-			updWarehouserptDto = warehouserptService.queryWarehouserptByID(updWarehouserptId);
+			updWarehouserptDto = warehouserptService.queryWarehouserptByID(updWarehouserptId, null);
 			//初期化字典数据
 			initDictList();
 		} catch(Exception e) {
@@ -318,7 +318,7 @@ public class WarehouserptAction extends BaseAction {
 	public String showUpdWarehouserptInItemAction() {
 		try {
 			this.clearMessages();
-			updWarehouserptDto = warehouserptService.queryWarehouserptByID(updWarehouserptId);
+			updWarehouserptDto = warehouserptService.queryWarehouserptByID(updWarehouserptId, null);
 			//初期化字典数据
 			initDictList();
 		} catch(Exception e) {
@@ -568,7 +568,7 @@ public class WarehouserptAction extends BaseAction {
 				} else {
 					exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_LIST_NOPRICE;
 				}
-				rpt = warehouserptService.queryWarehouserptByID(strExportDetailId);
+				rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
 			}
 		} else {
 			if(strInter != null && strInter.equals("1")){
@@ -582,7 +582,7 @@ public class WarehouserptAction extends BaseAction {
 				} else {
 					exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST_NOPRICE;
 				}
-				rpt = warehouserptService.queryWarehouserptByID(strExportDetailId);
+				rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
 			}
 		}
 		String jpgname = StringUtil.createImageFileName(exceltype);

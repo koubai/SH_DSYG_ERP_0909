@@ -202,7 +202,7 @@ public class FinanceServiceImpl implements FinanceService {
 			List<ProductDto> productList = new ArrayList<ProductDto>();
 			if(StringUtil.isNotBlank(finance.getInvoiceid()) && (finance.getFinancetype() == 1 || finance.getFinancetype() == 2)) {
 				//关联单据编号不为空，并且为出入库单的情况
-				WarehouserptDto rpt = warehouserptService.queryWarehouserptByNo(finance.getInvoiceid());
+				WarehouserptDto rpt = warehouserptService.queryWarehouserptByNo(finance.getInvoiceid(), 1);
 				if(rpt != null) {
 					//将开票的产品信息和RPT产品信息汇总
 					if(rpt.getListProduct() != null && rpt.getListProduct().size() > 0) {
@@ -396,7 +396,7 @@ public class FinanceServiceImpl implements FinanceService {
 			//判断财务记录的状态是否修改
 			if(oldFinance.getStatus() != finance.getStatus()) {
 				//修改对应的入出库单状态
-				WarehouserptDto warehouserpt = warehouserptService.queryWarehouserptByNo(finance.getInvoiceid());
+				WarehouserptDto warehouserpt = warehouserptService.queryWarehouserptByNo(finance.getInvoiceid(), 1);
 				if(warehouserpt != null) {
 					warehouserpt.setStatus(finance.getStatus());
 					warehouserpt.setUpdateuid(finance.getUpdateuid());

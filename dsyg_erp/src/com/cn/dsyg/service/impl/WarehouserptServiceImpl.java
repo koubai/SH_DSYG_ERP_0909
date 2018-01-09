@@ -49,10 +49,10 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 	private FinanceDao financeDao;
 	
 	@Override
-	public WarehouserptDto queryWarehouserptByNo(String warehouseno) {
+	public WarehouserptDto queryWarehouserptByNo(String warehouseno, Integer type) {
 		WarehouserptDto rpt = warehouserptDao.queryWarehouserptByNo(warehouseno);
 		if(rpt != null) {
-			return queryWarehouserptByID("" + rpt.getId());
+			return queryWarehouserptByID("" + rpt.getId(), type);
 		}
 		return null;
 	}
@@ -399,7 +399,7 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 	}
 	
 	@Override
-	public WarehouserptDto queryWarehouserptByID(String id) {
+	public WarehouserptDto queryWarehouserptByID(String id, Integer type) {
 		WarehouserptDto rpt = warehouserptDao.queryWarehouserptByID(id);
 		//TODO
 		if(rpt != null) {
@@ -423,12 +423,20 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 								if(StringUtil.isNotBlank(ww.getRes02())) {
 									taxprice = new BigDecimal(ww.getRes02()).setScale(6, BigDecimal.ROUND_HALF_UP);;
 								}
-								//key = ll[0] + "_" + ww.getParentid() + "_" + taxprice;
-								key = ll[0] + "_" + taxprice;
+								if(type != null && type == 1) {
+									//预开票
+									key = ll[0] + "_" + taxprice;
+								} else {
+									key = ll[0] + "_" + ww.getParentid() + "_" + taxprice;
+								}
 							} else {
 								//由于库存记录不存在（这里是因为双浏览器操作导致库存记录消失），所以就用库存no来作为KEY的一部分
-								//key = ll[0] + "_" + parents[i] + "_" + taxprice;
-								key = ll[0] + "_" + taxprice;
+								if(type != null && type == 1) {
+									//预开票
+									key = ll[0] + "_" + taxprice;
+								} else {
+									key = ll[0] + "_" + parents[i] + "_" + taxprice;
+								}
 							}
 							
 							if(map.get(key) != null) {

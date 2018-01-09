@@ -16,9 +16,10 @@ public interface WarehouserptService {
 	/**
 	 * 根据入出库单查询数据
 	 * @param warehouseno
+	 * @param type 1为预开票查询，预开票按产品ID+平均价格进行聚合。非预开票按产品ID+订单ID+产品价格聚合
 	 * @return
 	 */
-	public WarehouserptDto queryWarehouserptByNo(String warehouseno);
+	public WarehouserptDto queryWarehouserptByNo(String warehouseno, Integer type);
 	
 	/**
 	 * 修改数据
@@ -92,9 +93,10 @@ public interface WarehouserptService {
 	/**
 	 * 根据ID查询数据
 	 * @param id
+	 * @param type 1为预开票查询，预开票按产品ID+平均价格进行聚合。非预开票按产品ID+订单ID+产品价格聚合
 	 * @return
 	 */
-	public WarehouserptDto queryWarehouserptByID(String id);
+	public WarehouserptDto queryWarehouserptByID(String id, Integer type);
 	
 	/**
 	 * 根据ID查询数据
