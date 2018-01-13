@@ -131,6 +131,7 @@ public class ProductBarcodeAction extends BaseAction {
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
 			//生成条形码
 			List<BarcodeLogDto> barcodeInfoList = barcodeLogService.createBarcodeBatch(strBarcodeProductIds, strBarcodeSeq, strBarcodeQuantity, strProductItem14, username);
+
 			ajaxResult.setCode(0);
 			ajaxResult.setMsg("succ");
 			ajaxResult.setData(barcodeInfoList);

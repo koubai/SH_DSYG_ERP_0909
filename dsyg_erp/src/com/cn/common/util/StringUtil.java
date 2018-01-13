@@ -3,6 +3,7 @@ package com.cn.common.util;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.sql.Blob;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -543,5 +544,17 @@ public class StringUtil {
 //		dd.setFieldname("bbbbbnn");
 //		list.add(dd);
 //		System.out.println(list2json(list));
+	}
+	
+	
+	public static String leftPadZero(String inStr, int numZero) {
+		NumberFormat nf = NumberFormat.getInstance();  
+	    //设置是否使用分组  
+	    nf.setGroupingUsed(false);  
+	    //设置最大整数位数  
+	    nf.setMaximumIntegerDigits(numZero);  
+	    //设置最小整数位数      
+	    nf.setMinimumIntegerDigits(numZero);  
+		return (nf.format(Long.valueOf(inStr)));
 	}
 }

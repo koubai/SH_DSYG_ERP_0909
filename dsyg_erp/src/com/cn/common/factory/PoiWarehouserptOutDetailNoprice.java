@@ -112,27 +112,6 @@ public class PoiWarehouserptOutDetailNoprice extends Poi2007Base {
 		cell_detail.setCellValue("出库明细单：");
 		cell_detail.setCellStyle(style_cus);
 		
-		if (!getImagepath().equals("")){
-			File imagefile = new File(getImagepath());
-			if (imagefile.exists()) {
-				ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
-			    BufferedImage bufferImg;
-				try {
-					bufferImg = ImageIO.read(imagefile);
-				    ImageIO.write(bufferImg, "jpeg", byteArrayOut);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			    XSSFDrawing patriarch = sheet.createDrawingPatriarch();
-//			    HSSFClientAnchor anchor = new HSSFClientAnchor(0, 150, 100, 210, (short) 0, 0, (short) 1, 1);
-//			    patriarch.createPicture(anchor, workbook.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_JPEG));
-			    XSSFClientAnchor anchor =
-			    	new XSSFClientAnchor(0, 0, 0, 0,(short) 8, 0,(short)9, 4);
-			    patriarch.createPicture(anchor ,workbook.addPicture(byteArrayOut.toByteArray(),
-			    	HSSFWorkbook.PICTURE_TYPE_JPEG));
-			}
-		}				
 	}
 	
 	/**
@@ -365,12 +344,39 @@ public class PoiWarehouserptOutDetailNoprice extends Poi2007Base {
 //		cell14.setCellStyle(style_other);
 		
 		row = sheet.createRow(num + 13);
-		XSSFCell cell15 = row.createCell(1);
+//		XSSFCell cell15 = row.createCell(1);
+		XSSFCell cell15 = row.createCell(2);
 		cell15.setCellValue("出货方签字:");
 		cell15.setCellStyle(style_other);
 		XSSFCell cell16 = row.createCell(5);
 		cell16.setCellValue("收货方签字:");
 		cell16.setCellStyle(style_other);
+		
+		// for matrix code  -->start
+		if (!getImagepath().equals("")){
+			File imagefile = new File(getImagepath());
+			if (imagefile.exists()) {
+				ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+			    BufferedImage bufferImg;
+				try {
+					bufferImg = ImageIO.read(imagefile);
+				    ImageIO.write(bufferImg, "jpeg", byteArrayOut);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			    XSSFDrawing patriarch = sheet.createDrawingPatriarch();
+//			    HSSFClientAnchor anchor = new HSSFClientAnchor(0, 150, 100, 210, (short) 0, 0, (short) 1, 1);
+//			    patriarch.createPicture(anchor, workbook.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_JPEG));
+//			    XSSFClientAnchor anchor =
+//			    	new XSSFClientAnchor(0, 0, 0, 0,(short) 8, 0,(short)9, 4);
+			    XSSFClientAnchor anchor =
+			    	new XSSFClientAnchor(0, 0, 0, 0,(short) 1, num + 13,(short)2, num + 20);
+			    patriarch.createPicture(anchor ,workbook.addPicture(byteArrayOut.toByteArray(),
+			    	HSSFWorkbook.PICTURE_TYPE_JPEG));
+			}
+		}				
+		// for matrix code  -->end
 	}
 	
 	/**

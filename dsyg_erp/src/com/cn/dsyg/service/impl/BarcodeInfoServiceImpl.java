@@ -21,12 +21,12 @@ public class BarcodeInfoServiceImpl implements BarcodeInfoService {
 	@Override
 	public List<BarcodeInfoDto> barcodeInfoInBatch(String[] barcodeList, String userid) {
 		List<BarcodeInfoDto> barcodeInfoList = new ArrayList<BarcodeInfoDto>();
-		String belongto = PropertiesConfig.getPropertiesValueByKey("belongto");
 		//生成条形码
 		for(int i = 0; i < barcodeList.length; i++) {
 			if(StringUtil.isNotBlank(barcodeList[i])) {
 				String productid = "";
 				String barcodeno = "";
+				String areano = "";
 				String barcode = "";
 				String scanno = "";
 				
@@ -35,6 +35,7 @@ public class BarcodeInfoServiceImpl implements BarcodeInfoService {
 					barcode = ll[0];
 					String[] info = barcode.split("-");
 					productid = info[0];
+					areano = info[1];
 					barcodeno = info[2];
 					scanno = ll[1];
 				} else {
@@ -42,50 +43,60 @@ public class BarcodeInfoServiceImpl implements BarcodeInfoService {
 					barcode = barcodeList[i];
 					String[] info = barcode.split("-");
 					productid = info[0];
+					areano = info[1];
 					barcodeno = info[2];
 				}
-				//判断产品是否存在
-				Integer i_productid = Integer.valueOf(productid);
-				ProductDto product = productDao.queryProductByID(i_productid.toString());
-				
-				if (product != null){					
-					//判断barcode是否存在
-					BarcodeInfoDto oldBarcodeInfo = barcodeInfoDao.queryBarcodeInfoByLogicId(barcode);
-					if(oldBarcodeInfo != null) {
-						//更新原来的记录
-						//扫码入库
-						oldBarcodeInfo.setScanno(scanno);
-						oldBarcodeInfo.setNote(barcodeList[i]);
-						oldBarcodeInfo.setOperatetype(Constants.BARCODE_LOG_OPERATE_TYPE_IN);
-						oldBarcodeInfo.setUpdateuid(userid);
-						barcodeInfoDao.updateBarcodeInfo(oldBarcodeInfo);
-						barcodeInfoList.add(oldBarcodeInfo);
-					} else {
-						//新增
-						BarcodeInfoDto barcodeInfo = new BarcodeInfoDto();
-						barcodeInfo.setBelongto(belongto);
-						barcodeInfo.setProductid("" + Integer.valueOf(productid));
-						barcodeInfo.setBarcode(barcode);
-						barcodeInfo.setBarcodeno(barcodeno);
-						
-						barcodeInfo.setScanno(scanno);
-						barcodeInfo.setBarcodetype(1);
-						barcodeInfo.setQuantity(Integer.valueOf(product.getItem14()));
-						barcodeInfo.setNote(barcodeList[i]);
-						//扫码入库
-						barcodeInfo.setOperatetype(Constants.BARCODE_LOG_OPERATE_TYPE_IN);
-						barcodeInfo.setStatus(Constants.STATUS_NORMAL);
-						barcodeInfo.setCreateuid(userid);
-						barcodeInfo.setUpdateuid(userid);
-						barcodeInfoDao.insertBarcodeInfo(barcodeInfo);
-						barcodeInfoList.add(barcodeInfo);
-					}
-				}
+				BarcodeInfoDto barcodeInfo = barcodeInfoInBatchSub(barcode, productid, userid, areano, barcodeno, scanno, barcodeList[i]);
+				if (barcodeInfo!= null)
+					barcodeInfoList.add(barcodeInfo);
 			}
 		}
 		return barcodeInfoList;
 	}
 
+	public BarcodeInfoDto barcodeInfoInBatchSub(String barcode, String productid, String userid, String areano, String barcodeno, String scanno, String barcodenote) {
+		//判断产品是否存在
+		Integer i_productid = Integer.valueOf(productid);
+		ProductDto product = productDao.queryProductByID(i_productid.toString());
+		BarcodeInfoDto retDto = null;
+		
+		if (product != null){					
+			//判断barcode是否存在
+			BarcodeInfoDto oldBarcodeInfo = barcodeInfoDao.queryBarcodeInfoByLogicId(barcode);
+			if(oldBarcodeInfo != null) {
+				//更新原来的记录
+				//扫码入库
+				oldBarcodeInfo.setScanno(scanno);
+				oldBarcodeInfo.setNote(barcodenote);
+				oldBarcodeInfo.setOperatetype(Constants.BARCODE_LOG_OPERATE_TYPE_IN);
+				oldBarcodeInfo.setUpdateuid(userid);
+				barcodeInfoDao.updateBarcodeInfo(oldBarcodeInfo);
+				return oldBarcodeInfo;
+			} else {
+				//新增
+				BarcodeInfoDto barcodeInfo = new BarcodeInfoDto();
+				barcodeInfo.setBelongto(areano);
+				barcodeInfo.setProductid("" + Integer.valueOf(productid));
+				barcodeInfo.setBarcode(barcode);
+				barcodeInfo.setBarcodeno(barcodeno);
+				
+				barcodeInfo.setScanno(scanno);
+				barcodeInfo.setBarcodetype(1);
+				barcodeInfo.setQuantity(Integer.valueOf(product.getItem14()));
+				barcodeInfo.setNote(barcodenote);
+				//扫码入库
+				barcodeInfo.setOperatetype(Constants.BARCODE_LOG_OPERATE_TYPE_IN);
+				barcodeInfo.setStatus(Constants.STATUS_NORMAL);
+				barcodeInfo.setCreateuid(userid);
+				barcodeInfo.setUpdateuid(userid);
+				barcodeInfoDao.insertBarcodeInfo(barcodeInfo);
+				retDto = barcodeInfo;
+			}
+		}
+		return retDto;
+	}
+	
+	
 	@Override
 	public Page queryBarcodeInfoByPage(String productid, String batchno, String barcode, String barcodetype,
 			String operatetype, Page page) {

@@ -14,6 +14,7 @@ import com.cn.dsyg.dao.BarcodeInfoDao;
 import com.cn.dsyg.dao.BarcodeLogDao;
 import com.cn.dsyg.dao.ProductBarcodeDao;
 import com.cn.dsyg.dao.ProductDao;
+import com.cn.dsyg.dto.BarcodeInfoDto;
 import com.cn.dsyg.dto.BarcodeLogDto;
 import com.cn.dsyg.dto.ProductBarcodeDto;
 import com.cn.dsyg.dto.ProductDto;
@@ -30,6 +31,8 @@ public class BarcodeLogServiceImpl implements BarcodeLogService {
 	public List<BarcodeLogDto> createBarcodeBatch(String productids, String barcodeSeq, String barcodeQuantity,
 			String productItem14, String userid) {
 		List<BarcodeLogDto> list = new ArrayList<BarcodeLogDto>();
+		String initLoadFlg = PropertiesConfig.getPropertiesValueByKey("initLoadFlg");
+
 		if(StringUtil.isNotBlank(productids)) {
 			String belongto = PropertiesConfig.getPropertiesValueByKey("belongto");
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
@@ -94,14 +97,46 @@ public class BarcodeLogServiceImpl implements BarcodeLogService {
 						productBarcode.setCreateuid(userid);
 						productBarcode.setUpdateuid(userid);
 						productBarcodeDao.insertProductBarcode(productBarcode);
-					}
-					
+						
+					}					
 					//返回该产品最大序列号（显示用）
 					barcodeLog.setBarcodeseq(maxSeq);
 					//对应的条形码列表
 					//barcodeLog.setBarcodeLogList(barcodeInfoList);
 					
 					list.add(barcodeLog);
+					
+					//当期初导入时,如果定义文件里initLoadFlg为1,则生成的条码直接入库
+					if (initLoadFlg.equals("1")){
+						for (int j=seq; j<maxSeq; j++){
+							//Set barcodeInfoDto
+							String tmpbarcode = StringUtil.leftPadZero(productid,5)+"-"+ StringUtil.leftPadZero(belongto.toString(),3)+"-" + StringUtil.leftPadZero(Integer.toString(j),13);
+							System.out.println(tmpbarcode);
+							BarcodeInfoDto barcodeInfoDto = new BarcodeInfoDto();
+							barcodeInfoDto.setBarcode(tmpbarcode);
+							barcodeInfoDto.setBarcodeno(StringUtil.leftPadZero(Integer.toString(j),13));
+							barcodeInfoDto.setBarcodetype(1);
+							barcodeInfoDto.setBatchno(batchno);
+							barcodeInfoDto.setBelongto(belongto);
+							barcodeInfoDto.setCreateuid(userid);
+							barcodeInfoDto.setUpdateuid(userid);
+							barcodeInfoDto.setProductid(productid);
+							barcodeInfoDto.setOperatetype(40);
+							barcodeInfoDto.setQuantity(item14);
+							barcodeInfoDto.setNote(tmpbarcode +",0");
+							barcodeInfoDto.setScanno("0");
+							barcodeInfoDto.setStatus(Constants.STATUS_NORMAL);
+							
+							BarcodeInfoDto tmpbarcodeInfoDto = barcodeInfoDao.queryBarcodeInfoByLogicId(tmpbarcode);	
+							if (tmpbarcodeInfoDto != null){
+								// barcorde 存在, update
+								barcodeInfoDao.updateBarcodeInfo(barcodeInfoDto);																
+							}else {
+								// barcorde 不存在, insert
+								barcodeInfoDao.insertBarcodeInfo(barcodeInfoDto);								
+							}
+						}
+					}
 				}
 			}
 		}

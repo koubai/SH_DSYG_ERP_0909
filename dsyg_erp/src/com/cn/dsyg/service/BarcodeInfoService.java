@@ -15,6 +15,21 @@ public interface BarcodeInfoService {
 	 */
 	public List<BarcodeInfoDto> barcodeInfoInBatch(String[] barcodeList, String userid);
 	
+	
+	/**
+	 * 条形码入库SUB
+	 * @param barcode
+	 * @param productid
+	 * @param userid
+	 * @param areano
+	 * @param barcodeno
+	 * @param scanno
+	 * @param barcodenote
+	 * @param userid
+	 * @return
+	 */
+	public BarcodeInfoDto barcodeInfoInBatchSub(String barcode, String productid, String userid, String areano, String barcodeno, String scanno, String barcodenote);
+
 	/**
 	 * 分页查询数据
 	 * @param productid
