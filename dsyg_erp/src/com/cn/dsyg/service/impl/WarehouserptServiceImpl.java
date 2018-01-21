@@ -535,7 +535,13 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 								if(StringUtil.isNotBlank(ww.getRes02())) {
 									taxprice = new BigDecimal(ww.getRes02()).setScale(6, BigDecimal.ROUND_HALF_UP);;
 								}
-								key = "" + ww.getProductid() + "_" + ww.getParentid() + "_" + taxprice;
+								//由于库存记录不存在（这里是因为双浏览器操作导致库存记录消失），所以就用库存no来作为KEY的一部分
+								if(type != null && type == 1) {
+									//预开票
+									key = "" + ww.getProductid() + "_" + taxprice;
+								} else {
+									key = "" + ww.getProductid() + "_" + ww.getParentid() + "_" + taxprice;
+								}
 								
 								if(map.get(key) != null) {
 									//存在该订单的货物记录，需要合并
