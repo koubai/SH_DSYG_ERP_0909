@@ -118,6 +118,21 @@ public class FinanceServiceImpl implements FinanceService {
 				//已开票金额含税，这里只查询status=1的
 				BigDecimal invoiceAmount = invoiceDao.querySumInvoiceByFinanceno(finance.getReceiptid(), "" + Constants.INVOICE_STATUS_OK);
 				finance.setInvoiceAmount(invoiceAmount);
+
+				//预开票金额含税，这里只查询status=1的
+				BigDecimal preinvoiceAmount = invoiceDao.querySumInvoiceByFinanceno(finance.getReceiptid(), "" + Constants.INVOICE_STATUS_NEW);
+				finance.setPreinvoiceAmount(preinvoiceAmount);
+				
+				if (invoiceAmount == null)
+					invoiceAmount = new BigDecimal(0);
+				if (preinvoiceAmount == null)
+					preinvoiceAmount = new BigDecimal(0);
+				
+				if (finance.getAmount().equals(invoiceAmount.add(preinvoiceAmount)))
+					finance.setInvoicestatus(new BigDecimal(1));
+				else
+					finance.setInvoicestatus(new BigDecimal(0));
+
 			}
 		}
 		page.setItems(list);

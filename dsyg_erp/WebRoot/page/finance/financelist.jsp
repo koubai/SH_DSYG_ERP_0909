@@ -23,12 +23,17 @@
 	
 	function upd() {
 		var id = getSelectedID();
-		var alt = getSelectedAlt();
+//		var alt = getSelectedAlt();
 		if(id == "") {
 			alert("请选择一条记录！");
 			return;
 		} else {
-			//if(alt == "") {
+			var st = getSelectedStatus();
+			if (st == 1){
+				alert("开票金额已满");
+				return;
+			}
+			// if(alt == "") {
 			//	alert("该记录没有关联单据号，不能修改！");
 			//	return;
 			//} else {
@@ -237,6 +242,21 @@
 		return alt;
 	}
 
+	///////////////////////////  START
+	function getSelectedStatus() {
+		var alt = "";
+		var list = document.getElementsByName("radioKey");
+		for(var i = 0; i < list.length; i++) {
+			if(list[i].checked) {
+				alt = list[i].alt;
+				break;
+			}
+		}
+		return alt;
+	}
+	/////////////////////////////////////  END
+	
+	
 	function getSelectedRecId() {
 		var recid = "";
 		var list = document.getElementsByName("radioKey");
@@ -579,6 +599,7 @@
 									<td width="80">经手人</td>
 									<td width="100">单据日期</td>
 									<td width="100">金额（含税）</td>
+									<td width="100">预开发票金额（含税）</td>
 									<td width="150">已开发票金额(含税)</td>
 									<td width="100">结算日期</td>
 									<td width="130">发票号</td>
@@ -592,7 +613,8 @@
 									<s:else>
 										<tr onclick="checkRadioTr(this, event);">
 									</s:else>
-										<td><input name="radioKey" type="radio" alt="<s:property value="invoiceid"/>" value="<s:property value="id"/>"/></td>
+										<!--  <td><input name="radioKey" type="radio" alt="<s:property value="invoiceid"/>" value="<s:property value="id"/>"/></td> -->
+										<td><input name="radioKey" type="radio" alt="<s:property value="invoicestatus"/>" value="<s:property value="id"/>"/></td>
 										<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
 										<td><input name="recid" type="hidden" value="<s:property value="receiptid"/>"/><s:property value="receiptid"/></td>
 										<td><s:property value="invoiceid"/></td>
@@ -623,6 +645,7 @@
 										<td><s:property value="handlername"/></td>
 										<td><s:property value="showReceiptdate"/></td>
 										<td align="right"><s:property value="amount"/></td>
+										<td align="right"><s:property value="preinvoiceAmount"/></td>
 										
 										<s:if test="amount > invoiceAmount">
 											<td align="right" style="background-color: yellow;">

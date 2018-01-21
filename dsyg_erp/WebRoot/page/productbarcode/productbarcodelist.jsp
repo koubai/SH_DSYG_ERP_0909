@@ -126,7 +126,7 @@
 				strBarcodeSeq += barcodeseq + ",";
 				strBarcodeQuantity += barcodequantity + ",";
 				strProductItem14 += item14 + ",";
-				sumquantity += barcodequantity;
+				sumquantity += parseInt(barcodequantity);
 			}
 		}
 		if(strBarcodeProductIds == "") {

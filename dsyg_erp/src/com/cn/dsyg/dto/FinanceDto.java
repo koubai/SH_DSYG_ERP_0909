@@ -94,6 +94,16 @@ public class FinanceDto extends BaseDto {
 	private BigDecimal invoiceAmount;
 
 	/**
+	 * 预开票金额
+	 */
+	private BigDecimal preinvoiceAmount;
+	
+	/**
+	 * 开票状态
+	 */
+	private BigDecimal invoicestatus;
+	
+	/**
 	 * 负责人
 	 */
 	private String handler;
@@ -729,4 +739,21 @@ public class FinanceDto extends BaseDto {
 	public void setInvoiceAmount(BigDecimal invoiceAmount) {
 		this.invoiceAmount = invoiceAmount;
 	}
+	
+	public BigDecimal getPreinvoiceAmount() {
+		return preinvoiceAmount;
+	}
+
+	public void setPreinvoiceAmount(BigDecimal preinvoiceAmount) {
+		this.preinvoiceAmount = preinvoiceAmount;
+	}
+
+	public BigDecimal getInvoicestatus() {
+		return invoicestatus;
+	}
+
+	public void setInvoicestatus(BigDecimal invoicestatus) {
+		this.invoicestatus = invoicestatus;
+	}
+
 }
