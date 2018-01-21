@@ -84,6 +84,7 @@
 		var strBarcodeQuantity = "";
 		var strProductItem14 = "";
 		var list = document.getElementsByName("radioKey");
+		var sumquantity = 0;
 		for(var i = 0; i < list.length; i++) {
 			if(list[i].checked) {
 				var productid = list[i].value;
@@ -125,6 +126,7 @@
 				strBarcodeSeq += barcodeseq + ",";
 				strBarcodeQuantity += barcodequantity + ",";
 				strProductItem14 += item14 + ",";
+				sumquantity += barcodequantity;
 			}
 		}
 		if(strBarcodeProductIds == "") {
@@ -158,7 +160,7 @@
 						//TODO
 						//printBarCode
 					}); */
-////					printBarCode(productid, belongto, n.barcodenostart, n.quantity);
+					printBarCode(productid, belongto, n.barcodenostart, n.quantity);
 				});
 			} else {
 				alert(data.msg);
@@ -170,7 +172,7 @@
 				$("#barcodequantity_" + list[i].value).val("");
 			}
 		}
-		alert("条形码生成完毕");
+		alert(sumquantity + "个条形码生成并入库完毕");
 	}
 	
 	function PrefixInteger(num, length) {

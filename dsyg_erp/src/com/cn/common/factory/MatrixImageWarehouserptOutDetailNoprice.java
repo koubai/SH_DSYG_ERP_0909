@@ -48,6 +48,7 @@ public class MatrixImageWarehouserptOutDetailNoprice extends MatrixImageBase {
 	 */
 	@Override
 	public void writeData() {
+/*  2018.01.20 remove detail data in matriximage as user request, only leave titile.
 		WarehouserptDto warehouserpt = new WarehouserptDto();
 
 		//添加数据
@@ -81,6 +82,7 @@ public class MatrixImageWarehouserptOutDetailNoprice extends MatrixImageBase {
 				}
 			}
 		}
+		*/
 	}
 	
 	/**
