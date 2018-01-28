@@ -7,6 +7,16 @@ import com.cn.dsyg.dto.BarcodeInfoDto;
 public interface BarcodeInfoDao {
 	
 	/**
+	 * 根据条形码编号，查询较小编号的条形码列表
+	 * @param productid
+	 * @param operatetype
+	 * @param barcodeno
+	 * @param barcodetype
+	 * @return
+	 */
+	public List<BarcodeInfoDto> queryBarcodeInfoListLessBarcodeno(String productid, String operatetype, String barcodeno, String barcodetype);
+	
+	/**
 	 * 查询数据数量
 	 * @param productid
 	 * @param tradename

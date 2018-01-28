@@ -15,6 +15,15 @@ public interface BarcodeInfoService {
 	 */
 	public List<BarcodeInfoDto> barcodeInfoInBatch(String[] barcodeList, String userid);
 	
+	/**
+	 * 根据条形码编号，查询较小编号的条形码列表
+	 * @param productid
+	 * @param operatetype
+	 * @param barcodeno
+	 * @param barcodetype
+	 * @return
+	 */
+	public List<BarcodeInfoDto> queryBarcodeInfoListLessBarcodeno(String productid, String operatetype, String barcodeno, String barcodetype);
 	
 	/**
 	 * 条形码入库SUB

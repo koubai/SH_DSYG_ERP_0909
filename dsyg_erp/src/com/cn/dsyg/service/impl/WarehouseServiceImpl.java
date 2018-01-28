@@ -100,6 +100,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 			Map<String, BarcodeInfoDto> barcodeInfoMap = new HashMap<String, BarcodeInfoDto>();
 			//验证条形码是否存在
 			String[] barcodeList = scanBarcodeInfo.split(Constants.BARCODE_SPLIT);
+			//产品对应的条形码最大编号MAP
+			Map<String, String> productBarcodeMap = new HashMap<String, String>();
 			for(int i = 0; i < barcodeList.length; i++) {
 				if(StringUtil.isNotBlank(barcodeList[i])) {
 					String barcode = "";
@@ -118,6 +120,16 @@ public class WarehouseServiceImpl implements WarehouseService {
 						ajaxResult.setMsg("条形码" + barcode + "不存在！");
 						return ajaxResult;
 					}
+					
+					//产品对应的条形码最大编号MAP
+					if(productBarcodeMap.containsKey(barcodeInfo.getProductid())) {
+						if(Integer.valueOf(productBarcodeMap.get(barcodeInfo.getProductid())) < Integer.valueOf(barcodeInfo.getBarcodeno())) {
+							productBarcodeMap.put(barcodeInfo.getProductid(), barcodeInfo.getBarcodeno());
+						}
+					} else {
+						productBarcodeMap.put(barcodeInfo.getProductid(), barcodeInfo.getBarcodeno());
+					}
+					
 					//验证状态是否是扫码入库状态
 					if(barcodeInfo.getOperatetype() != Constants.BARCODE_LOG_OPERATE_TYPE_IN) {
 						ajaxResult.setCode(4);
@@ -144,8 +156,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 				//更新barcodeInfo
 				for(Map.Entry<String, BarcodeInfoDto> entry : barcodeInfoMap.entrySet()) {
 					BarcodeInfoDto barcodeInfo = entry.getValue();
-					//扫码出库
-					barcodeInfo.setOperatetype(Constants.BARCODE_LOG_OPERATE_TYPE_OUT);
+					if(type == Constants.WAREHOUSERPT_TYPE_IN) {
+						//扫码入库
+						barcodeInfo.setOperatetype(Constants.BARCODE_LOG_OPERATE_TYPE_IN);
+					} else {
+						//扫码出库
+						barcodeInfo.setOperatetype(Constants.BARCODE_LOG_OPERATE_TYPE_OUT);
+					}
 					barcodeInfo.setUpdateuid(userid);
 					//类型=入出库类型（有疑问，条形码生成时默认为入库单？）
 					//barcodeInfo.setBarcodetype(type);
@@ -159,7 +176,21 @@ public class WarehouseServiceImpl implements WarehouseService {
 					ajaxResult.setMsg("入库单" + rpt.getWarehouseno() + "入库成功！");
 				} else if(type == Constants.WAREHOUSERPT_TYPE_OUT) {
 					//验证是否还有条形码番号低的未出库
-					ajaxResult.setMsg("出库单" + rpt.getWarehouseno() + "出库成功！");
+					boolean hasLessBarcode = false;
+					for(Map.Entry<String, String> entry : productBarcodeMap.entrySet()) {
+						//根据条形码编号，查询较小编号的条形码列表
+						List<BarcodeInfoDto> lessBarcodeList = barcodeInfoDao.queryBarcodeInfoListLessBarcodeno(entry.getKey(),
+								"" + Constants.BARCODE_LOG_OPERATE_TYPE_IN, entry.getValue(), "");
+						if(lessBarcodeList != null && lessBarcodeList.size() > 0) {
+							hasLessBarcode = true;
+							break;
+						}
+					}
+					if(hasLessBarcode) {
+						ajaxResult.setMsg("出库单" + rpt.getWarehouseno() + "出库成功！有较小编号的条形码未出库！");
+					} else {
+						ajaxResult.setMsg("出库单" + rpt.getWarehouseno() + "出库成功！");
+					}
 				} else {
 					ajaxResult.setMsg("succ");
 				}

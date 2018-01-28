@@ -9,6 +9,19 @@ import com.cn.dsyg.dao.BarcodeInfoDao;
 import com.cn.dsyg.dto.BarcodeInfoDto;
 
 public class BarcodeInfoDaoImpl extends BaseDao implements BarcodeInfoDao {
+	
+	@Override
+	public List<BarcodeInfoDto> queryBarcodeInfoListLessBarcodeno(String productid, String operatetype,
+			String barcodeno, String barcodetype) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("productid", productid);
+		paramMap.put("operatetype", operatetype);
+		paramMap.put("barcodeno", barcodeno);
+		paramMap.put("barcodetype", barcodetype);
+		@SuppressWarnings("unchecked")
+		List<BarcodeInfoDto> list = getSqlMapClientTemplate().queryForList("queryBarcodeInfoListLessBarcodeno", paramMap);
+		return list;
+	}
 
 	@Override
 	public int queryBarcodeInfoCountByPage(String productid, String tradename, String batchno, String barcode, String barcodetype,

@@ -107,6 +107,22 @@
 		LIMIT #start#, #end#
 	</select>
 	
+	<select id="queryBarcodeInfoListLessBarcodeno" parameterClass="java.util.Map" resultMap="BarcodeInfoDto">
+		select T.* from etb_barcode_info T where 1 = 1 and T.status = 1
+		<isNotEmpty prepend="and" property="productid">
+			T.productid = #productid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="operatetype">
+			T.operatetype = #operatetype#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="barcodeno">
+			T.barcodeno <![CDATA[<]]> #barcodeno#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="barcodetype">
+			T.barcodetype = #barcodetype#
+		</isNotEmpty>
+	</select>
+	
 	<select id="queryAllBarcodeInfoList" parameterClass="java.util.Map" resultMap="BarcodeInfoDto">
 		select T.* from etb_barcode_info T where 1 = 1 and T.status = 1
 		<isNotEmpty prepend="and" property="productid">

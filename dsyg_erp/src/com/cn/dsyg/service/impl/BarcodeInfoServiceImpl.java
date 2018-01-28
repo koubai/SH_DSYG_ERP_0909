@@ -18,6 +18,12 @@ public class BarcodeInfoServiceImpl implements BarcodeInfoService {
 	private ProductDao productDao;
 	
 	@Override
+	public List<BarcodeInfoDto> queryBarcodeInfoListLessBarcodeno(String productid, String operatetype,
+			String barcodeno, String barcodetype) {
+		return barcodeInfoDao.queryBarcodeInfoListLessBarcodeno(productid, operatetype, barcodeno, barcodetype);
+	}
+	
+	@Override
 	public List<BarcodeInfoDto> barcodeInfoInBatch(String[] barcodeList, String userid) {
 		List<BarcodeInfoDto> barcodeInfoList = new ArrayList<BarcodeInfoDto>();
 		//生成条形码
