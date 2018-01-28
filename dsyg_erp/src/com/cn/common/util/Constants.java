@@ -9,6 +9,8 @@ package com.cn.common.util;
  */
 public class Constants {
 	
+	public final static String BARCODE_SPLIT = "\n";
+	
 	//ORDER STATUS
 	public final static int ONLINE_ORDER_STATUS_NEW = 10;//新增
 	public final static int ONLINE_ORDER_STATUS_DELIVERY = 20;//交期确认

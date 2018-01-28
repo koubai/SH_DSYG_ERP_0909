@@ -11,10 +11,11 @@ import com.cn.dsyg.dto.BarcodeInfoDto;
 public class BarcodeInfoDaoImpl extends BaseDao implements BarcodeInfoDao {
 
 	@Override
-	public int queryBarcodeInfoCountByPage(String productid, String batchno, String barcode, String barcodetype,
+	public int queryBarcodeInfoCountByPage(String productid, String tradename, String batchno, String barcode, String barcodetype,
 			String operatetype) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("productid", productid);
+		paramMap.put("tradename", tradename);
 		paramMap.put("batchno", batchno);
 		paramMap.put("barcode", barcode);
 		paramMap.put("barcodetype", barcodetype);
@@ -23,10 +24,11 @@ public class BarcodeInfoDaoImpl extends BaseDao implements BarcodeInfoDao {
 	}
 
 	@Override
-	public List<BarcodeInfoDto> queryBarcodeInfoByPage(String productid, String batchno, String barcode,
+	public List<BarcodeInfoDto> queryBarcodeInfoByPage(String productid, String tradename, String batchno, String barcode,
 			String barcodetype, String operatetype, int start, int end) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("productid", productid);
+		paramMap.put("tradename", tradename);
 		paramMap.put("batchno", batchno);
 		paramMap.put("barcode", barcode);
 		paramMap.put("barcodetype", barcodetype);

@@ -3,6 +3,7 @@ package com.cn.dsyg.service;
 import java.util.List;
 
 import com.cn.common.util.Page;
+import com.cn.dsyg.dto.AjaxResultDto;
 import com.cn.dsyg.dto.InOutStockDto;
 import com.cn.dsyg.dto.ProductQuantityDto;
 import com.cn.dsyg.dto.SalesStatisticsDto;
@@ -17,6 +18,16 @@ import com.cn.dsyg.dto.WarehouseOkDto;
  * @version 1.0
  */
 public interface WarehouseService {
+	
+	/**
+	 * 条形码入出库
+	 * @param rptId
+	 * @param scanBarcodeInfo
+	 * @param type 1为入库单，2为出库单
+	 * @param userid
+	 * @return
+	 */
+	public AjaxResultDto barcodeWarehouseInOut(String rptId, String scanBarcodeInfo, Integer type, String userid);
 	
 	/**
 	 * 查询明细

@@ -169,6 +169,14 @@
 			<result type="json"></result>
 		</action>
 		
+		<action name="barcodeWarehouseOutAction" class="warehouseOutOkAction" method="barcodeWarehouseOutAction">
+			<result type="json"></result>
+		</action>
+		
+		<action name="barcodeWarehouseInAction" class="warehouseInOkAction" method="barcodeWarehouseInAction">
+			<result type="json"></result>
+		</action>
+		
 	</package>
 
 </struts>

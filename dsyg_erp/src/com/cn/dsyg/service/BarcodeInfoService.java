@@ -33,6 +33,7 @@ public interface BarcodeInfoService {
 	/**
 	 * 分页查询数据
 	 * @param productid
+	 * @param tradename
 	 * @param batchno
 	 * @param barcode
 	 * @param barcodetype
@@ -40,7 +41,7 @@ public interface BarcodeInfoService {
 	 * @param page
 	 * @return
 	 */
-	public Page queryBarcodeInfoByPage(String productid, String batchno,
+	public Page queryBarcodeInfoByPage(String productid, String tradename, String batchno,
 			String barcode, String barcodetype, String operatetype, Page page);
 	
 	/**

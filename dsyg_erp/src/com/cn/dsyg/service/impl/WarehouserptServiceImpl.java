@@ -399,6 +399,11 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 	}
 	
 	@Override
+	public WarehouserptDto queryWarehouserptByID(String id) {
+		return warehouserptDao.queryWarehouserptByID(id);
+	}
+	
+	@Override
 	public WarehouserptDto queryWarehouserptByID(String id, Integer type) {
 		WarehouserptDto rpt = warehouserptDao.queryWarehouserptByID(id);
 		//TODO

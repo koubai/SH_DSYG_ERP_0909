@@ -3,29 +3,26 @@ package com.cn.dsyg.service.impl;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 import java.util.UUID;
-
-import org.jfree.util.Log;
 
 import com.cn.common.util.Constants;
 import com.cn.common.util.DateUtil;
 import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
+import com.cn.dsyg.dao.BarcodeInfoDao;
 import com.cn.dsyg.dao.CustomerDao;
 import com.cn.dsyg.dao.CustomerOnlineDao;
 import com.cn.dsyg.dao.Dict01Dao;
 import com.cn.dsyg.dao.FinanceDao;
 import com.cn.dsyg.dao.OrderDao;
 import com.cn.dsyg.dao.PositionDao;
+import com.cn.dsyg.dao.ProductBarcodeDao;
 import com.cn.dsyg.dao.ProductDao;
 import com.cn.dsyg.dao.PurchaseDao;
 import com.cn.dsyg.dao.PurchaseItemDao;
@@ -36,6 +33,8 @@ import com.cn.dsyg.dao.UserDao;
 import com.cn.dsyg.dao.WarehouseDao;
 import com.cn.dsyg.dao.WarehouseSZDao;
 import com.cn.dsyg.dao.WarehouserptDao;
+import com.cn.dsyg.dto.AjaxResultDto;
+import com.cn.dsyg.dto.BarcodeInfoDto;
 import com.cn.dsyg.dto.CustomerDto;
 import com.cn.dsyg.dto.CustomerOnlineDto;
 import com.cn.dsyg.dto.Dict01Dto;
@@ -84,9 +83,179 @@ public class WarehouseServiceImpl implements WarehouseService {
 	private UserDao userDao;
 	private Dict01Dao dict01Dao;
 	private OrderDao orderDao;
+	private BarcodeInfoDao barcodeInfoDao;
+	private ProductBarcodeDao productBarcodeDao;
 	
 	//SZ数据
 	private WarehouseSZDao warehouseSZDao;
+	
+	@Override
+	public AjaxResultDto barcodeWarehouseInOut(String rptId, String scanBarcodeInfo, Integer type, String userid) {
+		AjaxResultDto ajaxResult = new AjaxResultDto();
+		//验证条形码是否为空
+		if(!StringUtil.isNotBlank(scanBarcodeInfo)) {
+			ajaxResult.setCode(2);
+			ajaxResult.setMsg("条形码为空！");
+		} else {
+			Map<String, BarcodeInfoDto> barcodeInfoMap = new HashMap<String, BarcodeInfoDto>();
+			//验证条形码是否存在
+			String[] barcodeList = scanBarcodeInfo.split(Constants.BARCODE_SPLIT);
+			for(int i = 0; i < barcodeList.length; i++) {
+				if(StringUtil.isNotBlank(barcodeList[i])) {
+					String barcode = "";
+					
+					if(barcodeList[i].indexOf(",") >= 0) {
+						String[] ll = barcodeList[i].split(",");
+						barcode = ll[0];
+					} else {
+						//没有扫码枪ID
+						barcode = barcodeList[i];
+					}
+					
+					BarcodeInfoDto barcodeInfo = barcodeInfoDao.queryBarcodeInfoByLogicId(barcode);
+					if(barcodeInfo == null) {
+						ajaxResult.setCode(3);
+						ajaxResult.setMsg("条形码" + barcode + "不存在！");
+						return ajaxResult;
+					}
+					//验证状态是否是扫码入库状态
+					if(barcodeInfo.getOperatetype() != Constants.BARCODE_LOG_OPERATE_TYPE_IN) {
+						ajaxResult.setCode(4);
+						ajaxResult.setMsg("条形码" + barcode + "未入库或已出库！");
+						return ajaxResult;
+					}
+					
+					barcodeInfoMap.put(barcode, barcodeInfo);
+				}
+			}
+			WarehouserptDto rpt = warehouserptDao.queryWarehouserptByID(rptId);
+			if(rpt != null) {
+				//验证数量
+				ajaxResult = checkBarcodeQuantity(rpt, barcodeInfoMap);
+				if(ajaxResult.getCode() != 0) {
+					return ajaxResult;
+				}
+				
+				//更新rpt
+				rpt.setRes02("1");
+				rpt.setUpdateuid(userid);
+				warehouserptDao.updateWarehouserpt(rpt);
+				
+				//更新barcodeInfo
+				for(Map.Entry<String, BarcodeInfoDto> entry : barcodeInfoMap.entrySet()) {
+					BarcodeInfoDto barcodeInfo = entry.getValue();
+					//扫码出库
+					barcodeInfo.setOperatetype(Constants.BARCODE_LOG_OPERATE_TYPE_OUT);
+					barcodeInfo.setUpdateuid(userid);
+					//类型=入出库类型（有疑问，条形码生成时默认为入库单？）
+					//barcodeInfo.setBarcodetype(type);
+					//入出库单号
+					barcodeInfo.setRes01(rpt.getWarehouseno());
+					barcodeInfoDao.updateBarcodeInfo(barcodeInfo);
+				}
+				
+				ajaxResult.setCode(0);
+				if(type == Constants.WAREHOUSERPT_TYPE_IN) {
+					ajaxResult.setMsg("入库单" + rpt.getWarehouseno() + "入库成功！");
+				} else if(type == Constants.WAREHOUSERPT_TYPE_OUT) {
+					//验证是否还有条形码番号低的未出库
+					ajaxResult.setMsg("出库单" + rpt.getWarehouseno() + "出库成功！");
+				} else {
+					ajaxResult.setMsg("succ");
+				}
+			} else {
+				ajaxResult.setCode(1);
+				ajaxResult.setMsg("单据数据不存在！");
+			}
+		}
+		return ajaxResult;
+	}
+	
+	/**
+	 * 验证rpt产品数量是否和条形码数量完全相等
+	 * @param rpt
+	 * @param barcodeInfoMap
+	 * @return
+	 */
+	private AjaxResultDto checkBarcodeQuantity(WarehouserptDto rpt, Map<String, BarcodeInfoDto> barcodeInfoMap) {
+		AjaxResultDto ajaxResult = new AjaxResultDto();
+		String rptQuantity = "";
+		String barcodeQuantity = "";
+		Map<String, BigDecimal> rptQuantityMap = new HashMap<String, BigDecimal>();
+		//Map<String, BigDecimal> barcodeProductMap = new HashMap<String, BigDecimal>();
+		Map<String, BigDecimal> barcodeQuantityMap = new HashMap<String, BigDecimal>();
+		ProductDto product = null;
+		
+		//条形码对应的产品数量
+		for(Map.Entry<String, BarcodeInfoDto> entry : barcodeInfoMap.entrySet()) {
+			BarcodeInfoDto barcodeInfo = entry.getValue();
+			if(barcodeQuantityMap.containsKey(barcodeInfo.getProductid())) {
+				BigDecimal quantity = barcodeQuantityMap.get(barcodeInfo.getProductid());
+				quantity = quantity.add(new BigDecimal(barcodeInfo.getQuantity()));
+				barcodeQuantityMap.put(barcodeInfo.getProductid(), quantity);
+			} else {
+				barcodeQuantityMap.put(barcodeInfo.getProductid(), new BigDecimal(barcodeInfo.getQuantity()));
+			}
+		}
+		
+		//入出库单对应的产品数量
+		String[] infos = rpt.getProductinfo().split("#");
+		for(int i = 0; i < infos.length; i++) {
+			String info = infos[i];
+			if(StringUtil.isNotBlank(info) && !"null".equalsIgnoreCase(info)) {
+				String[] ll = info.split(",");
+				product = productDao.queryProductByID(ll[0]);
+				if(product != null) {
+					if(product.getItem14() != null) {
+						if(rptQuantityMap.containsKey(ll[0])) {
+							BigDecimal quantity = rptQuantityMap.get(ll[0]);
+							quantity = quantity.add(new BigDecimal(ll[1]).multiply(new BigDecimal(product.getItem14())));
+							rptQuantityMap.put(ll[0], quantity);
+						} else {
+							rptQuantityMap.put(ll[0], new BigDecimal(ll[1]).multiply(new BigDecimal(product.getItem14())));
+						}
+					} else {
+						//item14为空，判断barcode对应的产品map是否为空
+						//单位长度信息不明
+						ajaxResult.setCode(6);
+						ajaxResult.setMsg("产品[" + product.getTradename() + "]单位长度信息不明！");
+						return ajaxResult;
+					}
+				}
+			}
+		}
+		//判断两个字符串内容是否一致
+		List<String> rptQuantityList = new ArrayList<String>();
+		List<String> barcodeQuantityList = new ArrayList<String>();
+		for(Map.Entry<String, BigDecimal> entry : rptQuantityMap.entrySet()) {
+			String key = entry.getKey();
+			BigDecimal value = entry.getValue().abs().setScale(2, BigDecimal.ROUND_HALF_UP);
+			rptQuantityList.add(key + "_" + value);
+		}
+		for(Map.Entry<String, BigDecimal> entry : barcodeQuantityMap.entrySet()) {
+			String key = entry.getKey();
+			BigDecimal value = entry.getValue().abs().setScale(2, BigDecimal.ROUND_HALF_UP);
+			barcodeQuantityList.add(key + "_" + value);
+		}
+		Collections.sort(barcodeQuantityList);
+		Collections.sort(rptQuantityList);
+		for(String s : rptQuantityList) {
+			rptQuantity += s + ",";
+		}
+		for(String s : barcodeQuantityList) {
+			barcodeQuantity += s + ",";
+		}
+		System.out.println("barcodeQuantity=" + barcodeQuantity);
+		System.out.println("rptQuantity=" + rptQuantity);
+		if(rptQuantity.equals(barcodeQuantity)) {
+			ajaxResult.setCode(0);
+			ajaxResult.setMsg("");
+			return ajaxResult;
+		}
+		ajaxResult.setCode(5);
+		ajaxResult.setMsg("扫码产品数量与当前单据产品数量不匹配！");
+		return ajaxResult;
+	}
 	
 	@Override
 	public List<InOutStockDto> queryInOutStockDetail(String productid, String warehousetype,
@@ -1430,5 +1599,21 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 	public void setWarehouseSZDao(WarehouseSZDao warehouseSZDao) {
 		this.warehouseSZDao = warehouseSZDao;
+	}
+
+	public BarcodeInfoDao getBarcodeInfoDao() {
+		return barcodeInfoDao;
+	}
+
+	public void setBarcodeInfoDao(BarcodeInfoDao barcodeInfoDao) {
+		this.barcodeInfoDao = barcodeInfoDao;
+	}
+
+	public ProductBarcodeDao getProductBarcodeDao() {
+		return productBarcodeDao;
+	}
+
+	public void setProductBarcodeDao(ProductBarcodeDao productBarcodeDao) {
+		this.productBarcodeDao = productBarcodeDao;
 	}
 }

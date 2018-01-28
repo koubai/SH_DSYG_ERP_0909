@@ -9,18 +9,20 @@ public interface BarcodeInfoDao {
 	/**
 	 * 查询数据数量
 	 * @param productid
+	 * @param tradename
 	 * @param batchno
 	 * @param barcode
 	 * @param barcodetype
 	 * @param operatetype
 	 * @return
 	 */
-	public int queryBarcodeInfoCountByPage(String productid, String batchno,
+	public int queryBarcodeInfoCountByPage(String productid, String tradename, String batchno,
 			String barcode, String barcodetype, String operatetype);
 	
 	/**
 	 * 分页查询数据
 	 * @param productid
+	 * @param tradename
 	 * @param batchno
 	 * @param barcode
 	 * @param barcodetype
@@ -29,7 +31,7 @@ public interface BarcodeInfoDao {
 	 * @param end
 	 * @return
 	 */
-	public List<BarcodeInfoDto> queryBarcodeInfoByPage(String productid, String batchno,
+	public List<BarcodeInfoDto> queryBarcodeInfoByPage(String productid, String tradename, String batchno,
 			String barcode, String barcodetype, String operatetype, int start, int end);
 	
 	/**

@@ -24,6 +24,11 @@ public class BarcodeInfoDto extends BaseDto {
 	private String productid;
 	
 	/**
+	 * 产品名称（显示用）
+	 */
+	private String tradename;
+	
+	/**
 	 * 生成barcode批号
 	 */
 	private String batchno;
@@ -64,12 +69,12 @@ public class BarcodeInfoDto extends BaseDto {
 	private String note;
 	
 	/**
-	 * 状态，预开票:0，开票:1，退货记录:2，作废:99
+	 * 状态
 	 */
 	private Integer status;
 
 	/**
-	 * 预备项目1
+	 * 入出库单号
 	 */
 	private String res01;
 
@@ -279,5 +284,13 @@ public class BarcodeInfoDto extends BaseDto {
 
 	public void setBatchno(String batchno) {
 		this.batchno = batchno;
+	}
+
+	public String getTradename() {
+		return tradename;
+	}
+
+	public void setTradename(String tradename) {
+		this.tradename = tradename;
 	}
 }

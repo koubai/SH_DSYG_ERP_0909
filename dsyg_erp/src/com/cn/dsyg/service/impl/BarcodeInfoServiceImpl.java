@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.cn.common.util.Constants;
 import com.cn.common.util.Page;
-import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dao.BarcodeInfoDao;
 import com.cn.dsyg.dao.ProductDao;
@@ -98,10 +97,11 @@ public class BarcodeInfoServiceImpl implements BarcodeInfoService {
 	
 	
 	@Override
-	public Page queryBarcodeInfoByPage(String productid, String batchno, String barcode, String barcodetype,
+	public Page queryBarcodeInfoByPage(String productid, String tradename, String batchno, String barcode, String barcodetype,
 			String operatetype, Page page) {
+		tradename = StringUtil.replaceDatabaseKeyword_mysql(tradename);
 		//查询总记录数
-		int totalCount = barcodeInfoDao.queryBarcodeInfoCountByPage(productid, batchno, barcode, barcodetype, operatetype);
+		int totalCount = barcodeInfoDao.queryBarcodeInfoCountByPage(productid, tradename, batchno, barcode, barcodetype, operatetype);
 		page.setTotalCount(totalCount);
 		if(totalCount % page.getPageSize() > 0) {
 			page.setTotalPage(totalCount / page.getPageSize() + 1);
@@ -109,7 +109,7 @@ public class BarcodeInfoServiceImpl implements BarcodeInfoService {
 			page.setTotalPage(totalCount / page.getPageSize());
 		}
 		//翻页查询记录
-		List<BarcodeInfoDto> list = barcodeInfoDao.queryBarcodeInfoByPage(productid, batchno, barcode, barcodetype, operatetype,
+		List<BarcodeInfoDto> list = barcodeInfoDao.queryBarcodeInfoByPage(productid, tradename, batchno, barcode, barcodetype, operatetype,
 				page.getStartIndex() * page.getPageSize(), page.getPageSize());
 		page.setItems(list);
 		return page;

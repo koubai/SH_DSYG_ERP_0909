@@ -94,7 +94,7 @@ public class ProductBarcodeAction extends BaseAction {
 			if(StringUtil.isNotBlank(strScanBarcodeInfo)) {
 				String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
 				//解析条形码数据。注意：这里用\n分割，具体扫码枪是否是\n分割，需要现场调试。
-				String[] barcodeList = strScanBarcodeInfo.split("\n");
+				String[] barcodeList = strScanBarcodeInfo.split(Constants.BARCODE_SPLIT);
 				barcodeInfoService.barcodeInfoInBatch(barcodeList, username);
 				ajaxResult.setCode(0);
 				ajaxResult.setMsg("succ");

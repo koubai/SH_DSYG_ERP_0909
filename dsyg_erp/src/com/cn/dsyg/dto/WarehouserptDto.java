@@ -234,7 +234,7 @@ public class WarehouserptDto extends BaseAction {
 	private String res01;
 
 	/**
-	 * 预备项目2
+	 * 是否出入库（条形码出入库）：1位已出入库，其他为未出入库
 	 */
 	private String res02;
 

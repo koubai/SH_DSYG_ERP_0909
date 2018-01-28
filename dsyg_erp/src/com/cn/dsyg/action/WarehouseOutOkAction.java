@@ -1,20 +1,29 @@
 package com.cn.dsyg.action;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.struts2.ServletActionContext;
 
 import com.cn.common.action.BaseAction;
 import com.cn.common.util.Constants;
 import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
+import com.cn.dsyg.dto.AjaxResultDto;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.WarehouseInOutOkDto;
+import com.cn.dsyg.dto.WarehouserptDto;
 import com.cn.dsyg.service.Dict01Service;
 import com.cn.dsyg.service.WarehouseService;
+import com.cn.dsyg.service.WarehouserptService;
 import com.opensymphony.xwork2.ActionContext;
+
+import net.sf.json.JSONArray;
 
 /**
  * @name 预出库确认Action
@@ -29,6 +38,7 @@ public class WarehouseOutOkAction extends BaseAction {
 	private static final Logger log = LogManager.getLogger(WarehouseOutOkAction.class);
 	
 	private WarehouseService warehouseService;
+	private WarehouserptService warehouserptService;
 	private Dict01Service dict01Service;
 	
 	//页码
@@ -55,6 +65,51 @@ public class WarehouseOutOkAction extends BaseAction {
 	
 	//查询条件：网上、内部
 	private String strFrom;
+	
+	//条形码出库单ID
+	private String barcodeOutId;
+	//条形码扫码入库
+	private String strScanBarcodeInfo;
+	
+	/**
+	 * 条形码出库
+	 * @return
+	 * @throws Exception 
+	 */
+	public String barcodeWarehouseOutAction() throws Exception {
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out;
+		AjaxResultDto ajaxResult = new AjaxResultDto();
+		try {
+			this.clearMessages();
+			WarehouserptDto rpt = warehouserptService.queryWarehouserptByID(barcodeOutId);
+			if(rpt != null) {
+				if("1".equals(rpt.getRes02())) {
+					ajaxResult.setCode(99);
+					ajaxResult.setMsg("单据已出库！");
+				} else {
+					//当前操作用户ID
+					String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
+					ajaxResult = warehouseService.barcodeWarehouseInOut(barcodeOutId, strScanBarcodeInfo, Constants.WAREHOUSERPT_TYPE_OUT, username);
+				}
+			} else {
+				ajaxResult.setCode(1);
+				ajaxResult.setMsg("单据数据不存在！");
+			}
+		} catch(Exception e) {
+			ajaxResult.setCode(-1);
+			ajaxResult.setMsg("系统异常，请联系管理员！");
+			log.error("barcodeWarehouseOutAction error:" + e);
+		}
+		out = response.getWriter();
+		String result = JSONArray.fromObject(ajaxResult).toString();
+		result = result.substring(1, result.length() - 1);
+		log.info(result);
+		out.write(result);
+		out.flush();
+		return null;
+	}
 	
 	/**
 	 * 显示预出库确认页面
@@ -171,6 +226,8 @@ public class WarehouseOutOkAction extends BaseAction {
 	 * 初期化字典数据
 	 */
 	private void initDictList() {
+		barcodeOutId = "";
+		strScanBarcodeInfo = "";
 		//采购主题
 		goodsList = dict01Service.queryDict01ByFieldcode(Constants.DICT_GOODS_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
 		//单位
@@ -283,5 +340,29 @@ public class WarehouseOutOkAction extends BaseAction {
 
 	public void setStrFrom(String strFrom) {
 		this.strFrom = strFrom;
+	}
+
+	public String getBarcodeOutId() {
+		return barcodeOutId;
+	}
+
+	public void setBarcodeOutId(String barcodeOutId) {
+		this.barcodeOutId = barcodeOutId;
+	}
+
+	public String getStrScanBarcodeInfo() {
+		return strScanBarcodeInfo;
+	}
+
+	public void setStrScanBarcodeInfo(String strScanBarcodeInfo) {
+		this.strScanBarcodeInfo = strScanBarcodeInfo;
+	}
+
+	public WarehouserptService getWarehouserptService() {
+		return warehouserptService;
+	}
+
+	public void setWarehouserptService(WarehouserptService warehouserptService) {
+		this.warehouserptService = warehouserptService;
 	}
 }

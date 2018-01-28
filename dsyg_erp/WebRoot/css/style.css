@@ -119,6 +119,8 @@ input,img,label{ vertical-align:middle;}
 
 .black_overlay{display: none;position: absolute;top: 0%;left: 0%;width: 100%;height: 100%;background-color: #000;z-index:1001;opacity:0.5;
 filter: alpha(opacity=50);}
+.black_overlay1{display: none;position: absolute;top: 0%;left: 0%;width: 100%;height: 140%;background-color: #000;z-index:1001;opacity:0.5;
+filter: alpha(opacity=50);}
 .white_content {display: none;position: absolute;z-index:1002; width:426px; height:320px; left:50%;top:50%; margin-left:-213px; margin-top:-160px;
 margin-left:-150px!important;/*FF IE7 该值为本身宽的一半 */
 margin-top:-120px!important;/*FF IE7 该值为本身高的一半*/

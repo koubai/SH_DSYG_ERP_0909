@@ -385,6 +385,12 @@
 		<property name="warehouseSZDao">
 			<ref local="warehouseSZDao"/>
 		</property>
+		<property name="barcodeInfoDao">
+			<ref local="barcodeInfoDao"/>
+		</property>
+		<property name="productBarcodeDao">
+			<ref local="productBarcodeDao"/>
+		</property>
 	</bean>
 	
 	<bean id="warehouseDao" class="com.cn.dsyg.dao.impl.WarehouseDaoImpl">

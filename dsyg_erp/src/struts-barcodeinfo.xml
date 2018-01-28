@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" 
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="barcodeinfo" extends="struts-erp" namespace="/barcodeinfo">
+	
+		<action name="showBarcodeInfoAction" class="barcodeInfoAction" method="showBarcodeInfoAction">
+			<result name="*">/page/barcodeinfo/barcodeinfolist.jsp</result>
+		</action>
+		
+		<action name="queryBarcodeInfoAction" class="barcodeInfoAction" method="queryBarcodeInfoAction">
+			<result name="*">/page/barcodeinfo/barcodeinfolist.jsp</result>
+		</action>
+		
+		<action name="turnBarcodeInfoAction" class="barcodeInfoAction" method="turnBarcodeInfoAction">
+			<result name="*">/page/barcodeinfo/barcodeinfolist.jsp</result>
+		</action>
+		
+	</package>
+
+</struts>
