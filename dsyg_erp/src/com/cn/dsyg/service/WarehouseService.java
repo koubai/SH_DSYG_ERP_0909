@@ -20,6 +20,17 @@ import com.cn.dsyg.dto.WarehouseOkDto;
 public interface WarehouseService {
 	
 	/**
+	 * 条形码入出库前验证
+	 * @param rptId
+	 * @param scanBarcodeInfo
+	 * @param type 1为入库单，2为出库单
+	 * @param userid
+	 * @param checktype
+	 * @return
+	 */
+	public AjaxResultDto barcodeWarehouseInOutCheck(String rptId, String scanBarcodeInfo, Integer type, String userid, boolean checktype);
+	
+	/**
 	 * 条形码入出库
 	 * @param rptId
 	 * @param scanBarcodeInfo

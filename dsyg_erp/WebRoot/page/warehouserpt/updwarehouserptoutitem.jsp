@@ -171,10 +171,80 @@
 			document.getElementById("exportunitprice").value = 0;
 		}
 	}
+	
+	//条形码出库页面
+	function showBarcodeOut() {
+		$("#barcodeInfoList").val("");
+		$("#" + "overlay").show();
+		$("#" + "scanBarcodeDiv").show();
+	}
+	
+	//条形码出库
+	function commitBarcode() {
+		var barcodeInfoList = $("#barcodeInfoList").val();
+		if(barcodeInfoList == "") {
+			alert("条形码为空！");
+			$("#barcodeInfoList").focus();
+			return;
+		}
+		var param = new Object();
+		param.strScanBarcodeInfo = barcodeInfoList;
+		param.barcodeOutId = $("#id").val();
+		$.getJSON('../warehouse/barcodeWarehouseOutCheckAction.action', param, function(data) {
+			if(confirm(data.msg + "确定出库吗？")) {
+				$.getJSON('../warehouse/barcodeWarehouseOutAction.action', param, function(data) {
+					if(data.code == 0) {
+						alert(data.msg);
+						$("#" + "barcodeTd").hide();
+						cancelSacnBarCode();
+					} else {
+						alert(data.msg);
+					}
+				});
+			}
+		});
+	}
+	
+	function cancelSacnBarCode() {
+		$("#" + "overlay").hide();
+		$("#" + "scanBarcodeDiv").hide();
+	}
 </script>
 </head>
 <body>
 	<div id="containermain">
+		<div id="overlay" class="black_overlay1"></div>
+		<div id="scanBarcodeDiv" style="position:fixed;display:none; z-index:1003;height: 251px;width: 551px;left:23%;top:130px;padding:6px 10px;max-height:260px;border:1px solid #999999;background:#fff;overflow-y:auto;">
+			<table style="height: 250px; width: 550px;" border="0" cellpadding="0" cellspacing="0" bgcolor="white">
+				<tr style="height: 20px;">
+					<td colspan="2"> </td>
+				</tr>
+				<tr>
+					<td width="80" align="right" valign="top">条形码：</td>
+					<td align="left" valign="top">
+						<textarea id="barcodeInfoList" rows="11" cols="65"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<div class="btn" style="margin-left: 170px;">
+							<div class="box1_left"></div>
+							<div class="box1_center">
+								<input type="button" class="input80" value="确定出库" onclick="commitBarcode();"/>
+							</div>
+							<div class="box1_right"></div>
+						</div>
+						<div class="btn" style="margin-left: 20px;">
+							<div class="box1_left"></div>
+							<div class="box1_center">
+								<input type="button" class="input80" value="取消" onclick="cancelSacnBarCode();"/>
+							</div>
+							<div class="box1_right"></div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
 		<div class="content">
 			<div class="tittle">
 				<div class="tittle_left">
@@ -186,6 +256,7 @@
 				</div>
 			</div>
 			<s:form id="mainform" name="mainform" method="POST">
+				<s:hidden name="updWarehouserptDto.id" id="id"></s:hidden>
 				<s:hidden name="updWarehouserptDto.hasbroken" id="hasbroken"></s:hidden>
 				<s:hidden name="updWarehouserptDto.note" id="note"></s:hidden>
 				<s:hidden name="updWarehouserptDto.expressid" id="expressid"></s:hidden>

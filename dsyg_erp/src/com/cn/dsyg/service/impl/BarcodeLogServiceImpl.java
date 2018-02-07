@@ -124,7 +124,7 @@ public class BarcodeLogServiceImpl implements BarcodeLogService {
 							barcodeInfoDto.setOperatetype(40);
 							barcodeInfoDto.setQuantity(item14);
 							barcodeInfoDto.setNote(tmpbarcode +",0");
-							barcodeInfoDto.setScanno("0");
+							barcodeInfoDto.setScannoin("0");
 							barcodeInfoDto.setStatus(Constants.STATUS_NORMAL);
 							
 							BarcodeInfoDto tmpbarcodeInfoDto = barcodeInfoDao.queryBarcodeInfoByLogicId(tmpbarcode);	

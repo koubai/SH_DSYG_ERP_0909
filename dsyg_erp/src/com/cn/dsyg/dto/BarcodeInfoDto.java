@@ -44,9 +44,24 @@ public class BarcodeInfoDto extends BaseDto {
 	private String barcodeno;
 	
 	/**
-	 * 扫码枪编号
+	 * 入库单编号
 	 */
-	private String scanno;
+	private String rptnoin;
+	
+	/**
+	 * 入库扫码枪编号
+	 */
+	private String scannoin;
+	
+	/**
+	 * 出库单编号
+	 */
+	private String rptnoout;
+	
+	/**
+	 * 出库扫码枪编号
+	 */
+	private String scannoout;
 	
 	/**
 	 * BARCODE类型，1为入库单，2为出库单
@@ -74,7 +89,7 @@ public class BarcodeInfoDto extends BaseDto {
 	private Integer status;
 
 	/**
-	 * 入出库单号
+	 * 预备项目1
 	 */
 	private String res01;
 
@@ -156,14 +171,6 @@ public class BarcodeInfoDto extends BaseDto {
 
 	public void setBarcodeno(String barcodeno) {
 		this.barcodeno = barcodeno;
-	}
-
-	public String getScanno() {
-		return scanno;
-	}
-
-	public void setScanno(String scanno) {
-		this.scanno = scanno;
 	}
 
 	public Integer getBarcodetype() {
@@ -292,5 +299,37 @@ public class BarcodeInfoDto extends BaseDto {
 
 	public void setTradename(String tradename) {
 		this.tradename = tradename;
+	}
+
+	public String getRptnoin() {
+		return rptnoin;
+	}
+
+	public void setRptnoin(String rptnoin) {
+		this.rptnoin = rptnoin;
+	}
+
+	public String getScannoin() {
+		return scannoin;
+	}
+
+	public void setScannoin(String scannoin) {
+		this.scannoin = scannoin;
+	}
+
+	public String getRptnoout() {
+		return rptnoout;
+	}
+
+	public void setRptnoout(String rptnoout) {
+		this.rptnoout = rptnoout;
+	}
+
+	public String getScannoout() {
+		return scannoout;
+	}
+
+	public void setScannoout(String scannoout) {
+		this.scannoout = scannoout;
 	}
 }

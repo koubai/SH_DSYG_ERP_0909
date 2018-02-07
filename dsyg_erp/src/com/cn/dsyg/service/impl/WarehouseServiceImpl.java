@@ -58,6 +58,7 @@ import com.cn.dsyg.dto.WarehouseInOutOkDto;
 import com.cn.dsyg.dto.WarehouseOkDto;
 import com.cn.dsyg.dto.WarehouseProductDto;
 import com.cn.dsyg.dto.WarehouserptDto;
+import com.cn.dsyg.service.ProductService;
 import com.cn.dsyg.service.WarehouseService;
 
 /**
@@ -85,9 +86,113 @@ public class WarehouseServiceImpl implements WarehouseService {
 	private OrderDao orderDao;
 	private BarcodeInfoDao barcodeInfoDao;
 	private ProductBarcodeDao productBarcodeDao;
+	private ProductService productService;
 	
 	//SZ数据
 	private WarehouseSZDao warehouseSZDao;
+	
+	@Override
+	public AjaxResultDto barcodeWarehouseInOutCheck(String rptId, String scanBarcodeInfo, Integer type, String userid, boolean checktype) {
+		AjaxResultDto ajaxResult = new AjaxResultDto();
+		//验证条形码是否为空
+		if(!StringUtil.isNotBlank(scanBarcodeInfo)) {
+			ajaxResult.setCode(2);
+			ajaxResult.setMsg("条形码为空！");
+		} else {
+			Map<String, BigDecimal> productQtyMap = new HashMap<String, BigDecimal>();
+			//验证条形码是否存在
+			String[] barcodeList = scanBarcodeInfo.split(Constants.BARCODE_SPLIT);
+			//产品对应的条形码最大编号MAP
+			Map<String, String> productBarcodeMap = new HashMap<String, String>();
+			String errormsg = "";
+			for(int i = 0; i < barcodeList.length; i++) {
+				if(StringUtil.isNotBlank(barcodeList[i])) {
+					String barcode = "";
+					if(barcodeList[i].indexOf(",") >= 0) {
+						String[] ll = barcodeList[i].split(",");
+						barcode = ll[0];
+					} else {
+						//没有扫码枪ID
+						barcode = barcodeList[i];
+					}
+					
+					BarcodeInfoDto barcodeInfo = barcodeInfoDao.queryBarcodeInfoByLogicId(barcode);
+					if(barcodeInfo == null) {
+						errormsg += "条形码" + barcode + "不存在！\n";
+					} else {
+						//查询产品信息
+						ProductDto product = productService.queryProductByID(barcodeInfo.getProductid());
+						if(product != null) {
+							//产品对应的条形码最大编号MAP
+							if(productBarcodeMap.containsKey(barcodeInfo.getProductid())) {
+								if(Integer.valueOf(productBarcodeMap.get(barcodeInfo.getProductid())) < Integer.valueOf(barcodeInfo.getBarcodeno())) {
+									productBarcodeMap.put(barcodeInfo.getProductid(), barcodeInfo.getBarcodeno());
+								}
+							} else {
+								productBarcodeMap.put(barcodeInfo.getProductid(), barcodeInfo.getBarcodeno());
+							}
+							
+							if(type == Constants.WAREHOUSERPT_TYPE_IN) {
+								//验证状态是否是扫码入库状态
+								if(barcodeInfo.getOperatetype() >= Constants.BARCODE_LOG_OPERATE_TYPE_IN) {
+									errormsg += "条形码" + barcode + "已入库！\n";
+								} else {
+									if(productQtyMap.containsKey(barcodeInfo.getProductid() + "###" + product.getTradename())) {
+										BigDecimal qty = productQtyMap.get(barcodeInfo.getProductid() + "###" + product.getTradename()).add(new BigDecimal(barcodeInfo.getQuantity()));
+										productQtyMap.put(barcodeInfo.getProductid() + "###" + product.getTradename(), qty);
+									} else {
+										if(barcodeInfo.getQuantity() != null) {
+											productQtyMap.put(barcodeInfo.getProductid() + "###" + product.getTradename(), new BigDecimal(barcodeInfo.getQuantity()));
+										}
+									}
+								}
+							} else if(type == Constants.WAREHOUSERPT_TYPE_OUT) {
+								//验证状态是否是扫码入库状态
+								if(barcodeInfo.getOperatetype() != Constants.BARCODE_LOG_OPERATE_TYPE_IN) {
+									errormsg += "条形码" + barcode + "未入库或已出库！\n";
+								} else {
+									if(productQtyMap.containsKey(barcodeInfo.getProductid() + "###" + product.getTradename())) {
+										BigDecimal qty = productQtyMap.get(barcodeInfo.getProductid() + "###" + product.getTradename()).add(new BigDecimal(barcodeInfo.getQuantity()));
+										productQtyMap.put(barcodeInfo.getProductid() + "###" + product.getTradename(), qty);
+									} else {
+										if(barcodeInfo.getQuantity() != null) {
+											productQtyMap.put(barcodeInfo.getProductid() + "###" + product.getTradename(), new BigDecimal(barcodeInfo.getQuantity()));
+										}
+									}
+								}
+							}
+						} else {
+							errormsg += "条形码" + barcode + "对应的商品未找到\n";
+						}
+					}
+				}
+			}
+			//商品数量提示
+			String allmsg = "";
+			if(type == Constants.WAREHOUSERPT_TYPE_IN) {
+				allmsg = "当前入库条形码商品信息：\n";
+			} else if(type == Constants.WAREHOUSERPT_TYPE_OUT) {
+				allmsg = "当前出库条形码商品信息：\n";
+			}
+			for(Map.Entry<String, BigDecimal> entry : productQtyMap.entrySet()) {
+				String key = entry.getKey();
+				String[] ll = key.split("###");
+				allmsg += ll[1] + "数量" + entry.getValue() + "\n";
+			}
+			if(StringUtil.isNotBlank(errormsg)) {
+				ajaxResult.setCode(1);
+				if(!checktype) {
+					allmsg = errormsg;
+				} else {
+					allmsg += "其中错误信息：" + errormsg;
+				}
+			} else {
+				ajaxResult.setCode(0);
+			}
+			ajaxResult.setMsg(allmsg);
+		}
+		return ajaxResult;
+	}
 	
 	@Override
 	public AjaxResultDto barcodeWarehouseInOut(String rptId, String scanBarcodeInfo, Integer type, String userid) {
@@ -97,6 +202,10 @@ public class WarehouseServiceImpl implements WarehouseService {
 			ajaxResult.setCode(2);
 			ajaxResult.setMsg("条形码为空！");
 		} else {
+			ajaxResult = barcodeWarehouseInOutCheck(rptId, scanBarcodeInfo, type, userid, false);
+			if(ajaxResult.getCode() != 0) {
+				return ajaxResult;
+			}
 			Map<String, BarcodeInfoDto> barcodeInfoMap = new HashMap<String, BarcodeInfoDto>();
 			//验证条形码是否存在
 			String[] barcodeList = scanBarcodeInfo.split(Constants.BARCODE_SPLIT);
@@ -105,10 +214,11 @@ public class WarehouseServiceImpl implements WarehouseService {
 			for(int i = 0; i < barcodeList.length; i++) {
 				if(StringUtil.isNotBlank(barcodeList[i])) {
 					String barcode = "";
-					
+					String scanno = "";
 					if(barcodeList[i].indexOf(",") >= 0) {
 						String[] ll = barcodeList[i].split(",");
 						barcode = ll[0];
+						scanno = ll[1];
 					} else {
 						//没有扫码枪ID
 						barcode = barcodeList[i];
@@ -130,11 +240,25 @@ public class WarehouseServiceImpl implements WarehouseService {
 						productBarcodeMap.put(barcodeInfo.getProductid(), barcodeInfo.getBarcodeno());
 					}
 					
-					//验证状态是否是扫码入库状态
-					if(barcodeInfo.getOperatetype() != Constants.BARCODE_LOG_OPERATE_TYPE_IN) {
-						ajaxResult.setCode(4);
-						ajaxResult.setMsg("条形码" + barcode + "未入库或已出库！");
-						return ajaxResult;
+					if(type == Constants.WAREHOUSERPT_TYPE_IN) {
+						//验证状态是否是扫码入库状态
+						if(barcodeInfo.getOperatetype() >= Constants.BARCODE_LOG_OPERATE_TYPE_IN) {
+							ajaxResult.setCode(4);
+							ajaxResult.setMsg("条形码" + barcode + "已入库！");
+							return ajaxResult;
+						}
+					} else if(type == Constants.WAREHOUSERPT_TYPE_OUT) {
+						//验证状态是否是扫码入库状态
+						if(barcodeInfo.getOperatetype() != Constants.BARCODE_LOG_OPERATE_TYPE_IN) {
+							ajaxResult.setCode(4);
+							ajaxResult.setMsg("条形码" + barcode + "未入库或已出库！");
+							return ajaxResult;
+						}
+					}
+					if(type == Constants.WAREHOUSERPT_TYPE_IN) {
+						barcodeInfo.setScannoin(scanno);
+					} else if(type == Constants.WAREHOUSERPT_TYPE_OUT) {
+						barcodeInfo.setScannoout(scanno);
 					}
 					
 					barcodeInfoMap.put(barcode, barcodeInfo);
@@ -159,15 +283,15 @@ public class WarehouseServiceImpl implements WarehouseService {
 					if(type == Constants.WAREHOUSERPT_TYPE_IN) {
 						//扫码入库
 						barcodeInfo.setOperatetype(Constants.BARCODE_LOG_OPERATE_TYPE_IN);
+						barcodeInfo.setRptnoin(rpt.getWarehouseno());
 					} else {
 						//扫码出库
 						barcodeInfo.setOperatetype(Constants.BARCODE_LOG_OPERATE_TYPE_OUT);
+						barcodeInfo.setRptnoout(rpt.getWarehouseno());
 					}
 					barcodeInfo.setUpdateuid(userid);
 					//类型=入出库类型（有疑问，条形码生成时默认为入库单？）
 					//barcodeInfo.setBarcodetype(type);
-					//入出库单号
-					barcodeInfo.setRes01(rpt.getWarehouseno());
 					barcodeInfoDao.updateBarcodeInfo(barcodeInfo);
 				}
 				
@@ -1646,5 +1770,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 	public void setProductBarcodeDao(ProductBarcodeDao productBarcodeDao) {
 		this.productBarcodeDao = productBarcodeDao;
+	}
+
+	public ProductService getProductService() {
+		return productService;
+	}
+
+	public void setProductService(ProductService productService) {
+		this.productService = productService;
 	}
 }

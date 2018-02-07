@@ -71,7 +71,7 @@ public class BarcodeInfoServiceImpl implements BarcodeInfoService {
 			if(oldBarcodeInfo != null) {
 				//更新原来的记录
 				//扫码入库
-				oldBarcodeInfo.setScanno(scanno);
+				oldBarcodeInfo.setScannoin(scanno);
 				oldBarcodeInfo.setNote(barcodenote);
 				oldBarcodeInfo.setOperatetype(Constants.BARCODE_LOG_OPERATE_TYPE_IN);
 				oldBarcodeInfo.setUpdateuid(userid);
@@ -85,7 +85,7 @@ public class BarcodeInfoServiceImpl implements BarcodeInfoService {
 				barcodeInfo.setBarcode(barcode);
 				barcodeInfo.setBarcodeno(barcodeno);
 				
-				barcodeInfo.setScanno(scanno);
+				barcodeInfo.setScannoin(scanno);
 				barcodeInfo.setBarcodetype(1);
 				barcodeInfo.setQuantity(Integer.valueOf(product.getItem14()));
 				barcodeInfo.setNote(barcodenote);

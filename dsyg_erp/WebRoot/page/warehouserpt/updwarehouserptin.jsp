@@ -203,20 +203,22 @@
 			$("#barcodeInfoList").focus();
 			return;
 		}
-		if(confirm("确定入库吗？")) {
-			var param = new Object();
-			param.strScanBarcodeInfo = barcodeInfoList;
-			param.barcodeInId = $("#id").val();;
-			$.getJSON('../warehouse/barcodeWarehouseInAction.action', param, function(data) {
-				if(data.code == 0) {
-					alert(data.msg);
-					$("#" + "barcodeTd").hide();
-					cancelSacnBarCode();
-				} else {
-					alert(data.msg);
-				}
-			});
-		}
+		var param = new Object();
+		param.strScanBarcodeInfo = barcodeInfoList;
+		param.barcodeInId = $("#id").val();
+		$.getJSON('../warehouse/barcodeWarehouseInCheckAction.action', param, function(data) {
+			if(confirm(data.msg + "确定入库吗？")) {
+				$.getJSON('../warehouse/barcodeWarehouseInAction.action', param, function(data) {
+					if(data.code == 0) {
+						alert(data.msg);
+						$("#" + "barcodeTd").hide();
+						cancelSacnBarCode();
+					} else {
+						alert(data.msg);
+					}
+				});
+			}
+		});
 	}
 	
 	function cancelSacnBarCode() {

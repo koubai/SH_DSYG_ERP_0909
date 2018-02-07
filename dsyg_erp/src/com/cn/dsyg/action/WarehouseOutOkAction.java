@@ -72,6 +72,45 @@ public class WarehouseOutOkAction extends BaseAction {
 	private String strScanBarcodeInfo;
 	
 	/**
+	 * 条形码出库前验证
+	 * @return
+	 */
+	public String barcodeWarehouseOutCheckAction() throws Exception {
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out;
+		AjaxResultDto ajaxResult = new AjaxResultDto();
+		try {
+			this.clearMessages();
+			WarehouserptDto rpt = warehouserptService.queryWarehouserptByID(barcodeOutId);
+			if(rpt != null) {
+				if("1".equals(rpt.getRes02())) {
+					ajaxResult.setCode(99);
+					ajaxResult.setMsg("单据已入库！");
+				} else {
+					//当前操作用户ID
+					String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
+					ajaxResult = warehouseService.barcodeWarehouseInOutCheck(barcodeOutId, strScanBarcodeInfo, Constants.WAREHOUSERPT_TYPE_OUT, username, true);
+				}
+			} else {
+				ajaxResult.setCode(1);
+				ajaxResult.setMsg("单据数据不存在！");
+			}
+		} catch(Exception e) {
+			ajaxResult.setCode(-1);
+			ajaxResult.setMsg("系统异常，请联系管理员！");
+			log.error("barcodeWarehouseOutCheckAction error:" + e);
+		}
+		out = response.getWriter();
+		String result = JSONArray.fromObject(ajaxResult).toString();
+		result = result.substring(1, result.length() - 1);
+		log.info(result);
+		out.write(result);
+		out.flush();
+		return null;
+	}
+	
+	/**
 	 * 条形码出库
 	 * @return
 	 * @throws Exception 

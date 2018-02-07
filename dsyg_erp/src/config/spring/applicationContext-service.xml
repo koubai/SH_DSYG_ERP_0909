@@ -337,6 +337,9 @@
 
 	<!-- Warehouse -->
 	<bean id="warehouseService" class="com.cn.dsyg.service.impl.WarehouseServiceImpl" >
+		<property name="productService">
+			<ref local="productService"/>
+		</property>
 		<property name="warehouseDao">
 			<ref local="warehouseDao"/>
 		</property>

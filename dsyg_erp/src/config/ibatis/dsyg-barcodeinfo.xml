@@ -11,7 +11,10 @@
 		<result property="batchno" column="batchno" />
 		<result property="barcode" column="barcode" />
 		<result property="barcodeno" column="barcodeno" />
-		<result property="scanno" column="scanno" />
+		<result property="rptnoin" column="rptnoin" />
+		<result property="scannoin" column="scannoin" />
+		<result property="rptnoout" column="rptnoout" />
+		<result property="scannoout" column="scannoout" />
 		<result property="barcodetype" column="barcodetype" />
 		<result property="quantity" column="quantity" />
 		<result property="operatetype" column="operatetype" />
@@ -36,7 +39,10 @@
 		<result property="batchno" column="batchno" />
 		<result property="barcode" column="barcode" />
 		<result property="barcodeno" column="barcodeno" />
-		<result property="scanno" column="scanno" />
+		<result property="rptnoin" column="rptnoin" />
+		<result property="scannoin" column="scannoin" />
+		<result property="rptnoout" column="rptnoout" />
+		<result property="scannoout" column="scannoout" />
 		<result property="barcodetype" column="barcodetype" />
 		<result property="quantity" column="quantity" />
 		<result property="operatetype" column="operatetype" />
@@ -145,9 +151,9 @@
 	</select>
 	
 	<insert id="insertBarcodeInfo" parameterClass="com.cn.dsyg.dto.BarcodeInfoDto">
-		insert into etb_barcode_info(belongto,productid,batchno,barcode,barcodeno,scanno,barcodetype,quantity,
+		insert into etb_barcode_info(belongto,productid,batchno,barcode,barcodeno,rptnoin,scannoin,rptnoout,scannoout,barcodetype,quantity,
 			operatetype,note,status,res01,res02,res03,res04,res05,createuid,createdate,updateuid,updatedate)
-		values(#belongto#,#productid#,#batchno#,#barcode#,#barcodeno#,#scanno#,#barcodetype#,#quantity#,
+		values(#belongto#,#productid#,#batchno#,#barcode#,#barcodeno#,#rptnoin#,#scannoin#,#rptnoout#,#scannoout#,#barcodetype#,#quantity#,
 			#operatetype#,#note#,#status#,#res01#,#res02#,#res03#,#res04#,#res05#,#createuid#,NOW(),#updateuid#,NOW())
 		<selectKey resultClass="long" keyProperty="id" >
 			select LAST_INSERT_ID() as value
@@ -158,7 +164,10 @@
 		update etb_barcode_info
 		set barcode = #barcode#,
 			barcodeno = #barcodeno#,
-			scanno = #scanno#,
+			rptnoin = #rptnoin#,
+			scannoin = #scannoin#,
+			rptnoout = #rptnoout#,
+			scannoout = #scannoout#,
 			barcodetype = #barcodetype#,
 			quantity = #quantity#,
 			operatetype = #operatetype#,

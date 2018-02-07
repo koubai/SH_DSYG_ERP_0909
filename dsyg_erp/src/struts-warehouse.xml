@@ -169,7 +169,15 @@
 			<result type="json"></result>
 		</action>
 		
+		<action name="barcodeWarehouseOutCheckAction" class="warehouseOutOkAction" method="barcodeWarehouseOutCheckAction">
+			<result type="json"></result>
+		</action>
+		
 		<action name="barcodeWarehouseOutAction" class="warehouseOutOkAction" method="barcodeWarehouseOutAction">
+			<result type="json"></result>
+		</action>
+		
+		<action name="barcodeWarehouseInCheckAction" class="warehouseInOkAction" method="barcodeWarehouseInCheckAction">
 			<result type="json"></result>
 		</action>
 		

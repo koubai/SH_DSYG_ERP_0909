@@ -208,13 +208,15 @@
 								<tr class="tittle">
 									<td width="30"></td>
 									<td width="40">序号</td>
-									<td width="130">产品名</td>
-									<td width="130">条形码</td>
-									<td width="130">条形码状态</td>
-									<td width="80">扫码枪编号</td>
-									<td width="110">单位数量</td>
-									<td width="110">入/出库单号</td>
-									<td width="80">更新时间</td>
+									<td width="80">产品名</td>
+									<td width="135">条形码</td>
+									<td width="70">条形码状态</td>
+									<td width="90">入库单号</td>
+									<td width="70">Scaner（In）</td>
+									<td width="90">出库单号</td>
+									<td width="70">Scaner（Out）</td>
+									<td width="70">单位数量</td>
+									<td width="100">更新时间</td>
 								</tr>
 								<s:iterator id="barcodeInfoList" value="barcodeInfoList" status="st1">
 									<s:if test="#st1.odd==true">
@@ -250,9 +252,11 @@
 												<s:property value="operatetype"/>
 											</s:else>
 										</td>
-										<td><s:property value="scanno"/></td>
+										<td><s:property value="rptnoin"/></td>
+										<td><s:property value="scannoin"/></td>
+										<td><s:property value="rptnoout"/></td>
+										<td><s:property value="scannoout"/></td>
 										<td><s:property value="quantity"/></td>
-										<td><s:property value="res01"/></td>
 										<td>
 											<s:date name="updatedate" format="yyyy/MM/dd HH:mm:ss"/>
 										</td>
