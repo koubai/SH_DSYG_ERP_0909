@@ -213,7 +213,7 @@
 </head>
 <body>
 	<div id="containermain">
-		<div id="overlay" class="black_overlay1"></div>
+		<div id="overlay" class="black_overlay"></div>
 		<div id="scanBarcodeDiv" style="position:fixed;display:none; z-index:1003;height: 251px;width: 551px;left:23%;top:130px;padding:6px 10px;max-height:260px;border:1px solid #999999;background:#fff;overflow-y:auto;">
 			<table style="height: 250px; width: 550px;" border="0" cellpadding="0" cellspacing="0" bgcolor="white">
 				<tr style="height: 20px;">
