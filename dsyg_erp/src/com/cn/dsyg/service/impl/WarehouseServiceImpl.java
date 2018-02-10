@@ -359,23 +359,12 @@ public class WarehouseServiceImpl implements WarehouseService {
 			String info = infos[i];
 			if(StringUtil.isNotBlank(info) && !"null".equalsIgnoreCase(info)) {
 				String[] ll = info.split(",");
-				product = productDao.queryProductByID(ll[0]);
-				if(product != null) {
-					if(product.getItem14() != null) {
-						if(rptQuantityMap.containsKey(ll[0])) {
-							BigDecimal quantity = rptQuantityMap.get(ll[0]);
-							quantity = quantity.add(new BigDecimal(ll[1]).multiply(new BigDecimal(product.getItem14())));
-							rptQuantityMap.put(ll[0], quantity);
-						} else {
-							rptQuantityMap.put(ll[0], new BigDecimal(ll[1]).multiply(new BigDecimal(product.getItem14())));
-						}
-					} else {
-						//item14为空，判断barcode对应的产品map是否为空
-						//单位长度信息不明
-						ajaxResult.setCode(6);
-						ajaxResult.setMsg("产品[" + product.getTradename() + "]单位长度信息不明！");
-						return ajaxResult;
-					}
+				if(rptQuantityMap.containsKey(ll[0])) {
+					BigDecimal quantity = rptQuantityMap.get(ll[0]);
+					quantity = quantity.add(new BigDecimal(ll[1]));
+					rptQuantityMap.put(ll[0], quantity);
+				} else {
+					rptQuantityMap.put(ll[0], new BigDecimal(ll[1]));
 				}
 			}
 		}
