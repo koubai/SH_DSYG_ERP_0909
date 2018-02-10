@@ -213,9 +213,9 @@
 </head>
 <body>
 	<div id="containermain">
-		<div id="overlay" class="black_overlay"></div>
-		<div id="scanBarcodeDiv" style="position:fixed;display:none; z-index:1003;height: 251px;width: 551px;left:23%;top:130px;padding:6px 10px;max-height:260px;border:1px solid #999999;background:#fff;overflow-y:auto;">
-			<table style="height: 250px; width: 550px;" border="0" cellpadding="0" cellspacing="0" bgcolor="white">
+		<div id="overlay" class="black_overlay1"></div>
+		<div id="scanBarcodeDiv" style="position:fixed;display:none; z-index:1003;height: 261px;width: 605px;left:23%;top:130px;padding:6px 10px;max-height:260px;border:1px solid #999999;background:#fff;overflow-y:auto;">
+			<table style="height: 250px; width: 600px;" border="0" cellpadding="0" cellspacing="0" bgcolor="white">
 				<tr style="height: 20px;">
 					<td colspan="2"> </td>
 				</tr>
@@ -580,6 +580,20 @@
 									<div class="box1_right"></div>
 								</div>
 							</td>
+							<s:if test='updWarehouserptDto.res02 != null && updWarehouserptDto.res02 == "1"'>
+								<td id="barcodeTd" style="display: none;">
+							</s:if>
+							<s:else>
+								<td id="barcodeTd">
+							</s:else>
+									<div class="btn">
+										<div class="box1_left"></div>
+										<div class="box1_center">
+											<input class="input120" type="button" style="width:120px" value="条形码入库" onclick="showBarcodeIn();"/>
+										</div>
+										<div class="box1_right"></div>
+									</div>
+								</td>
 							<td>
 								<div class="btn">
 									<div class="box1_left"></div>
