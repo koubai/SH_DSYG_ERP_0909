@@ -125,11 +125,11 @@ public class WarehouseServiceImpl implements WarehouseService {
 						if(product != null) {
 							//产品对应的条形码最大编号MAP
 							if(productBarcodeMap.containsKey(barcodeInfo.getProductid())) {
-								if(Integer.valueOf(productBarcodeMap.get(barcodeInfo.getProductid())) < Integer.valueOf(barcodeInfo.getBarcodeno())) {
-									productBarcodeMap.put(barcodeInfo.getProductid(), barcodeInfo.getBarcodeno());
+								if(Integer.valueOf(productBarcodeMap.get(barcodeInfo.getProductid()).split("-")[2]) < Integer.valueOf(barcodeInfo.getBarcodeno())) {
+									productBarcodeMap.put(barcodeInfo.getProductid(), barcodeInfo.getBarcode());
 								}
 							} else {
-								productBarcodeMap.put(barcodeInfo.getProductid(), barcodeInfo.getBarcodeno());
+								productBarcodeMap.put(barcodeInfo.getProductid(), barcodeInfo.getBarcode());
 							}
 							
 							if(type == Constants.WAREHOUSERPT_TYPE_IN) {
@@ -179,6 +179,25 @@ public class WarehouseServiceImpl implements WarehouseService {
 				String[] ll = key.split("###");
 				allmsg += ll[1] + "数量" + entry.getValue() + "\n";
 			}
+			
+			String maxcheckmsg = "";
+			if(type == Constants.WAREHOUSERPT_TYPE_OUT) {
+				//验证是否还有条形码番号低的未出库
+				for(Map.Entry<String, String> entry : productBarcodeMap.entrySet()) {
+					//根据条形码编号，查询较小编号的条形码列表
+					List<BarcodeInfoDto> lessBarcodeList = barcodeInfoDao.queryBarcodeInfoListLessBarcodeno(entry.getKey(),
+							"" + Constants.BARCODE_LOG_OPERATE_TYPE_IN, entry.getValue().split("-")[2], "");
+					if(lessBarcodeList != null && lessBarcodeList.size() > 0) {
+						for(BarcodeInfoDto lessBarcode : lessBarcodeList) {
+							if(scanBarcodeInfo.indexOf(lessBarcode.getBarcode()) < 0) {
+								maxcheckmsg += "有比" + entry.getValue() + "较小编号的条形码未出库！\n";
+								break;
+							}
+						}
+					}
+				}
+			}
+			
 			if(StringUtil.isNotBlank(errormsg)) {
 				ajaxResult.setCode(1);
 				if(!checktype) {
@@ -189,6 +208,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 			} else {
 				ajaxResult.setCode(0);
 			}
+			allmsg += maxcheckmsg;
 			ajaxResult.setMsg(allmsg);
 		}
 		return ajaxResult;
