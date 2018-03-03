@@ -136,7 +136,7 @@
 				A.financeno like '%$financeno$%' ESCAPE '/'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="invoiceno">
-				A.invoiceno = #invoiceno#
+				A.invoiceno like '%$invoiceno$%' ESCAPE '/'
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="customername">
 				A.customername like '%$customername$%' ESCAPE '/'
