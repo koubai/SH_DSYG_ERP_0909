@@ -68,8 +68,9 @@ public class PoiSalesPrice {
         templateContent = templateContent.replaceAll("#dsyg#", updSalesDto.getTheme2());
         templateContent = templateContent.replaceAll("#res01#", dictMap.get(Constants.DICT_PAY_TYPE + "_" + updSalesDto.getRes01()));
         templateContent = templateContent.replaceAll("#res03#", updSalesDto.getRes03());
-        templateContent = templateContent.replaceAll("#validdate#", updSalesDto.getRes04());
 //  20180424 update for tax rate change         - start -           
+//        templateContent = templateContent.replaceAll("#validdate#", updSalesDto.getRes04());
+        templateContent = templateContent.replaceAll("#validdate#", "30天");
 //        templateContent = templateContent.replaceAll("#indexnote#", updSalesDto.getNote());
         templateContent = templateContent.replaceAll("#indexnote#", "以上单价为未税价格。");
 //  20180424 update for tax rate change         - end -           
