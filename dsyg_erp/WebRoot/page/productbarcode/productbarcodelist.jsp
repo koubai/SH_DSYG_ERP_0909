@@ -395,6 +395,7 @@
 								<td width="60">包装</td>
 								<td width="40">产地</td>
 								<td width="82">住友编码</td>
+								<td width="40">产品号</td>
 								<td width="82">单位长度</td>
 								<td width="82">当前条码号</td>
 								<td width="82">条码开始号</td>
@@ -446,6 +447,7 @@
 									<td>
 										<s:property value="item11"/>
 									</td>
+									<td><s:property value="id"/></td>
 									<td>
 										<s:if test='item14 != null && item14 != ""'>
 											<input id="item14_<s:property value="id"/>" type="hidden" value="<s:property value="item14"/>"/>

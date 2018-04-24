@@ -69,7 +69,10 @@ public class PoiSalesPrice {
         templateContent = templateContent.replaceAll("#res01#", dictMap.get(Constants.DICT_PAY_TYPE + "_" + updSalesDto.getRes01()));
         templateContent = templateContent.replaceAll("#res03#", updSalesDto.getRes03());
         templateContent = templateContent.replaceAll("#validdate#", updSalesDto.getRes04());
-        templateContent = templateContent.replaceAll("#indexnote#", updSalesDto.getNote());
+//  20180424 update for tax rate change         - start -           
+//        templateContent = templateContent.replaceAll("#indexnote#", updSalesDto.getNote());
+        templateContent = templateContent.replaceAll("#indexnote#", "以上单价为未税价格。");
+//  20180424 update for tax rate change         - end -           
         
         StringBuilder products = new StringBuilder(" ");
         for (int i = 0; i < updSalesItemList.size(); i++) {  
@@ -103,7 +106,10 @@ public class PoiSalesPrice {
         	}
             products.append("</td>"); 
             products.append("<td style=\"border:solid; border-width:0px 0px 1px 1px;\">"); 
-            products.append("￥" + updSalesItemList.get(i).getTaxunitprice());  
+//  20180424 update for tax rate change         - start -           
+//            products.append("￥" + updSalesItemList.get(i).getTaxunitprice());  
+            products.append("￥" + updSalesItemList.get(i).getUnitprice());  
+//  20180424 update for tax rate change         - end -            
             products.append("</td>");
             products.append("<td style=\"border:solid; border-width:0px 1px 1px 1px; font-weight:bold\">"); 
         	if(updSalesItemList.get(i).getRes09() != null){
