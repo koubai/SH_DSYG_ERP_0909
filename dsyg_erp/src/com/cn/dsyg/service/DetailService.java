@@ -14,9 +14,10 @@ public interface DetailService {
 	 * 翻页查询客户
 	 * @param page
 	 * @param productid
+	 * @param strSalesMode
 	 * @return
 	 */
-	public Page queryDetailCustomerByPage(Page page, String productid);
+	public Page queryDetailCustomerByPage(Page page, String productid, String strSalesMode);
 	
 	/**
 	 * 翻页查询产品

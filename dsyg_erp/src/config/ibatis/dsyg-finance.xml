@@ -144,6 +144,9 @@
 		<isNotEmpty prepend="and" property="customername">
 			T.customername like '%$customername$%' ESCAPE '/'
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="nostatus">
+			T.status != #nostatus#
+		</isNotEmpty>
 		order by T.updatedate desc,T.id desc
 		LIMIT #start#, #end#
 	</select>
@@ -172,7 +175,7 @@
 			T.receiptdate <![CDATA[>=]]> #receiptdateLow#
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="receiptdateHigh">
-			T.receiptdate <![CDATA[<]]> #receiptdateHigh#
+			T.receiptdate != #receiptdateHigh#
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="billno">
 			T.res10 like '%$billno$%' ESCAPE '/'
@@ -182,6 +185,9 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="customername">
 			T.customername like '%$customername$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="nostatus">
+			T.status != #nostatus#
 		</isNotEmpty>
 	</select>
 	

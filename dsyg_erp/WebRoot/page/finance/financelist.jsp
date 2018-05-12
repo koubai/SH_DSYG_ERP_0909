@@ -442,27 +442,14 @@
 							</select>
 						</div>
 						<div class="box1_right"></div>
-						
 						<label class="pdf10">　客户名</label>
 						<div class="box1_left"></div>
 						<div class="box1_center">
 							<s:textfield name="strCustomername" id="strCustomername" cssStyle="width:100px;" maxlength="32" theme="simple"></s:textfield>
 						</div>
+						<div class="box1_right"></div>
 						
-						<div class="box1_right"></div>
-						<label class="pdf10">　入出库单</label>
-						<div class="box1_left"></div>
-						<div class="box1_center">
-							<s:textfield name="strInvoiceid" id="strInvoiceid" cssStyle="width:130px;" maxlength="32" theme="simple"></s:textfield>
-						</div>
-						<div class="box1_right"></div>
 					</div>
-					<div class="btn" style="margin-left: 15px;">
-						<div class="box1_left"></div>
-						<div class="box1_center">
-							<input type="button" class="input40" value="检索" onclick="queryList();"/>
-						</div>
-						<div class="box1_right"></div>
 					</div>
 					<!-- <div class="btn" style="margin-left: 10px;">
 						<div class="box1_left"></div>
@@ -474,13 +461,47 @@
 					<div class="box1" style="margin-top:-3px; margin-left: -240px; color: red;">
 						<s:actionmessage />
 					</div>
+				</div>
+				<div class="searchbox update">
+					<div class="box1">
+						<label>　入出库单</label>
+						<div class="box1_left" style="margin-left: 20px;"></div>
+						<div class="box1_center" >
+							<s:textfield name="strInvoiceid" id="strInvoiceid" cssStyle="width:150px;" maxlength="32" theme="simple"></s:textfield>
+						</div>
+						<div class="box1_right"></div>
+	
+						<label class="pdf10" style="margin-left: 20px;">开票完了隐藏/显示</label>
+						<div class="box1_left" style="margin-left: 10px;"></div>
+						<div class="box1_center date_input">
+							<select id="strInvoiceddsp_flg" name="strInvoiceddsp_flg" style="width: 120px;">
+								<s:if test='strInvoiceddsp_flg == "0"'>
+									<option value="">请选择</option>
+									<option value="0" selected="selected">隐藏</option>
+								</s:if>
+								<s:else>
+									<option value="" selected="selected">请选择</option>
+									<option value="0">隐藏</option>
+								</s:else>
+							</select>
+						</div>
+						<div class="box1_right"></div>
+					</div>
+					<div class="box1">
+					</div>	
+					<div class="btn" style="margin-left: 100px;">
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							<input type="button" class="input40" value="检索" onclick="queryList();"/>
+						</div>
+						<div class="box1_right"></div>
+					</div>
 					<div class="icons thums">
 						<a class="add" onclick="add();">增加</a>
 						<a class="edit" onclick="upd();">修改</a>
 						<!--
 						<a class="delete" onclick="del();">删除</a>
 						-->
-					</div>
 				</div>
 				<div class="data_table" style="padding:0px;">
 					<div class="tab_tittle">

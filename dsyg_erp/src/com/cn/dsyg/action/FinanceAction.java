@@ -114,6 +114,9 @@ public class FinanceAction extends BaseAction {
 	//开票预出库列表
 	private List<ProductDto> tmpProductList;
 	
+	//已开发票显示    0：隐藏  1：显示
+	private String strInvoiceddsp_flg;
+
 	/**
 	 * 开票
 	 * @return
@@ -551,6 +554,7 @@ public class FinanceAction extends BaseAction {
 			strInvoiceid = "";
 			financeList = new ArrayList<FinanceDto>();
 			strFinancetype = "";
+			strInvoiceddsp_flg = "0";
 			
 			queryData();
 		} catch(Exception e) {
@@ -686,8 +690,9 @@ public class FinanceAction extends BaseAction {
 		financeDictList = dict01Service.queryDict01ByFieldcode(Constants.FINANCE_THEME, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
 		//翻页查询所有委托公司
 		this.page.setStartIndex(startIndex);
+		System.out.println("strInvoiceddsp_flg:" + strInvoiceddsp_flg);
 		page = financeService.queryFinanceByPage("", "", strFinancetype, strInvoiceid,
-				"", "", strReceiptdateLow, strReceiptdateHigh, strBillno, "", strCustomername, page);
+				"", "", strReceiptdateLow, strReceiptdateHigh, strBillno, "", strCustomername, strInvoiceddsp_flg, page);
 		financeList = (List<FinanceDto>) page.getItems();
 		strTotalAmount = financeService.queryFinanceTotalAmount("", "", "", strInvoiceid,
 				"", "", strReceiptdateLow, strReceiptdateHigh, strBillno, "", strCustomername);
@@ -1047,5 +1052,14 @@ public class FinanceAction extends BaseAction {
 	public void setStrTotalInvoiceAmount(String strTotalInvoiceAmount) {
 		this.strTotalInvoiceAmount = strTotalInvoiceAmount;
 	}
+
+	public String getStrInvoiceddsp_flg() {
+		return strInvoiceddsp_flg;
+	}
+
+	public void setStrInvoiceddsp_flg(String strInvoiceddsp_flg) {
+		this.strInvoiceddsp_flg = strInvoiceddsp_flg;
+	}
+
 
 }

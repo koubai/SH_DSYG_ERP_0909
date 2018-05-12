@@ -57,6 +57,8 @@ public class DetailAction extends BaseAction {
 	private String productname;
 	private String productdetail;
 	private String tab;
+	private String strSalesMode;
+	
 
 	/**
 	 * 显示产品到客户页面
@@ -137,7 +139,7 @@ public class DetailAction extends BaseAction {
 		initDictList();
 		//翻页查询所有员工档案
 		this.page.setStartIndex(startIndex);
-		page = detailService.queryDetailCustomerByPage(page, strProductid);
+		page = detailService.queryDetailCustomerByPage(page, strProductid, strSalesMode);
 		listSales = (List<SalesDto>) page.getItems();
 		tab = "0";
 		this.setStartIndex(page.getStartIndex());
@@ -363,4 +365,14 @@ public class DetailAction extends BaseAction {
 	public void setDict01Service(Dict01Service dict01Service) {
 		this.dict01Service = dict01Service;
 	}
+	
+	public String getStrSalesMode() {
+		return strSalesMode;
+	}
+
+	public void setStrSalesMode(String strSalesMode) {
+		this.strSalesMode = strSalesMode;
+	}
+
+
 }

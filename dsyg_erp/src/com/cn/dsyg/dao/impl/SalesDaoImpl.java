@@ -177,16 +177,18 @@ public class SalesDaoImpl extends BaseDao implements SalesDao {
 	}
 
 	@Override
-	public int queryDetailCustomerCountByPage(String productid) {
+	public int queryDetailCustomerCountByPage(String productid, String strSalesMode) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("productid", productid);
+		paramMap.put("res02", strSalesMode);
 		return (Integer) getSqlMapClientTemplate().queryForObject("queryDetailCustomerCountByPage", paramMap);
 	}
 
 	@Override
-	public List<SalesDto> queryDetailCustomerByPage(String productid, int start, int end) {
+	public List<SalesDto> queryDetailCustomerByPage(String productid, String strSalesMode, int start, int end) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("productid", productid);
+		paramMap.put("res02", strSalesMode);
 		
 		paramMap.put("start", start);
 		paramMap.put("end", end);

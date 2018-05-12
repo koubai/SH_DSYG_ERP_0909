@@ -45,13 +45,14 @@ public interface FinanceDao {
 	 * @param billno
 	 * @param res02
 	 * @param expressName
+	 * @param nostatus
 	 * @param start
 	 * @param end
 	 * @return
 	 */
 	public List<FinanceDto> queryFinanceByPage(String expressno, String status, String financetype, String invoiceid,
 			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh,
-			String billno, String res02, String expressName, int start, int end);
+			String billno, String res02, String expressName, String nostatus, int start, int end);
 
 	/**
 	 * 根据条件查询所有财务记录
@@ -124,10 +125,11 @@ public interface FinanceDao {
 	 * @param billno
 	 * @param res02
 	 * @param expressName
+	 * @param nostatus
 	 * @return
 	 */
 	public int queryFinanceCountByPage(String expressno, String status, String financetype, String invoiceid,
-			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh, String billno, String res02, String expressName);
+			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh, String billno, String res02, String expressName, String nostatus);
 	
 	/**
 	 * 根据ID查询记录

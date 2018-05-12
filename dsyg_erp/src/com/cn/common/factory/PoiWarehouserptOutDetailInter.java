@@ -177,11 +177,12 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 					cell2.setCellStyle(style);
 					cell3.setCellValue(dictMap.get(Constants.DICT_COLOR_TYPE + "_" + product.getColor()));
 					cell3.setCellStyle(style);
-					if("0".equals(product.getPackaging())) {
+/*					if("0".equals(product.getPackaging())) {
 						cell4.setCellValue("整箱");
 					} else {
 						cell4.setCellValue("乱尺");
-					}
+					}*/
+					cell4.setCellValue("");
 					cell4.setCellStyle(style);
 					cell5.setCellStyle(style);
 					cell5.setCellValue(product.getItem10());
@@ -304,11 +305,14 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 		heads.add("品名");
 		sheet.setColumnWidth(1, 12 * 256);
 		heads.add("规格");
-		sheet.setColumnWidth(2, 30 * 256);
+//		sheet.setColumnWidth(2, 30 * 256);
+		sheet.setColumnWidth(2, 40 * 256);
 		heads.add("颜色");
 		sheet.setColumnWidth(3, 6 * 256);
-		heads.add("形式");
-		sheet.setColumnWidth(4, 10 * 256);
+//		heads.add("形式");
+//		sheet.setColumnWidth(4, 10 * 256);
+		heads.add("");
+		sheet.setColumnWidth(4, 0 * 256);
 		heads.add("包装");
 		sheet.setColumnWidth(5, 25 * 256);
 		heads.add("数量");

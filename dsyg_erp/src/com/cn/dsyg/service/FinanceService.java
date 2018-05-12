@@ -54,11 +54,12 @@ public interface FinanceService {
 	 * @param billno
 	 * @param res02
 	 * @param expressName
+	 * @param invoiceddsp_flg
 	 * @param page
 	 * @return
 	 */
 	public Page queryFinanceByPage(String expressno, String status, String financetype, String invoiceid,
-			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh, String billno, String res02, String expressName, Page page);
+			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh, String billno, String res02, String expressName, String invoiceddsp_flg, Page page);
 	
 	/**
 	 * 查询财务金额信息

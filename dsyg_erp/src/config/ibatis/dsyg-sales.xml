@@ -120,17 +120,23 @@
 	
 	<!-- detail -->
 	<select id="queryDetailCustomerCountByPage" resultClass="int" parameterClass="java.util.Map">
-		select count(*) from (select S.* from etb_sales S,etb_salesitem T where S.theme2 = T.theme2 and S.res02 ='0'
+		select count(*) from (select S.* from etb_sales S,etb_salesitem T where S.theme2 = T.theme2 
 		<isNotEmpty prepend="and" property="productid">
 			T.productid = #productid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="res02">
+			S.res02 = #res02#
 		</isNotEmpty>
 		group by S.customerid) C
 	</select>
 	
 	<select id="queryDetailCustomerByPage" parameterClass="java.util.Map" resultMap="SalesDto">
-		select S.* from etb_sales S,etb_salesitem T where S.theme2 = T.theme2 and S.res02 ='0'
+		select S.* from etb_sales S,etb_salesitem T where S.theme2 = T.theme2 
 		<isNotEmpty prepend="and" property="productid">
 			T.productid = #productid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="res02">
+			S.res02 = #res02#
 		</isNotEmpty>
 		group by S.customerid
 		order by T.updatedate desc

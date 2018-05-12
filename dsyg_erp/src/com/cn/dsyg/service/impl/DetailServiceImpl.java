@@ -20,10 +20,9 @@ public class DetailServiceImpl implements DetailService {
 	private SalesDao salesDao;
 	private SalesItemDao salesItemDao;
 	
-	@Override
-	public Page queryDetailCustomerByPage(Page page, String productid) {
+	public Page queryDetailCustomerByPage(Page page, String productid, String strSalesMode) {
 		//查询总记录数
-		int totalCount = salesDao.queryDetailCustomerCountByPage(productid);
+		int totalCount = salesDao.queryDetailCustomerCountByPage(productid, strSalesMode);
 		page.setTotalCount(totalCount);
 		if(totalCount % page.getPageSize() > 0) {
 			page.setTotalPage(totalCount / page.getPageSize() + 1);
@@ -31,7 +30,7 @@ public class DetailServiceImpl implements DetailService {
 			page.setTotalPage(totalCount / page.getPageSize());
 		}
 		//翻页查询记录
-		List<SalesDto> list = salesDao.queryDetailCustomerByPage(productid, page.getStartIndex() * page.getPageSize(), page.getPageSize());
+		List<SalesDto> list = salesDao.queryDetailCustomerByPage(productid, strSalesMode, page.getStartIndex() * page.getPageSize(), page.getPageSize());
 		page.setItems(list);
 		return page;
 		/*

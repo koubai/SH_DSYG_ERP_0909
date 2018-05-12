@@ -180,6 +180,32 @@
 						</div>
 						<div class="box1_right"></div>
 					</div>
+					<div class="box1">
+					<label class="pdf10" style="margin-left: 100px;">销售/询价</label>
+					<div class="box1_left" style="margin-left: 10px;"></div>
+					<div class="box1_center date_input">
+						<select id="strSalesMode" name="strSalesMode" style="width: 120px;">
+							<s:if test='strSalesMode == "0"'>
+								<option value="">请选择</option>
+								<option value="0" selected="selected">销售</option>
+								<option value="1">询价</option>
+							</s:if>
+							<s:elseif test='strSalesMode == "1"'>
+								<option value="">请选择</option>
+								<option value="0">销售</option>
+								<option value="1" selected="selected">询价</option>
+							</s:elseif>
+							<s:else>
+								<option value="" selected="selected">请选择</option>
+								<option value="0">销售</option>
+								<option value="1">询价</option>
+							</s:else>
+						</select>
+					</div>
+					<div class="box1_right"></div>
+					</div>
+				</div>
+				<div class="box1">
 				</div>
 				<div class="searchbox update">
 					<div class="box1">

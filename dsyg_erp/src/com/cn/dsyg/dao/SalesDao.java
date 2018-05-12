@@ -145,16 +145,18 @@ public interface SalesDao {
 	/**
 	 * 根据条件查询满足条件的销售单数量
 	 * @param productid
+	 * @param strSalesMode
 	 * @return
 	 */
-	public int queryDetailCustomerCountByPage(String productid);
+	public int queryDetailCustomerCountByPage(String productid, String strSalesMode);
 	
 	/**
 	 * 翻页查询满足条件的销售数据
 	 * @param productid
+	 * @param strSalesMode
 	 * @param start
 	 * @param end
 	 * @return
 	 */
-	public List<SalesDto> queryDetailCustomerByPage(String productid, int start, int end);
+	public List<SalesDto> queryDetailCustomerByPage(String productid, String strSalesMode, int start, int end);
 }
