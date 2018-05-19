@@ -46,6 +46,7 @@ public class WarehouserptDto extends BaseAction {
 	 */
 	private List<ProductDto> listProduct;
 	
+	
 	/**
 	 * 所属地（以后可能分上海和深圳）
 	 */
@@ -780,4 +781,24 @@ public class WarehouserptDto extends BaseAction {
 		this.totalnum = totalnum;
 	}
 
+	public String getProductQty(String productinfo, String productid) {
+		String[] words;
+		String[] wds;
+		BigDecimal qty;
+		if(productinfo != null && !productinfo.equals("")){
+			words = productinfo.split("#");
+			for (int i = 0; i<words.length; i++){
+				wds = words[i].split(",");
+				if (productid.equals(wds[0])){
+					qty=new BigDecimal(wds[1]);
+					qty = qty.multiply(new BigDecimal(-1));
+					return(qty.toString());
+				}
+			}
+		}
+		return "";
+	}
+
+
+	
 }

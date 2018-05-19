@@ -142,4 +142,12 @@ public interface WarehouserptService {
 	 * @param status
 	 */
 	public void approveWarehouserpt(String id, String userid, String res10, String receiptdate, String status);
+	
+	
+	/**
+	 * 发货单查询（产品号和客户号）
+	 * @param productid
+	 * @param customerid
+	 */
+	public List<WarehouserptDto> queryWarehouseInfoList(String strProductid, String strCustomerid);
 }

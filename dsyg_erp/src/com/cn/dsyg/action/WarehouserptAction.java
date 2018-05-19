@@ -19,8 +19,10 @@ import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dto.Dict01Dto;
+import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.dto.WarehouserptDto;
 import com.cn.dsyg.service.Dict01Service;
+import com.cn.dsyg.service.ProductService;
 import com.cn.dsyg.service.PurchaseItemService;
 import com.cn.dsyg.service.PurchaseService;
 import com.cn.dsyg.service.WarehouserptService;
@@ -41,6 +43,7 @@ public class WarehouserptAction extends BaseAction {
 	private PurchaseService purchaseService;
 	private PurchaseItemService purchaseItemService;
 	private Dict01Service dict01Service;
+	private ProductService productService;
 	
 	//页码
 	private int startIndex;
@@ -88,6 +91,12 @@ public class WarehouserptAction extends BaseAction {
 	//合计含税金额
 	private String strTotalAmount;
 
+	//查询用客户编号
+	private String strCustomerid;
+	//查询用产品编号
+	private String strProductid;
+	//查询用产品信息
+	private ProductDto productInfo;
 
 	//发货单
 	/**
@@ -106,6 +115,44 @@ public class WarehouserptAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
+	
+	
+	/**
+	 * 产品->客户关联发货单一览页面
+	 * @return
+	 */
+	public String showWarehouseInfoListAction() {
+		try {
+			this.clearMessages();
+			if (strProductid == null || strProductid.equals(""))
+				return ERROR;
+			if (strCustomerid == null || strCustomerid.equals(""))
+				return ERROR;
+			else{
+				System.out.println("strProductid:" + strProductid);
+				System.out.println("strCustomerid:" + strCustomerid);
+				
+				warehouserptList = warehouserptService.queryWarehouseInfoList("#"+strProductid+",", strCustomerid);				
+				productInfo = productService.queryProductByID(strProductid);				
+				
+				if (warehouserptList.size()>0){
+					for(int i = 0; i<warehouserptList.size(); i++){
+						WarehouserptDto rpt = warehouserptList.get(i);
+						rpt.setProductinfo(rpt.getProductQty(rpt.getProductinfo(),strProductid));
+					}					
+				}
+			}
+			
+			//初期化字典数据
+			initDictList();
+			
+		} catch(Exception e) {
+			log.error("showWarehouseInfoListAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+		
 	
 	
 	//发货单
@@ -932,9 +979,46 @@ public class WarehouserptAction extends BaseAction {
 		return strTotalAmount;
 	}
 
-
 	public void setStrTotalAmount(String strTotalAmount) {
 		this.strTotalAmount = strTotalAmount;
+	}
+
+	public String getStrCustomerid() {
+		return strCustomerid;
+	}
+
+
+	public void setStrCustomerid(String strCustomerid) {
+		this.strCustomerid = strCustomerid;
+	}
+
+
+	public String getStrProductid() {
+		return strProductid;
+	}
+
+
+	public void setStrProductid(String strProductid) {
+		this.strProductid = strProductid;
+	}
+
+	public ProductService getProductService() {
+		return productService;
+	}
+
+
+	public void setProductService(ProductService productService) {
+		this.productService = productService;
+	}
+
+
+	public ProductDto getProductInfo() {
+		return productInfo;
+	}
+
+
+	public void setProductInfo(ProductDto productInfo) {
+		this.productInfo = productInfo;
 	}
 
 }

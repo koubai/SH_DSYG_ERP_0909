@@ -70,6 +70,10 @@
 			<result name="*">/page/warehouserpt/updwarehouserptinitem.jsp</result>
 		</action>
 		
+		<action name="showWarehouseInfoListAction" class="warehouserptAction" method="showWarehouseInfoListAction">
+			<result name="*">/page/detail/warehouserptinfolist.jsp</result>
+		</action>
+		
 	</package>
 
 </struts>

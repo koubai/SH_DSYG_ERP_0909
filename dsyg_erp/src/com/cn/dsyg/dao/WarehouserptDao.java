@@ -138,4 +138,11 @@ public interface WarehouserptDao {
 	 * @param warehouserpt
 	 */
 	public void updateWarehouserpt(WarehouserptDto warehouserpt);
+	
+	/**
+	 * 发货单查询（产品号和客户号）
+	 * @param productid
+	 * @param customerid
+	 */
+	public List<WarehouserptDto> queryWarehouseInfoList(String productid, String supplierid);
 }

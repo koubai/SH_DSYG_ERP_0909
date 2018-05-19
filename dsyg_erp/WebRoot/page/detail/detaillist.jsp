@@ -135,6 +135,19 @@
 			return;
 		}	
 	}
+	
+	function showWarehouseInfoList(strProductid, strCustomerid) {
+		if(strProductid == "") {
+			return;
+		} else if (strCustomerid == "") {
+			return;
+		} else	{
+			var url = '<%=request.getContextPath()%>/warehouserpt/showWarehouseInfoListAction.action';
+			url += "?strProductid=" + strProductid + "&strCustomerid=" + strCustomerid + "&date=" + new Date();
+			window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		}
+	}
+
 </script>
 </head>
 <body>
@@ -246,7 +259,7 @@
 									<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
 									<td>
 										<div noWrap style="text-overflow:ellipsis;overflow:hidden">
-											<s:property value="customername"/>
+											<a href="#" onclick="showWarehouseInfoList(<s:property value="strProductid"/>, <s:property value="customerid"/>);"><s:property value="customername"/>
 										</div>
 									</td>
 									<td><s:property value="customeraddress"/></td>

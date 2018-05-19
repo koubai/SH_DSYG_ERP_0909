@@ -295,4 +295,17 @@
 		where id = #id#
 	</update>
 	
+	<select id="queryWarehouseInfoList" parameterClass="java.util.Map" resultMap="WarehouserptDto">
+		select T.* from warehouserptv01 T where 1 = 1
+		and	T.warehousetype = '2'
+		<isNotEmpty prepend="and" property="supplierid">
+			T.supplierid = #supplierid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="productid">
+			T.productinfo like '%$productid$%' ESCAPE '/'
+		</isNotEmpty>
+		order by T.warehouseno desc
+	</select>
+	
+	
 </sqlMap>

@@ -986,6 +986,18 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 			financeDao.updateFinance(ff);
 		}
 	}
+	
+	/**
+	 * 发货单查询（产品号和客户号）
+	 * @param productid
+	 * @param customerid
+	 */
+	public List<WarehouserptDto> queryWarehouseInfoList(String strProductid, String strCustomerid){
+		System.out.println("11strProductid:" + strProductid);
+		List<WarehouserptDto> warehouserptlst = warehouserptDao.queryWarehouseInfoList(strProductid, strCustomerid);
+		return warehouserptlst;
+	}
+
 
 	public WarehouserptDao getWarehouserptDao() {
 		return warehouserptDao;
