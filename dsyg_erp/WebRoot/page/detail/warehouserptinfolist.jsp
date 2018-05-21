@@ -14,10 +14,21 @@
 	$(function() {
 	});
 	
+	function init(){
+		var trs=document.getElementsByTagName("tr");
+		var m=0;
+		for(var i=1;i<trs.length-2;i++){
+			var tds=trs[i].getElementsByTagName("td");
+			m+=parseFloat(tds[2].innerHTML);
+		}
+		if (m!=0){
+			document.getElementById("sumqty").value = m.toFixed(2);
+		}
 		
+	}
 </script>
 </head>
-<body style="background: url(''); overflow-x:hidden;overflow-y:hidden;">
+<body onload="init()" style="background: url(''); overflow-x:hidden;overflow-y:hidden;">
 <s:form id="mainform" name="mainform" method="POST">
 	<div id="container" style="width: 100%; height: 100%;">
 		<div class="data_table" style="padding:0px;">
@@ -52,8 +63,13 @@
 				</table>
 			</div>
 		</div>
-		<div class="btns" style="margin-top:40px; margin-left: 0px;">
+		<div class="btns" style="margin-top:10px; margin-left: 0px;">
 			<table border="0" style="margin:0 auto;">
+				<tr>
+					<td style="margin-left: 100px;">
+						合计<input type="text" class="qtycls" id="sumqty" value="" disabled="true" />
+					</td>
+				</tr>
 				<tr>
 					<td>
 						<div class="btn">
