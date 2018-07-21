@@ -768,6 +768,25 @@
 		}
 	}
 	
+	function chgBackColor() {
+		var list = document.getElementsByName("itemRadio");
+		for(var i = 0; i < list.length; i++) {
+			var tr = list[i].parentNode.parentNode;
+			//取得产品ID
+			var tds = tr.getElementsByTagName("td");
+			for(var j = 0; j < tds.length; j++){
+				if(list[i].checked) {
+					tds[j].style.backgroundColor  = "#ff88ff";
+				} else {
+					if (i%2==0)
+						tds[j].style.backgroundColor  = "#eee";
+					else
+						tds[j].style.backgroundColor  = "#fff";
+				};
+			};
+		};
+	}
+	
 	//用户
 	function selectUser() {
 		var url = "../user/showSelectUserAction.action";
@@ -1197,8 +1216,8 @@
 														<input type="hidden" value="<s:property value="taxunitprice"/>" />
 														<input type="hidden" value="<s:property value="makearea"/>" />
 													</td>
-													<td><input name="itemRadio" type="radio" /></td>
-													<td><s:property value="#st1.index + 1"/></td>
+													<td><input name="itemRadio" type="radio" onclick="chgBackColor()" /></td>
+													<td><s:property value="#st1.index + 1" /></td>
 													<td>
 														<s:iterator id="goodsList" value="goodsList" status="st3">
 															<s:if test="%{goodsList[#st3.index].code == addSalesItemList[#st1.index].theme1}">
