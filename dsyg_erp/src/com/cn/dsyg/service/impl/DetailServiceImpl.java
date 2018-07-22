@@ -1,5 +1,6 @@
 package com.cn.dsyg.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.cn.common.util.Page;
@@ -26,27 +27,10 @@ public class DetailServiceImpl implements DetailService {
 	
 	public Page queryDetailCustomerByPage(Page page, String productid, String strKeyword, String strColor, String strSalesMode) {
 		int totalCount = 0;
-		if (strKeyword != ""){
-			totalCount = salesDao.queryDetailCustomerKCountByPage(strKeyword, strColor, strSalesMode);
-			page.setTotalCount(totalCount);
-			if(totalCount % page.getPageSize() > 0) {
-				page.setTotalPage(totalCount / page.getPageSize() + 1);
-			} else {
-				page.setTotalPage(totalCount / page.getPageSize());
-			}
-			//翻页查询记录
-			List<SalesExt2Dto> list = salesDao.queryDetailCustomerKByPage(strKeyword, strColor, strSalesMode, page.getStartIndex() * page.getPageSize(), page.getPageSize());
-			
-			for(SalesExt2Dto so : list) {
-				ProductDto productDto = productDao.queryProductByID(so.getProductid());
-				so.setRes06(productDto.getTradename());
-				so.setRes07(productDto.getTypeno());
-				so.setRes08(productDto.getColor());
-			}
-			page.setItems(list);
-			return page;
-		
-		}else{
+//		System.out.println("productid:"+productid);
+//		System.out.println("strKeyword:"+strKeyword);
+//		System.out.println("strColor:"+strColor);
+		if (productid != null && !productid.equals("")){
 			totalCount = salesDao.queryDetailCustomerCountByPage(productid, strSalesMode);
 			page.setTotalCount(totalCount);
 			if(totalCount % page.getPageSize() > 0) {
@@ -56,9 +40,47 @@ public class DetailServiceImpl implements DetailService {
 			}
 			//翻页查询记录
 			List<SalesDto> list = salesDao.queryDetailCustomerByPage(productid, strSalesMode, page.getStartIndex() * page.getPageSize(), page.getPageSize());
-			page.setItems(list);
+			for(SalesDto so : list) {
+				ProductDto productDto = productDao.queryProductByID(productid);
+				so.setRes06(productDto.getTradename());
+				so.setRes07(productDto.getTypeno());
+				so.setRes08(productDto.getColor());
+				so.setRes05(productDto.getId().toString());
+			}
+			page.setItems(list);				
 			return page;
-			
+		}else{
+			totalCount = salesDao.queryDetailCustomerKCountByPage(strKeyword, strColor, strSalesMode);
+			page.setTotalCount(totalCount);
+			if(totalCount % page.getPageSize() > 0) {
+				page.setTotalPage(totalCount / page.getPageSize() + 1);
+			} else {
+				page.setTotalPage(totalCount / page.getPageSize());
+			}
+			//翻页查询记录
+			List<SalesExt2Dto> list = salesDao.queryDetailCustomerKByPage(strKeyword, strColor, strSalesMode, page.getStartIndex() * page.getPageSize(), page.getPageSize());
+			List<SalesDto> list2 = new ArrayList<SalesDto>();
+			for(SalesExt2Dto so : list) {
+				ProductDto productDto = productDao.queryProductByID(so.getProductid());
+				SalesDto sao = new SalesDto();
+				sao.setCustomerid(so.getCustomerid());
+				sao.setCustomername(so.getCustomername());
+				sao.setCustomeraddress(so.getCustomeraddress());
+				sao.setCustomermanager(so.getCustomermanager());
+				sao.setCustomertel(so.getCustomertel());
+				sao.setCustomerfax(so.getCustomerfax());
+				sao.setCustomermail(so.getCustomermail());
+				sao.setNote(so.getNote());
+				sao.setRes06(productDto.getTradename());
+				sao.setRes07(productDto.getTypeno());
+				sao.setRes08(productDto.getColor());
+				sao.setRes05(productDto.getId().toString());
+//				System.out.println("productid:"+sao.getRes05());
+//				System.out.println("getCustomername:"+sao.getCustomername());
+				list2.add(sao);
+			}
+			page.setItems(list2);
+			return page;
 		}
 		//查询总记录数
 		/*

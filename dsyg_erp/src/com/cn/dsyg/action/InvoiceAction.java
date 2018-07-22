@@ -73,8 +73,7 @@ public class InvoiceAction extends BaseAction {
 			this.clearMessages();
 			//作废
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
-//			if(StringUtil.isBlank(strIds)) {
-			if(StringUtil.isBlank(strInvoicenoOK)) {
+			if(StringUtil.isBlank(strIds)) {
 				this.addActionMessage("请选择一条记录！");
 				return "checkerror";
 			}

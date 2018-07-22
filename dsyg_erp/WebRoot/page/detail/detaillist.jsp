@@ -136,18 +136,29 @@
 		}	
 	}
 	
-	function showWarehouseInfoList(strProductid, strCustomerid) {
-		if(strProductid == "") {
+	function showWarehouseInfoList(productid, strCustomerid) {	
+		if (strCustomerid == "") {
 			return;
-		} else if (strCustomerid == "") {
-			return;
-		} else	{
-			var url = '<%=request.getContextPath()%>/warehouserpt/showWarehouseInfoListAction.action';
-			url += "?strProductid=" + strProductid + "&strCustomerid=" + strCustomerid + "&date=" + new Date();
-			window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		}
+		var strProductid ="";
+		if(productid == null || productid == "") {
+			pd = document.getElementById("strProductid");
+			if (pd.value != "")
+				strProductid = pd.value;
+		} else{
+			strProductid = productid; 			
+		}
+		var url = '<%=request.getContextPath()%>/warehouserpt/showWarehouseInfoListAction.action';
+		url += "?strProductid=" + strProductid + "&strCustomerid=" + strCustomerid + "&date=" + new Date();
+		window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 
+	function clr() {		
+		document.getElementById("strProductid").value = "";
+		document.getElementById("productdetail").value = "";
+		document.getElementById("strKeyword").value = "";
+		document.getElementById("strColor").value = "";
+	}
 </script>
 </head>
 <body>
@@ -254,6 +265,13 @@
 						</div>
 						<div class="box1_right"></div>
 					</div>					
+					<div class="btn" style="margin-left: 60px;">
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							<input type="button" class="input40" value="清除" onclick="clr();"/>
+						</div>
+						<div class="box1_right"></div>
+					</div>					
 				</div>
 				<div class="data_table" style="padding:0px;">
 					<div class="tab_tittle">
@@ -285,10 +303,11 @@
 									<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
 									<td><s:property value="res06"/></td>
 									<td><s:property value="res07"/></td>
-									<td><s:property value="res08"/></td>
+									<td><s:iterator id="colorList" value="colorList" status="st3"><s:if test="%{colorList[#st3.index].code == res08}"><s:property value="fieldname"/></s:if></s:iterator>
+									<s:hidden value="res05"/></td>
 									<td>
 										<div noWrap style="text-overflow:ellipsis;overflow:hidden">
-											<a href="#" onclick="showWarehouseInfoList(<s:property value="strProductid"/>, <s:property value="customerid"/>);"><s:property value="customername"/>
+											<a href="#" onclick="showWarehouseInfoList(<s:property value="res05"/>, <s:property value="customerid"/>);"><s:property value="customername"/>
 										</div>
 									</td>
 									<td><s:property value="customeraddress"/></td>
