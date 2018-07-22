@@ -96,10 +96,10 @@
 				count++;
 			}
 		}
-		if(count == 0) {
-			alert("请选择一条记录！");
-			return;
-		}
+//		if(count == 0) {
+//			alert("请选择一条记录！");
+//			return;
+//		}
 		$("#strIds").val(ids);
 		var strInvoicenoOK = $("#strInvoicenoOK").val().trim();
 		var strNote = $("#strNote").val().trim();

@@ -177,22 +177,45 @@
 				<s:hidden name="tab" id="tab"/>
 				<s:hidden name="intPageSize" id="intPageSize"/>
 				<s:hidden name="strProductid" id="strProductid"></s:hidden>
+				<s:hidden name="productname" id="productname" ></s:hidden>
 				<div class="searchbox update">
-					<div class="box1">
+					<!-- <div class="box1">
 						<label class="pdf10" style="width:50px">品名</label>
 						<div class="box1_left"></div>
 						<div class="box1_center">
 							<s:textfield name="productname" id="productname" cssStyle="width:135px;" maxlength="4" readonly="true" theme="simple"></s:textfield>
 						</div>
 						<div class="box1_right"></div>
+					</div>  -->
+					<div class="box1">
+						<label class="pdf10">关键字</label>
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							<s:textfield name="strKeyword" id="strKeyword" cssClass="input180" maxlength="300" theme="simple"></s:textfield>
+						</div>
+						<div class="box1_right"></div>
+					</div>
+					<div class="box1">
+						<label class="pdf10">颜色</label>
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							<select name="strColor" id="strColor" style="width: 80px;">
+								<option value="" selected="selected">请选择</option>
+								<s:iterator value="colorList" id="colorList" status="st1">
+									<option value="<s:property value="code"/>" <s:if test="%{colorList[#st1.index].code == strColor}">selected</s:if>><s:property value="fieldname"/></option>
+								</s:iterator>
+							</select>
+						</div>
+						<div class="box1_right"></div>
 					</div>
 					<div class="btn" style="margin-left: 60px;">
 						<div class="box1_left"></div>
 						<div class="box1_center">
-							<input type="button" class="input40" value="产品" onclick="queryProduct();"/>
+							<input type="button" class="input40" value="检索" onclick="queryCustomerList();"/>
 						</div>
 						<div class="box1_right"></div>
 					</div>
+					
 					<div class="box1">
 					<label class="pdf10" style="margin-left: 100px;">销售/询价</label>
 					<div class="box1_left" style="margin-left: 10px;"></div>
@@ -227,10 +250,10 @@
 					<div class="btn" style="margin-left: 60px;">
 						<div class="box1_left"></div>
 						<div class="box1_center">
-							<input type="button" class="input40" value="检索" onclick="queryCustomerList();"/>
+							<input type="button" class="input40" value="产品" onclick="queryProduct();"/>
 						</div>
 						<div class="box1_right"></div>
-					</div>
+					</div>					
 				</div>
 				<div class="data_table" style="padding:0px;">
 					<div class="tab_tittle">
@@ -241,11 +264,14 @@
 						<table class="info_tab" width="100%" border="1" cellpadding="5" cellspacing="0">
 							<tr class="tittle">
 								<td width="5%">序号</td>
+								<td width="5%">品名</td>								
+								<td width="10%">型号</td>
+								<td width="5%">颜色</td>
 								<td width="10%">客户姓名</td>
-								<td width="25%">客户地址</td>
+								<td width="15%">客户地址</td>
 								<td width="10%">联系人</td>
-								<td width="10%">电话</td>
-								<td width="10%">传真</td>
+								<td width="5%">电话</td>
+								<td width="5%">传真</td>
 								<td width="10%">邮箱</td>
 								<td width="15%">备注</td>
 							</tr>
@@ -257,6 +283,9 @@
 									<tr>
 								</s:else>
 									<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
+									<td><s:property value="res06"/></td>
+									<td><s:property value="res07"/></td>
+									<td><s:property value="res08"/></td>
 									<td>
 										<div noWrap style="text-overflow:ellipsis;overflow:hidden">
 											<a href="#" onclick="showWarehouseInfoList(<s:property value="strProductid"/>, <s:property value="customerid"/>);"><s:property value="customername"/>

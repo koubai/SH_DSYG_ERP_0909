@@ -436,7 +436,8 @@ public class PurchaseAction extends BaseAction {
 			productid = "";
 			purchaseList = new ArrayList<PurchaseDto>();
 			
-			queryData();
+// Pei 2018.07.22 As user's requirement, initial needn't to display data
+//			queryData();
 		} catch(Exception e) {
 			log.error("showPurchaseAction error:" + e);
 			return ERROR;
