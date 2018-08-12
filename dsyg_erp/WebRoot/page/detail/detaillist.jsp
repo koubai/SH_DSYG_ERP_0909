@@ -136,18 +136,29 @@
 		}	
 	}
 	
-	function showWarehouseInfoList(strProductid, strCustomerid) {
-		if(strProductid == "") {
+	function showWarehouseInfoList(productid, strCustomerid) {	
+		if (strCustomerid == "") {
 			return;
-		} else if (strCustomerid == "") {
-			return;
-		} else	{
-			var url = '<%=request.getContextPath()%>/warehouserpt/showWarehouseInfoListAction.action';
-			url += "?strProductid=" + strProductid + "&strCustomerid=" + strCustomerid + "&date=" + new Date();
-			window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		}
+		var strProductid ="";
+		if(productid == null || productid == "") {
+			pd = document.getElementById("strProductid");
+			if (pd.value != "")
+				strProductid = pd.value;
+		} else{
+			strProductid = productid; 			
+		}
+		var url = '<%=request.getContextPath()%>/warehouserpt/showWarehouseInfoListAction.action';
+		url += "?strProductid=" + strProductid + "&strCustomerid=" + strCustomerid + "&date=" + new Date();
+		window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 
+	function clr() {		
+		document.getElementById("strProductid").value = "";
+		document.getElementById("productdetail").value = "";
+		document.getElementById("strKeyword").value = "";
+		document.getElementById("strColor").value = "";
+	}
 </script>
 </head>
 <body>
@@ -177,22 +188,45 @@
 				<s:hidden name="tab" id="tab"/>
 				<s:hidden name="intPageSize" id="intPageSize"/>
 				<s:hidden name="strProductid" id="strProductid"></s:hidden>
+				<s:hidden name="productname" id="productname" ></s:hidden>
 				<div class="searchbox update">
-					<div class="box1">
+					<!-- <div class="box1">
 						<label class="pdf10" style="width:50px">品名</label>
 						<div class="box1_left"></div>
 						<div class="box1_center">
 							<s:textfield name="productname" id="productname" cssStyle="width:135px;" maxlength="4" readonly="true" theme="simple"></s:textfield>
 						</div>
 						<div class="box1_right"></div>
+					</div>  -->
+					<div class="box1">
+						<label class="pdf10">关键字</label>
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							<s:textfield name="strKeyword" id="strKeyword" cssClass="input180" maxlength="300" theme="simple"></s:textfield>
+						</div>
+						<div class="box1_right"></div>
+					</div>
+					<div class="box1">
+						<label class="pdf10">颜色</label>
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							<select name="strColor" id="strColor" style="width: 80px;">
+								<option value="" selected="selected">请选择</option>
+								<s:iterator value="colorList" id="colorList" status="st1">
+									<option value="<s:property value="code"/>" <s:if test="%{colorList[#st1.index].code == strColor}">selected</s:if>><s:property value="fieldname"/></option>
+								</s:iterator>
+							</select>
+						</div>
+						<div class="box1_right"></div>
 					</div>
 					<div class="btn" style="margin-left: 60px;">
 						<div class="box1_left"></div>
 						<div class="box1_center">
-							<input type="button" class="input40" value="产品" onclick="queryProduct();"/>
+							<input type="button" class="input40" value="检索" onclick="queryCustomerList();"/>
 						</div>
 						<div class="box1_right"></div>
 					</div>
+					
 					<div class="box1">
 					<label class="pdf10" style="margin-left: 100px;">销售/询价</label>
 					<div class="box1_left" style="margin-left: 10px;"></div>
@@ -227,10 +261,17 @@
 					<div class="btn" style="margin-left: 60px;">
 						<div class="box1_left"></div>
 						<div class="box1_center">
-							<input type="button" class="input40" value="检索" onclick="queryCustomerList();"/>
+							<input type="button" class="input40" value="产品" onclick="queryProduct();"/>
 						</div>
 						<div class="box1_right"></div>
-					</div>
+					</div>					
+					<div class="btn" style="margin-left: 60px;">
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							<input type="button" class="input40" value="清除" onclick="clr();"/>
+						</div>
+						<div class="box1_right"></div>
+					</div>					
 				</div>
 				<div class="data_table" style="padding:0px;">
 					<div class="tab_tittle">
@@ -241,11 +282,14 @@
 						<table class="info_tab" width="100%" border="1" cellpadding="5" cellspacing="0">
 							<tr class="tittle">
 								<td width="5%">序号</td>
+								<td width="5%">品名</td>								
+								<td width="10%">型号</td>
+								<td width="5%">颜色</td>
 								<td width="10%">客户姓名</td>
-								<td width="25%">客户地址</td>
+								<td width="15%">客户地址</td>
 								<td width="10%">联系人</td>
-								<td width="10%">电话</td>
-								<td width="10%">传真</td>
+								<td width="5%">电话</td>
+								<td width="5%">传真</td>
 								<td width="10%">邮箱</td>
 								<td width="15%">备注</td>
 							</tr>
@@ -257,9 +301,13 @@
 									<tr>
 								</s:else>
 									<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
+									<td><s:property value="res06"/></td>
+									<td><s:property value="res07"/></td>
+									<td><s:iterator id="colorList" value="colorList" status="st3"><s:if test="%{colorList[#st3.index].code == res08}"><s:property value="fieldname"/></s:if></s:iterator>
+									<s:hidden value="res05"/></td>
 									<td>
 										<div noWrap style="text-overflow:ellipsis;overflow:hidden">
-											<a href="#" onclick="showWarehouseInfoList(<s:property value="strProductid"/>, <s:property value="customerid"/>);"><s:property value="customername"/>
+											<a href="#" onclick="showWarehouseInfoList(<s:property value="res05"/>, <s:property value="customerid"/>);"><s:property value="customername"/>
 										</div>
 									</td>
 									<td><s:property value="customeraddress"/></td>

@@ -80,6 +80,7 @@
 		url += "?strDay=" + day + "&strUser=" + user + "&date=" + new Date();
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
+	
 </script>
 </head>
 <body>

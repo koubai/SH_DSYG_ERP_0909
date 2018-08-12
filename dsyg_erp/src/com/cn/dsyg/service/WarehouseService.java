@@ -379,4 +379,11 @@ public interface WarehouseService {
 	 * @return
 	 */
 	public List<WarehouseOkDto> queryProductBookByProductid(String productid);
+	
+	/**
+	 * 保存EXCEL信息进DB
+	 * @param List<WarehouseCheckDto>
+	 * @return
+	 */
+	public void loadWarehouseCheck(List<WarehouseCheckDto> list);
 }

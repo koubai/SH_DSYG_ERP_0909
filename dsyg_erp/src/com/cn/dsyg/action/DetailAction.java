@@ -58,8 +58,9 @@ public class DetailAction extends BaseAction {
 	private String productdetail;
 	private String tab;
 	private String strSalesMode;
+	private String strKeyword;
+	private String strColor;
 	
-
 	/**
 	 * 显示产品到客户页面
 	 * @return
@@ -84,6 +85,7 @@ public class DetailAction extends BaseAction {
 			listSales = new ArrayList<SalesDto>();
 			listProduct = new ArrayList<ProductDto>();
 			tab = "0";
+			initDictList();
 		} catch(Exception e) {
 			return ERROR;
 		}
@@ -139,7 +141,7 @@ public class DetailAction extends BaseAction {
 		initDictList();
 		//翻页查询所有员工档案
 		this.page.setStartIndex(startIndex);
-		page = detailService.queryDetailCustomerByPage(page, strProductid, strSalesMode);
+		page = detailService.queryDetailCustomerByPage(page, strProductid, strKeyword, strColor, strSalesMode);
 		listSales = (List<SalesDto>) page.getItems();
 		tab = "0";
 		this.setStartIndex(page.getStartIndex());
@@ -373,6 +375,21 @@ public class DetailAction extends BaseAction {
 	public void setStrSalesMode(String strSalesMode) {
 		this.strSalesMode = strSalesMode;
 	}
+	
+	public String getStrKeyword() {
+		return strKeyword;
+	}
 
+	public void setStrKeyword(String strKeyword) {
+		this.strKeyword = strKeyword;
+	}
+
+	public String getStrColor() {
+		return strColor;
+	}
+
+	public void setStrColor(String strColor) {
+		this.strColor = strColor;
+	}
 
 }

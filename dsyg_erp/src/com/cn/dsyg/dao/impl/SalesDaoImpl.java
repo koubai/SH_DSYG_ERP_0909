@@ -7,6 +7,7 @@ import java.util.Map;
 import com.cn.common.dao.BaseDao;
 import com.cn.dsyg.dao.SalesDao;
 import com.cn.dsyg.dto.SalesDto;
+import com.cn.dsyg.dto.SalesExt2Dto;
 import com.cn.dsyg.dto.SalesExtDto;
 
 /**
@@ -196,4 +197,29 @@ public class SalesDaoImpl extends BaseDao implements SalesDao {
 		List<SalesDto> list = getSqlMapClientTemplate().queryForList("queryDetailCustomerByPage", paramMap);
 		return list;
 	}
+	
+	@Override
+	public int queryDetailCustomerKCountByPage(String strKeyword, String strColor, String strSalesMode) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("keyword", strKeyword);
+		paramMap.put("color", strColor);
+		paramMap.put("res02", strSalesMode);
+		return (Integer) getSqlMapClientTemplate().queryForObject("queryDetailCustomerKCountByPage", paramMap);
+	}
+
+	@Override
+	public List<SalesExt2Dto> queryDetailCustomerKByPage(String strKeyword, String strColor, String strSalesMode, int start, int end) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("keyword", strKeyword);
+		paramMap.put("color", strColor);
+		paramMap.put("res02", strSalesMode);
+		
+		paramMap.put("start", start);
+		paramMap.put("end", end);
+		@SuppressWarnings("unchecked")
+		List<SalesExt2Dto> list = getSqlMapClientTemplate().queryForList("queryDetailCustomerKByPage", paramMap);
+		return list;
+	}
+
+	
 }

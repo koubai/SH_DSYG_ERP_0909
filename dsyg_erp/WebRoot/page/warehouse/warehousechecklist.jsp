@@ -14,6 +14,13 @@
 	$(document).ready(function(){
 		var h = screen.availHeight; 
 		$("#container").height(h - 20);
+		var res = document.getElementsByName("res_X01");
+		if (res.length > 0){
+			for (var i= 0; i<res.length; i++){
+				var re = res[i];
+				re.value = extractHistDetail(re.value);
+			}
+		}
 	});
 	
 	//查询数据
@@ -95,6 +102,30 @@
 		document.mainform.action = '../warehouse/queryPositionCollectAction.action';
 		document.mainform.submit();
 	}
+
+	function uploadDetail() {
+		filename = document.getElementById("uploadfile").value;
+		if (filename == "")
+			alert("请输入上传文件！");
+		else{
+			document.mainform.action = '../warehouse/uploadWarehouserCheckAction.action';
+			document.mainform.submit();			
+		}
+	}
+	
+	function extractHistDetail(data) {
+//		alert(data);
+		var rtn="";
+		if (typeof(data) == "undefined")
+			return rtn;
+		var da = eval('('+ "{ root:" + data+"}" + ')');
+		for (i=0; i< da.root.length; i++){
+//			alert(da.root[i].in_wquantity);
+			rtn += da.root[i].in_wquantity + ",";
+			rtn += da.root[i].in_wdate + ";<br/>";
+		}
+		return rtn;
+	}
 </script>
 </head>
 <body>
@@ -165,8 +196,9 @@
 								<td width="60">单位</td>								
 								<td width="60">产地</td>
 								<td width="80">库存数量</td>
-								<td width="120">库存位置</td>
+								<td width="60">库存位置</td>
 								<td width="140">盘点数量</td>
+								<td width="60">HIST</td>
 							</tr>
 							<s:iterator id="warehouseCheckList" value="warehouseCheckList" status="st1">
 								<s:if test="#st1.odd==true">
@@ -217,6 +249,10 @@
 									<td>
 										<input type="text" style="width: 100px;" maxlength="10" id="num_<s:property value="productid"/>" value="<s:property value="checkAmount"/>"/><input type="button" value="盘点" onclick="productCheck('<s:property value="productid"/>')"/>
 									</td>
+									<td>
+										<input type="text" style="width: 100px;" maxlength="10" name="res_X01" id="res01_<s:property value="productid"/>" value="<s:property value="res03" />" onclick="extractHistDetail('<s:property value="res03" />')" /> 
+									</td>
+									
 								</tr>
 							</s:iterator>
 						</table>
@@ -281,6 +317,18 @@
 									</div>
 									<div class="box1_right"></div>
 								</div>
+							</td>
+							<td>
+							<div class="upload area" style="padding:15px 100px;">
+								<input type="file" name="uploadfile" style="width: 500px;" id="uploadfile"/>					
+								<div class="btn" style="margin-right: 40px; margin-top: -7px;">
+									<div class="box1_left"></div>
+									<div class="box1_center">
+										<input type="button" class="input40" value="上传" onclick="uploadDetail();"/>
+									</div>
+									<div class="box1_right"></div>
+								</div>
+							</div>
 							</td>
 						</tr>
 					</table>

@@ -149,8 +149,9 @@ public class WarehouseDetailAction extends BaseAction {
 			warehouseDetailList = new ArrayList<WarehouseDetailDto>();
 			//初期化字典数据
 			initDictList();
-			
-			queryData();
+
+// Pei 2018.07.22 as user requirement, initial needn't to display data 			
+//			queryData();
 		} catch(Exception e) {
 			log.error("showWarehouseDetailAction error:" + e);
 			return ERROR;

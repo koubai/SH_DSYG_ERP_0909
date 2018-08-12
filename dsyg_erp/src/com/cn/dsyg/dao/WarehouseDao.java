@@ -554,4 +554,12 @@ public interface WarehouseDao {
 	 */
 	public List<WarehouseOkDto> queryProductBookByProductid(String productid);
 
+	
+	/**
+	 * 保存EXCEL信息进DB
+	 * @param List<WarehouseCheckDto> lst
+	 * @return
+	 */
+	public void loadWarehouseCheck(List<WarehouseCheckDto> lst);
+	
 }

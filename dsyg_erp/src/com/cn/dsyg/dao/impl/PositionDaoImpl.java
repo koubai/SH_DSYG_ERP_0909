@@ -8,6 +8,7 @@ import com.cn.common.dao.BaseDao;
 import com.cn.dsyg.dao.PositionDao;
 import com.cn.dsyg.dto.PositionCollectDto;
 import com.cn.dsyg.dto.PositionDto;
+import com.cn.dsyg.dto.WarehouseCheckDto;
 
 /**
  * @name PositionDaoImpl.java
@@ -81,4 +82,5 @@ public class PositionDaoImpl extends BaseDao implements PositionDao {
 	public void updatePosition(PositionDto position) {
 		getSqlMapClientTemplate().update("updatePosition", position);
 	}
+	
 }

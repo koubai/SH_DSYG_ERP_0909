@@ -59,6 +59,10 @@ public class PoiFactory {
 			//库存盘点数据
 			return new PoiProductCost();
 		}
+		if(Constants.EXCEL_TYPE_WAREHOUSCHECKIN.equals(type)) {
+			//库存盘点数据
+			return new PoiWarehouseCheckIn();
+		}
 		return null;
 	}
 }

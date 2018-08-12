@@ -26,6 +26,19 @@
 		}
 		
 	}
+	
+	function showDetail(id) {
+		if(id == "") {
+			return;
+		} else {
+			var url = '<%=request.getContextPath()%>/warehouserpt/showUpdWarehouserptOutItemAction.action';
+			url += "?updWarehouserptId=" + id + "&date=" + new Date();
+			window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			//document.mainform.action = "../warehouserpt/showUpdWarehouserptOutItemAction.action?updWarehouserptId=" + id;
+			//document.mainform.submit();
+		}
+	}
+
 </script>
 </head>
 <body onload="init()" style="background: url(''); overflow-x:hidden;overflow-y:hidden;">
@@ -54,8 +67,8 @@
 						<s:else>
 							<tr>
 						</s:else>
-							<td><s:property value="#st1.index + 1"/></td>
-							<td><s:property value="warehouseno"/></td>
+							<td><s:property value="#st1.index + 1"/></td>							
+							<td><a href="#" onclick="showDetail(<s:property value="id"/>);"><s:property value="warehouseno"/></td>
 							<td><s:property value="productinfo" /></td>
 							<td><s:property value="warehousedate" /></td>
 						</tr>

@@ -88,6 +88,8 @@ public class Constants {
 	public final static String EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_INTER_LIST = "warehouserpt_out_detail_inter";
 	//库存盘点数据
 	public final static String EXCEL_TYPE_WAREHOUSCHECK = "warehousercheck";
+	//库存盘点数据上传
+	public final static String EXCEL_TYPE_WAREHOUSCHECKIN = "warehousercheckin";
 	//入库单数据
 	public final static String EXCEL_TYPE_PRODUCT_COST = "productcost";
 	//报价单数据
@@ -187,6 +189,7 @@ public class Constants {
 	public final static String PROPERTIES_IMAGES_PATH = "images_path";
 	public final static String PROPERTIES_PDF_URL = "pdf_url";
 	public final static String PROPERTIES_PDF_PATH = "pdf_path";
+	public final static String PROPERTIES_FILE_PATH = "file_path";
 	public final static String PROPERTIES_NEW_PIC_URL = "news_img_url";
 	public final static String PROPERTIES_NEW_PIC_PATH = "news_img_path";
 	

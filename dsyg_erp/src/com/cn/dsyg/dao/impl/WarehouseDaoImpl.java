@@ -9,6 +9,7 @@ import com.cn.common.dao.BaseDao;
 import com.cn.common.util.Constants;
 import com.cn.dsyg.dao.WarehouseDao;
 import com.cn.dsyg.dto.InOutStockDto;
+import com.cn.dsyg.dto.PositionDto;
 import com.cn.dsyg.dto.ProductQuantityDto;
 import com.cn.dsyg.dto.SalesStatisticsDto;
 import com.cn.dsyg.dto.WarehouseCheckDto;
@@ -768,4 +769,13 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		List<WarehouseOkDto> list = getSqlMapClientTemplate().queryForList("queryProductBookByProductid", paramMap);
 		return list;
 	}
+	
+	@Override
+	public void loadWarehouseCheck(List<WarehouseCheckDto> lst){
+		for (int i=0; i< lst.size(); i++){
+			WarehouseCheckDto warehousecheckdto  = lst.get(i);
+			getSqlMapClientTemplate().insert("insertWarehouse", warehousecheckdto);
+		}
+	}
+	
 }

@@ -1,5 +1,11 @@
 package com.cn.dsyg.action;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +17,7 @@ import org.apache.log4j.Logger;
 import com.cn.common.action.BaseAction;
 import com.cn.common.factory.Poi2007Base;
 import com.cn.common.factory.PoiFactory;
+import com.cn.common.factory.PoiWarehouseCheckIn;
 import com.cn.common.util.Constants;
 import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
@@ -83,6 +90,9 @@ public class WarehouseCheckAction extends BaseAction {
 	private String strUser;
 	private List<PositionDto> positionDetailList;
 	
+	//上传盘点文件名及路径
+	private String uploadfile;
+		
 	/**
 	 * 盘点明细
 	 * @return
@@ -252,6 +262,109 @@ public class WarehouseCheckAction extends BaseAction {
 		return SUCCESS;
 	}
 	
+	//导入盘点数据
+	public String uploadWarehouserCheckAction() {
+		try {
+			this.clearMessages();
+			initDictList();
+			//字典数据组织个MAP
+/*			Map<String, String> dictMap = new HashMap<String, String>();
+			if(goodsList != null && goodsList.size() > 0) {
+				for(Dict01Dto dict : goodsList) {
+					dictMap.put(Constants.DICT_GOODS_TYPE + "_" + dict.getCode(), dict.getFieldname());
+				}
+			}
+			if(unitList != null && unitList.size() > 0) {
+				for(Dict01Dto dict : unitList) {
+					dictMap.put(Constants.DICT_UNIT_TYPE + "_" + dict.getCode(), dict.getFieldname());
+				}
+			}
+			if(makeareaList != null && makeareaList.size() > 0) {
+				for(Dict01Dto dict : makeareaList) {
+					dictMap.put(Constants.DICT_MAKEAREA + "_" + dict.getCode(), dict.getFieldname());
+				}
+			}
+			if(colorList != null && colorList.size() > 0) {
+				for(Dict01Dto dict : colorList) {
+					dictMap.put(Constants.DICT_COLOR_TYPE + "_" + dict.getCode(), dict.getFieldname());
+				}
+			}
+			dictMap.put(Constants.EXCEL_PASS, excelPass);
+*/			
+			String file_path = PropertiesConfig.getPropertiesValueByKey(Constants.PROPERTIES_FILE_PATH);			
+			String filename = getUploadfile();
+			if (filename.equals(""))
+				return ERROR;
+				
+			PoiWarehouseCheckIn base = (PoiWarehouseCheckIn) PoiFactory.getPoi(Constants.EXCEL_TYPE_WAREHOUSCHECKIN);
+			List<WarehouseCheckDto> list = base.upload(filename);
+			int index = 0;
+			//采购主题
+			goodsList = dict01Service.queryDict01ByFieldcode(Constants.DICT_GOODS_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			//单位
+			unitList = dict01Service.queryDict01ByFieldcode(Constants.DICT_UNIT_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			//产地
+			makeareaList = dict01Service.queryDict01ByFieldcode(Constants.DICT_MAKEAREA, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			//颜色
+			colorList = dict01Service.queryDict01ByFieldcode(Constants.DICT_COLOR_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+
+			for(WarehouseCheckDto wdt: list) {
+				for(Dict01Dto dict : goodsList) {
+					if (dict.getFieldname().equals(wdt.getFieldno()))
+						wdt.setFieldno(dict.getCode());
+				}
+				for(Dict01Dto dict : colorList) {
+					if (dict.getFieldname().equals(wdt.getColor()))
+						wdt.setColor(dict.getCode());
+				}
+				for(Dict01Dto dict : makeareaList) {
+					if (dict.getFieldname().equals(wdt.getMakearea()))
+						wdt.setMakearea(dict.getCode());
+				}
+				for(Dict01Dto dict : unitList) {
+					if (dict.getFieldname().equals(wdt.getUnit()))
+						wdt.setUnit(dict.getCode());
+				}
+				wdt.setCheckAmount(wdt.getWarehouseamount());
+				wdt.setWarehouseamount(new BigDecimal(wdt.getRes01()));
+				warehouseCheckList.set(index, wdt);
+				index++;
+			}				
+							
+			
+			//查询所有审价履历
+//			String rtn = warehouseService.loadWarehouseCheck(list);
+		} catch(Exception e) {
+			log.error("uploadWarehouserCheckAction error:" + e);
+			return ERROR;
+		}	
+		
+		return SUCCESS;
+	}
+	
+	/**保存文件
+     * @param stream
+     * @param path
+     * @param filename
+     * @throws IOException
+     */
+    public void SaveFileFromInputStream(InputStream stream,String path,String filename) throws IOException
+    {      
+        FileOutputStream fs=new FileOutputStream( path + "/"+ filename);
+        byte[] buffer =new byte[1024*1024];
+        int bytesum = 0;
+        int byteread = 0; 
+        while ((byteread=stream.read(buffer))!=-1)
+        {
+           bytesum+=byteread;
+           fs.write(buffer,0,byteread);
+           fs.flush();
+        } 
+        fs.close();
+        stream.close();      
+    }       
+
+	
 	//导出盘点数据
 	public String exportWarehouserCheckAction() {
 		try {
@@ -281,6 +394,7 @@ public class WarehouseCheckAction extends BaseAction {
 			}
 			dictMap.put(Constants.EXCEL_PASS, excelPass);
 			
+			//文件目录
 			String name = StringUtil.createFileName(Constants.EXCEL_TYPE_WAREHOUSCHECK);
 			response.setHeader("Content-Disposition","attachment;filename=" + name);//指定下载的文件名
 			response.setContentType("application/vnd.ms-excel");
@@ -551,4 +665,14 @@ public class WarehouseCheckAction extends BaseAction {
 	public void setStrUser(String strUser) {
 		this.strUser = strUser;
 	}
+	
+	public String getUploadfile() {
+		return uploadfile;
+	}
+
+	public void setUploadfile(String uploadfile) {
+		this.uploadfile = uploadfile;
+	}
+
+
 }

@@ -3,6 +3,7 @@ package com.cn.dsyg.dao;
 import java.util.List;
 
 import com.cn.dsyg.dto.SalesDto;
+import com.cn.dsyg.dto.SalesExt2Dto;
 import com.cn.dsyg.dto.SalesExtDto;
 
 /**
@@ -141,7 +142,6 @@ public interface SalesDao {
 	public void updateSales(SalesDto sales);
 	
 
-	
 	/**
 	 * 根据条件查询满足条件的销售单数量
 	 * @param productid
@@ -159,4 +159,26 @@ public interface SalesDao {
 	 * @return
 	 */
 	public List<SalesDto> queryDetailCustomerByPage(String productid, String strSalesMode, int start, int end);
+	
+	/**
+	 * 根据条件查询满足条件的销售单数量
+	 * @param strKeyword
+	 * @param strColor
+	 * @param strSalesMode
+	 * @return
+	 */
+	public int queryDetailCustomerKCountByPage(String strKeyword, String strColor, String strSalesMode);
+	
+	/**
+	 * 翻页查询满足条件的销售数据
+	 * @param strKeyword
+	 * @param strColor
+	 * @param strSalesMode
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<SalesExt2Dto> queryDetailCustomerKByPage(String strKeyword, String strColor, String strSalesMode, int start, int end);
+
+	
 }

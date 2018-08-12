@@ -1713,6 +1713,11 @@ public class WarehouseServiceImpl implements WarehouseService {
 	}
 	
 	@Override
+	public void loadWarehouseCheck(List<WarehouseCheckDto> list){
+		warehouseDao.loadWarehouseCheck(list);		
+	}
+	
+	@Override
 	public List<WarehouseOkDto> queryProductBookByProductid(String productid) {
 		return warehouseDao.queryProductBookByProductid(productid);
 	}

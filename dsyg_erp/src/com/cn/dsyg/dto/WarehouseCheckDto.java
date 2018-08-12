@@ -1,19 +1,12 @@
 package com.cn.dsyg.dto;
 
+
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.cn.common.dto.BaseDto;
 
-/**
- * @name 库存盘点Dto
- * @author Frank
- * @time 2014-12-16下午11:51:36
- * @version 1.0
- */
-public class WarehouseCheckDto extends BaseDto {
+public class WarehouseCheckDto {
 	
-	private static final long serialVersionUID = 2907490405000060409L;
 
 	/**
 	 * ID

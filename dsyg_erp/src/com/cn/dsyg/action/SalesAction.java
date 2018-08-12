@@ -411,8 +411,9 @@ public class SalesAction extends BaseAction {
 			strStatus = "10";
 			productid = "";
 			salesList = new ArrayList<SalesExtDto>();
-			
-			queryData();
+
+// Pei 2018.07.22 As user's requirement, initial needn't to display data			
+//			queryData();
 		} catch(Exception e) {
 			log.error("showSalesAction error:" + e);
 			return ERROR;
