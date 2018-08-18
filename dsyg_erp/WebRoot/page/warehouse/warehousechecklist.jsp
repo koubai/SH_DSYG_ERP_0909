@@ -14,13 +14,13 @@
 	$(document).ready(function(){
 		var h = screen.availHeight; 
 		$("#container").height(h - 20);
-		var res = document.getElementsByName("res_X01");
+/*		var res = document.getElementsByName("res_X01");
 		if (res.length > 0){
 			for (var i= 0; i<res.length; i++){
 				var re = res[i];
 				re.value = extractHistDetail(re.value);
 			}
-		}
+		}*/
 	});
 	
 	//查询数据
@@ -196,7 +196,7 @@
 								<td width="60">单位</td>								
 								<td width="60">产地</td>
 								<td width="80">库存数量</td>
-								<td width="60">库存位置</td>
+								<!-- <td width="60">库存位置</td> -->
 								<td width="140">盘点数量</td>
 								<td width="60">HIST</td>
 							</tr>
@@ -243,14 +243,15 @@
 										</s:iterator>
 									</td>
 									<td align="right"><s:property value="warehouseamount"/></td>
-									<td>
+									<!-- <td>
 										<input type="text" style="width: 100px;" maxlength="32" id="position_<s:property value="productid"/>" value="<s:property value="warehouseposition"/>"/>
-									</td>
+									</td> -->
 									<td>
 										<input type="text" style="width: 100px;" maxlength="10" id="num_<s:property value="productid"/>" value="<s:property value="checkAmount"/>"/><input type="button" value="盘点" onclick="productCheck('<s:property value="productid"/>')"/>
 									</td>
 									<td>
-										<input type="text" style="width: 100px;" maxlength="10" name="res_X01" id="res01_<s:property value="productid"/>" value="<s:property value="res03" />" onclick="extractHistDetail('<s:property value="res03" />')" /> 
+										<!-- <input type="text" style="width: 100px;" maxlength="10" name="res_X01" id="res01_<s:property value="productid"/>" value="<s:property value="res03" />" onclick="extractHistDetail('<s:property value="res03" />')" />  -->
+										<s:property value="res04" />
 									</td>
 									
 								</tr>

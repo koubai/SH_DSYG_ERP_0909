@@ -76,7 +76,20 @@ public class PoiWarehouseCheckIn extends Poi2007Base {
 	        log.info("数据解析成功");	
             fis.close();  
 	        return getData;
-	        
+		} else if (fileType.equals("zip")) {
+		        log.info("开始解析XLS_DOC文件");
+		        FileInputStream fis = new FileInputStream(ff);
+		        XSSFWorkbook xssfWorkbook = new XSSFWorkbook(fis);
+		        List<com.cn.dsyg.dto.WarehouseCheckDto> getData = readExcel2(xssfWorkbook);
+		        if (getData == null) {
+		            log.error("解析失败...");
+//		            return "文件数据解析失败";
+		            return null;
+		        }
+		        log.info("数据解析成功");	
+	            fis.close();  
+		        return getData;
+		            
 	    } else {
 	        log.error("上传文件类型不正确");
 //	        return "文件类型不正确";
@@ -116,7 +129,9 @@ public class PoiWarehouseCheckIn extends Poi2007Base {
 	    HSSFRow row = null;
 	    //列
 	    HSSFCell cell = null;
-	    for (int i = sheet.getFirstRowNum(); i < sheet.getPhysicalNumberOfRows(); i++) {
+	    for (int i = sheet.getFirstRowNum(); i <= sheet.getPhysicalNumberOfRows(); i++) {
+	    	if (i<3)
+	            continue;
 	        //获取每一行
 	        row = sheet.getRow(i);
 	        //判断是否出现空行
@@ -169,16 +184,108 @@ public class PoiWarehouseCheckIn extends Poi2007Base {
 	        	wdt.setColor(objects[5].toString());
 	        	wdt.setPackaging(objects[6].toString());
 	        	wdt.setItem10(objects[7].toString());
+	        	wdt.setUnit(objects[8].toString());
+	        	wdt.setMakearea(objects[9].toString());
+	        	wdt.setProductid(objects[10].toString());
+	        	wdt.setSupplierid(new Long (objects[11].toString()));
 	        	//预测库存数量
-	        	wdt.setRes01(objects[9].toString());
+	        	wdt.setRes01(objects[12].toString());
 	        	//上期盘点库存详细数量及入库日期
-	        	JSONArray arry_old = createProdHist(objects[10].toString());
+	        	JSONArray arry_old = createProdHist(objects[13].toString());
 	        	if (arry_old != null)
 	        		wdt.setRes02(arry_old.toString());
 	        	//盘点库存数量
-	        	wdt.setWarehouseamount(new BigDecimal(objects[11].toString()));
+	        	wdt.setWarehouseamount(new BigDecimal(objects[14].toString()));
 	        	//盘点库存详细数量及入库日期
-	        	JSONArray arry_new = createProdHist(objects[12].toString());
+	        	JSONArray arry_new = createProdHist(objects[15].toString());
+	        	if (arry_new != null)
+	        		wdt.setRes03(arry_new.toString());
+	        	wdt_arry.add(wdt);
+	        }
+	    }
+	    return wdt_arry;
+	}	
+	
+	//处理2007之后的excel
+	private List<com.cn.dsyg.dto.WarehouseCheckDto> readExcel2(XSSFWorkbook xssfWorkbook) {
+	    List<com.cn.dsyg.dto.WarehouseCheckDto> wdt_arry = new ArrayList<com.cn.dsyg.dto.WarehouseCheckDto>();
+	    //获得excel第一个工作薄
+	    XSSFSheet sheet = xssfWorkbook.getSheetAt(0);
+	    //行
+	    XSSFRow row = null;
+	    //列
+	    XSSFCell cell = null;
+	    for (int i = sheet.getFirstRowNum(); i <= sheet.getPhysicalNumberOfRows(); i++) {
+	    	if (i<3)
+	            continue;
+	        //获取每一行
+	        row = sheet.getRow(i);
+	        //判断是否出现空行
+            System.out.println("获取" + i + "X");
+	        if (row == null) {
+	            log.warn("获取到一个空行-------》》》》》》" + i + "行");
+	            System.out.println("获取到一个空行------------》》》》》》" + i + "行");
+	            continue;
+	        }
+	        Object[] objects = new Object[row.getLastCellNum()];
+	        for (int j = row.getFirstCellNum(); j < row.getLastCellNum(); j++) {
+	            cell = row.getCell(j);
+
+	            if (cell == null) {
+	                log.warn("获取到一个空列------------》》》》》》" + j + "列");
+                    System.out.println("获取到一个空列------------》》》》》》" + j + "列");
+	                continue;
+	            }
+	            //第一行数据
+	            switch (cell.getCellType()) {
+	                case XSSFCell.CELL_TYPE_STRING:
+	                    objects[j] = cell.getStringCellValue();
+	                    System.out.println(cell.getStringCellValue());
+	                    break;
+	                case XSSFCell.CELL_TYPE_BLANK:
+	                    objects[j] = "";
+	                    break;
+	                case XSSFCell.CELL_TYPE_BOOLEAN:
+	                    objects[j] = cell.getBooleanCellValue();
+	                    System.out.println(cell.getBooleanCellValue());
+	                    break;
+	                case XSSFCell.CELL_TYPE_NUMERIC:
+	                    //处理double类型的  1.0===》1
+	                    DecimalFormat df = new DecimalFormat("0");
+	                    String s = df.format(cell.getNumericCellValue());
+	                    objects[j] = s;
+	                    System.out.println(s);
+	                    break;
+	                default:
+	                    objects[j] = cell.toString();
+	            }
+
+	        }
+	        //处理数据
+	        if (objects != null) {
+	        	com.cn.dsyg.dto.WarehouseCheckDto wdt = new com.cn.dsyg.dto.WarehouseCheckDto();
+	        	wdt.setFieldno(objects[1].toString());
+	        	wdt.setTradename(objects[3].toString());
+	        	wdt.setTypeno(objects[4].toString());
+	        	wdt.setColor(objects[5].toString());
+	        	wdt.setPackaging(objects[6].toString());
+	        	wdt.setItem10(objects[7].toString());
+	        	wdt.setUnit(objects[8].toString());
+	        	wdt.setMakearea(objects[9].toString());
+	        	wdt.setProductid(objects[10].toString());
+	        	if (objects[11].toString()!=null && !objects[11].toString().equals(""))
+	        		wdt.setSupplierid(new Long (objects[11].toString()));
+	        	//预测库存数量
+	        	wdt.setRes01(objects[12].toString());
+	        	//上期盘点库存详细数量及入库日期
+	        	JSONArray arry_old = createProdHist(objects[13].toString());
+	        	if (arry_old != null)
+	        		wdt.setRes02(arry_old.toString());
+	        	//盘点库存数量
+	        	if (objects[14].toString()!=null && !objects[14].toString().equals(""))
+	        		wdt.setWarehouseamount(new BigDecimal(objects[14].toString()));
+	        	//盘点库存详细数量及入库日期
+	        	JSONArray arry_new = createProdHist(objects[15].toString());
 	        	if (arry_new != null)
 	        		wdt.setRes03(arry_new.toString());
 	        	wdt_arry.add(wdt);

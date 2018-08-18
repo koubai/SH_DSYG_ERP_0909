@@ -1,6 +1,9 @@
 package com.cn.common.factory;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+
+import net.sf.json.JSONArray;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -79,6 +82,12 @@ public class PoiWarehouseCheck extends Poi2007Base {
 			XSSFCell cell7 = row.createCell(7);
 			XSSFCell cell8 = row.createCell(8);
 			XSSFCell cell9 = row.createCell(9);
+			XSSFCell cell10 = row.createCell(10);
+			XSSFCell cell11 = row.createCell(11);
+			XSSFCell cell12 = row.createCell(12);
+			XSSFCell cell13 = row.createCell(13);
+			XSSFCell cell14 = row.createCell(14);
+			XSSFCell cell15 = row.createCell(15);
 			cell0.setCellValue(i + 1);
 			cell0.setCellStyle(style);
 			cell1.setCellValue(dictMap.get(Constants.DICT_GOODS_TYPE + "_" + warehouseCheck.getFieldno()));
@@ -99,12 +108,29 @@ public class PoiWarehouseCheck extends Poi2007Base {
 			cell6.setCellStyle(style);
 			cell7.setCellValue(warehouseCheck.getItem10());
 			cell7.setCellStyle(style);
-			cell8.setCellValue(warehouseCheck.getSuppliername());
+			cell8.setCellValue(warehouseCheck.getUnit());
 			cell8.setCellStyle(style);
-			cell9.setCellValue("" + warehouseCheck.getWarehouseamount());
+			cell9.setCellValue(warehouseCheck.getMakearea());
 			cell9.setCellStyle(style);
+			cell10.setCellValue(warehouseCheck.getProductid());
+			cell10.setCellStyle(style);
+			cell11.setCellValue(warehouseCheck.getSuppliername());
+			cell11.setCellStyle(style);
+			cell12.setCellValue("" + warehouseCheck.getWarehouseamount());
+			cell12.setCellStyle(style);
+			//上期盘点库存详细数量及入库日期
+			if (warehouseCheck.getRes02()!= null)
+				cell13.setCellValue("" + warehouseCheck.getRes02());
+			else
+				cell13.setCellValue("");
+			cell13.setCellStyle(style);
+			cell14.setCellValue("");
+			cell14.setCellStyle(style);
+			cell15.setCellValue("");
+			cell15.setCellStyle(style);
 		}
 	}
+	
 	
 	/**
 	 * 输出Head部分
@@ -129,10 +155,22 @@ public class PoiWarehouseCheck extends Poi2007Base {
 		sheet.setColumnWidth(6, 10 * 256);
 		heads.add("包装");
 		sheet.setColumnWidth(7, 30 * 256);
+		heads.add("单位");
+		sheet.setColumnWidth(8, 0 * 256);
+		heads.add("产地");
+		sheet.setColumnWidth(9, 0 * 256);
+		heads.add("产品号");
+		sheet.setColumnWidth(10, 0 * 256);
 		heads.add("供应商");
-		sheet.setColumnWidth(8, 30 * 256);
+		sheet.setColumnWidth(11, 30 * 256);
+		heads.add("预测库存数量");
+		sheet.setColumnWidth(12, 15 * 256);
+		heads.add("上期库存详细信息");
+		sheet.setColumnWidth(13, 15 * 256);
 		heads.add("库存数量");
-		sheet.setColumnWidth(9, 15 * 256);
+		sheet.setColumnWidth(14, 15 * 256);
+		heads.add("库存详细信息");
+		sheet.setColumnWidth(15, 15 * 256);
 		
 		//Head部分颜色字体
 		XSSFFont font = workbook.createFont();

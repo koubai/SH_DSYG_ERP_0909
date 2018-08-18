@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -266,32 +269,9 @@ public class WarehouseCheckAction extends BaseAction {
 	public String uploadWarehouserCheckAction() {
 		try {
 			this.clearMessages();
+			//当前操作用户ID
+			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
 			initDictList();
-			//字典数据组织个MAP
-/*			Map<String, String> dictMap = new HashMap<String, String>();
-			if(goodsList != null && goodsList.size() > 0) {
-				for(Dict01Dto dict : goodsList) {
-					dictMap.put(Constants.DICT_GOODS_TYPE + "_" + dict.getCode(), dict.getFieldname());
-				}
-			}
-			if(unitList != null && unitList.size() > 0) {
-				for(Dict01Dto dict : unitList) {
-					dictMap.put(Constants.DICT_UNIT_TYPE + "_" + dict.getCode(), dict.getFieldname());
-				}
-			}
-			if(makeareaList != null && makeareaList.size() > 0) {
-				for(Dict01Dto dict : makeareaList) {
-					dictMap.put(Constants.DICT_MAKEAREA + "_" + dict.getCode(), dict.getFieldname());
-				}
-			}
-			if(colorList != null && colorList.size() > 0) {
-				for(Dict01Dto dict : colorList) {
-					dictMap.put(Constants.DICT_COLOR_TYPE + "_" + dict.getCode(), dict.getFieldname());
-				}
-			}
-			dictMap.put(Constants.EXCEL_PASS, excelPass);
-*/			
-			String file_path = PropertiesConfig.getPropertiesValueByKey(Constants.PROPERTIES_FILE_PATH);			
 			String filename = getUploadfile();
 			if (filename.equals(""))
 				return ERROR;
@@ -326,13 +306,28 @@ public class WarehouseCheckAction extends BaseAction {
 						wdt.setUnit(dict.getCode());
 				}
 				wdt.setCheckAmount(wdt.getWarehouseamount());
-				wdt.setWarehouseamount(new BigDecimal(wdt.getRes01()));
-				warehouseCheckList.set(index, wdt);
+				if (wdt.getRes01()== null)
+					wdt.setWarehouseamount(new BigDecimal(0));
+				else
+					wdt.setWarehouseamount(new BigDecimal(wdt.getRes01()));
+				if (wdt.getRes03()== null)
+					wdt.setRes04("");
+				else
+					wdt.setRes04(decodeProdHist(wdt.getRes03()));
+//				warehouseCheckList.set(index, wdt);
+//	用上载信息更新数据库库存信息				
+				boolean b = warehouseService.checkProductQuantity(wdt, username);
+				if(!b) {
+					log.error(wdt.getProductid() + " position save error！");
+					System.out.println(wdt.getProductid() + " position save error！");
+				} 
+				
 				index++;
 			}				
 							
-			
+			queryData_check();
 			//查询所有审价履历
+			this.addActionMessage("盘点文件上传成功！");
 //			String rtn = warehouseService.loadWarehouseCheck(list);
 		} catch(Exception e) {
 			log.error("uploadWarehouserCheckAction error:" + e);
@@ -447,6 +442,12 @@ public class WarehouseCheckAction extends BaseAction {
 		checkPage = warehouseService.queryWarehouseCheckByPage("", "",
 				"", strTheme, "", "", "", "", "", checkPage);
 		warehouseCheckList = (List<WarehouseCheckDto>) checkPage.getItems();
+		for(WarehouseCheckDto wdt: warehouseCheckList) {
+			if (wdt.getRes03() == null)
+				wdt.setRes04("");
+			else
+				wdt.setRes04(decodeProdHist(wdt.getRes03()));
+		}
 		this.setStartIndex(checkPage.getStartIndex());
 	}
 	
@@ -674,5 +675,61 @@ public class WarehouseCheckAction extends BaseAction {
 		this.uploadfile = uploadfile;
 	}
 
+	public String decodeProdHist(String in_String){
+		if ((in_String == null) || (in_String.trim().equals("")))
+			return null;
+		
+		JSONArray mapArray = JSONArray.fromObject(in_String);
+		String rtn = "";
+		for (int m = 0 ; m <mapArray.size(); m++){
+			JSONObject json = (JSONObject)mapArray.get(m);
+			rtn += json.get("in_wdate").toString()+",";
+			rtn += json.get("in_wquantity").toString()+";<BR>";	    		
+		}			
+		return rtn;
+	}
+	
+	public JSONArray encodeProdHist(String in_String){
+		if ((in_String == null) || (in_String.trim().equals("")))
+			return null;
+		List<Map<String, String>> lst = new ArrayList<Map<String, String>> ();
+    	String[] w_data = in_String.toString().split("\n");
+    	if (w_data.length > 0){
+    		for (int m = 0 ; m <w_data.length ; m++){
+        		com.cn.dsyg.dto.PositionHistDto pp = new com.cn.dsyg.dto.PositionHistDto();
+        		System.out.println("w_data["+m+"]"+ w_data[m]);
+        		int ix = w_data[m].toString().indexOf("，");
+        		String[] w_dat;
+        		if (ix > 0)
+        			w_dat = w_data[m].toString().split("，");
+        		else 
+        			w_dat = w_data[m].toString().split(",");
+        		if (w_dat.length > 0){
+        			String in_wdate = w_dat[0].trim(); 
+    				pp.setIn_wdate(in_wdate);
+	        		System.out.println("in_wdate:"+ in_wdate);	        		
+        			if (w_dat.length > 1){
+        				int idx= w_dat[1].indexOf(";");
+        				String in_quantity ="";
+        				if (idx > 0)	
+            				in_quantity = w_dat[1].substring(0, idx); 
+        				else
+        					in_quantity = w_dat[1].trim(); 
+        				pp.setIn_quantity(new BigDecimal(in_quantity));
+        				System.out.println("in_quantity:"+ in_quantity);
+            			lst.add(pp.getIn_map());
+        			}else{
+        				System.out.println( m + "row in_quantity error.");	        				        				
+        			}
+        		}
+    		}    		
+    	}
+    	if (lst.size() <= 0){
+    		return null;    		
+    	}
+		JSONArray mapArray = JSONArray.fromObject(lst);
+		System.out.println("mapArray" + mapArray.toString());
+		return mapArray;
+	}
 
 }

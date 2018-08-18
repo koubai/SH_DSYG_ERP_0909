@@ -125,7 +125,7 @@
 			<isNotEmpty prepend="and" property="checkday">
 				T.checkday = #checkday#
 			</isNotEmpty>
-		) A where 1 = 1 order by A.tradename,A.typeno,A.color,A.item10,A.packaging,A.id asc
+		) A where 1 = 1 order by A.tradename,A.typeno,A.color,A.item10,A.packaging,A.checkday desc
 	</select>
 	
 	<select id="queryPositionById" parameterClass="java.util.Map" resultMap="PositionDto">

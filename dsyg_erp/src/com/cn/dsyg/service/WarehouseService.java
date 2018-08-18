@@ -386,4 +386,14 @@ public interface WarehouseService {
 	 * @return
 	 */
 	public void loadWarehouseCheck(List<WarehouseCheckDto> list);
+	
+	
+	/**
+	 * 根据产品信息盘点库存数量
+	 * @param chkdto
+	 * @param userid
+	 * @return
+	 */
+	public boolean checkProductQuantity(WarehouseCheckDto chkdto, String userid);
+
 }

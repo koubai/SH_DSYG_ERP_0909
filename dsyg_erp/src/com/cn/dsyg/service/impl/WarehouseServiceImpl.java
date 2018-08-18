@@ -631,7 +631,74 @@ public class WarehouseServiceImpl implements WarehouseService {
 		}
 		return false;
 	}
+
 	
+	
+	@Override
+	public boolean checkProductQuantity(WarehouseCheckDto chkdto, String userid) {
+		//查询原始库存
+		ProductQuantityDto p = warehouseDao.queryProductQuantityById(chkdto.getProductid());
+		//仓库
+		String warehousename = PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_WAREHOUSE_NAME);
+		String belongto = PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_BELONG);
+		if(p != null) {
+			if(p.getQuantity() != null && !"".equals(p.getQuantity())) {
+				//有库存数据
+				//判断库存数量和输入的数量是否相等
+				BigDecimal oldNum = new BigDecimal(p.getQuantity());
+				BigDecimal newNum = chkdto.getWarehouseamount();
+				if(oldNum.compareTo(newNum) != 0) {
+					//需要新增库存数据
+					BigDecimal addNum = newNum.subtract(oldNum);
+					
+					ProductDto product = productDao.queryProductByID(chkdto.getProductid());
+					
+					Date date = new Date();
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+					
+				}
+				String checkday = DateUtil.dateToShortStr(new Date());
+				//查询盘点表的数据
+				List<PositionDto> list = positionDao.queryPositionByLogicId("", chkdto.getProductid(), checkday);
+				if(list != null && list.size() > 0) {
+					PositionDto position = list.get(0);
+					//更新数据
+					position.setAmount(newNum);
+					position.setBeforeamount(oldNum);
+					position.setHandler(userid);
+					position.setUpdateuid(userid);
+					position.setProductposition(chkdto.getWarehouseposition());
+					position.setRes01(chkdto.getRes03());
+					positionDao.updatePosition(position);
+				} else {
+					//没有位置数据，则新增一条记录
+					//新增盘点记录
+					PositionDto position = new PositionDto();
+					position = new PositionDto();
+					position.setAmount(newNum);
+					position.setBeforeamount(oldNum);
+					position.setBelongto(belongto);
+					position.setCreateuid(userid);
+					position.setUpdateuid(userid);
+					position.setProductid(chkdto.getProductid());
+					position.setCheckday(checkday);
+					position.setProductposition(chkdto.getWarehouseposition());
+					position.setRes01(chkdto.getRes03());
+					position.setRank(Constants.ROLE_RANK_OPERATOR);
+					position.setStatus(Constants.STATUS_NORMAL);
+					position.setWarehousename(warehousename);
+					position.setHandler(userid);
+					positionDao.insertPosition(position);
+				}
+				return true;
+			}
+		} else {
+			//没有库存数据
+		}
+		return false;
+	}
+	
+
 	@Override
 	public ProductQuantityDto queryProductQuantityById(String productid) {
 		return warehouseDao.queryProductQuantityById(productid);
@@ -697,7 +764,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 				if(listPosition != null && listPosition.size() > 0) {
 					PositionDto position = listPosition.get(0);
 					warehouseCheck.setWarehouseposition(position.getProductposition());
-					warehouseCheck.setCheckAmount(position.getAmount());
+//					warehouseCheck.setCheckAmount(position.getAmount());
+					warehouseCheck.setRes03(position.getRes01());
 					UserDto user = userDao.queryUserByID(position.getHandler());
 					if(user != null) {
 						warehouseCheck.setHandlename(user.getUsername());
