@@ -684,7 +684,7 @@ public class WarehouseCheckAction extends BaseAction {
 		for (int m = 0 ; m <mapArray.size(); m++){
 			JSONObject json = (JSONObject)mapArray.get(m);
 			rtn += json.get("in_wdate").toString()+",";
-			rtn += json.get("in_wquantity").toString()+";<BR>";	    		
+			rtn += json.get("in_wquantity").toString()+";\n";	    		
 		}			
 		return rtn;
 	}

@@ -1777,7 +1777,17 @@ public class WarehouseServiceImpl implements WarehouseService {
 			String warehousetype, String warehouseno, String theme1,
 			String productid, String tradename, String typeno, String color,
 			String warehousename) {
-		return warehouseDao.queryWarehouseCheckToExcel(parentid, warehousetype, warehouseno, theme1, productid, tradename, typeno, color, warehousename);
+		List<WarehouseCheckDto> list = warehouseDao.queryWarehouseCheckToExcel(parentid, warehousetype, warehouseno, theme1, productid, tradename, typeno, color, warehousename);
+		for(WarehouseCheckDto wdt: list) {
+			List<PositionDto> listPosition = positionDao.queryPositionByLogicId("", wdt.getProductid(), "");
+			if(listPosition != null && listPosition.size() > 0) {
+				PositionDto position = listPosition.get(0);
+				wdt.setRes02(position.getRes01());
+			} else {
+				wdt.setWarehouseposition("");
+			}	
+		}
+		return list;
 	}
 	
 	@Override

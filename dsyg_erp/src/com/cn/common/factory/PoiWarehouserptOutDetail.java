@@ -44,11 +44,17 @@ public class PoiWarehouserptOutDetail extends Poi2007Base {
 		//字体大小
 		font.setFontHeightInPoints((short)18);
 				
+		WarehouserptDto warehouserpt = new WarehouserptDto();
+		//添加数据
+		warehouserpt = (WarehouserptDto) datas.get(0);		
 		XSSFRow row = sheet.createRow(1);
 		//合并单元格
 		sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 10));
 		XSSFCell cell = row.createCell(0);
-		cell.setCellValue("东升盈港出货明细单");
+		if (warehouserpt.getTotaltaxamount().compareTo(new BigDecimal(0))< 0 )
+			cell.setCellValue("东升盈港出货明细单(退货)");
+		else
+			cell.setCellValue("东升盈港出货明细单");
 		//式样
 		XSSFCellStyle style = workbook.createCellStyle();
 		//水平居中
@@ -64,10 +70,6 @@ public class PoiWarehouserptOutDetail extends Poi2007Base {
 		//式样
 		XSSFCellStyle style_cus = workbook.createCellStyle();
 		style_cus.setFont(font_cus);
-		
-		WarehouserptDto warehouserpt = new WarehouserptDto();
-		//添加数据
-		warehouserpt = (WarehouserptDto) datas.get(0);
 		
 		XSSFRow row3 = sheet.createRow(3);
 		XSSFCell cell_cus = row3.createCell(1);

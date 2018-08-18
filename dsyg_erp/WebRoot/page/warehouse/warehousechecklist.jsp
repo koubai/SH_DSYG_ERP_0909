@@ -198,7 +198,7 @@
 								<td width="80">库存数量</td>
 								<!-- <td width="60">库存位置</td> -->
 								<td width="140">盘点数量</td>
-								<td width="60">HIST</td>
+								<td width="60">信息</td>
 							</tr>
 							<s:iterator id="warehouseCheckList" value="warehouseCheckList" status="st1">
 								<s:if test="#st1.odd==true">

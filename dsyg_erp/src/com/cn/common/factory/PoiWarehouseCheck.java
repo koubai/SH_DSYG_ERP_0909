@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -120,7 +121,7 @@ public class PoiWarehouseCheck extends Poi2007Base {
 			cell12.setCellStyle(style);
 			//上期盘点库存详细数量及入库日期
 			if (warehouseCheck.getRes02()!= null)
-				cell13.setCellValue("" + warehouseCheck.getRes02());
+				cell13.setCellValue("" + genProdHist(warehouseCheck.getRes02()));
 			else
 				cell13.setCellValue("");
 			cell13.setCellStyle(style);
@@ -165,11 +166,11 @@ public class PoiWarehouseCheck extends Poi2007Base {
 		sheet.setColumnWidth(11, 30 * 256);
 		heads.add("预测库存数量");
 		sheet.setColumnWidth(12, 15 * 256);
-		heads.add("上期库存详细信息");
+		heads.add("上期详细信息");
 		sheet.setColumnWidth(13, 15 * 256);
 		heads.add("库存数量");
 		sheet.setColumnWidth(14, 15 * 256);
-		heads.add("库存详细信息");
+		heads.add("详细信息");
 		sheet.setColumnWidth(15, 15 * 256);
 		
 		//Head部分颜色字体
@@ -201,4 +202,20 @@ public class PoiWarehouseCheck extends Poi2007Base {
 			cell.setCellStyle(style);
 		}
 	}
+	
+	
+	public String genProdHist(String in_String){
+		if ((in_String == null) || (in_String.trim().equals("")))
+			return null;
+		
+		JSONArray mapArray = JSONArray.fromObject(in_String);
+		String rtn = "";
+		for (int m = 0 ; m <mapArray.size(); m++){
+			JSONObject json = (JSONObject)mapArray.get(m);
+			rtn += json.get("in_wdate").toString()+",";
+			rtn += json.get("in_wquantity").toString()+";\n";	    		
+		}			
+		return rtn;
+	}
+
 }

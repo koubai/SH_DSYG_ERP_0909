@@ -1,5 +1,6 @@
 package com.cn.common.factory;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -39,11 +40,18 @@ public class PoiWarehouserptInDetailInter extends Poi2007Base {
 		//字体大小
 		font.setFontHeightInPoints((short)18);
 				
+		WarehouserptDto warehouserpt = new WarehouserptDto();
+		//添加数据
+		warehouserpt = (WarehouserptDto) datas.get(0);
+
 		XSSFRow row = sheet.createRow(1);
 		//合并单元格
 		sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 9));
 		XSSFCell cell = row.createCell(0);
-		cell.setCellValue("入库配货单");
+		if (warehouserpt.getTotaltaxamount().compareTo(new BigDecimal(0))< 0 )
+			cell.setCellValue("入库配货单(退货)");
+		else
+			cell.setCellValue("入库配货单");
 		//式样
 		XSSFCellStyle style = workbook.createCellStyle();
 		//水平居中
