@@ -94,8 +94,10 @@
 	}
 	
 	function exportData() {
-		document.mainform.action = '../warehouse/exportWarehouserCheckAction.action';
-		document.mainform.submit();
+		if (confirm("开始导出文件！")){
+			document.mainform.action = '../warehouse/exportWarehouserCheckAction.action';
+			document.mainform.submit();			
+		}
 	}
 	
 	function goCollect() {
@@ -108,8 +110,10 @@
 		if (filename == "")
 			alert("请输入上传文件！");
 		else{
-			document.mainform.action = '../warehouse/uploadWarehouserCheckAction.action';
-			document.mainform.submit();			
+			if (confirm("开始上传文件！")){
+				document.mainform.action = '../warehouse/uploadWarehouserCheckAction.action';
+				document.mainform.submit();							
+			}
 		}
 	}
 	
@@ -119,7 +123,7 @@
 		if (typeof(data) == "undefined")
 			return rtn;
 		var da = eval('('+ "{ root:" + data+"}" + ')');
-		for (i=0; i< da.root.length; i++){
+		for (var i=0; i< da.root.length; i++){
 //			alert(da.root[i].in_wquantity);
 			rtn += da.root[i].in_wquantity + ",";
 			rtn += da.root[i].in_wdate + ";<br/>";

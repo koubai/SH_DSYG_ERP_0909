@@ -1,11 +1,14 @@
 package com.cn.common.factory;
 
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.util.CellRangeAddress;
@@ -23,6 +26,8 @@ import com.cn.dsyg.dto.PurchaseDto;
 import com.cn.dsyg.dto.WarehouseCheckDto;
 
 public class PoiWarehouseCheck extends Poi2007Base {
+
+	private static final Logger log = LogManager.getLogger(Poi2007Base.class);
 
 	/**
 	 * 输出大标题
@@ -120,9 +125,15 @@ public class PoiWarehouseCheck extends Poi2007Base {
 			cell12.setCellValue("" + warehouseCheck.getWarehouseamount());
 			cell12.setCellStyle(style);
 			//上期盘点库存详细数量及入库日期
-			if (warehouseCheck.getRes02()!= null)
-				cell13.setCellValue("" + genProdHist(warehouseCheck.getRes02()));
-			else
+			if (warehouseCheck.getRes02()!= null){
+				String hist = genProdHist(warehouseCheck.getRes02());
+				int cellHeight = sheet.getRow(i+3).getHeight(); 	
+				int num = JSONArray.fromObject(warehouseCheck.getRes02()).size();
+				int maxHeight =cellHeight*(num + 1);  
+				cell13.setCellValue("" + hist);
+				row.setHeight((short)maxHeight);
+				style.setWrapText(true);    
+			}else
 				cell13.setCellValue("");
 			cell13.setCellStyle(style);
 			cell14.setCellValue("");
@@ -216,6 +227,33 @@ public class PoiWarehouseCheck extends Poi2007Base {
 			rtn += json.get("in_wquantity").toString()+";\n";	    		
 		}			
 		return rtn;
+	}
+
+	/**
+	 * 导出Excel2007
+	 * @param out
+	 */
+	public void exportExcel(OutputStream out) {
+		try {
+			//创建Workbook
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			//创建Sheet
+			XSSFSheet sheet = createSheet(workbook);
+			//输出title
+			writeTitle(sheet, workbook);
+			//输出Head部分
+			writeHead(sheet, workbook);
+			//输出数据部分
+			writeData(sheet, workbook);
+						
+			//输出Excel
+			out.flush();
+			workbook.write(out);
+			out.close();
+			log.info("exportExcel success.");
+		} catch (Exception e) {
+			log.error("exportExcel error:" + e);
+		}
 	}
 
 }

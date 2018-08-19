@@ -646,7 +646,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 				//有库存数据
 				//判断库存数量和输入的数量是否相等
 				BigDecimal oldNum = new BigDecimal(p.getQuantity());
-				BigDecimal newNum = chkdto.getWarehouseamount();
+				BigDecimal newNum = new BigDecimal(0);
+				if (chkdto.getCheckAmount()!= null)
+					newNum = chkdto.getCheckAmount();
 				if(oldNum.compareTo(newNum) != 0) {
 					//需要新增库存数据
 					BigDecimal addNum = newNum.subtract(oldNum);
