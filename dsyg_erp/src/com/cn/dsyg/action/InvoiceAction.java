@@ -83,7 +83,7 @@ public class InvoiceAction extends BaseAction {
 			//刷新预开票页面数据
 			strInvoicenoOK = "";
 			strNote = "";
-			queryInvoiceNewData();
+			queryInvoiceNewData();				
 		} catch(RuntimeException e) {
 			this.addActionMessage(e.getMessage());
 			//刷新预开票页面数据
@@ -94,6 +94,38 @@ public class InvoiceAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
+
+	/**
+	 * 废票(开票一览)
+	 * @return
+	 */
+	public String cancelInvoice2Action() {
+		try {
+			this.clearMessages();
+			//作废
+			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
+			if(StringUtil.isBlank(strIds)) {
+				this.addActionMessage("请选择一条记录！");
+				return "checkerror";
+			}
+			//废票处理
+			invoiceService.cancelInvoice(strInvoicenoOK, strNote, strIds, username);
+			this.addActionMessage("作废操作成功！");
+			strInvoicenoOK = "";
+			strNote = "";
+			//刷新开票管理页面数据
+			queryInvoiceOKData();
+		} catch(RuntimeException e) {
+			this.addActionMessage(e.getMessage());
+			//刷新开票管理页面数据
+			queryInvoiceOKData();
+		} catch(Exception e) {
+			log.error("cancelInvoiceAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}	
+	
 	
 	/**
 	 * 预开票记录确认开票
@@ -138,9 +170,9 @@ public class InvoiceAction extends BaseAction {
 		try {
 			this.clearMessages();
 			invoiceService.deleteInvoiceBatch(strIds);
+			this.addActionMessage("删除成功！");
 			//刷新预开票页面数据
 			queryInvoiceNewData();
-			this.addActionMessage("删除成功！");
 		} catch(RuntimeException e) {
 			this.addActionMessage(e.getMessage());
 			//刷新预开票页面数据
@@ -152,6 +184,35 @@ public class InvoiceAction extends BaseAction {
 		return SUCCESS;
 	}
 	
+	/**
+	 * 删除开票记录
+	 * @return
+	 */
+	public String delInvoice2Action() {
+		try {
+			this.clearMessages();
+			List<InvoiceDto> invoiceList = invoiceService.queryInvoiceByInvoiceno(strInvoicenoOK, null);
+			if(invoiceList != null && invoiceList.size() > 0) {
+				for(InvoiceDto invoicedto : invoiceList) {
+					invoiceService.deleteInvoice(invoicedto.getId().toString());
+					invoiceService.updFinanceInvoice(invoicedto.getFinanceno(), strInvoiceno) ;
+				}
+			}
+
+			this.addActionMessage("删除成功！");
+			//刷新开票管理页面数据
+			queryInvoiceOKData();
+		} catch(RuntimeException e) {
+			this.addActionMessage(e.getMessage());
+			//刷新开票管理页面数据
+			queryInvoiceOKData();
+		} catch(Exception e) {
+			log.error("delInvoiceAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+
 	//预开票
 	/**
 	 * 预开票管理页面

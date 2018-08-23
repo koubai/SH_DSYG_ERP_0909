@@ -149,7 +149,7 @@
 			alert("请选择一条记录！");
 			return;
 		}
-		if(confirm("删除将不可恢复！确定删除预出库记录吗？")) {
+		if(confirm("删除将不可恢复！确定删除预开票记录吗？")) {
 			document.mainform.action = '../invoice/delInvoiceAction.action';
 			document.mainform.submit();
 		}

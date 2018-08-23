@@ -66,6 +66,7 @@ public class PoiWarehouseCheck extends Poi2007Base {
 		WarehouseCheckDto warehouseCheck = new WarehouseCheckDto();
 		//式样
 		XSSFCellStyle style = workbook.createCellStyle();
+		XSSFCellStyle unlockstyle = workbook.createCellStyle();
 		//水平居中
 		style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 		//添加边框
@@ -73,6 +74,15 @@ public class PoiWarehouseCheck extends Poi2007Base {
 		style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
 		style.setBorderTop(HSSFCellStyle.BORDER_THIN);
 		style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+
+		//水平居中
+		unlockstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		//添加边框
+		unlockstyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+		unlockstyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+		unlockstyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+		unlockstyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+		unlockstyle.setLocked(false);
 
 		//添加数据
 		for(int i = 0; i < datas.size(); i++) {
@@ -137,9 +147,9 @@ public class PoiWarehouseCheck extends Poi2007Base {
 				cell13.setCellValue("");
 			cell13.setCellStyle(style);
 			cell14.setCellValue("");
-			cell14.setCellStyle(style);
+			cell14.setCellStyle(unlockstyle);
 			cell15.setCellValue("");
-			cell15.setCellStyle(style);
+			cell15.setCellStyle(unlockstyle);
 		}
 	}
 	
@@ -233,6 +243,7 @@ public class PoiWarehouseCheck extends Poi2007Base {
 	 * 导出Excel2007
 	 * @param out
 	 */
+	/*
 	public void exportExcel(OutputStream out) {
 		try {
 			//创建Workbook
@@ -255,5 +266,6 @@ public class PoiWarehouseCheck extends Poi2007Base {
 			log.error("exportExcel error:" + e);
 		}
 	}
+	*/
 
 }

@@ -110,4 +110,12 @@ public interface InvoiceService {
 	 * @param invoice
 	 */
 	public void updateInvoice(InvoiceDto invoice);
+	
+	/**
+	 * 更新finance记录
+	 * @param financeno
+	 * @param invoice
+	 */
+	public void updFinanceInvoice(String financeno, String invoiceno);
+
 }

@@ -9,9 +9,17 @@
 		<action name="cancelInvoiceAction" class="invoiceAction" method="cancelInvoiceAction">
 			<result name="*">/page/invoice/invoicenewlist.jsp</result>
 		</action>
+
+		<action name="cancelInvoice2Action" class="invoiceAction" method="cancelInvoice2Action">
+			<result name="*">/page/invoice/invoiceoklist.jsp</result>
+		</action>
 		
 		<action name="delInvoiceAction" class="invoiceAction" method="delInvoiceAction">
 			<result name="*">/page/invoice/invoicenewlist.jsp</result>
+		</action>
+		
+		<action name="delInvoice2Action" class="invoiceAction" method="delInvoice2Action">
+			<result name="*">/page/invoice/invoiceoklist.jsp</result>
 		</action>
 		
 		<action name="invoiceOKAction" class="invoiceAction" method="invoiceOKAction">

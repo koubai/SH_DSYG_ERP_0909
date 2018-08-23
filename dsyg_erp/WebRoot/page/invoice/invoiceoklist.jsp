@@ -77,6 +77,44 @@
 			return;
 		}	
 	}
+	
+	//废票
+	function cancelInvoice() {
+		var id = getSelectedID();
+		if(id == "") {
+			alert("请选择一条记录！");
+			return;
+		} 
+		$("#strInvoicenoOK").attr("value", id);
+		$("#strIds").attr("value", "*");
+		
+		//废票时备注不可以为空
+		var strNote = $("#strNote").val().trim();
+		if(strNote == "") {
+			alert("废票时，备注不能为空！");
+			$("#strNote").focus();
+			return;
+		}
+		if(confirm("确定作废吗？")) {
+			document.mainform.action = '../invoice/cancelInvoice2Action.action';
+			document.mainform.submit();
+		}
+	}
+	
+	function delInvoice() {
+		var id = getSelectedID();
+		if(id == "") {
+			alert("请选择一条记录！");
+			return;
+		}
+		$("#strInvoicenoOK").attr("value", id);
+		$("#strIds").attr("value", "*");
+		if(confirm("删除将不可恢复！确定删除开票记录吗？")) {
+			document.mainform.action = '../invoice/delInvoice2Action.action';
+			document.mainform.submit();
+		}
+	}
+
 </script>
 </head>
 <body>
@@ -112,9 +150,14 @@
 						</div>
 						<div class="box1_right"></div>
 					</div>
-					<div class="box1" style="margin-top:-3px; margin-left: 180px; color: red;">
+					<div class="box1" style="margin-top:-3px; margin-left: 300px; color: red;">
 						<s:actionmessage />
 					</div>
+					<div class="icons thums">
+						<a class="edit" onclick="cancelInvoice();">废票</a>
+						<a class="delete" onclick="delInvoice();">删除</a>
+					</div>
+					
 				</div>
 				<div class="data_table" style="padding:0px;">
 					<div class="tab_tittle">
@@ -125,7 +168,7 @@
 						<div style="width: 100%; overflow: auto;">
 							<table class="info_tab" width="100%" border="1" cellpadding="5" cellspacing="0">
 								<tr class="tittle">
-									<td width="30" style="display: none;"></td>
+									<td width="30"></td>
 									<td width="40">序号</td>
 									<td width="100">发票号</td>
 									<td width="150">关联单据编号</td>
@@ -141,12 +184,12 @@
 								</tr>
 								<s:iterator id="listInvoiceOk" value="listInvoiceOk" status="st1">
 									<s:if test="#st1.odd==true">
-										<tr class="tr_bg" onclick="checkCheckboxTr(this, event);">
+										<tr class="tr_bg" onclick="checkRadioTr(this, event);">
 									</s:if>
 									<s:else>
-										<tr onclick="checkCheckboxTr(this, event);">
+										<tr onclick="checkRadioTr(this, event);">
 									</s:else>
-										<td style="display: none;"><input name="radioKey" type="checkbox" value="<s:property value="id"/>"/></td>
+										<td><input name="radioKey" type="radio" value="<s:property value="invoiceno"/>"/></td>
 										<td><s:property value="okPage.pageSize * (okPage.nextIndex - 1) + #st1.index + 1"/></td>
 										<td><s:property value="invoiceno"/></td>
 										<td>
@@ -175,11 +218,11 @@
 											</div>
 										</td>
 										<td align="right"><s:property value="amounttax"/></td>
-										<%-- <td>
+										<!-- <td>
 											<div noWrap title="<s:property value="note"/>" style="width:150px;text-overflow:ellipsis;overflow:hidden">
 												<s:property value="note"/>
 											</div>
-										</td> --%>
+										</td> -->
 										<td>
  											<s:if test="status==0">
 												预开票
@@ -253,6 +296,12 @@
 						</ul>
 					</div>
 				</div>
+				<div class="box1" style="margin-top:30px; margin-left: 290px;">
+					备注：<s:textfield name="strNote" id="strNote" cssStyle="width:280px;" theme="simple"></s:textfield>
+				</div>
+				<s:hidden id="strInvoicenoOK" name="strInvoicenoOK" />
+				<s:hidden id="strIds" name="strIds" />
+			
 			</s:form>
 		</div>
 	</div>
