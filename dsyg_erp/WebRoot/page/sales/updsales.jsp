@@ -1384,6 +1384,15 @@
 								<div class="btn">
 									<div class="box1_left"></div>
 									<div class="box1_center">
+										<input class="input80" type="button" value="导出(含税)" onclick="exportData(2);"/>
+									</div>
+									<div class="box1_right"></div>
+								</div>
+							</td>
+							<td>
+								<div class="btn">
+									<div class="box1_left"></div>
+									<div class="box1_center">
 										<input class="input80" type="button" value="导出" onclick="exportData(1);"/>
 									</div>
 									<div class="box1_right"></div>

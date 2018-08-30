@@ -629,6 +629,12 @@ public class SalesAction extends BaseAction {
 			response.setContentType("text/html; charset=GB2312");
 			response.setCharacterEncoding("GB2312");
 			PoiSalesPrice base = new PoiSalesPrice();
+			if(exporttype != null && exporttype.equals("1")){
+				base.setTaxflg("");
+			}
+			if(exporttype != null && exporttype.equals("2")){
+				base.setTaxflg("2");
+			}
 			if(exporttype != null && exporttype.equals("order")){
 				base = new PoiSalesPriceOrder();
 			}

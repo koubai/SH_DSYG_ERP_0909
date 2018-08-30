@@ -27,6 +27,14 @@ public class PoiSalesPrice {
 	 */
 	protected Map<String, String> dictMap;
 	
+	private String taxflg;
+	
+	public String getTaxflg() {
+		return taxflg;
+	}
+	public void setTaxflg(String taxflg) {
+		this.taxflg = taxflg;
+	}
 	/**
 	 * 输出大标题
 	 * @param sheet
@@ -72,7 +80,13 @@ public class PoiSalesPrice {
 //        templateContent = templateContent.replaceAll("#validdate#", updSalesDto.getRes04());
         templateContent = templateContent.replaceAll("#validdate#", "30天");
 //        templateContent = templateContent.replaceAll("#indexnote#", updSalesDto.getNote());
-        templateContent = templateContent.replaceAll("#indexnote#", "以上单价为未税价格。");
+// 20180830 update for tax price -----start
+//        templateContent = templateContent.replaceAll("#indexnote#", "以上单价为未税价格。");
+        if (taxflg.equals("2"))
+            templateContent = templateContent.replaceAll("#indexnote#", updSalesDto.getNote() + "<BR> 以上单价为含税价格。");
+        else        	
+        	templateContent = templateContent.replaceAll("#indexnote#", updSalesDto.getNote() + "<BR> 以上单价为未税价格。");
+// 20180830 update for tax price -----end
 //  20180424 update for tax rate change         - end -           
         
         StringBuilder products = new StringBuilder(" ");
@@ -108,9 +122,15 @@ public class PoiSalesPrice {
             products.append("</td>"); 
             products.append("<td style=\"border:solid; border-width:0px 0px 1px 1px;\">"); 
 //  20180424 update for tax rate change         - start -           
-//            products.append("￥" + updSalesItemList.get(i).getTaxunitprice());  
-            products.append("￥" + updSalesItemList.get(i).getUnitprice());  
+//          products.append("￥" + updSalesItemList.get(i).getTaxunitprice());  
+//            products.append("￥" + updSalesItemList.get(i).getUnitprice());  
 //  20180424 update for tax rate change         - end -            
+//  20180830 add type for tax price   ----start
+            if (taxflg.equals("2"))
+            	products.append("￥" + updSalesItemList.get(i).getTaxunitprice());  
+            else 
+                products.append("￥" + updSalesItemList.get(i).getUnitprice());  
+//  20180830 add type for tax price   ----end
             products.append("</td>");
             products.append("<td style=\"border:solid; border-width:0px 1px 1px 1px; font-weight:bold\">"); 
         	if(updSalesItemList.get(i).getRes09() != null){
