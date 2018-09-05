@@ -20,7 +20,17 @@
 				var re = res[i];
 				re.value = extractHistDetail(re.value);
 			}
-		}*/
+		}*/		
+		$("input[type='file']").on('change', function () {
+		    var oFReader = new FileReader();
+		    var file = document.getElementById('uploadfile').files[0];
+		    oFReader.readAsDataURL(file);
+		    oFReader.onloadend = function(oFRevent){
+		        var src = oFRevent.target.result;
+		        $('.content').attr('src',src);
+		        alert("sss+"+src);
+		    }
+		});
 	});
 	
 	//查询数据
@@ -104,12 +114,12 @@
 		document.mainform.action = '../warehouse/queryPositionCollectAction.action';
 		document.mainform.submit();
 	}
-
+	
 	function uploadDetail() {
 		filename = document.getElementById("uploadfile").value;
 		if (filename == "")
 			alert("请输入上传文件！");
-		else{
+		else{		
 			if (confirm("开始上传文件！")){
 				document.mainform.action = '../warehouse/uploadWarehouserCheckAction.action';
 				document.mainform.submit();							
@@ -146,7 +156,7 @@
 				<div class="tittle_right">
 				</div>
 			</div>
-			<s:form id="mainform" name="mainform" method="POST">
+			<s:form id="mainform" name="mainform" method="POST" enctype="multipart/form-data">
 				<s:hidden name="checkStartIndex" id="checkStartIndex"/>
 				<s:hidden name="checkIntPageSize" id="checkIntPageSize"/>
 				<s:hidden name="strPosition" id="strPosition"/>

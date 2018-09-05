@@ -53,15 +53,20 @@ public class PoiWarehouseCheckIn extends Poi2007Base {
 
         //得到文件名
 		String file_path = PropertiesConfig.getPropertiesValueByKey(Constants.PROPERTIES_FILE_PATH);			
+        log.info("file_path:"+ file_path);
 		File file = new File(filename);
+        log.info("filename:"+ filename);
         String fname=file.getName();        		
+        log.info("fname:"+ fname);
 		String newfile = FileUtil.uploadFile(file, file_path, fname);
 	    File ff = new File(file_path + newfile);
+        log.info("ff:"+ file_path + newfile);
 	    
 	    String fileType = com.cn.common.util.FileTypeUtil.getFileType(ff);
 	    //XLS_DOC --》2007之前的excel类型  XLSX_DOCX--》  2007之后的excel类型
 	    System.out.println("filename:"+ filename);
 	    System.out.println("fileType:"+ fileType);
+        log.info("fileType" + fileType);
 	    if (fileType.equals("wps")) {
 	        log.info("开始解析XLS_DOC文件");
 	        FileInputStream fis = new FileInputStream(ff);
@@ -137,8 +142,8 @@ public class PoiWarehouseCheckIn extends Poi2007Base {
 	        //判断是否出现空行
             System.out.println("获取" + i + "X");
 	        if (row == null) {
-	            log.warn("获取到一个空行-------》》》》》》" + i + "行");
-	            System.out.println("获取到一个空行------------》》》》》》" + i + "行");
+//	            log.warn("获取到一个空行-------》》》》》》" + i + "行");
+//	            System.out.println("获取到一个空行------------》》》》》》" + i + "行");
 	            continue;
 	        }
 	        Object[] objects = new Object[row.getLastCellNum()];
@@ -146,29 +151,29 @@ public class PoiWarehouseCheckIn extends Poi2007Base {
 	            cell = row.getCell(j);
 
 	            if (cell == null) {
-	                log.warn("获取到一个空列------------》》》》》》" + j + "列");
-                    System.out.println("获取到一个空列------------》》》》》》" + j + "列");
+//	                log.warn("获取到一个空列------------》》》》》》" + j + "列");
+//                    System.out.println("获取到一个空列------------》》》》》》" + j + "列");
 	                continue;
 	            }
 	            //第一行数据
 	            switch (cell.getCellType()) {
 	                case HSSFCell.CELL_TYPE_STRING:
 	                    objects[j] = cell.getStringCellValue();
-	                    System.out.println(cell.getStringCellValue());
+//	                    System.out.println(cell.getStringCellValue());
 	                    break;
 	                case HSSFCell.CELL_TYPE_BLANK:
 	                    objects[j] = "";
 	                    break;
 	                case HSSFCell.CELL_TYPE_BOOLEAN:
 	                    objects[j] = cell.getBooleanCellValue();
-	                    System.out.println(cell.getBooleanCellValue());
+//	                    System.out.println(cell.getBooleanCellValue());
 	                    break;
 	                case HSSFCell.CELL_TYPE_NUMERIC:
 	                    //处理double类型的  1.0===》1
 	                    DecimalFormat df = new DecimalFormat("0");
 	                    String s = df.format(cell.getNumericCellValue());
 	                    objects[j] = s;
-	                    System.out.println(s);
+//	                    System.out.println(s);
 	                    break;
 	                default:
 	                    objects[j] = cell.toString();
@@ -221,10 +226,10 @@ public class PoiWarehouseCheckIn extends Poi2007Base {
 	        //获取每一行
 	        row = sheet.getRow(i);
 	        //判断是否出现空行
-            System.out.println("获取" + i + "X");
+//            System.out.println("获取" + i + "X");
 	        if (row == null) {
-	            log.warn("获取到一个空行-------》》》》》》" + i + "行");
-	            System.out.println("获取到一个空行------------》》》》》》" + i + "行");
+//	            log.warn("获取到一个空行-------》》》》》》" + i + "行");
+//	            System.out.println("获取到一个空行------------》》》》》》" + i + "行");
 	            continue;
 	        }
 	        Object[] objects = new Object[row.getLastCellNum()];
@@ -232,29 +237,29 @@ public class PoiWarehouseCheckIn extends Poi2007Base {
 	            cell = row.getCell(j);
 
 	            if (cell == null) {
-	                log.warn("获取到一个空列------------》》》》》》" + j + "列");
-                    System.out.println("获取到一个空列------------》》》》》》" + j + "列");
+//	                log.warn("获取到一个空列------------》》》》》》" + j + "列");
+//                    System.out.println("获取到一个空列------------》》》》》》" + j + "列");
 	                continue;
 	            }
 	            //第一行数据
 	            switch (cell.getCellType()) {
 	                case XSSFCell.CELL_TYPE_STRING:
 	                    objects[j] = cell.getStringCellValue();
-	                    System.out.println(cell.getStringCellValue());
+//	                    System.out.println(cell.getStringCellValue());
 	                    break;
 	                case XSSFCell.CELL_TYPE_BLANK:
 	                    objects[j] = "";
 	                    break;
 	                case XSSFCell.CELL_TYPE_BOOLEAN:
 	                    objects[j] = cell.getBooleanCellValue();
-	                    System.out.println(cell.getBooleanCellValue());
+//	                    System.out.println(cell.getBooleanCellValue());
 	                    break;
 	                case XSSFCell.CELL_TYPE_NUMERIC:
 	                    //处理double类型的  1.0===》1
 	                    DecimalFormat df = new DecimalFormat("0");
 	                    String s = df.format(cell.getNumericCellValue());
 	                    objects[j] = s;
-	                    System.out.println(s);
+//	                    System.out.println(s);
 	                    break;
 	                default:
 	                    objects[j] = cell.toString();
@@ -302,7 +307,7 @@ public class PoiWarehouseCheckIn extends Poi2007Base {
     	if (w_data.length > 0){
     		for (int m = 0 ; m <w_data.length ; m++){
         		com.cn.dsyg.dto.PositionHistDto pp = new com.cn.dsyg.dto.PositionHistDto();
-        		System.out.println("w_data["+m+"]"+ w_data[m]);
+//        		System.out.println("w_data["+m+"]"+ w_data[m]);
         		int ix = w_data[m].toString().indexOf("，");
         		String[] w_dat;
         		if (ix > 0)
@@ -312,7 +317,7 @@ public class PoiWarehouseCheckIn extends Poi2007Base {
         		if (w_dat.length > 0){
         			String in_wdate = w_dat[0].trim(); 
     				pp.setIn_wdate(in_wdate);
-	        		System.out.println("in_wdate:"+ in_wdate);	        		
+//	        		System.out.println("in_wdate:"+ in_wdate);	        		
         			if (w_dat.length > 1){
         				int idx= w_dat[1].indexOf(";");
         				String in_quantity ="";
@@ -321,10 +326,10 @@ public class PoiWarehouseCheckIn extends Poi2007Base {
         				else
         					in_quantity = w_dat[1].trim(); 
         				pp.setIn_quantity(new BigDecimal(in_quantity));
-        				System.out.println("in_quantity:"+ in_quantity);
+//        				System.out.println("in_quantity:"+ in_quantity);
             			lst.add(pp.getIn_map());
         			}else{
-        				System.out.println( m + "row in_quantity error.");	        				        				
+//        				System.out.println( m + "row in_quantity error.");	        				        				
         			}
         		}
     		}    		
@@ -333,7 +338,7 @@ public class PoiWarehouseCheckIn extends Poi2007Base {
     		return null;    		
     	}
 		JSONArray mapArray = JSONArray.fromObject(lst);
-		System.out.println("mapArray" + mapArray.toString());
+//		System.out.println("mapArray" + mapArray.toString());
 		return mapArray;
 	}
 }
