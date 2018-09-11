@@ -868,7 +868,7 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 //					//货物信息：产品ID,产品数量,产品金额#产品ID,产品数量,产品金额
 //					newwarehouserpt.setProductinfo("" + product.getId() + "," + product.getBrokennum() + "," + taxamount + "," + product.getRes09() + "#");
 					//货物信息：产品ID,产品数量,产品金额,特殊订单号,产品单价#产品ID,产品数量,产品金额,特殊订单号,产品单价
-					newwarehouserpt.setProductinfo("" + product.getId() + "," + product.getBrokennum() + "," + taxamount + "," + product.getRes09() + "," + product.getUnitprice() + "#");
+					newwarehouserpt.setProductinfo("" + product.getId() + "," + product.getBrokennum() + "," + taxamount + "," + StringUtil.getStr(product.getRes09()) + "," + StringUtil.getStr(product.getUnitprice()) + "#");
 //  20180911 Pei fix bug for Productinfo already extend items ---end					
 					
 					//主题
@@ -911,7 +911,7 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 					productinfo += "" + product.getId() + "," + num + "," + bb + "," + product.getRes09() + "," + product.getUnitprice() + "#";
 				} else {
 //					productinfo += "" + product.getId() + "," + product.getNum() + "," + product.getAmount() + "," + product.getRes09() + "#";
-					productinfo += "" + product.getId() + "," + product.getNum() + "," + product.getAmount() + "," + product.getRes09() + "," + product.getUnitprice() + "#";
+					productinfo += "" + product.getId() + "," + product.getNum() + "," + product.getAmount() + "," + StringUtil.getStr(product.getRes09()) + "," + StringUtil.getStr(product.getUnitprice()) + "#";
 				}
 			}
 			warehouserpt.setProductinfo(productinfo);
