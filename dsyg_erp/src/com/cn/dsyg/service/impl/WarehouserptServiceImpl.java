@@ -863,9 +863,13 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 					String warehouserptno = Constants.WAREHOUSERPT_REFUND_NO_PRE + belongto + year.substring(2, 4) + StringUtil.replenishStr("" + newVal, 6);
 					
 					newwarehouserpt.setWarehouseno(warehouserptno);
-					
-					//货物信息：产品ID,产品数量,产品金额#产品ID,产品数量,产品金额
-					newwarehouserpt.setProductinfo("" + product.getId() + "," + product.getBrokennum() + "," + taxamount + "," + product.getRes09() + "#");
+
+//  20180911 Pei fix bug for Productinfo already extend items ---start					
+//					//货物信息：产品ID,产品数量,产品金额#产品ID,产品数量,产品金额
+//					newwarehouserpt.setProductinfo("" + product.getId() + "," + product.getBrokennum() + "," + taxamount + "," + product.getRes09() + "#");
+					//货物信息：产品ID,产品数量,产品金额,特殊订单号,产品单价#产品ID,产品数量,产品金额,特殊订单号,产品单价
+					newwarehouserpt.setProductinfo("" + product.getId() + "," + product.getBrokennum() + "," + taxamount + "," + product.getRes09() + "," + product.getUnitprice() + "#");
+//  20180911 Pei fix bug for Productinfo already extend items ---end					
 					
 					//主题
 					newwarehouserpt.setTheme1(product.getFieldno());
@@ -904,9 +908,10 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 					BigDecimal bb = new BigDecimal(product.getAmount());
 					bb = bb.subtract(taxamount);
 					
-					productinfo += "" + product.getId() + "," + num + "," + bb + "," + product.getRes09() + "#";
+					productinfo += "" + product.getId() + "," + num + "," + bb + "," + product.getRes09() + "," + product.getUnitprice() + "#";
 				} else {
-					productinfo += "" + product.getId() + "," + product.getNum() + "," + product.getAmount() + "," + product.getRes09() + "#";
+//					productinfo += "" + product.getId() + "," + product.getNum() + "," + product.getAmount() + "," + product.getRes09() + "#";
+					productinfo += "" + product.getId() + "," + product.getNum() + "," + product.getAmount() + "," + product.getRes09() + "," + product.getUnitprice() + "#";
 				}
 			}
 			warehouserpt.setProductinfo(productinfo);
