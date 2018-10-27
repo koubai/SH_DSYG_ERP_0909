@@ -412,7 +412,7 @@ public class DeliveryDto extends BaseDto {
 	private int status;
 
 	/**
-	 * 预备项目1
+	 * 预备项目1   单价(/Kg)
 	 */
 	private String res01;
 

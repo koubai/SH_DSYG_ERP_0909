@@ -240,7 +240,7 @@ public class WarehouserptDto extends BaseAction {
 	private String res02;
 
 	/**
-	 * 预备项目3
+	 * 预备项目3   （快递包裹重量Kg）
 	 */
 	private String res03;
 
@@ -299,6 +299,9 @@ public class WarehouserptDto extends BaseAction {
 	 */
 	private Date updatedate;
 
+	// 快递含税单价
+	private String deliveryunitprice;
+	
 	public Long getId() {
 		return id;
 	}
@@ -799,6 +802,12 @@ public class WarehouserptDto extends BaseAction {
 		return "";
 	}
 
+	public String getDeliveryunitprice() {
+		return deliveryunitprice;
+	}
 
+	public void setDeliveryunitprice(String deliveryunitprice) {
+		this.deliveryunitprice = deliveryunitprice;
+	}
 	
 }

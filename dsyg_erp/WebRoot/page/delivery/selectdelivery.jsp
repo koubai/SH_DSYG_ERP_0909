@@ -39,6 +39,7 @@
 		var expresstel = inputs[4].value;
 		var expressfax = inputs[5].value;
 		var expressmail = inputs[6].value;
+		var unitprice = inputs[7].value;
 		
 		getOpener().document.getElementById("expressid").value = id;
 		getOpener().document.getElementById("expressname").value = expressname;
@@ -47,6 +48,8 @@
 		getOpener().document.getElementById("expresstel").value = expresstel;
 		getOpener().document.getElementById("expressfax").value = expressfax;
 		getOpener().document.getElementById("expressmail").value = expressmail;
+		getOpener().document.getElementById("deliveryunitprice").value = unitprice;
+		getOpener().document.getElementById("res03").value = "";
 		
 		window.close();
 	}
@@ -146,14 +149,15 @@
 					<tr class="tittle">
 						<td style="display: none;"></td>
 						<td width="5%"></td>
-						<td width="10%">序号</td>
+						<td width="5%">序号</td>
 						<td width="15%">快递名称</td>
 						<td width="15%">快递地址</td>
 						<td width="10%">联系人</td>
 						<td width="10%">电话</td>
 						<td width="10%">传真</td>
 						<td width="10%">邮箱</td>
-						<td width="15%">备注</td>
+						<td width="10%">备注</td>
+						<td width="10%">单价(/Kg)</td>
 					</tr>
 					<s:iterator id="listSelectDelivery" value="listSelectDelivery" status="st1">
 						<s:if test="#st1.odd==true">
@@ -170,6 +174,7 @@
 								<input type="hidden" value="<s:property value="deliverytel1"/>"/>
 								<input type="hidden" value="<s:property value="deliveryfax1"/>"/>
 								<input type="hidden" value="<s:property value="deliverymail1"/>"/>
+								<input type="hidden" value="<s:property value="res01"/>"/>
 							</td>
 							<td><input name="radioKey" type="radio" value="<s:property value="id"/>"/></td>
 							<td><s:property value="selectPage.pageSize * (selectPage.nextIndex - 1) + #st1.index + 1"/></td>
@@ -188,6 +193,7 @@
 									<s:property value="note"/>
 								</div>
 							</td>
+							<td><s:property value="res01"/></td>
 						</tr>
 					</s:iterator>
 				</table>

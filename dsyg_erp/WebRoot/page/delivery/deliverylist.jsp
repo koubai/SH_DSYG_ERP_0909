@@ -181,12 +181,13 @@
 								<td width="5%">序号</td>
 								<!-- <td width="5%">快递编号</td> -->
 								<td width="15%">快递商名称</td>
-								<td width="20%">快递商地址</td>
+								<td width="10%">单价(/Kg)</td>
+								<td width="15%">快递商地址</td>
 								<td width="10%">联系人</td>
 								<td width="10%">电话</td>
 								<td width="10%">传真</td>
 								<td width="10%">邮箱</td>
-								<td width="15%">备注</td>
+								<td width="10%">备注</td>
 							</tr>
 							<s:iterator id="listDelivery" value="listDelivery" status="st1">
 								<s:if test="#st1.odd==true">
@@ -203,6 +204,7 @@
 											<s:property value="deliveryname"/>
 										</div>
 									</td>
+									<td><s:property value="res01"/></td>
 									<td><s:property value="deliveryaddress1"/></td>
 									<td><s:property value="deliverymanager1"/></td>
 									<td><s:property value="deliverytel1"/></td>

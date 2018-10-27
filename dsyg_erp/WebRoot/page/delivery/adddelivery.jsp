@@ -96,6 +96,14 @@
 			$("#deliverymanager1").focus();
 			return;
 		}
+		//快递单价（/Kg）
+		var unitprice = $("#res01").val().trim();
+		if(unitprice != "" && !isReal(unitprice)) {
+			alert("单价必须为大于0的实数！");
+			$("#res01").focus();
+			return;
+		}
+		
 		if(tmpnote.length > 100) {
 			alert("备注不能超过100个字！");
 			$("#tmpnote").focus();
@@ -502,6 +510,16 @@
 							</tr>
 						</table>
 					</div>
+				</td>
+			</tr>			
+			<tr>
+				<td>单价（/Kg）</td>
+				<td>
+					<div class="box1_left"></div>
+					<div class="box1_center">
+						<s:textfield name="addDeliveryDto.res01" id="res01" cssStyle="width:250px;" maxlength="40" theme="simple"></s:textfield>
+					</div>
+					<div class="box1_right"></div>
 				</td>
 			</tr>
 			<tr>

@@ -209,6 +209,31 @@
 		$("#" + "overlay").hide();
 		$("#" + "scanBarcodeDiv").hide();
 	}
+	
+	function calcdeliveryprice(obj){
+		//重量
+		var packageweight = $("#res03").val().trim();
+		//是否实数check
+		if(!isReal(obj.value)) {
+			alert("重量格式不正确！");
+			obj.focus();
+			return;
+		}
+		
+		//快递单价
+		var deliveryunitprice = "";
+		if ($("#deliveryunitprice")!= null && $("#deliveryunitprice").val()!="" ){
+			deliveryunitprice = parseFloat($("#deliveryunitprice").val().trim());
+			
+			//计算快递含税金额
+			var deliveryAmount = "";
+			if (deliveryunitprice!=""){
+				deliveryAmount = parseFloat(packageweight) * deliveryunitprice;
+				$("#expresstaxamount").val(deliveryAmount.toFixed(2));
+			}
+		}
+	}
+
 </script>
 </head>
 <body>
@@ -261,6 +286,8 @@
 				<s:hidden name="updWarehouserptDto.note" id="note"></s:hidden>
 				<s:hidden name="updWarehouserptDto.expressid" id="expressid"></s:hidden>
 				<s:hidden name="updWarehouserptDto.warehousedate" id="warehousedate"></s:hidden>
+				<s:hidden name="updWarehouserptDto.deliveryunitprice" id="deliveryunitprice"></s:hidden>
+				
 				<div class="searchbox update" style="height:0px;">
 					<table width="100%" border="0" cellpadding="5" cellspacing="0">
 						<tr>
@@ -329,14 +356,15 @@
 								<div class="box1_right"></div>
 							</td>
 							<td align="right">
-								<label class="pdf10">转运费用合计</label>
+								<label class="pdf10">重量</label>
 							</td>
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updWarehouserptDto.expresstaxamount" disabled="true" id="expresstaxamount" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
+									<s:textfield name="updWarehouserptDto.res03" id="res03" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
+								<label class="pdf10">Kg</label>
 							</td>
 						</tr>
 						<tr>
@@ -362,7 +390,15 @@
 							</td>
 							<td align="right">
 							</td>
+							<td align="right">
+								<label class="pdf10">转运费用合计</label>
+							</td>
 							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updWarehouserptDto.expresstaxamount" disabled="true" id="expresstaxamount" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
 							</td>
 						</tr>
 						<tr>
@@ -387,9 +423,16 @@
 								<div class="box1_right"></div>
 							</td>
 							<td align="right">
+								<label class="pdf10"><font color="red"></font>单据日期</label>
 							</td>
 							<td>
-							</td>
+								<div class="box1_left"></div>
+								<div class="box1_center date_input">
+									<input type="text" id="tmpReceiptdate" disabled="disabled" style="width:105px;" value="<s:property value="updWarehouserptDto.res01"/>" />
+									<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpReceiptdate'));"></a>
+								</div>
+								<div class="box1_right"></div>
+							</td>							
 						</tr>
 						<tr>
 							<td align="right">
