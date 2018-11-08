@@ -1,5 +1,6 @@
 package com.cn.dsyg.action;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,6 +106,14 @@ public class DeliveryAction extends BaseAction {
 	private String deliveryNoLow;
 	
 	private String deliveryNoHigh;
+	
+	//区域单价
+	private String areaprice01;
+	private String areaprice02;
+	private String areaprice03;
+	private String areaprice04;
+	private String areaprice05;
+	
 	
 	/**
 	 * 控件ID
@@ -289,6 +298,17 @@ public class DeliveryAction extends BaseAction {
 			if(!checkData(addDeliveryDto)) {
 				return "checkerror";
 			}
+			if (StringUtil.isBlank(areaprice01))
+				areaprice01 = "";
+			if (StringUtil.isBlank(areaprice02))
+				areaprice02 = "";
+			if (StringUtil.isBlank(areaprice03))
+				areaprice03 = "";
+			if (StringUtil.isBlank(areaprice04))
+				areaprice04 = "";
+			if (StringUtil.isBlank(areaprice05))
+				areaprice05 = "";
+			addDeliveryDto.setRes01(areaprice01.concat(";").concat(areaprice02).concat(";").concat(areaprice03).concat(";").concat(areaprice04).concat(";").concat(areaprice05).concat(";"));
 			log.info("addDeliveryDto.getId()=" + addDeliveryDto.getId());
 			log.info("addDeliveryDto.getDeliveryname()=" + addDeliveryDto.getDeliveryname());
 			//校验快递代码是否存在
@@ -333,6 +353,16 @@ public class DeliveryAction extends BaseAction {
 				this.addActionMessage("该数据不存在！");
 				return "checkerror";
 			}
+			if (StringUtil.isNotBlank(updateDeliveryDto.getRes01())){
+				String price[] = updateDeliveryDto.getRes01().split(";");
+				if (price.length == 5){
+					areaprice01 =  price[0];
+					areaprice02 =  price[1];
+					areaprice03 =  price[2];
+					areaprice04 =  price[3];
+					areaprice05 =  price[4];
+				}
+			}
 		} catch(Exception e) {
 			this.addActionMessage("系统错误，查询快递异常！");
 			log.error("showUpdEtbDeliveryAction error:" + e);
@@ -352,6 +382,18 @@ public class DeliveryAction extends BaseAction {
 			if(!checkData(updateDeliveryDto)) {
 				return "checkerror";
 			}
+			if (StringUtil.isBlank(areaprice01))
+				areaprice01 = "";
+			if (StringUtil.isBlank(areaprice02))
+				areaprice02 = "";
+			if (StringUtil.isBlank(areaprice03))
+				areaprice03 = "";
+			if (StringUtil.isBlank(areaprice04))
+				areaprice04 = "";
+			if (StringUtil.isBlank(areaprice05))
+				areaprice05 = "";
+			updateDeliveryDto.setRes01(areaprice01.concat(";").concat(areaprice02).concat(";").concat(areaprice03).concat(";").concat(areaprice04).concat(";").concat(areaprice05).concat(";"));
+
 //			System.out.println("id is: "+updateDeliveryDto.getId());
 			//修改数据
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_NAME);
@@ -632,4 +674,45 @@ public class DeliveryAction extends BaseAction {
 	public void setIntPageSize(Integer intPageSize) {
 		this.intPageSize = intPageSize;
 	}
+	
+	public String getAreaprice01() {
+		return areaprice01;
+	}
+
+	public void setAreaprice01(String areaprice01) {
+		this.areaprice01 = areaprice01;
+	}
+
+	public String getAreaprice02() {
+		return areaprice02;
+	}
+
+	public void setAreaprice02(String areaprice02) {
+		this.areaprice02 = areaprice02;
+	}
+
+	public String getAreaprice03() {
+		return areaprice03;
+	}
+
+	public void setAreaprice03(String areaprice03) {
+		this.areaprice03 = areaprice03;
+	}
+
+	public String getAreaprice04() {
+		return areaprice04;
+	}
+
+	public void setAreaprice04(String areaprice04) {
+		this.areaprice04 = areaprice04;
+	}
+
+	public String getAreaprice05() {
+		return areaprice05;
+	}
+
+	public void setAreaprice05(String areaprice05) {
+		this.areaprice05 = areaprice05;
+	}
+
 }

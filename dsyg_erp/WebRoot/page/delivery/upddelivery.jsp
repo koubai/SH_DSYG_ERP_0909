@@ -88,12 +88,37 @@
 			return;
 		}
 		//快递单价（/Kg）
-		var unitprice = $("#res01").val().trim();
-		if(unitprice != "" && !isReal(unitprice)) {
-			alert("单价必须为大于0的实数！");
-			$("#res01").focus();
+		var areaprice01 = $("#areaprice01").val().trim();
+		if (areaprice01 != "" && !isReal(areaprice01)) {
+			alert("区域1单价必须为大于0的实数！");
+			$("#areaprice01").focus();
 			return;
 		}
+		var areaprice02 = $("#areaprice02").val().trim();
+		if (areaprice02 != "" && !isReal(areaprice02)) {
+			alert("区域2单价必须为大于0的实数！");
+			$("#areaprice02").focus();
+			return;
+		}
+		var areaprice03 = $("#areaprice03").val().trim();
+		if (areaprice03 != "" && !isReal(areaprice03)) {
+			alert("区域3单价必须为大于0的实数！");
+			$("#areaprice03").focus();
+			return;
+		}
+		var areaprice04 = $("#areaprice04").val().trim();
+		if (areaprice04 != "" && !isReal(areaprice04)) {
+			alert("区域4单价必须为大于0的实数！");
+			$("#areaprice04").focus();
+			return;
+		}
+		var areaprice05 = $("#areaprice05").val().trim();
+		if (areaprice05 != "" && !isReal(areaprice05)) {
+			alert("区域5单价必须为大于0的实数！");
+			$("#areaprice05").focus();
+			return;
+		}
+		$("#res01").attr("value", areaprice01 + ";" + areaprice02 + ";" + areaprice03 + ";" + areaprice04 + ";" + areaprice05 + ";");
 
 		if(tmpnote.length > 100) {
 			alert("备注不能超过100个字！");
@@ -507,13 +532,61 @@
 				</td>
 			</tr>
 			<tr>
-				<td>单价（/Kg）</td>
-				<td>
-					<div class="box1_left"></div>
-					<div class="box1_center">
-						<s:textfield name="updateDeliveryDto.res01" id="res01" cssStyle="width:250px;" maxlength="40" theme="simple"></s:textfield>
+				<td colspan="2">
+					<div class="trade">
+						<table class="trade_tab" width="80%" border="0">		
+							<tr>
+								<td>区域1单价（/Kg）</td>
+								<td>
+									<div class="box1_left"></div>
+									<div class="box1_center">
+										<s:textfield name="areaprice01" id="areaprice01" cssStyle="width:250px;" maxlength="40" theme="simple"></s:textfield>
+									</div>
+									<div class="box1_right"></div>
+								</td>
+							</tr>
+							<tr>
+								<td>区域2单价（/Kg）</td>
+								<td>
+									<div class="box1_left"></div>
+									<div class="box1_center">
+										<s:textfield name="areaprice02" id="areaprice02" cssStyle="width:250px;" maxlength="40" theme="simple"></s:textfield>
+									</div>
+									<div class="box1_right"></div>
+								</td>
+							</tr>
+							<tr>
+								<td>区域3单价（/Kg）</td>
+								<td>
+									<div class="box1_left"></div>
+									<div class="box1_center">
+										<s:textfield name="areaprice03" id="areaprice03" cssStyle="width:250px;" maxlength="40" theme="simple"></s:textfield>
+									</div>
+									<div class="box1_right"></div>
+								</td>
+							</tr>
+							<tr>
+								<td>区域4单价（/Kg）</td>
+								<td>
+									<div class="box1_left"></div>
+									<div class="box1_center">
+										<s:textfield name="areaprice04" id="areaprice04" cssStyle="width:250px;" maxlength="40" theme="simple"></s:textfield>
+									</div>
+									<div class="box1_right"></div>
+								</td>
+							</tr>
+							<tr>
+								<td>区域5单价（/Kg）</td>
+								<td>
+									<div class="box1_left"></div>
+									<div class="box1_center">
+										<s:textfield name="areaprice05" id="areaprice05" cssStyle="width:250px;" maxlength="40" theme="simple"></s:textfield>
+									</div>
+									<div class="box1_right"></div>
+								</td>
+							</tr>
+						</table>		
 					</div>
-					<div class="box1_right"></div>
 				</td>
 			</tr>
 			<tr>

@@ -231,28 +231,38 @@
 		$("#" + "scanBarcodeDiv").hide();
 	}
 	
-	function calcdeliveryprice(obj){
+	function calcdeliveryprice(){
+		var obj = document.getElementById("res03");
 		//重量
 		var packageweight = $("#res03").val().trim();
-		//是否实数check
-		if(!isReal(obj.value)) {
-			alert("重量格式不正确！");
-			obj.focus();
-			return;
-		}
-		
-		//快递单价
-		var deliveryunitprice = "";
-		if ($("#deliveryunitprice")!= null && $("#deliveryunitprice").val()!="" ){
-			deliveryunitprice = parseFloat($("#deliveryunitprice").val().trim());
-			
-			//计算快递含税金额
-			var deliveryAmount = "";
-			if (deliveryunitprice!=""){
-				deliveryAmount = parseFloat(packageweight) * deliveryunitprice;
-				$("#expresstaxamount").val(deliveryAmount.toFixed(2));
+		if (obj.value != null && obj.value!= ""){
+			//是否实数check
+			if(!isReal(obj.value)) {
+				alert("重量格式不正确！");
+				obj.focus();
+				return;
 			}
-		}
+			
+			//快递单价
+			var deliveryunitprice = "";
+			if ($("#deliveryunitprice")!= null && $("#deliveryunitprice").val()!="" ){
+				var lotprice = $("#deliveryunitprice").val().trim().split(";");
+				var areaprice = document.getElementsByName("areaprice");
+				for (var k=0; k<5; k++){
+					if (areaprice[k].checked == true)
+						break;
+				}
+				if (lotprice[k]!= null && lotprice[k]!="")
+					deliveryunitprice = parseFloat(lotprice[k].trim());
+				
+				//计算快递含税金额
+				var deliveryAmount = "";
+				if (deliveryunitprice!=""){
+					deliveryAmount = parseFloat(packageweight) * deliveryunitprice;
+					$("#expresstaxamount").val(deliveryAmount.toFixed(2));
+				};
+			};			
+		};
 	}
 </script>
 </head>
@@ -382,16 +392,14 @@
 								</div>
 								<div class="box1_right"></div>
 							</td>
-							<td align="right">
-								<label class="pdf10">重量</label>
+							<td>
+								区域1:<input name="areaprice" type="radio" onclick="calcdeliveryprice();" value="<s:property value="areaprice01"/>"/>&nbsp;&nbsp;
+								区域2:<input name="areaprice" type="radio" onclick="calcdeliveryprice();" value="<s:property value="areaprice02"/>"/>&nbsp;&nbsp;
+								区域3:<input name="areaprice" type="radio" onclick="calcdeliveryprice();" value="<s:property value="areaprice03"/>"/>&nbsp;&nbsp;
 							</td>
 							<td>
-								<div class="box1_left"></div>
-								<div class="box1_center">
-									<s:textfield name="updWarehouserptDto.res03" id="res03" cssStyle="width:120px;" maxlength="16" theme="simple" onblur="calcdeliveryprice(this);"></s:textfield>
-								</div>
-								<div class="box1_right"></div>
-								<label class="pdf10">Kg</label>
+								区域4:<input name="areaprice" type="radio" onclick="calcdeliveryprice();" value="<s:property value="areaprice04"/>"/>&nbsp;&nbsp;
+								区域5:<input name="areaprice" type="radio" onclick="calcdeliveryprice();" value="<s:property value="areaprice05"/>"/>&nbsp;&nbsp;
 							</td>
 						</tr>
 						<tr>
@@ -416,14 +424,15 @@
 								<div class="box1_right"></div>
 							</td>
 							<td align="right">
-								<label class="pdf10">转运费用合计</label>
+								<label class="pdf10">重量</label>
 							</td>
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updWarehouserptDto.expresstaxamount" id="expresstaxamount" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
+									<s:textfield name="updWarehouserptDto.res03" id="res03" cssStyle="width:120px;" maxlength="16" theme="simple" onblur="calcdeliveryprice();"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
+								<label class="pdf10">Kg</label>
 							</td>
 						</tr>
 						<tr>
@@ -448,16 +457,15 @@
 								<div class="box1_right"></div>
 							</td>
 							<td align="right">
-								<label class="pdf10"><font color="red"></font>单据日期</label>
+								<label class="pdf10">转运费用合计</label>
 							</td>
 							<td>
 								<div class="box1_left"></div>
-								<div class="box1_center date_input">
-									<input type="text" id="tmpReceiptdate" disabled="disabled" style="width:105px;" value="<s:property value="updWarehouserptDto.res01"/>" />
-									<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpReceiptdate'));"></a>
+								<div class="box1_center">
+									<s:textfield name="updWarehouserptDto.expresstaxamount" id="expresstaxamount" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
-							</td>							
+							</td>
 						</tr>
 						<tr>
 							<td align="right">
@@ -481,16 +489,16 @@
 								<div class="box1_right"></div>
 							</td>
 							<td align="right">
-								<label class="pdf10">发货日期</label>
+								<label class="pdf10"><font color="red"></font>单据日期</label>
 							</td>
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center date_input">
-									<input type="text" id="tmpWarehousedate" disabled="disabled" style="width:105px;" value="<s:property value="updWarehouserptDto.showWarehousedate"/>" />
-									<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpWarehousedate'));"></a>
+									<input type="text" id="tmpReceiptdate" disabled="disabled" style="width:105px;" value="<s:property value="updWarehouserptDto.res01"/>" />
+									<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpReceiptdate'));"></a>
 								</div>
 								<div class="box1_right"></div>
-							</td>
+							</td>							
 						</tr>
 						<tr>
 							<td align="right">
@@ -514,8 +522,15 @@
 								<div class="box1_right"></div>
 							</td>
 							<td align="right">
+								<label class="pdf10">发货日期</label>
 							</td>
 							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center date_input">
+									<input type="text" id="tmpWarehousedate" disabled="disabled" style="width:105px;" value="<s:property value="updWarehouserptDto.showWarehousedate"/>" />
+									<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpWarehousedate'));"></a>
+								</div>
+								<div class="box1_right"></div>
 							</td>
 						</tr>
 						<tr>

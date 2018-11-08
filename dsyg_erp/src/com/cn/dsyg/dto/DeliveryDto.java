@@ -481,7 +481,6 @@ public class DeliveryDto extends BaseDto {
 	 */
 	private Date updatedate;
 
-
 	public int getId() {
 		return id;
 	}
@@ -744,5 +743,4 @@ public class DeliveryDto extends BaseDto {
 		this.updatedate = updatedate;
 	}
 	
-
 }
