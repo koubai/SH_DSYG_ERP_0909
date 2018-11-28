@@ -183,6 +183,7 @@
 										<s:if test='%{warehouseOkList[#st1.index].warehousetype == 1}'>采购</s:if>
 										<s:elseif test='%{warehouseOkList[#st1.index].warehousetype == 2}'>销售</s:elseif>
 										<s:elseif test='%{warehouseOkList[#st1.index].warehousetype == 6}'>库存修正</s:elseif>
+										<s:elseif test='%{warehouseOkList[#st1.index].warehousetype == 9}'>管理员修正</s:elseif>
 										<s:else>
 											<s:property value="warehousetype"/>
 										</s:else>
