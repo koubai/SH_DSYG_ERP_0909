@@ -404,7 +404,7 @@ public class WarehouseCheckAction extends BaseAction {
 			base.setDictMap(dictMap);
 			base.exportExcel(response.getOutputStream());
 		} catch(Exception e) {
-			log.error("exportAuditHist error:" + e);
+			log.error("exportWarehouserCheckAction error:" + e);
 			return ERROR;
 		}
 		return SUCCESS;

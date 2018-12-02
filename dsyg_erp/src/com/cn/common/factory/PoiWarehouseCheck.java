@@ -104,6 +104,7 @@ public class PoiWarehouseCheck extends Poi2007Base {
 			XSSFCell cell13 = row.createCell(13);
 			XSSFCell cell14 = row.createCell(14);
 			XSSFCell cell15 = row.createCell(15);
+			XSSFCell cell16 = row.createCell(16);
 			cell0.setCellValue(i + 1);
 			cell0.setCellStyle(style);
 			cell1.setCellValue(dictMap.get(Constants.DICT_GOODS_TYPE + "_" + warehouseCheck.getFieldno()));
@@ -150,7 +151,20 @@ public class PoiWarehouseCheck extends Poi2007Base {
 			cell14.setCellStyle(unlockstyle);
 			cell15.setCellValue("");
 			cell15.setCellStyle(unlockstyle);
+			if (!compareAmount(warehouseCheck.getWarehouseamount(),warehouseCheck.getRes05()))
+				cell16.setCellValue(warehouseCheck.getRes05());
+			else
+				cell16.setCellValue("");
+			cell16.setCellStyle(unlockstyle);
 		}
+	}
+	private boolean compareAmount(BigDecimal amt1, String str2){
+		BigDecimal amt2 = new BigDecimal(0);
+		if (StringUtil.isNotBlank(str2))
+			amt2  = new BigDecimal(str2);
+		if (amt1.compareTo(amt2) == 0)
+			return true;
+		return false;
 	}
 	
 	
@@ -193,6 +207,8 @@ public class PoiWarehouseCheck extends Poi2007Base {
 		sheet.setColumnWidth(14, 15 * 256);
 		heads.add("详细信息");
 		sheet.setColumnWidth(15, 15 * 256);
+		heads.add("对照不符");
+		sheet.setColumnWidth(16, 15 * 256);
 		
 		//Head部分颜色字体
 		XSSFFont font = workbook.createFont();

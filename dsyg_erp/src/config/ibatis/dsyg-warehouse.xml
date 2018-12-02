@@ -885,7 +885,8 @@
 	
 	<!-- warehousecheck begin -->
 	<select id="queryWarehouseCheckToExcel" parameterClass="java.util.Map" resultMap="WarehouseCheckDto">
-		select * from (
+		select A.id, A.belongto, A.fieldno, A.warehousename, A.brand, A.item1, A.item2, A.item3, A.tradename, A.typeno, A.color, A.packaging, A.unit, A.sampleflag, A.productname, A.makearea, A.supplierid, A.salesprice, A.purchaseprice, A.warehouseamount, A.productid, A.note, A.item01, A.item02, A.item03, A.item04, A.item05, A.item06, A.item07, A.item08, A.item09, A.item10, A.item11, A.item12, A.item13, A.item14, A.item15, A.item16, A.item17, A.item18, A.item19, A.item20, A.item21, A.item22, A.item23, A.item24, A.item25, A.item26, A.item27, A.item28, A.item29, A.item30, A.pic01, A.pic02, A.pic03, A.pic04, A.pic05, A.pdfpath, A.rank, A.status, A.res01, A.res02, A.res03, A.res04, (P.inquantity - P.outquantity + P.quantityw) as res05, A.res06, A.res07, A.res08, A.res09, A.res10, A.keyword, A.createuid, A.createdate, A.updateuid, A.updatedate, A.suppliername 
+		 from (
 			SELECT T.id,T.belongto,T.fieldno,S.warehousename,T.brand,T.item1,T.item2,T.item3,T.tradename,T.typeno,T.color,T.packaging,T.unit,T.sampleflag,T.productname,T.makearea,T.supplierid,T.salesprice,T.purchaseprice,S.warehouseamount,S.productid,T.note,T.item01,T.item02,T.item03,T.item04,T.item05,T.item06,T.item07,T.item08,T.item09,T.item10,T.item11,T.item12,T.item13,T.item14,T.item15,T.item16,T.item17,T.item18,T.item19,T.item20,T.item21,T.item22,T.item23,T.item24,T.item25,T.item26,T.item27,T.item28,T.item29,T.item30,T.pic01,T.pic02,T.pic03,T.pic04,T.pic05,T.pdfpath,T.rank,T.status,T.res01,T.res02,T.res03,T.res04,T.res05,T.res06,T.res07,T.res08,T.res09,T.res10,T.keyword,T.createuid,T.createdate,T.updateuid,T.updatedate,
 				(select SS.suppliername from etb_supplier SS where SS.id = T.supplierid) as suppliername
 				from (
@@ -910,7 +911,10 @@
 					</isNotEmpty>
 					group by W.productid,W.warehousename
 				) S, etb_product T WHERE T.id = S.productid and S.warehouseamount <![CDATA[>]]> 0
-			) A where 1 = 1
+			) A 
+			left join productcommercev P 
+			on A.id = P.productid
+			where 1 = 1
 			<isNotEmpty prepend="and" property="tradename">
 				A.tradename like '%$tradename$%' ESCAPE '/'
 			</isNotEmpty>
