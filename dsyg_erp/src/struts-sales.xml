@@ -73,6 +73,24 @@
 		<action name="turnRemainSalesAction" class="salesAction" method="turnRemainSalesAction">
 			<result name="*">/page/sales/remainsaleslist.jsp</result>
 		</action>
+	
+		<!-- popup start -->
+		<action name="showSalesHistListAction" class="salesAction" method="showSalesHistListAction">
+			<result name="*">/page/sales/saleshistlist.jsp</result>
+		</action>
+		
+		<action name="querySalesHistListAction" class="salesAction" method="querySalesHistListAction">
+			<result name="*">/page/sales/saleshistlist.jsp</result>
+		</action>
+		
+		<action name="turnSalesHistListAction" class="salesAction" method="turnSalesHistListAction">
+			<result name="*">/page/sales/saleshistlist.jsp</result>
+		</action>
+		
+		<action name="showHistDetailAction" class="salesAction" method="showHistDetailAction">
+			<result name="*">/page/sales/updsalesdetail.jsp</result>
+		</action>
+		<!-- popup end -->
 		
 	</package>
 

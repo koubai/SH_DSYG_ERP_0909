@@ -291,6 +291,12 @@
 		<property name="salesItemService">
 			<ref bean="salesItemService"/>
 		</property>
+		<property name="salesHisService">
+			<ref bean="salesHisService"/>
+		</property>
+		<property name="salesItemHisService">
+			<ref bean="salesItemHisService"/>
+		</property>
 		<property name="dict01Service">
 			<ref bean="dict01Service"/>
 		</property>

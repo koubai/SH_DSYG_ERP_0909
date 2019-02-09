@@ -24,6 +24,8 @@ import com.cn.dsyg.dto.SalesDto;
 import com.cn.dsyg.dto.SalesExtDto;
 import com.cn.dsyg.dto.SalesItemDto;
 import com.cn.dsyg.service.Dict01Service;
+import com.cn.dsyg.service.SalesHisService;
+import com.cn.dsyg.service.SalesItemHisService;
 import com.cn.dsyg.service.SalesItemService;
 import com.cn.dsyg.service.SalesService;
 import com.opensymphony.xwork2.ActionContext;
@@ -42,6 +44,8 @@ public class SalesAction extends BaseAction {
 	
 	private SalesService salesService;
 	private SalesItemService salesItemService;
+	private SalesHisService salesHisService;
+	private SalesItemHisService salesItemHisService;
 	private Dict01Service dict01Service;
 	
 	//页码
@@ -106,6 +110,114 @@ public class SalesAction extends BaseAction {
 	//客户名
 	private String strRemainCustomername;
 	private List<SalesItemDto> remainSalesItemList;
+
+	//更新履历用
+	//页码
+	private int startIndexHist;
+	//翻页page
+	private Page pageHist;
+	//一页显示数据条数
+	private Integer intPageSizeHist;
+	//页面显示的销售数据列表
+	private List<SalesDto> salesHistList;
+	//详细销售数据
+	private SalesDto salesHistDetail;
+	private List<SalesItemDto> salesItemHistList;
+	//详细
+	private String salesHistId;
+	//详细
+	private String salesNoHist;
+
+	/**
+	 * 显示更新一览
+	 * @return
+	 */
+	public String showSalesHistListAction() {
+		try {
+			this.clearMessages();
+			//页面数据初期化
+			startIndexHist = 0;
+			//默认10条
+			intPageSizeHist = 10;
+			pageHist = new Page(intPageSizeHist);
+			salesHistList = new ArrayList<SalesDto>();
+			querySalesHistData();
+		} catch(Exception e) {
+			log.error("showSalesHistListAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+
+	/**
+	 * 显示详细
+	 * @return
+	 */
+	public String showHistDetailAction() {
+		try {
+			this.clearMessages();
+			salesHistDetail = salesHisService.querySalesHisByID(salesHistId);
+			salesItemHistList = salesItemHisService.querySalesItemHisBySalesid(salesHistId);
+		} catch(Exception e) {
+			log.error("showHistDetailAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	
+	/**
+	 * 查询更新一览
+	 * @return
+	 */
+	public String querySalesHistListAction() {
+		try {
+			this.clearMessages();
+			//页面数据初期化
+			startIndexHist = 0;
+			//默认10条
+			if(intPageSizeHist == null) {
+				intPageSizeHist = 10;
+			}
+			pageHist = new Page(intPageSizeHist);
+			querySalesHistData();
+		} catch(Exception e) {
+			log.error("querySalesHistListAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	
+	/**
+	 * 翻页
+	 * @return
+	 */
+	public String turnSalesHistListAction() {
+		try {
+			this.clearMessages();
+			//页面数据初期化
+			querySalesHistData();
+		} catch(Exception e) {
+			log.error("turnSalesHistListAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	
+	/**
+	 * 更新一览数据查询
+	 */
+	@SuppressWarnings("unchecked")
+	private void querySalesHistData() {
+		if(pageHist == null) {
+			pageHist = new Page(intPageSizeHist);
+		}
+		//initDictList();
+		//翻页查询
+		this.pageHist.setStartIndex(startIndexHist);
+		pageHist = salesHisService.querySalesHisByPage(salesNoHist, pageHist);
+		salesHistList = (List<SalesDto>) pageHist.getItems();
+		this.setStartIndex(pageHist.getStartIndex());
+	}
 	
 	/**
 	 * 终了销售单
@@ -1026,6 +1138,86 @@ public class SalesAction extends BaseAction {
 
 	public void setRemainSalesItemList(List<SalesItemDto> remainSalesItemList) {
 		this.remainSalesItemList = remainSalesItemList;
+	}
+
+	public int getStartIndexHist() {
+		return startIndexHist;
+	}
+
+	public void setStartIndexHist(int startIndexHist) {
+		this.startIndexHist = startIndexHist;
+	}
+
+	public Page getPageHist() {
+		return pageHist;
+	}
+
+	public void setPageHist(Page pageHist) {
+		this.pageHist = pageHist;
+	}
+
+	public Integer getIntPageSizeHist() {
+		return intPageSizeHist;
+	}
+
+	public void setIntPageSizeHist(Integer intPageSizeHist) {
+		this.intPageSizeHist = intPageSizeHist;
+	}
+
+	public SalesDto getSalesHistDetail() {
+		return salesHistDetail;
+	}
+
+	public void setSalesHistDetail(SalesDto salesHistDetail) {
+		this.salesHistDetail = salesHistDetail;
+	}
+
+	public List<SalesDto> getSalesHistList() {
+		return salesHistList;
+	}
+
+	public void setSalesHistList(List<SalesDto> salesHistList) {
+		this.salesHistList = salesHistList;
+	}
+
+	public String getSalesHistId() {
+		return salesHistId;
+	}
+
+	public void setSalesHistId(String salesHistId) {
+		this.salesHistId = salesHistId;
+	}
+
+	public SalesHisService getSalesHisService() {
+		return salesHisService;
+	}
+
+	public void setSalesHisService(SalesHisService salesHisService) {
+		this.salesHisService = salesHisService;
+	}
+
+	public SalesItemHisService getSalesItemHisService() {
+		return salesItemHisService;
+	}
+
+	public void setSalesItemHisService(SalesItemHisService salesItemHisService) {
+		this.salesItemHisService = salesItemHisService;
+	}
+
+	public String getSalesNoHist() {
+		return salesNoHist;
+	}
+
+	public void setSalesNoHist(String salesNoHist) {
+		this.salesNoHist = salesNoHist;
+	}
+
+	public List<SalesItemDto> getSalesItemHistList() {
+		return salesItemHistList;
+	}
+
+	public void setSalesItemHistList(List<SalesItemDto> salesItemHistList) {
+		this.salesItemHistList = salesItemHistList;
 	}
 
 

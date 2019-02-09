@@ -16,7 +16,9 @@ import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dao.Dict01Dao;
 import com.cn.dsyg.dao.FinanceDao;
 import com.cn.dsyg.dao.SalesDao;
+import com.cn.dsyg.dao.SalesHisDao;
 import com.cn.dsyg.dao.SalesItemDao;
+import com.cn.dsyg.dao.SalesItemHisDao;
 import com.cn.dsyg.dao.UserDao;
 import com.cn.dsyg.dao.WarehouseDao;
 import com.cn.dsyg.dao.WarehouserptDao;
@@ -39,6 +41,8 @@ public class SalesServiceImpl implements SalesService {
 	
 	private SalesDao salesDao;
 	private SalesItemDao salesItemDao;
+	private SalesHisDao salesHisDao;
+	private SalesItemHisDao salesItemHisDao;
 	private WarehouseDao warehouseDao;
 	private WarehouserptDao warehouserptDao;
 	private Dict01Dao dict01Dao;
@@ -106,6 +110,8 @@ public class SalesServiceImpl implements SalesService {
 		sales.setUpdateuid(userid);
 		sales.setCreateuid(userid);
 		salesDao.insertSales(sales);
+		//添加履历
+		long salesid = salesHisDao.insertSalesHis(sales);
 		//保存销售单对应的货物数据
 		if(listSalesItem != null) {
 			for(SalesItemDto salesItem : listSalesItem) {
@@ -141,6 +147,10 @@ public class SalesServiceImpl implements SalesService {
 				//预出库数重置为0
 				salesItem.setBeforequantity(new BigDecimal(0));
 				salesItemDao.insertSalesItem(salesItem);
+				//添加履历
+				//添加履历
+				salesItem.setRes06("" + salesid);
+				salesItemHisDao.insertSalesItemHis(salesItem);
 			}
 		}
 		return theme2;
@@ -252,6 +262,8 @@ public class SalesServiceImpl implements SalesService {
 	@Override
 	public void updateSales(SalesDto sales, List<SalesItemDto> listSalesItem, String userid) {
 		salesDao.updateSales(sales);
+		//添加履历
+		long salesid = salesHisDao.insertSalesHis(sales);
 		
 		//在更新之前查询出所有货物ID
 		List<SalesItemDto> oldItemList = salesItemDao.querySalesItemBySalesno(sales.getSalesno());
@@ -260,6 +272,7 @@ public class SalesServiceImpl implements SalesService {
 		
 		//根据销售单号删除所有的货物数据，将item的状态更新为0
 		salesItemDao.deleteSalesItemBySalesno(sales.getSalesno(), userid);
+		String salesid_uuid = UUID.randomUUID().toString().replaceAll("-", "");
 		//保存销售单对应的货物数据
 		if(listSalesItem != null) {
 			for(SalesItemDto salesItem : listSalesItem) {
@@ -324,6 +337,9 @@ public class SalesServiceImpl implements SalesService {
 					salesItem.setBeforequantity(new BigDecimal(0));
 					salesItemDao.updateSalesItem(salesItem);
 				}
+				//添加履历
+				salesItem.setRes06("" + salesid);
+				salesItemHisDao.insertSalesItemHis(salesItem);
 			}
 		}
 		
@@ -369,6 +385,13 @@ public class SalesServiceImpl implements SalesService {
 					sales.setStatus(Constants.SALES_STATUS_WAREHOUSE_OK);
 					sales.setUpdateuid(userid);
 					salesDao.updateSales(sales);
+					//添加履历
+					salesid = salesHisDao.insertSalesHis(sales);
+					for(SalesItemDto item : itemList) {
+						//添加履历
+						item.setRes06("" + salesid);
+						salesItemHisDao.insertSalesItemHis(item);
+					}
 				}
 			}
 		}
@@ -644,5 +667,21 @@ public class SalesServiceImpl implements SalesService {
 
 	public void setWarehouserptDao(WarehouserptDao warehouserptDao) {
 		this.warehouserptDao = warehouserptDao;
+	}
+
+	public SalesItemHisDao getSalesItemHisDao() {
+		return salesItemHisDao;
+	}
+
+	public void setSalesItemHisDao(SalesItemHisDao salesItemHisDao) {
+		this.salesItemHisDao = salesItemHisDao;
+	}
+
+	public SalesHisDao getSalesHisDao() {
+		return salesHisDao;
+	}
+
+	public void setSalesHisDao(SalesHisDao salesHisDao) {
+		this.salesHisDao = salesHisDao;
 	}
 }

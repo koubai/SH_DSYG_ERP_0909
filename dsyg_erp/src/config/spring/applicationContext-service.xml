@@ -296,6 +296,12 @@
 		<property name="salesItemDao">
 			<ref local="salesItemDao"/>
 		</property>
+		<property name="salesHisDao">
+			<ref local="salesHisDao"/>
+		</property>
+		<property name="salesItemHisDao">
+			<ref local="salesItemHisDao"/>
+		</property>
 		<property name="warehouseDao">
 			<ref local="warehouseDao"/>
 		</property>
@@ -312,8 +318,19 @@
 			<ref local="userDao"/>
 		</property>
 	</bean>
+	<bean id="salesHisService" class="com.cn.dsyg.service.impl.SalesHisServiceImpl" >
+		<property name="salesHisDao">
+			<ref local="salesHisDao"/>
+		</property>
+	</bean>
 	
 	<bean id="salesDao" class="com.cn.dsyg.dao.impl.SalesDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<bean id="salesHisDao" class="com.cn.dsyg.dao.impl.SalesHisDaoImpl">
 		<property name="sqlMapClient">
 			<ref bean="sqlMapClient"/>
 		</property>
@@ -328,8 +345,19 @@
 			<ref local="dict01Dao"/>
 		</property>
 	</bean>
+	<bean id="salesItemHisService" class="com.cn.dsyg.service.impl.SalesItemHisServiceImpl" >
+		<property name="salesItemHisDao">
+			<ref local="salesItemHisDao"/>
+		</property>
+	</bean>
 	
 	<bean id="salesItemDao" class="com.cn.dsyg.dao.impl.SalesItemDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	<bean id="salesItemHisDao" class="com.cn.dsyg.dao.impl.SalesItemHisDaoImpl">
 		<property name="sqlMapClient">
 			<ref bean="sqlMapClient"/>
 		</property>

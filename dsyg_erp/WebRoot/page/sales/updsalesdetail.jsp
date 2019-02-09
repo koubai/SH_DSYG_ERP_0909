@@ -4,12 +4,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<base target="_self"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/common.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/Calendar3.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.5.1.js"></script>
-<title>销售信息编辑</title>
+<title>订单详细</title>
 <script type="text/javascript">
 	var addflag = false;
 	
@@ -21,19 +22,14 @@
 			}
 		}
 		if(checkItem()) {
-			tmpCalcAmount();
 			addflag = true;
-			
 			/*
 			if(confirm("确定提交吗？")) {
-				document.mainform.action = "../sales/updSalesAction.action";
-				document.mainform.submit();
 			}//*/
-
+			
 			//验证货物数量
-			//*
 			$.ajax({
-				url:"../warehouse/checkProductAmountAction.action?date" + new Date(),
+				url:"<%=request.getContextPath()%>/warehouse/checkProductAmountAction.action?date" + new Date(),
 				async:false,
 				type:"POST",
 				dataType:"json",
@@ -45,8 +41,8 @@
 						alert(data.msg);
 					} else {
 						if(confirm("确定提交吗？")) {
-							document.mainform.action = "../sales/updSalesAction.action";
-							document.mainform.submit();
+							document.mainform.action = "<%=request.getContextPath()%>/sales/updSalesitemAction.action";
+							document.mainform.submit();		
 						}
 					}
 					addflag = false;
@@ -155,12 +151,12 @@
 		if(checkflag) {
 			return;
 		}
-		var res02 = getRadioValue("salesType");	
+		var res02 = getRadioValue("salesType");
 		if(type == "1") {
 			if(res02 == "1") {
 				//是否是数字check
 				if(!isReal(obj.value)) {
-					alert("销售数量格式不正确！");
+					alert("销售数量必须是数字！");
 					checkflag = ture;
 					obj.focus();
 					checkflag = false;
@@ -169,7 +165,7 @@
 			} else {
 				//是否大于0的数字check
 				if(!isReal(obj.value)) {
-					alert("销售数量格式不正确！");
+					alert("销售数量必须是大于0的数字！");
 					checkflag = ture;
 					obj.focus();
 					checkflag = false;
@@ -255,7 +251,6 @@
 		if(price == "") {
 			price = 0;
 		}
-		
 		//含税单价
 		var taxprices = tds[16].getElementsByTagName("input")[0].value.trim();
 		if(taxprices == "") {
@@ -298,85 +293,14 @@
 		remain = remain.toFixed(2);
 		tds[14].innerHTML = remain;
 		
-		//销售金额未税
-		var amount = salesQuantity * parseFloat(price);
-		tds[17].getElementsByTagName("input")[0].value = amount.toFixed(2);
-		
 		//补充隐藏TD中的数据内容
-		//===============================================
-		inputs[9].value = price;
 		//出库数量
 		inputs[10].value = salesQuantity;
 		//预出库数量
 		inputs[11].value = beforeQuantity;
 		//未出库数量
 		inputs[12].value = remain;
-		//销售金额未税
-		inputs[13].value = amount.toFixed(2);
-		//备注
-		inputs[16].value = res09;
-		//含税单价
-		inputs[17].value = taxprices;
 		
-		//销售金额已税
-		//销售金额已税=未税金额 * (1 + rate)
-		var vv = amount * (1 + rate);
-		inputs[14].value = vv.toFixed(2);
-		//输入框金额也对应变更
-		tds[18].getElementsByTagName("input")[0].value = vv.toFixed(2);
-		
-		//销售金额未税
-		var calcAmount = 0;
-		//已付金额（默认为0）
-		var calcPaidamount = 0;
-		//销售金额含税
-		var calcTaxamount = 0;
-		
-		var rows = document.getElementById("productData").rows;
-		for(var i = 0; i < rows.length; i++) {
-			var childs = rows[i].cells[0].getElementsByTagName("input");
-			if(childs[13].value != "") {
-				calcAmount += parseFloat(childs[13].value);
-			}
-			if(childs[14].value != "") {
-				calcTaxamount += parseFloat(childs[14].value);
-			}
-		}
-		
-		//销售金额不含税
-		$("#amount").val(calcAmount.toFixed(2));
-		$("#tmpAmount").val(calcAmount.toFixed(2));
-		
-		//销售金额含税
-		$("#taxamount").val(calcTaxamount.toFixed(2));
-		$("#tmpTaxamount").val(calcTaxamount.toFixed(2));
-		
-		//已付金额
-		if(paidamount == "") {
-			$("#paidamount").val(calcPaidamount.toFixed(2));
-			$("#tmpPaidamount").val(calcPaidamount.toFixed(2));
-		}
-		/*
-		if(salesTaxamount == "") {
-			if(amount != "") {
-				//销售金额已税=未税金额 * (1 + rate)
-				var vv = amount * (1 + rate);
-				inputs[14].value = vv.toFixed(2);
-				//输入框金额也对应变更
-				tds[16].getElementsByTagName("input")[0].value = vv.toFixed(2);
-			}
-		} else {
-			//用户自己输入的金额，则不做任何变更
-			inputs[14].value = salesTaxamount;
-		}//*/
-		
-		/*/销售金额已税
-		if(salesTaxamount == "") {
-			inputs[14].value = "0";
-		} else {
-			inputs[14].value = salesTaxamount;
-		}//*/
-		//===============================================
 	}
 	
 	function changeTheme() {
@@ -407,7 +331,7 @@
 		//销售主题
 		//var theme1 = $("#theme1").val().trim();
 		//仓库
-		var warehouse = $("#warehouse").val().trim();
+		//var warehouse = $("#warehouse").val().trim();
 		
 		//销售金额（不含税）
 		var tmpAmount = $("#tmpAmount").val().trim();
@@ -539,8 +463,6 @@
 			$("#tmpTaxamount").val("0");
 		}
 		if(parseFloat(tmpAmount) > parseFloat(tmpTaxamount)) {
-			alert(tmpAmount);
-			alert(tmpTaxamount);
 			alert("销售金额（不含税）不能大于销售金额（含税）！");
 				$("#tmpTaxamount").focus();
 				return;
@@ -595,7 +517,6 @@
 		if(!setSalesItemList()) {
 			return false;
 		}
-		
 		return true;
 	}
 	
@@ -639,6 +560,7 @@
 			//销售货物列表
 			var td = document.createElement("td");
 			
+			//预出库数
 			productAmountInfo += productid + "," + beforequantity + "#";
 			
 			//货物数据check
@@ -648,26 +570,27 @@
 				return false;
 			}
 			
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].id", id));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].productid", productid));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].theme1", theme1));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].tradename", tradename));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].res01", sumicode));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].typeno", typeno));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].color", color));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].unit", unit));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].packaging", packaging));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].unitprice", unitprice));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].taxunitprice", taxunitprice));
+			td.appendChild(createInput("updSalesItemList[" + i + "].id", id));
+			td.appendChild(createInput("updSalesItemList[" + i + "].productid", productid));
+			td.appendChild(createInput("updSalesItemList[" + i + "].theme1", theme1));
+			td.appendChild(createInput("updSalesItemList[" + i + "].tradename", tradename));
+			td.appendChild(createInput("updSalesItemList[" + i + "].res01", sumicode));
+			td.appendChild(createInput("updSalesItemList[" + i + "].typeno", typeno));
+			td.appendChild(createInput("updSalesItemList[" + i + "].color", color));
+			td.appendChild(createInput("updSalesItemList[" + i + "].unit", unit));
+			td.appendChild(createInput("updSalesItemList[" + i + "].packaging", packaging));
+			td.appendChild(createInput("updSalesItemList[" + i + "].unitprice", unitprice));
 			
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].quantity", quantity));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].beforequantity", beforequantity));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].outquantity", outquantity));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].remainquantity", remainquantity));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].amount", amount));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].taxamount", taxamount));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].res09", res09));
-			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].makearea", makearea));
+			td.appendChild(createInput("updSalesItemList[" + i + "].taxunitprice", taxunitprice));
+			
+			td.appendChild(createInput("updSalesItemList[" + i + "].quantity", quantity));
+			td.appendChild(createInput("updSalesItemList[" + i + "].beforequantity", beforequantity));
+			td.appendChild(createInput("updSalesItemList[" + i + "].outquantity", outquantity));
+			td.appendChild(createInput("updSalesItemList[" + i + "].remainquantity", remainquantity));
+			td.appendChild(createInput("updSalesItemList[" + i + "].amount", amount));
+			td.appendChild(createInput("updSalesItemList[" + i + "].taxamount", taxamount));
+			td.appendChild(createInput("updSalesItemList[" + i + "].res09", res09));
+			td.appendChild(createInput("updSalesItemList[" + i + "].makearea", makearea));
 			
 			tr.appendChild(td);
 			document.getElementById("salesItemTable").appendChild(tr);
@@ -675,32 +598,6 @@
 		$("#productAmountInfo").val(productAmountInfo);
 		return true;
 	}
-	
-	//计算总金额（更新的时候删除产品后，总金额未做计算，这里要重新计算）
-	function tmpCalcAmount() {
-		var rows = document.getElementById("productData").rows;
-		//总金额
-		var all = 0.00;
-		//总金额含税
-		var taxall = 0.00;
-		for(var i = 0; i < rows.length; i++) {
-			var childs = rows[i].cells[0].getElementsByTagName("input");
-			var amount = childs[13].value;
-			var taxamount = childs[14].value;
-			if(amount != "") {
-				all += parseFloat(amount);
-				taxall += parseFloat(taxamount);
-			}
-		}
-		//销售金额不含税
-		$("#amount").val(all.toFixed(2));
-		$("#tmpAmount").val(all.toFixed(2));
-		
-		//销售金额含税
-		$("#taxamount").val(taxall.toFixed(2));
-		$("#tmpTaxamount").val(taxall.toFixed(2));
-	}
-	
 	
 	function createInput(id, value) {
 		var input = document.createElement("input");
@@ -742,7 +639,7 @@
 	}
 	
 	function delProduct() {
-		//获得选择的产品
+		//获得选择的投标公司
 		var list = document.getElementsByName("itemRadio");
 		var currentProduct = "";
 		for(var i = 0; i < list.length; i++) {
@@ -800,7 +697,6 @@
 				break;
 			}
 		}
-
 		return id;
 	}
 	
@@ -821,7 +717,7 @@
 				}
 			}
 		}
-	}
+	}	
 	
 	//用户
 	function selectUser() {
@@ -842,9 +738,7 @@
 	}
 	
 	function exportData(flag) {
-		window.location.href = '../sales/exportSalesPriceAction.action?exporttype=' + flag;
-		//document.mainform.action = '../sales/exportSalesPriceAction.action';
-		//document.mainform.submit();
+		window.location.href = '../sales/exportSalesPriceAction.action?updSalesId=' + $("#id").val() + '&exporttype=' + flag;
 	}
 	
 	function productCompare() {
@@ -853,21 +747,9 @@
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
-	function changeThis(obj) {
-		if(obj.checked) {
-			if(confirm("确定终了订单？")) {
-				document.mainform.action = "../sales/finishSalesAction.action";
-				document.mainform.submit();
-			} else {
-				obj.checked = false;
-			}
-		}
-	}
-	
 	function updRecord() {
-		var salesNoHist = $("#theme2").val();
 		var url = "../sales/showSalesHistListAction.action";
-		url += "?salesNoHist=" + salesNoHist + "&date=" + new Date();
+		url += "?date=" + new Date();
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 </script>
@@ -875,35 +757,37 @@
 <body>
 	<div id="containermain">
 		<div class="content">
+			<!--
 			<div class="tittle">
 				<div class="tittle_left">
 				</div>
 				<div class="tittle_center" style="width:150px;">
-					销售信息编辑
+					订单详细
 				</div>
 				<div class="tittle_right">
 				</div>
 			</div>
+			-->
 			<s:form id="mainform" name="mainform" method="POST">
 				<s:hidden name="common_rate" id="common_rate"></s:hidden>
 				
+				<s:hidden name="salesHistDetail.id" id="id"></s:hidden>
+				<s:hidden name="salesHistDetail.customerid" id="customerid"></s:hidden>
+				<s:hidden name="salesHistDetail.bookdate" id="bookdate"></s:hidden>
+				<s:hidden name="salesHistDetail.productlist" id="productlist"></s:hidden>
 				
-				<s:hidden name="updSalesDto.customerid" id="customerid"></s:hidden>
-				<s:hidden name="updSalesDto.bookdate" id="bookdate"></s:hidden>
-				<s:hidden name="updSalesDto.productlist" id="productlist"></s:hidden>
+				<s:hidden name="salesHistDetail.taxamount" id="taxamount"></s:hidden>
+				<s:hidden name="salesHistDetail.paidamount" id="paidamount"></s:hidden>
+				<s:hidden name="salesHistDetail.amount" id="amount"></s:hidden>
+				<s:hidden name="salesHistDetail.status" id="status"></s:hidden>
 				
-				<s:hidden name="updSalesDto.taxamount" id="taxamount"></s:hidden>
-				<s:hidden name="updSalesDto.paidamount" id="paidamount"></s:hidden>
-				<s:hidden name="updSalesDto.amount" id="amount"></s:hidden>
-				<s:hidden name="updSalesDto.status" id="status"></s:hidden>
+				<s:hidden name="salesHistDetail.handler" id="handler"></s:hidden>
+				<s:hidden name="salesHistDetail.handlername" id="handlername"></s:hidden>
 				
-				<s:hidden name="updSalesDto.handler" id="handler"></s:hidden>
-				<s:hidden name="updSalesDto.handlername" id="handlername"></s:hidden>
+				<s:hidden name="salesHistDetail.res02" id="res02"></s:hidden>
 				
-				<s:hidden name="updSalesDto.res02" id="res02"></s:hidden>
-				
-				<s:hidden name="updSalesDto.note" id="note"></s:hidden>
-				<s:hidden name="updSalesDto.refundflag" id="refundflag"></s:hidden>
+				<s:hidden name="salesHistDetail.note" id="note"></s:hidden>
+				<s:hidden name="salesHistDetail.refundflag" id="refundflag"></s:hidden>
 				
 				<div class="searchbox update" style="height:0px;">
 					<table id="salesItemTable" style="display: none;">
@@ -920,12 +804,7 @@
 								<div class="box1_left"></div>
 								<div class="box1_center">
 									<input type="hidden" id="productAmountInfo"/>
-									<s:if test='%{updSalesDto.res02 == "0" || updSalesDto.res02 == "" || updSalesDto.res02 == null}'>
-										<s:textfield name="updSalesDto.theme2" id="theme2" cssStyle="width:300px;" maxlength="32" theme="simple"></s:textfield>
-									</s:if>
-									<s:else>
-										<s:textfield name="updSalesDto.theme2" disabled="true" id="theme2" cssStyle="width:300px;" maxlength="32" theme="simple"></s:textfield>
-									</s:else>
+									<s:textfield name="salesHistDetail.theme2" id="theme2" disabled="true" cssStyle="width:300px;" maxlength="32" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -935,8 +814,8 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center date_input">
-									<input type="text" id="tmpBookdate" disabled="disabled" style="width:285px;" value="<s:property value="updSalesDto.showBookdate"/>" />
-									<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpBookdate'));"></a>
+									<input type="text" id="tmpBookdate" disabled="disabled" style="width:285px;" value="<s:property value="salesHistDetail.showBookdate"/>" />
+									<a class="date" href="javascript:;" onclick=""></a>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -946,7 +825,7 @@
 								<label class="pdf10"><font color="red">*</font>销售方式</label>
 							</td>
 							<td>
-								<s:if test='updSalesDto.res02 == "1"'>
+								<s:if test='salesHistDetail.res02 == "1"'>
 									<input type="radio" disabled="disabled" id="tmpRes02" name="salesType" value="0"/>订单　
 									<input type="radio" disabled="disabled" name="salesType" checked="checked" value="1"/>询价　
 								</s:if>
@@ -961,17 +840,16 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<select name="updSalesDto.res01" id="res01" style="width: 300px;">
+									<select name="salesHistDetail.res01" disabled="disabled" id="res01" style="width: 300px;">
 										<option value="" selected="selected">请选择</option>
 										<s:iterator value="payTypeList" id="payTypeList" status="st1">
-											<option value="<s:property value="code"/>" <s:if test="%{payTypeList[#st1.index].code == updSalesDto.res01}">selected</s:if>><s:property value="fieldname"/></option>
+											<option value="<s:property value="code"/>" <s:if test="%{payTypeList[#st1.index].code == salesHistDetail.res01}">selected</s:if>><s:property value="fieldname"/></option>
 										</s:iterator>
 									</select>
 								</div>
 								<div class="box1_right"></div>
 							</td>
 						</tr>
-						<s:hidden name="updSalesDto.warehouse" id="warehouse"></s:hidden>
 						<!--
 						<tr>
 							<td align="right">
@@ -980,7 +858,7 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<input type="text" id="tmphandlername" disabled="disabled" style="width:285px;" value="<s:property value="updSalesDto.handlername"/>" />
+									<input type="text" id="tmphandlername" disabled="disabled" style="width:285px;" value="<s:property value="salesHistDetail.handlername"/>" />
 								</div>
 								<div class="box1_right"></div>
 								<div class="btn">
@@ -999,10 +877,10 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<select name="updSalesDto.theme1" id="theme1" disabled="disabled" style="width: 300px;" onchange="changeTheme();">
+									<select name="salesHistDetail.theme1" id="theme1" disabled="disabled" style="width: 300px;" onchange="changeTheme();">
 										<option value="" selected="selected">请选择</option>
 										<s:iterator value="goodsList" id="goodsList" status="st1">
-											<option value="<s:property value="code"/>" <s:if test="%{goodsList[#st1.index].code == updSalesDto.theme1}">selected</s:if>><s:property value="fieldname"/></option>
+											<option value="<s:property value="code"/>" <s:if test="%{goodsList[#st1.index].code == salesHistDetail.theme1}">selected</s:if>><s:property value="fieldname"/></option>
 										</s:iterator>
 									</select>
 								</div>
@@ -1014,7 +892,7 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.warehouse" id="warehouse" cssStyle="width:300px;" maxlength="64" theme="simple"></s:textfield>
+									<s:textfield name="salesHistDetail.warehouse" id="warehouse" cssStyle="width:300px;" maxlength="64" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1027,13 +905,13 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.customername" id="customername" maxlength="32" cssStyle="width:300px;" theme="simple"></s:textfield>
+									<s:textfield name="salesHistDetail.customername" disabled="true" id="customername" maxlength="32" cssStyle="width:300px;" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
 								<div class="btn">
 									<div class="box1_left"></div>
 									<div class="box1_center">
-										<input class="input40" type="button" value="检索" onclick="selectCustomer();" />
+										<input class="input40" type="button" value="检索" onclick="" />
 									</div>
 									<div class="box1_right"></div>
 								</div>
@@ -1044,7 +922,7 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.customermanager" id="customermanager" maxlength="16" cssStyle="width:300px;" theme="simple"></s:textfield>
+									<s:textfield name="salesHistDetail.customermanager" disabled="true" id="customermanager" maxlength="16" cssStyle="width:300px;" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1057,7 +935,7 @@
 							<td colspan="3">
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.customeraddr" id="customeraddr" maxlength="64" cssStyle="width:300px;" theme="simple"></s:textfield>
+									<s:textfield name="salesHistDetail.customeraddr" id="customeraddr" maxlength="64" cssStyle="width:300px;" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1070,7 +948,7 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.customeraddress" id="customeraddress" maxlength="64" cssStyle="width:300px;" theme="simple"></s:textfield>
+									<s:textfield name="salesHistDetail.customeraddress" disabled="true" id="customeraddress" maxlength="64" cssStyle="width:300px;" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1080,7 +958,7 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.customertel" id="customertel" maxlength="16" cssStyle="width:300px;" theme="simple"></s:textfield>
+									<s:textfield name="salesHistDetail.customertel" disabled="true" id="customertel" maxlength="16" cssStyle="width:300px;" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1092,7 +970,7 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.customerfax" id="customerfax" maxlength="16" cssStyle="width:300px;" theme="simple"></s:textfield>
+									<s:textfield name="salesHistDetail.customerfax" disabled="true" id="customerfax" maxlength="16" cssStyle="width:300px;" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1102,7 +980,7 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.customermail" id="customermail" maxlength="64" cssStyle="width:300px;" theme="simple"></s:textfield>
+									<s:textfield name="salesHistDetail.customermail" disabled="true" id="customermail" maxlength="64" cssStyle="width:300px;" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1114,7 +992,7 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<input type="text" id="tmpAmount" maxlength="12" style="width:300px;" value="<s:property value="updSalesDto.amount"/>"/>
+									<input type="text" id="tmpAmount" maxlength="12" disabled="disabled" style="width:300px;" value="<s:property value="salesHistDetail.amount"/>"/>
 								</div>
 								<div class="box1_right"></div>
 								<div style="margin-top: 9px;"><label>（不含税）</label></div>
@@ -1125,7 +1003,7 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<input type="text" id="tmpTaxamount" maxlength="12" style="width:300px;" value="<s:property value="updSalesDto.taxamount"/>"/>
+									<input type="text" id="tmpTaxamount" maxlength="12" disabled="disabled" style="width:300px;" value="<s:property value="salesHistDetail.taxamount"/>"/>
 								</div>
 								<div class="box1_right"></div>
 								<div style="margin-top: 9px;"><label>（含税）</label></div>
@@ -1138,7 +1016,7 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<input type="text" id="tmpPaidamount" maxlength="12" style="width:300px;" value="<s:property value="updSalesDto.paidamount"/>"/>
+									<input type="text" id="tmpPaidamount" maxlength="12" disabled="disabled" style="width:300px;" value="<s:property value="salesHistDetail.paidamount"/>"/>
 								</div>
 								<div class="box1_right"></div>
 								<div style="margin-top: 9px;"><label>（含税）</label></div>
@@ -1149,8 +1027,8 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center date_input">
-									<input type="text" id="tmpPlandate" disabled="disabled" style="width:285px;" value="<s:property value="updSalesDto.plandate"/>" />
-									<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpPlandate'));"></a>
+									<input type="text" id="tmpPlandate" disabled="disabled" style="width:285px;" value="<s:property value="salesHistDetail.plandate"/>" />
+									<a class="date" href="javascript:;" onclick=""></a>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1163,7 +1041,7 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.res03" id="res03" maxlength="10" cssStyle="width:300px;" theme="simple"></s:textfield>
+									<s:textfield name="salesHistDetail.res03" disabled="true" id="res03" maxlength="10" cssStyle="width:300px;" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1173,7 +1051,7 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.res04" id="res04" maxlength="10" cssStyle="width:300px;" theme="simple"></s:textfield>
+									<s:textfield name="salesHistDetail.res04" disabled="true" id="res04" maxlength="10" cssStyle="width:300px;" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1183,19 +1061,13 @@
 							<td align="right">
 								<label class="pdf10">退换货标识</label>
 							</td>
-							<td>
-								<s:if test='updSalesDto.refundflag == "1"'>
+							<td colspan="3">
+								<s:if test='salesHistDetail.refundflag == "1"'>
 									<input id="tmpRefund" type="checkbox" onclick="changeBackcolor(this);" checked="checked" value="1"/>
 								</s:if>
 								<s:else>
 									<input id="tmpRefund" type="checkbox" onclick="changeBackcolor(this);" value="1"/>
 								</s:else>
-							</td>
-							<td align="right">
-								<label class="pdf10">订单终了</label>
-							</td>
-							<td>
-								<input id="finishOrder" type="checkbox" onclick="changeThis(this);"/>
 							</td>
 						</tr>
 						<tr>
@@ -1203,7 +1075,7 @@
 								<label class="pdf10">备注</label>
 							</td>
 							<td colspan="3">
-								<textarea id="tmpNote" rows="3" cols="" style="width: 886px;"><s:property value="updSalesDto.note"/></textarea>
+								<textarea id="tmpNote" rows="3" cols="" style="width: 886px;"><s:property value="salesHistDetail.note"/></textarea>
 							</td>
 						</tr>
 					</table>
@@ -1245,7 +1117,7 @@
 											<td width="150">备注</td>
 										</tr>
 										<tbody id="productData">
-											<s:iterator id="updSalesItemList" value="updSalesItemList" status="st1">
+											<s:iterator id="salesItemHistList" value="salesItemHistList" status="st1">
 												<s:if test="#st1.odd==true">
 													<tr class="tr_bg">
 												</s:if>
@@ -1274,7 +1146,7 @@
 														<input type="hidden" value="<s:property value="taxunitprice"/>" />
 														<input type="hidden" value="<s:property value="makearea"/>" />
 													</td>
-													<td><input name="itemRadio" type="radio" onclick="chgBackColor()" /></td>
+													<td><input name="itemRadio" type="radio" onclick="chgBackColor()"/></td>
 													<td><s:property value="#st1.index + 1"/></td>
 													<td>
 														<s:iterator id="goodsList" value="goodsList" status="st3">
@@ -1303,7 +1175,6 @@
 													<td>
 														<s:if test='%{updSalesItemList[#st1.index].packaging == "0"}'>整箱</s:if>
 														<s:elseif test='%{updSalesItemList[#st1.index].packaging == "1"}'>乱尺</s:elseif>
-														<s:elseif test='%{updSalesItemList[#st1.index].packaging == "2"}'>样品</s:elseif>
 														<s:else>
 															<s:property value="packaging"/>
 														</s:else>
@@ -1316,7 +1187,7 @@
 														</s:iterator>
 													</td>
 													<td align="right">
-														<input type="text" style="width: 80px;" id="tmpQuantity_<s:property value="productid"/>" onblur="calcquantity(this, '1');" maxlength="11" value="<s:property value="quantity"/>"/>
+														<input type="text" disabled="disabled" style="width: 80px;" id="tmpQuantity_<s:property value="productid"/>" onblur="calcquantity(this, '1');" maxlength="11" value="<s:property value="quantity"/>"/>
 													</td>
 													<td align="right">
 														<input type="text" style="width: 80px;" id="tmpBeforeQuantity_<s:property value="productid"/>" onblur="calcquantity(this, '2');" maxlength="11" value="<s:property value="beforequantity"/>"/>
@@ -1324,61 +1195,28 @@
 													<td align="right"><s:property value="outquantity"/></td>
 													<td align="right"><s:property value="remainquantity"/></td>
 													<td align="right">
-														<input type="text" style="width: 80px;" id="tmpUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '4');" maxlength="17" value="<s:property value="unitprice"/>"/>
+														<input type="text" disabled="disabled" style="width: 80px;" id="tmpUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '4');" maxlength="11" value="<s:property value="unitprice"/>"/>
 													</td>
 													<td align="right">
-														<input type="text" style="width: 80px;" id="tmpTaxUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '6');" maxlength="17" value="<s:property value="taxunitprice"/>"/>
+														<input type="text" disabled="disabled" style="width: 80px;" id="tmpTaxUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '6');" maxlength="11" value="<s:property value="taxunitprice"/>"/>
 													</td>
 													<td align="right">
-														<input type="text" style="width: 80px;" id="tmpAmount_<s:property value="productid"/>" onblur="calcAmount(this, '1');" maxlength="13" value="<s:property value="amount"/>"/>
+														<input type="text" disabled="disabled" style="width: 80px;" id="tmpAmount_<s:property value="productid"/>" onblur="calcAmount(this, '1');" maxlength="13" value="<s:property value="amount"/>"/>
 													</td>
 													<td align="right">
-														<input type="text" style="width: 80px;" id="tmpTaxamount_<s:property value="productid"/>" onblur="calcAmount(this, '2');" maxlength="13" value="<s:property value="taxamount"/>"/>
+														<input type="text" disabled="disabled" style="width: 80px;" id="tmpTaxamount_<s:property value="productid"/>" onblur="calcAmount(this, '2');" maxlength="13" value="<s:property value="taxamount"/>"/>
 													</td>
 													<td>
 														<s:property value="item01"/>
 													</td>
 													<td align="right">
-														<input type="text" style="width: 130px;" id="tmpRes09_<s:property value="productid"/>" onblur="calcquantity(this, '9');" maxlength="32" value="<s:property value="res09"/>"/>
+														<input type="text" disabled="disabled" style="width: 130px;" id="tmpRes09_<s:property value="productid"/>" onblur="calcquantity(this, '9');" maxlength="32" value="<s:property value="res09"/>"/>
 													</td>
 												</tr>
 											</s:iterator>
 										</tbody>
 									</table>
 								</div>
-								<table cellpadding="10" style="margin:0 auto;">
-									<tr>
-										<td>
-											<div class="btn1">
-												<div class="btn1_left"></div>
-												<div class="btn1_center">
-													<input class="input80" type="button" onclick="addProduct();" value="新增" />
-												</div>
-												<div class="btn1_right"></div>
-											</div>
-										</td>
-										<!--
-										<td>
-											<div class="btn1">
-												<div class="btn1_left"></div>
-												<div class="btn1_center">
-													<input class="input80" type="button" onclick="updProduct();" value="更改" />
-												</div>
-												<div class="btn1_right"></div>
-											</div>
-										</td>
-										-->
-										<td>
-											<div class="btn1">
-												<div class="btn1_left"></div>
-												<div class="btn1_center">
-													<input class="input80" type="button" onclick="delProduct();" value="删除" />
-												</div>
-												<div class="btn1_right"></div>
-											</div>
-										</td>
-									</tr>
-								</table>
 							</td>
 						</tr>
 					</table>
@@ -1386,7 +1224,7 @@
 				<div class="trade">
 					<table cellpadding="10" style="margin:0 auto;">
 						<tr>
-							<s:if test='updSalesDto.res02 == "1"'>
+							<s:if test='salesHistDetail.res02 == "1"'>
 							<td>
 								<div class="btn">
 									<div class="box1_left"></div>
@@ -1439,16 +1277,10 @@
 								<div class="btn">
 									<div class="box1_left"></div>
 									<div class="box1_center">
-										<input class="input80" type="button" value="提交" onclick="upd();"/>
-									</div>
-									<div class="box1_right"></div>
-								</div>
-							</td>
-							<td>
-								<div class="btn">
-									<div class="box1_left"></div>
-									<div class="box1_center">
+										<!--
 										<input class="input80" type="button" value="返回" onclick="goList();"/>
+										-->
+										<input class="input80" type="button" value="关闭" onclick="window.close();"/>
 									</div>
 									<div class="box1_right"></div>
 								</div>
@@ -1462,18 +1294,8 @@
 									<div class="box1_right"></div>
 								</div>
 							</td>
-							<td>
-								<div class="btn">
-									<div class="box1_left"></div>
-									<div class="box1_center">
-										<input class="input80" type="button" value="更新履历" onclick="updRecord();"/>
-									</div>
-									<div class="box1_right"></div>
-								</div>
-							</td>
 						</tr>
 					</table>
-					<div style="height:225px;"></div>
 				</div>
 			</s:form>
 		</div>
