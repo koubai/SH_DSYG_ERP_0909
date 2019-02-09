@@ -52,5 +52,6 @@
 	<sqlMap resource="/config/ibatis/dsyg-barcodeinfo.xml" />
 	<sqlMap resource="/config/ibatis/dsyg-barcodelog.xml" />
 	<sqlMap resource="/config/ibatis/dsyg-productbarcode.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-cuprice.xml" />
 	
 </sqlMapConfig>

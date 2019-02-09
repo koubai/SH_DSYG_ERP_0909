@@ -3,6 +3,19 @@
 
 <beans>
 
+	<bean id="cuPriceService" class="com.cn.dsyg.service.impl.CuPriceServiceImpl" >
+		<property name="cuPriceDao">
+			<ref local="cuPriceDao"/>
+		</property>
+	</bean>
+	
+	<bean id="cuPriceDao" class="com.cn.dsyg.dao.impl.CuPriceDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
+	
 	<bean id="productBarcodeService" class="com.cn.dsyg.service.impl.ProductBarcodeServiceImpl" >
 		<property name="productBarcodeDao">
 			<ref local="productBarcodeDao"/>
