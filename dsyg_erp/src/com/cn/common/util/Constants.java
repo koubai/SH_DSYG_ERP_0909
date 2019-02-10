@@ -122,6 +122,9 @@ public class Constants {
 	public final static int SHOW_NEWS_YEAR_COUNT = 5;
 	
 	//dict01
+	//铜价档位
+	public final static String DICT_CU_PRICE_AREA = "cupricearea";
+	
 	//产品分类
 	public final static String DICT_GOODS_TYPE = "goods";
 	public final static String DICT_GOODS_TYPE_CODE_01 = "01";//电线
