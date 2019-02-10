@@ -634,6 +634,12 @@
 			var taxunitprice = childs[17].value;
 			//产地
 			var makearea = childs[18].value;
+			var createuid;
+			if(typeof(childs[19]) == "undefined"){
+				createuid = "";
+			} else {
+				createuid = childs[19].value;
+			}
 			
 			var tr = document.createElement("tr");
 			//销售货物列表
@@ -668,6 +674,7 @@
 			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].taxamount", taxamount));
 			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].res09", res09));
 			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].makearea", makearea));
+			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].createuid", createuid));
 			
 			tr.appendChild(td);
 			document.getElementById("salesItemTable").appendChild(tr);
@@ -1273,6 +1280,7 @@
 														<input type="hidden" value="<s:property value="res09"/>" />
 														<input type="hidden" value="<s:property value="taxunitprice"/>" />
 														<input type="hidden" value="<s:property value="makearea"/>" />
+														<input type="hidden" value="<s:property value="createuid"/>" />
 													</td>
 													<td><input name="itemRadio" type="radio" onclick="chgBackColor()" /></td>
 													<td><s:property value="#st1.index + 1"/></td>

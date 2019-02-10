@@ -1285,15 +1285,6 @@
 									<div class="box1_right"></div>
 								</div>
 							</td>
-							<td>
-								<div class="btn">
-									<div class="box1_left"></div>
-									<div class="box1_center">
-										<input class="input80" type="button" value="产品对照" onclick="productCompare();"/>
-									</div>
-									<div class="box1_right"></div>
-								</div>
-							</td>
 						</tr>
 					</table>
 				</div>

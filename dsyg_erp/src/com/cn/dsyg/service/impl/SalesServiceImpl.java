@@ -148,7 +148,6 @@ public class SalesServiceImpl implements SalesService {
 				salesItem.setBeforequantity(new BigDecimal(0));
 				salesItemDao.insertSalesItem(salesItem);
 				//添加履历
-				//添加履历
 				salesItem.setRes06("" + salesid);
 				salesItemHisDao.insertSalesItemHis(salesItem);
 			}
@@ -263,7 +262,8 @@ public class SalesServiceImpl implements SalesService {
 	public void updateSales(SalesDto sales, List<SalesItemDto> listSalesItem, String userid) {
 		salesDao.updateSales(sales);
 		//添加履历
-		long salesid = salesHisDao.insertSalesHis(sales);
+		SalesDto salesHis = getSalesHis(sales);
+		long salesid = salesHisDao.insertSalesHis(salesHis);
 		
 		//在更新之前查询出所有货物ID
 		List<SalesItemDto> oldItemList = salesItemDao.querySalesItemBySalesno(sales.getSalesno());
@@ -272,7 +272,6 @@ public class SalesServiceImpl implements SalesService {
 		
 		//根据销售单号删除所有的货物数据，将item的状态更新为0
 		salesItemDao.deleteSalesItemBySalesno(sales.getSalesno(), userid);
-		String salesid_uuid = UUID.randomUUID().toString().replaceAll("-", "");
 		//保存销售单对应的货物数据
 		if(listSalesItem != null) {
 			for(SalesItemDto salesItem : listSalesItem) {
@@ -310,6 +309,9 @@ public class SalesServiceImpl implements SalesService {
 					//预出库数重置为0
 					salesItem.setBeforequantity(new BigDecimal(0));
 					salesItemDao.insertSalesItem(salesItem);
+					//添加履历
+					salesItem.setRes06("" + salesid);
+					salesItemHisDao.insertSalesItemHis(salesItem);
 				} else {
 					//修改
 					//salesItem.setSalesno(sales.getSalesno());
@@ -336,10 +338,17 @@ public class SalesServiceImpl implements SalesService {
 					//预出库数重置为0
 					salesItem.setBeforequantity(new BigDecimal(0));
 					salesItemDao.updateSalesItem(salesItem);
+					
+					//添加履历
+					//销售单号
+					salesItem.setSalesno(sales.getSalesno());
+					//用户自己输入的订单号
+					salesItem.setTheme2(sales.getTheme2());
+					salesItem.setBelongto(sales.getBelongto());
+					salesItem.setCustomerid("" + sales.getCustomerid());
+					salesItem.setRes06("" + salesid);
+					salesItemHisDao.insertSalesItemHis(salesItem);
 				}
-				//添加履历
-				salesItem.setRes06("" + salesid);
-				salesItemHisDao.insertSalesItemHis(salesItem);
 			}
 		}
 		
@@ -386,7 +395,8 @@ public class SalesServiceImpl implements SalesService {
 					sales.setUpdateuid(userid);
 					salesDao.updateSales(sales);
 					//添加履历
-					salesid = salesHisDao.insertSalesHis(sales);
+					salesHis = getSalesHis(sales);
+					salesid = salesHisDao.insertSalesHis(salesHis);
 					for(SalesItemDto item : itemList) {
 						//添加履历
 						item.setRes06("" + salesid);
@@ -424,6 +434,49 @@ public class SalesServiceImpl implements SalesService {
 	@Override
 	public void updateSales(SalesDto sales) {
 		salesDao.updateSales(sales);
+	}
+	
+	private SalesDto getSalesHis(SalesDto sales){
+		SalesDto salesHisDto = new SalesDto();
+		salesHisDto.setSalesno(sales.getSalesno());
+		salesHisDto.setBelongto(sales.getBelongto());
+		salesHisDto.setTheme1(sales.getTheme1());
+		salesHisDto.setTheme2(sales.getTheme2());
+		salesHisDto.setWarehouse(sales.getWarehouse());
+		salesHisDto.setCustomerid(sales.getCustomerid());
+		salesHisDto.setCustomername(sales.getCustomername());
+		salesHisDto.setCustomertel(sales.getCustomertel());
+		salesHisDto.setCustomermanager(sales.getCustomermanager());
+		salesHisDto.setCustomeraddress(sales.getCustomeraddress());
+		salesHisDto.setCustomerfax(sales.getCustomerfax());
+		salesHisDto.setCustomermail(sales.getCustomermail());
+		salesHisDto.setHandler(sales.getHandler());
+		salesHisDto.setBookdate(sales.getBookdate());
+		salesHisDto.setPlandate(sales.getPlandate());
+		salesHisDto.setAmount(sales.getAmount());
+		salesHisDto.setTaxamount(sales.getTaxamount());
+		salesHisDto.setPaidamount(sales.getPaidamount());
+		salesHisDto.setUnpaidamount(sales.getUnpaidamount());
+		salesHisDto.setApproverid(sales.getApproverid());
+		salesHisDto.setProductlist(sales.getProductlist());
+		salesHisDto.setNote(sales.getNote());
+		salesHisDto.setRank(sales.getRank());
+		salesHisDto.setStatus(sales.getStatus());
+		salesHisDto.setRes01(sales.getRes01());
+		salesHisDto.setRes02(sales.getRes02());
+		salesHisDto.setRes03(sales.getRes03());
+		salesHisDto.setRes04(sales.getRes04());
+		salesHisDto.setRes05(sales.getRes05());
+		salesHisDto.setRes06(sales.getRes06());
+		salesHisDto.setRes07(sales.getRes07());
+		salesHisDto.setRes08(sales.getRes08());
+		salesHisDto.setRes09(sales.getRes09());
+		salesHisDto.setRes10(sales.getRes10());
+		salesHisDto.setCreateuid(sales.getCreateuid());
+		salesHisDto.setCreatedate(sales.getCreatedate());
+		salesHisDto.setUpdateuid(sales.getUpdateuid());
+		salesHisDto.setUpdatedate(sales.getUpdatedate());
+		return salesHisDto;
 	}
 	
 	/**

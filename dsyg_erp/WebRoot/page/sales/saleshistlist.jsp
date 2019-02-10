@@ -22,6 +22,8 @@
 		} else {
 			var url = "<%=request.getContextPath()%>/sales/showHistDetailAction.action?salesHistId=" + id + "&date=" + new Date();
 			window.showModalDialog(url, window, "dialogheight:680px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no;scrollbars=yes;");
+			//window.open(url, "", "height=680, width=1200, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+			
 		}
 	}
 	
@@ -39,7 +41,7 @@
 	
 	//翻页
 	function changePage(pageNum) {
-		$("#startIndex").attr("value", pageNum);
+		$("#startIndexHist").attr("value", pageNum);
 		document.mainform.action = '../sales/turnSalesHistListAction.action';
 		document.mainform.submit();
 	}
@@ -60,7 +62,7 @@
 
 	//页跳转
 	function turnPage() {
-		var totalPage = "${page.totalPage}";
+		var totalPage = "${pageHist.totalPage}";
 		var turnPage = document.getElementById("pagenum").value;
 		//判断是否输入页码
 		if ('' != turnPage) {
@@ -90,8 +92,8 @@
 </head>
 <body style="background: url(''); overflow-x:hidden;overflow-y:hidden;">
 <s:form id="mainform" name="mainform" method="POST">
-	<s:hidden name="startIndex" id="startIndex"/>
-	<s:hidden name="intPageSize" id="intPageSize"/>
+	<s:hidden name="startIndexHist" id="startIndexHist"/>
+	<s:hidden name="intPageSizeHist" id="intPageSizeHist"/>
 	<div id="container" style="width: 100%; height: 100%;">
 		<div class="searchbox">
 			<div class="box1">
@@ -128,7 +130,7 @@
 			</div>
 			<div class="pages">
 				<ul>
-					<li>第<strong>${page.startIndex + 1}</strong>页/共<strong>${page.totalPage==0?1:page.totalPage}</strong>页/共<strong>${page.totalCount}</strong>条记录</li>
+					<li>第<strong>${pageHist.startIndex + 1}</strong>页/共<strong>${pageHist.totalPage==0?1:pageHist.totalPage}</strong>页/共<strong>${pageHist.totalCount}</strong>条记录</li>
 					<li class="mgl15">跳转到
 						<input type="text" id="pagenum" class="text" maxlength="4" size="4"/>
 						<input type="button" value="GO" onclick="javascript:turnPage();"/>
@@ -137,23 +139,23 @@
 						<a class="first" href="#" onclick="changePage(0);">首页</a>
 					</li>
 					<li>
-						<s:if test="%{page.startIndex <= 0}">
+						<s:if test="%{pageHist.startIndex <= 0}">
 							<a class="last" href="#">上一页</a>
 						</s:if>
 						<s:else>
-							<a class="next" href="#" onclick="changePage('${page.previousIndex}');">上一页</a>
+							<a class="next" href="#" onclick="changePage('${pageHist.previousIndex}');">上一页</a>
 						</s:else>
 					</li>
 					<li>
-						<s:if test="%{page.nextIndex > page.totalPage - 1}">
+						<s:if test="%{pageHist.nextIndex > pageHist.totalPage - 1}">
 							<a class="last" href="#">下一页</a>
 						</s:if>
 						<s:else>
-							<a class="next" href="#" onclick="changePage('${page.nextIndex}');">下一页</a>
+							<a class="next" href="#" onclick="changePage('${pageHist.nextIndex}');">下一页</a>
 						</s:else>
 					</li>
 					<li>
-						<a class="next" href="#" onclick="changePage('${page.totalPage - 1}');">末页</a>
+						<a class="next" href="#" onclick="changePage('${pageHist.totalPage - 1}');">末页</a>
 					</li>
 				</ul>
 			</div>

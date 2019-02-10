@@ -49,7 +49,7 @@
 	<select id="querySalesHisCountByPage" resultClass="int" parameterClass="java.util.Map">
 		select count(*) from etb_sales_hist T where 1 = 1
 		<isNotEmpty prepend="and" property="salesno">
-			T.salesno = #salesno#
+			T.theme2 = #salesno#
 		</isNotEmpty>
 	</select>
 	
