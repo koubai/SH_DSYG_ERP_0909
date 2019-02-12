@@ -12,6 +12,8 @@
 	
 	<constant name="struts.multipart.saveDir" value="/tmp"/>
 	
+	<!-- cuprice -->
+	<include file="struts-cuprice.xml"></include>
 	<!-- barcodeinfo -->
 	<include file="struts-barcodeinfo.xml"></include>
 	<!-- productbarcode -->

@@ -27,6 +27,12 @@
 	
 	<select id="queryCuPriceCountByPage" resultClass="int" parameterClass="java.util.Map">
 		select count(*) from etb_cu_price T where 1 = 1 and status = 1
+		<isNotEmpty prepend="and" property="setdateLow">
+			T.setdate <![CDATA[>=]]> #setdateLow#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="setdateHigh">
+			T.setdate <![CDATA[<]]> #setdateHigh#
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cu_price_code">
 			T.cu_price_code = #cu_price_code#
 		</isNotEmpty>
@@ -34,6 +40,12 @@
 	
 	<select id="queryCuPriceByPage" parameterClass="java.util.Map" resultMap="CuPriceDto">
 		select T.* from etb_cu_price T where 1 = 1 and status = 1
+		<isNotEmpty prepend="and" property="setdateLow">
+			T.setdate <![CDATA[>=]]> #setdateLow#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="setdateHigh">
+			T.setdate <![CDATA[<]]> #setdateHigh#
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="cu_price_code">
 			T.cu_price_code = #cu_price_code#
 		</isNotEmpty>

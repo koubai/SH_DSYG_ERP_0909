@@ -11,16 +11,20 @@ import com.cn.dsyg.dto.CuPriceDto;
 public class CuPriceDaoImpl extends BaseDao implements CuPriceDao {
 
 	@Override
-	public int queryCuPriceCountByPage(String cu_price_code) {
+	public int queryCuPriceCountByPage(String setdateLow, String setdateHigh, String cuPriceCode) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("cu_price_code", cu_price_code);
+		paramMap.put("setdateLow", setdateLow);
+		paramMap.put("setdateHigh", setdateHigh);
+		paramMap.put("cu_price_code", cuPriceCode);
 		return (Integer) getSqlMapClientTemplate().queryForObject("queryCuPriceCountByPage", paramMap);
 	}
 
 	@Override
-	public List<CuPriceDto> queryCuPriceByPage(String cu_price_code, int start, int end) {
+	public List<CuPriceDto> queryCuPriceByPage(String setdateLow, String setdateHigh, String cuPriceCode, int start, int end) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("cu_price_code", cu_price_code);
+		paramMap.put("setdateLow", setdateLow);
+		paramMap.put("setdateHigh", setdateHigh);
+		paramMap.put("cu_price_code", cuPriceCode);
 		paramMap.put("start", start);
 		paramMap.put("end", end);
 		@SuppressWarnings("unchecked")

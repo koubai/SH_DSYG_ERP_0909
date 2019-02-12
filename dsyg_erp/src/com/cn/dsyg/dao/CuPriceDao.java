@@ -6,16 +6,25 @@ import com.cn.dsyg.dto.CuPriceDto;
 
 public interface CuPriceDao {
 
-	public int queryCuPriceCountByPage(String cu_price_code);
+	/**
+	 * 查询记录数
+	 * @param setdateLow
+	 * @param setdateHigh
+	 * @param cuPriceCode
+	 * @return
+	 */
+	public int queryCuPriceCountByPage(String setdateLow, String setdateHigh, String cuPriceCode);
 	
 	/**
 	 * 翻页查询数据
-	 * @param cu_price_code
+	 * @param setdateLow
+	 * @param setdateHigh
+	 * @param cuPriceCode
 	 * @param start
 	 * @param end
 	 * @return
 	 */
-	public List<CuPriceDto> queryCuPriceByPage(String cu_price_code, int start, int end);
+	public List<CuPriceDto> queryCuPriceByPage(String setdateLow, String setdateHigh, String cuPriceCode, int start, int end);
 	
 	/**
 	 * 根据ID查询数据

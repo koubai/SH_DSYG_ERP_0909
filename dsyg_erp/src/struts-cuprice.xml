@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" 
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="cuprice" extends="struts-erp" namespace="/cuprice">
+	
+		<action name="delCuPriceAction" class="cuPriceAction" method="delCuPriceAction">
+			<result name="*">/page/cuprice/cupricelist.jsp</result>
+		</action>
+	
+		<action name="showCuPriceAction" class="cuPriceAction" method="showCuPriceAction">
+			<result name="*">/page/cuprice/cupricelist.jsp</result>
+		</action>
+		
+		<action name="queryCuPriceAction" class="cuPriceAction" method="queryCuPriceAction">
+			<result name="*">/page/cuprice/cupricelist.jsp</result>
+		</action>
+		
+		<action name="turnCuPriceAction" class="cuPriceAction" method="turnCuPriceAction">
+			<result name="*">/page/cuprice/cupricelist.jsp</result>
+		</action>
+		
+	</package>
+
+</struts>

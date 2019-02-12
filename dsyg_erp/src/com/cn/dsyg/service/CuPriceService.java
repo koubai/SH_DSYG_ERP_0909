@@ -7,11 +7,13 @@ public interface CuPriceService {
 
 	/**
 	 * 翻页查询数据
-	 * @param cu_price_code
+	 * @param setdateLow
+	 * @param setdateHigh
+	 * @param cuPriceCode
 	 * @param page
 	 * @return
 	 */
-	public Page queryCuPriceByPage(String cu_price_code, Page page);
+	public Page queryCuPriceByPage(String setdateLow, String setdateHigh, String cuPriceCode, Page page);
 	
 	/**
 	 * 根据ID查询数据
@@ -33,6 +35,13 @@ public interface CuPriceService {
 	 * @return
 	 */
 	public CuPriceDto queryLastCuPriceBySetDate(String setdate);
+	
+	/**
+	 * 根据ID删除数据（逻辑删除）
+	 * @param id
+	 * @param userid
+	 */
+	public void deleteCuPriceLogic(String id, String userid);
 	
 	/**
 	 * 根据ID删除数据（物理删除）
