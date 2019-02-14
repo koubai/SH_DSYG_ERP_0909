@@ -1,6 +1,7 @@
 package com.cn.dsyg.action;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.LogManager;
@@ -8,6 +9,7 @@ import org.apache.log4j.Logger;
 
 import com.cn.common.action.BaseAction;
 import com.cn.common.util.Constants;
+import com.cn.common.util.DateUtil;
 import com.cn.common.util.Page;
 import com.cn.dsyg.dto.CuPriceDto;
 import com.cn.dsyg.dto.Dict01Dto;
@@ -53,13 +55,55 @@ public class CuPriceAction extends BaseAction {
 	private String delPriceCodeId;
 	
 	/**
+	 * 显示修改铜价设置记录页面
+	 * @return
+	 */
+	public String showUpdCuPriceAction() {
+		try {
+			this.clearMessages();
+			updCuPriceDto = cuPriceService.queryCuPriceByID(updPriceCodeId);
+			//铜价区间代码表数据
+			cuPriceDict01List = dict01Service.queryDict01ByFieldcode(Constants.DICT_CU_PRICE_AREA, Constants.SYSTEM_LANGUAGE_ENGLISH);
+		} catch(Exception e) {
+			log.error("showUpdCuPriceAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	
+	/**
+	 * 修改铜价设置记录
+	 * @return
+	 */
+	public String updCuPriceAction() {
+		try {
+			this.clearMessages();
+			//铜价区间代码表数据
+			cuPriceDict01List = dict01Service.queryDict01ByFieldcode(Constants.DICT_CU_PRICE_AREA, Constants.SYSTEM_LANGUAGE_ENGLISH);
+			//当前操作用户ID
+			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
+			updCuPriceDto.setUpdateuid(username);
+			cuPriceService.updateCuPrice(updCuPriceDto);
+			
+			this.addActionMessage("修改成功！");
+		} catch(Exception e) {
+			log.error("updCuPriceAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	
+	/**
 	 * 显示新增铜价设置记录页面
 	 * @return
 	 */
 	public String showAddCuPriceAction() {
 		try {
 			this.clearMessages();
+			//铜价区间代码表数据
+			cuPriceDict01List = dict01Service.queryDict01ByFieldcode(Constants.DICT_CU_PRICE_AREA, Constants.SYSTEM_LANGUAGE_ENGLISH);
 			addCuPriceDto = new CuPriceDto();
+			addCuPriceDto.setSetdate(new Date());
 		} catch(Exception e) {
 			log.error("showAddCuPriceAction error:" + e);
 			return ERROR;
@@ -74,6 +118,24 @@ public class CuPriceAction extends BaseAction {
 	public String addCuPriceAction() {
 		try {
 			this.clearMessages();
+			//铜价区间代码表数据
+			cuPriceDict01List = dict01Service.queryDict01ByFieldcode(Constants.DICT_CU_PRICE_AREA, Constants.SYSTEM_LANGUAGE_ENGLISH);
+			//查询设置日期是否有数据
+			CuPriceDto cuPrice = cuPriceService.queryCuPriceByLogicId(DateUtil.dateToShortStr(addCuPriceDto.getSetdate()));
+			if(cuPrice != null) {
+				this.addActionMessage("设置日期=" + DateUtil.dateToShortStr(addCuPriceDto.getSetdate()) + "数据已存在！");
+				return "checkerror";
+			}
+			//当前操作用户ID
+			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
+			addCuPriceDto.setCreateuid(username);
+			addCuPriceDto.setUpdateuid(username);
+			addCuPriceDto.setStatus(Constants.STATUS_NORMAL);
+			cuPriceService.insertCuPrice(addCuPriceDto);
+			
+			this.addActionMessage("添加成功！");
+			addCuPriceDto = new CuPriceDto();
+			addCuPriceDto.setSetdate(new Date());
 		} catch(Exception e) {
 			log.error("addCuPriceAction error:" + e);
 			return ERROR;

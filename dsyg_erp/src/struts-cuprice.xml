@@ -6,6 +6,22 @@
 
 	<package name="cuprice" extends="struts-erp" namespace="/cuprice">
 	
+		<action name="showUpdCuPriceAction" class="cuPriceAction" method="showUpdCuPriceAction">
+			<result name="*">/page/cuprice/updcuprice.jsp</result>
+		</action>
+		
+		<action name="updCuPriceAction" class="cuPriceAction" method="updCuPriceAction">
+			<result name="*">/page/cuprice/updcuprice.jsp</result>
+		</action>
+		
+		<action name="showAddCuPriceAction" class="cuPriceAction" method="showAddCuPriceAction">
+			<result name="*">/page/cuprice/addcuprice.jsp</result>
+		</action>
+		
+		<action name="addCuPriceAction" class="cuPriceAction" method="addCuPriceAction">
+			<result name="*">/page/cuprice/addcuprice.jsp</result>
+		</action>
+		
 		<action name="delCuPriceAction" class="cuPriceAction" method="delCuPriceAction">
 			<result name="*">/page/cuprice/cupricelist.jsp</result>
 		</action>

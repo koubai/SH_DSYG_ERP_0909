@@ -17,8 +17,8 @@
 	});
 	
 	function add() {
-		//document.mainform.action = "../cuprice/showAddCuPriceAction.action";
-		//document.mainform.submit();
+		document.mainform.action = "../cuprice/showAddCuPriceAction.action";
+		document.mainform.submit();
 	}
 	
 	function upd() {
@@ -27,8 +27,8 @@
 			alert("请选择一条记录！");
 			return;
 		} else {
-			//document.mainform.action = "../cuprice/showUpdCuPriceAction.action?updPriceCodeId=" + id;
-			//document.mainform.submit();
+			document.mainform.action = "../cuprice/showUpdCuPriceAction.action?updPriceCodeId=" + id;
+			document.mainform.submit();
 		}
 	}
 	
