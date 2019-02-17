@@ -6,6 +6,10 @@
 
 	<package name="product" extends="struts-erp" namespace="/product">
 	
+		<action name="queryCuPriceAjax" class="productAction" method="queryCuPriceAjax">
+			<result type="json"></result>
+		</action>
+		
 		<action name="delProductAction" class="productAction" method="delProductAction">
 			<result name="*">/page/product/productlist.jsp</result>
 		</action>

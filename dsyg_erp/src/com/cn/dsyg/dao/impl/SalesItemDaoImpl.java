@@ -17,6 +17,27 @@ import com.cn.dsyg.dto.SalesItemDto;
 public class SalesItemDaoImpl extends BaseDao implements SalesItemDao {
 
 	@Override
+	public SalesItemDto queryCuPriceByProductInfo(String fieldno,
+			String tradename, String typeno, String packaging, String unit,
+			String makearea, String cupricecode, String customerid) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("fieldno", fieldno);
+		paramMap.put("tradename", tradename);
+		paramMap.put("typeno", typeno);
+		paramMap.put("packaging", packaging);
+		paramMap.put("unit", unit);
+		paramMap.put("makearea", makearea);
+		paramMap.put("cupricecode", cupricecode);
+		paramMap.put("customerid", customerid);
+		@SuppressWarnings("unchecked")
+		List<SalesItemDto> list = getSqlMapClientTemplate().queryForList("queryCuPriceByProductInfo", paramMap);
+		if(list != null && list.size() > 0) {
+			return list.get(0);
+		}
+		return null;
+	}
+	
+	@Override
 	public List<SalesItemDto> querySalesItemBySalesno(String salesno) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("salesno", salesno);

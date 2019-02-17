@@ -1,17 +1,23 @@
 package com.cn.dsyg.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.cn.common.util.Constants;
+import com.cn.common.util.DateUtil;
 import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
+import com.cn.dsyg.dao.CuPriceDao;
 import com.cn.dsyg.dao.Dict01Dao;
 import com.cn.dsyg.dao.ProductBarcodeDao;
 import com.cn.dsyg.dao.ProductDao;
+import com.cn.dsyg.dao.SalesItemDao;
+import com.cn.dsyg.dto.CuPriceDto;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.ProductBarcodeDto;
 import com.cn.dsyg.dto.ProductDto;
+import com.cn.dsyg.dto.SalesItemDto;
 import com.cn.dsyg.service.ProductService;
 
 /**
@@ -25,6 +31,8 @@ public class ProductServiceImpl implements ProductService {
 	private ProductDao productDao;
 	private Dict01Dao dict01Dao;
 	private ProductBarcodeDao productBarcodeDao;
+	private SalesItemDao salesItemDao;
+	private CuPriceDao cuPriceDao;
 	
 	@Override
 	public ProductDto queryProductByLogicId(String tradename, String typeno,
@@ -43,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Page queryProductByPage(String fieldno, String item01, String keyword, String packaging, String tradename,
-				String typeno, String color, String supplierId, String status, Page page) {
+				String typeno, String color, String supplierId, String status, String customerid, Page page) {
 		keyword = StringUtil.replaceDatabaseKeyword_mysql(keyword);
 		tradename = StringUtil.replaceDatabaseKeyword_mysql(tradename);
 		typeno = StringUtil.replaceDatabaseKeyword_mysql(typeno);
@@ -70,6 +78,12 @@ public class ProductServiceImpl implements ProductService {
 					//没有记录则默认1
 					product.setBarcodeseq(1);
 				}
+				//查询单价
+				SalesItemDto salesItemDto = getCuPriceByProduct("" + product.getId(), customerid);
+				if(salesItemDto != null) {
+					product.setCuprice(salesItemDto.getUnitprice());
+					product.setTaxcuprice(salesItemDto.getTaxunitprice());
+				}
 			}
 			//productBarcodeDao
 		}
@@ -77,7 +91,36 @@ public class ProductServiceImpl implements ProductService {
 		return page;
 	}
 
-	
+	private SalesItemDto getCuPriceByProduct(String productid, String customerid) {
+		if(StringUtil.isNotBlank(customerid)) {
+			//查询当前最近一次设置的价格区间
+			String setdate = DateUtil.dateToShortStr(new Date());
+			CuPriceDto cuPriceDto = cuPriceDao.queryLastCuPriceBySetDate(setdate);
+			if(cuPriceDto != null) {
+				ProductDto productDto = productDao.queryProductByID(productid);
+				if(productDto != null) {
+//					System.out.println("getFieldno=" + productDto.getFieldno());
+//					System.out.println("getTradename=" + productDto.getTradename());
+//					System.out.println("getTypeno=" + productDto.getTypeno());
+//					System.out.println("getPackaging=" + productDto.getPackaging());
+//					System.out.println("getUnit=" + productDto.getUnit());
+//					System.out.println("getMakearea=" + productDto.getMakearea());
+//					System.out.println("Cu_price_code=" + cuPriceDto.getCu_price_code());
+//					System.out.println("customerid=" + customerid);
+					SalesItemDto salesItemDto = salesItemDao.queryCuPriceByProductInfo(productDto.getFieldno(), productDto.getTradename(),
+							productDto.getTypeno(), productDto.getPackaging(), productDto.getUnit(),
+							productDto.getMakearea(), cuPriceDto.getCu_price_code(), customerid);
+					if(salesItemDto != null) {
+						System.out.println("=======================cuprice=" + salesItemDto.getUnitprice());
+					} else {
+						System.out.println("=======================salesItemDto=" + salesItemDto);
+					}
+					return salesItemDto;
+				}
+			}
+		}
+		return null;
+	}
 	
 	@Override
 	public Page queryProductCostCheckByPage(String fieldno, String item01, String keyword, String tradename,
@@ -310,5 +353,21 @@ public class ProductServiceImpl implements ProductService {
 
 	public void setProductBarcodeDao(ProductBarcodeDao productBarcodeDao) {
 		this.productBarcodeDao = productBarcodeDao;
+	}
+
+	public SalesItemDao getSalesItemDao() {
+		return salesItemDao;
+	}
+
+	public void setSalesItemDao(SalesItemDao salesItemDao) {
+		this.salesItemDao = salesItemDao;
+	}
+
+	public CuPriceDao getCuPriceDao() {
+		return cuPriceDao;
+	}
+
+	public void setCuPriceDao(CuPriceDao cuPriceDao) {
+		this.cuPriceDao = cuPriceDao;
 	}
 }

@@ -24,11 +24,12 @@ public interface ProductService {
 	 * @param color 颜色
 	 * @param supplierId 供应商
 	 * @param status 状态
+	 * @param customerid
 	 * @param page
 	 * @return
 	 */
 	public Page queryProductByPage(String fieldno, String item10, String keyword, String packaging, String tradename,
-			String typeno, String color, String supplierId, String status, Page page);
+			String typeno, String color, String supplierId, String status, String customerid, Page page);
 	
 	/**
 	 * 翻页查询信息

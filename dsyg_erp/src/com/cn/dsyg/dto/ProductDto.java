@@ -111,6 +111,12 @@ public class ProductDto extends BaseDto {
 	 */
 	private String purchaseprice;
 	
+	//铜价区间价格
+	//单价
+	private BigDecimal cuprice;
+	//（税后）
+	private BigDecimal taxcuprice;
+	
 	//是否被选中，1为选中
 	private String checked;
 	//退票数量
@@ -1554,5 +1560,21 @@ public class ProductDto extends BaseDto {
 
 	public void setRpttaxprice(BigDecimal rpttaxprice) {
 		this.rpttaxprice = rpttaxprice;
+	}
+
+	public BigDecimal getCuprice() {
+		return cuprice;
+	}
+
+	public void setCuprice(BigDecimal cuprice) {
+		this.cuprice = cuprice;
+	}
+
+	public BigDecimal getTaxcuprice() {
+		return taxcuprice;
+	}
+
+	public void setTaxcuprice(BigDecimal taxcuprice) {
+		this.taxcuprice = taxcuprice;
 	}
 }

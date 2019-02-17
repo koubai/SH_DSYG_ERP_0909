@@ -11,6 +11,7 @@ import com.cn.common.action.BaseAction;
 import com.cn.common.util.Constants;
 import com.cn.common.util.DateUtil;
 import com.cn.common.util.Page;
+import com.cn.common.util.PropertiesConfig;
 import com.cn.dsyg.dto.CuPriceDto;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.service.CuPriceService;
@@ -131,6 +132,7 @@ public class CuPriceAction extends BaseAction {
 			addCuPriceDto.setCreateuid(username);
 			addCuPriceDto.setUpdateuid(username);
 			addCuPriceDto.setStatus(Constants.STATUS_NORMAL);
+			addCuPriceDto.setBelongto(PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_BELONG));
 			cuPriceService.insertCuPrice(addCuPriceDto);
 			
 			this.addActionMessage("添加成功！");

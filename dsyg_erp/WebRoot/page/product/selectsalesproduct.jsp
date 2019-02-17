@@ -117,6 +117,8 @@
 			purchasetaxprice = purchasetaxprice.toFixed(6);
 		}
 		
+		/*
+		//铜价设置之前的单价逻辑
 		//销售价格
 		var salesprice = inputs[13].value;
 		//销售价格（税后）
@@ -124,7 +126,13 @@
 		if(salesprice != "") {
 			salestaxprice = parseFloat(salesprice) * (1 + parseFloat(rate));
 			salestaxprice = salestaxprice.toFixed(6);
-		}
+		}//*/
+		
+		//铜价设置的单价逻辑
+		var salesprice = inputs[18].value;
+		//销售价格（税后）
+		var salestaxprice = inputs[19].value;
+		
 		
 		//产地
 		var makearea = inputs[14].value;
@@ -237,7 +245,6 @@
 		tr.appendChild(td);
 		
 		//铜价信息列表
-		//TODO
 		td = createCuPriceTd();
 		tr.appendChild(td);
 		
@@ -281,7 +288,11 @@
 		} else {
 			td.style.cssText = "display: none;";
 		}
-		td.appendChild($("#cupricediv").children().html());
+		var select = getOpener().document.createElement("select");
+		var cupriceselect = $("#cupricediv").children().html();
+		select.innerHTML = cupriceselect;
+		
+		td.appendChild(select);
 		return td;
 	}
 	
@@ -510,6 +521,9 @@
 								<input type="hidden" value="<s:property value="item10"/>"/>
 								<input type="hidden" value="<s:iterator id="makeareaList" value="makeareaList" status="st3"><s:if test="%{makeareaList[#st3.index].code == productList[#st1.index].makearea}"><s:property value="fieldname"/></s:if></s:iterator>"/>
 								<input type="hidden" value="<s:property value="item11"/>"/>
+								
+								<input type="hidden" value="<s:property value="cuprice"/>"/>
+								<input type="hidden" value="<s:property value="taxcuprice"/>"/>
 							</td>
 							<!-- <td><input name="radioKey" type="radio" value="<s:property value="id"/>"/></td> -->
 							<td><input name="radioKey" type="checkbox" value="<s:property value="id"/>"/></td>

@@ -11,6 +11,21 @@ import com.cn.dsyg.dto.SalesItemDto;
  * @version 1.0
  */
 public interface SalesItemDao {
+	
+	/**
+	 * 根据对应产品以及当前设置的价格区间数据查询最近的一次询价信息
+	 * @param fieldno 类型
+	 * @param tradename 品名
+	 * @param typeno 规格
+	 * @param packaging 包装
+	 * @param unit 单位
+	 * @param makearea 产地
+	 * @param cupricecode 对应价格区间code
+	 * @param customerid
+	 * @return
+	 */
+	public SalesItemDto queryCuPriceByProductInfo(String fieldno, String tradename,
+			String typeno, String packaging, String unit, String makearea, String cupricecode, String customerid);
 
 	//detail start
 	/**

@@ -6,6 +6,14 @@ import com.cn.common.util.Page;
 import com.cn.dsyg.dto.SalesItemDto;
 
 public interface SalesItemService {
+	
+	/**
+	 * 根据产品ID查询最近一次询价（和当前时间价格匹配）的价格记录
+	 * @param productid
+	 * @param customerid
+	 * @return
+	 */
+	public SalesItemDto queryCuPriceByProduct(String productid, String customerid);
 
 	/**
 	 * 根据销售单号查询销售单货物列表

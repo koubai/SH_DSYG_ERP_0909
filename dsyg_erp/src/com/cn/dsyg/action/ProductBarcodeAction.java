@@ -222,7 +222,7 @@ public class ProductBarcodeAction extends BaseAction {
 		//翻页查询所有委托公司
 		this.page.setStartIndex(startIndex);
 		page = productService.queryProductByPage(strFieldno, strItem10, strKeyword, strPackaging, "", "", "",
-				"", "" + Constants.STATUS_NORMAL, page);
+				"", "" + Constants.STATUS_NORMAL, "", page);
 		productList = (List<ProductDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
 	}

@@ -1,12 +1,17 @@
 package com.cn.dsyg.action;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.struts2.ServletActionContext;
 
 import com.cn.common.action.BaseAction;
 import com.cn.common.util.Constants;
@@ -17,8 +22,10 @@ import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.FeatureDto;
 import com.cn.dsyg.dto.ProductDto;
+import com.cn.dsyg.dto.SalesItemDto;
 import com.cn.dsyg.service.Dict01Service;
 import com.cn.dsyg.service.ProductService;
+import com.cn.dsyg.service.SalesItemService;
 import com.opensymphony.xwork2.ActionContext;
 
 /**
@@ -34,6 +41,7 @@ public class ProductAction extends BaseAction {
 	
 	private ProductService productService;
 	private Dict01Service dict01Service;
+	private SalesItemService salesItemService;
 	
 	//页码
 	private int startIndex;
@@ -60,6 +68,8 @@ public class ProductAction extends BaseAction {
 	//铜价区间代码表记录
 	private List<Dict01Dto> cuPriceDict01List;
 	private String strSalesType;
+	private String strCustomerid;
+	private String strProductid;
 		
 	private String strFieldno;
 	private String strItem10;//包装
@@ -96,6 +106,37 @@ public class ProductAction extends BaseAction {
 	
 	//删除
 	private String delProductId;
+	
+	/**
+	 * 查询价格
+	 * @return
+	 * @throws IOException
+	 */
+	public String queryCuPriceAjax() throws IOException {
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out;
+		String result = "";
+		try {
+			this.clearMessages();
+			SalesItemDto salesItemDto = salesItemService.queryCuPriceByProduct(strProductid, strCustomerid);
+			if(salesItemDto != null) {
+				result = "{\"resultCode\":0,\"cuprice\":\"" + salesItemDto.getUnitprice()
+						+ "\",\"taxcuprice\":\"" + salesItemDto.getTaxunitprice() + "\"}";
+			} else {
+				result = "{\"resultCode\":1}";
+			}
+		} catch(Exception e) {
+			//系统异常
+			result = "{\"resultCode\":-1}";
+			log.error("queryCuPriceAjax error:" + e);
+		}
+		out = response.getWriter();
+		log.info(result);
+		out.write(result);
+		out.flush();
+		return null;
+	}
 	
 	/**
 	 * 删除数据
@@ -965,7 +1006,7 @@ public class ProductAction extends BaseAction {
 		//翻页查询所有委托公司
 		this.page.setStartIndex(startIndex);
 		page = productService.queryProductByPage(strFieldno, strItem10, strKeyword, strPackaging, strTradename, strTypeno, strColor,
-				strSupplierId, "" + Constants.STATUS_NORMAL, page);
+				strSupplierId, "" + Constants.STATUS_NORMAL, strCustomerid, page);
 		productList = (List<ProductDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
 	}
@@ -1307,5 +1348,29 @@ public class ProductAction extends BaseAction {
 
 	public void setStrSalesType(String strSalesType) {
 		this.strSalesType = strSalesType;
+	}
+
+	public String getStrCustomerid() {
+		return strCustomerid;
+	}
+
+	public void setStrCustomerid(String strCustomerid) {
+		this.strCustomerid = strCustomerid;
+	}
+
+	public SalesItemService getSalesItemService() {
+		return salesItemService;
+	}
+
+	public void setSalesItemService(SalesItemService salesItemService) {
+		this.salesItemService = salesItemService;
+	}
+
+	public String getStrProductid() {
+		return strProductid;
+	}
+
+	public void setStrProductid(String strProductid) {
+		this.strProductid = strProductid;
 	}
 }

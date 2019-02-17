@@ -2,15 +2,21 @@ package com.cn.dsyg.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.cn.common.util.Constants;
+import com.cn.common.util.DateUtil;
 import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
+import com.cn.dsyg.dao.CuPriceDao;
 import com.cn.dsyg.dao.Dict01Dao;
+import com.cn.dsyg.dao.ProductDao;
 import com.cn.dsyg.dao.SalesItemDao;
+import com.cn.dsyg.dto.CuPriceDto;
 import com.cn.dsyg.dto.Dict01Dto;
+import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.dto.SalesItemDto;
 import com.cn.dsyg.service.SalesItemService;
 
@@ -24,7 +30,26 @@ public class SalesItemServiceImpl implements SalesItemService {
 	
 	private SalesItemDao salesItemDao;
 	private Dict01Dao dict01Dao;
+	private CuPriceDao cuPriceDao;
+	private ProductDao productDao;
 
+	@Override
+	public SalesItemDto queryCuPriceByProduct(String productid, String customerid) {
+		//查询当前最近一次设置的价格区间
+		String setdate = DateUtil.dateToShortStr(new Date());
+		CuPriceDto cuPriceDto = cuPriceDao.queryLastCuPriceBySetDate(setdate);
+		if(cuPriceDto != null) {
+			ProductDto productDto = productDao.queryProductByID(productid);
+			if(productDto != null) {
+				SalesItemDto salesItemDto = salesItemDao.queryCuPriceByProductInfo(productDto.getFieldno(), productDto.getTradename(),
+						productDto.getTypeno(), productDto.getPackaging(), productDto.getUnit(),
+						productDto.getMakearea(), cuPriceDto.getCu_price_code(), customerid);
+				return salesItemDto;
+			}
+		}
+		return null;
+	}
+	
 	@Override
 	public List<SalesItemDto> querySalesItemBySalesno(String salesno) {
 		List<SalesItemDto> list = salesItemDao.querySalesItemBySalesno(salesno);
@@ -119,5 +144,21 @@ public class SalesItemServiceImpl implements SalesItemService {
 
 	public void setDict01Dao(Dict01Dao dict01Dao) {
 		this.dict01Dao = dict01Dao;
+	}
+
+	public CuPriceDao getCuPriceDao() {
+		return cuPriceDao;
+	}
+
+	public void setCuPriceDao(CuPriceDao cuPriceDao) {
+		this.cuPriceDao = cuPriceDao;
+	}
+
+	public ProductDao getProductDao() {
+		return productDao;
+	}
+
+	public void setProductDao(ProductDao productDao) {
+		this.productDao = productDao;
 	}
 }
