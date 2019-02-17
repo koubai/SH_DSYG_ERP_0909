@@ -603,6 +603,7 @@
 	
 	//销售货物列表
 	function setSalesItemList() {
+		var res02 = getRadioValue("salesType");
 		$("#salesItemTable").empty();
 		var rows = document.getElementById("productData").rows;
 		var productAmountInfo = "";
@@ -663,6 +664,21 @@
 			
 			td.appendChild(createInput("addSalesItemList[" + i + "].taxunitprice", taxunitprice));
 			
+			if(res02 == "1") {
+				//询价才有铜价信息
+				//铜价区间
+				var cupriceobj = rows[i].cells[15].getElementsByTagName("select");
+				var cuprice = cupriceobj[0].value;
+				if(cuprice == "") {
+					alert("铜价区间不能为空！");
+					$("#" + cupriceobj[0].id).focus();
+					return false;
+				}
+				td.appendChild(createInput("addSalesItemList[" + i + "].res03", cuprice));
+			} else {
+				td.appendChild(createInput("addSalesItemList[" + i + "].res03", ""));
+			}
+			
 			td.appendChild(createInput("addSalesItemList[" + i + "].quantity", quantity));
 			td.appendChild(createInput("addSalesItemList[" + i + "].beforequantity", beforequantity));
 			td.appendChild(createInput("addSalesItemList[" + i + "].outquantity", outquantity));
@@ -710,7 +726,7 @@
 		//var url = '<%=request.getContextPath()%>/warehouse/showWarehouseProductSelectAction.action';
 		//url += "?strFieldno=" + theme1 + "&strCustomerId=" + customerid + "&date=" + new Date();
 		var url = '<%=request.getContextPath()%>/product/showSalesProductSelectPage.action';
-		url += "?strFieldno=" + theme1 + "&date=" + new Date();
+		url += "?strSalesType=" + getRadioValue("salesType") + "&strFieldno=" + theme1 + "&date=" + new Date();
 		
 		//window.open(url);
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
@@ -807,8 +823,10 @@
 	
 	function checkSalesType(obj) {
 		if(obj.value == "0") {
+			$(".cupricetd").hide();
 			$("#theme2").attr("disabled", "");
 		} else {
+			$(".cupricetd").show();
 			$("#theme2").val("");
 			$("#theme2").attr("disabled", "disabled");
 		}
@@ -1179,6 +1197,12 @@
 											<td width="85" >预出库数</td>
 											<td width="70" >已出库数</td>
 											<td width="70" >未出库数</td>
+											<s:if test='addSalesDto.res02 == "1"'>
+												<td width="100" class="cupricetd">铜价区间</td>
+											</s:if>
+											<s:else>
+												<td width="100" class="cupricetd" style="display: none;">铜价区间</td>
+											</s:else>
 											<td width="90" >未税单价</td>
 											<td width="90" style="background:#86e657;">含税单价</td>
 											<td width="110" >销售金额（未税）</td>
@@ -1265,6 +1289,19 @@
 													</td>
 													<td align="right"><s:property value="outquantity"/></td>
 													<td><br /></td>
+													<s:if test='addSalesDto.res02 == "1"'>
+													<td class="cupricetd">
+													</s:if>
+													<s:else>
+													<td class="cupricetd" style="display: none;">
+													</s:else>
+														<select name="tmpCuPrice" id="tmpCuPrice_<s:property value="productid"/>" style="width: 90px;">
+															<option value="" selected="selected">请选择</option>
+															<s:iterator id="cuPriceDict01List" value="cuPriceDict01List" status="st3">
+																<option value="<s:property value="code"/>" <s:if test="%{cuPriceDict01List[#st3.index].code == addSalesItemList[#st1.index].res03}">selected</s:if>><s:property value="fieldname"/></option>
+															</s:iterator>
+														</select>
+													</td>
 													<td align="right">
 														<input type="text" style="width: 80px;" id="tmpUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '4');" maxlength="17" value="<s:property value="unitprice"/>"/>
 													</td>

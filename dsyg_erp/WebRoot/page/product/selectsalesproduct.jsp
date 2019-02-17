@@ -236,6 +236,11 @@
 		td = createTd("0");
 		tr.appendChild(td);
 		
+		//铜价信息列表
+		//TODO
+		td = createCuPriceTd();
+		tr.appendChild(td);
+		
 		//税前单价
 		td = createTdInputAddValue("tmpUnitprice", wid, 17, "calcquantity(this, '4');", id, salesprice);
 		//td = createTd(purchaseprice);
@@ -264,6 +269,20 @@
 		
 		getOpener().document.getElementById("productlist").value = productlist + id + ",";
 		getOpener().document.getElementById("productData").appendChild(tr);
+	}
+	
+	function createCuPriceTd() {
+		var td = getOpener().document.createElement("td");
+		td.className = "cupricetd";
+		var strSalesType = $("#strSalesType").val();
+		if(strSalesType == "1") {
+			//询价需要展示这一列
+			td.style.cssText = "";
+		} else {
+			td.style.cssText = "display: none;";
+		}
+		td.appendChild($("#cupricediv").children().html());
+		return td;
 	}
 	
 	function createTdInputAddValue(name, wid, maxlength, onblurevent, productid, v) {
@@ -393,6 +412,7 @@
 </head>
 <body style="background: url(''); overflow-x:hidden;overflow-y:hidden;">
 <s:form id="mainform" name="mainform" method="POST">
+	<s:hidden name="strSalesType" id="strSalesType"></s:hidden>
 	<s:hidden name="common_rate" id="common_rate"></s:hidden>
 	<s:hidden name="startIndex" id="startIndex"/>
 	<s:hidden name="intPageSize" id="intPageSize"/>
@@ -425,6 +445,14 @@
 							<option value="<s:property value="code"/>" <s:if test="%{colorList[#st1.index].code == strColor}">selected</s:if>><s:property value="fieldname"/></option>
 						</s:iterator>
 					</select>
+					<div id="cupricediv" style="display: none;">
+						<select id="" name="tmpCuPrice" style="width: 90px;">
+							<option value="" selected="selected">请选择</option>
+							<s:iterator id="cuPriceDict01List" value="cuPriceDict01List" status="st3">
+								<option value="<s:property value="code"/>"><s:property value="fieldname"/></option>
+							</s:iterator>
+						</select>
+					</div>
 				</div>
 				<div class="box1_right"></div>
 			</div>

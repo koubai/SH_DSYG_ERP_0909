@@ -57,6 +57,10 @@ public class ProductAction extends BaseAction {
 	//套管特征列表
 	private List<FeatureDto> featureList02;
 	
+	//铜价区间代码表记录
+	private List<Dict01Dto> cuPriceDict01List;
+	private String strSalesType;
+		
 	private String strFieldno;
 	private String strItem10;//包装
 	private String strKeyword;
@@ -534,6 +538,7 @@ public class ProductAction extends BaseAction {
 	public String showSalesProductSelectPage() {
 		try {
 			this.clearMessages();
+			cuPriceDict01List = dict01Service.queryDict01ByFieldcode(Constants.DICT_CU_PRICE_AREA, Constants.SYSTEM_LANGUAGE_ENGLISH);
 			//这里产品选择页面，不需要关键字检索
 			strKeyword = "";
 			startIndex = 0;
@@ -669,6 +674,7 @@ public class ProductAction extends BaseAction {
 	 */
 	public String querySalesProductSelectPage() {
 		try {
+			cuPriceDict01List = dict01Service.queryDict01ByFieldcode(Constants.DICT_CU_PRICE_AREA, Constants.SYSTEM_LANGUAGE_ENGLISH);
 			this.clearMessages();
 			startIndex = 0;
 			//默认10条
@@ -691,6 +697,7 @@ public class ProductAction extends BaseAction {
 	public String turnSalesProductSelectPage() {
 		try {
 			this.clearMessages();
+			cuPriceDict01List = dict01Service.queryDict01ByFieldcode(Constants.DICT_CU_PRICE_AREA, Constants.SYSTEM_LANGUAGE_ENGLISH);
 			queryData();
 		} catch(Exception e) {
 			log.error("turnSalesProductSelectPage error:" + e);
@@ -1284,5 +1291,21 @@ public class ProductAction extends BaseAction {
 
 	public void setStrPackaging(String strPackaging) {
 		this.strPackaging = strPackaging;
+	}
+
+	public List<Dict01Dto> getCuPriceDict01List() {
+		return cuPriceDict01List;
+	}
+
+	public void setCuPriceDict01List(List<Dict01Dto> cuPriceDict01List) {
+		this.cuPriceDict01List = cuPriceDict01List;
+	}
+
+	public String getStrSalesType() {
+		return strSalesType;
+	}
+
+	public void setStrSalesType(String strSalesType) {
+		this.strSalesType = strSalesType;
 	}
 }

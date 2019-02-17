@@ -23,6 +23,7 @@ import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.SalesDto;
 import com.cn.dsyg.dto.SalesExtDto;
 import com.cn.dsyg.dto.SalesItemDto;
+import com.cn.dsyg.service.CuPriceService;
 import com.cn.dsyg.service.Dict01Service;
 import com.cn.dsyg.service.SalesHisService;
 import com.cn.dsyg.service.SalesItemHisService;
@@ -47,6 +48,7 @@ public class SalesAction extends BaseAction {
 	private SalesHisService salesHisService;
 	private SalesItemHisService salesItemHisService;
 	private Dict01Service dict01Service;
+	private CuPriceService cuPriceService;
 	
 	//页码
 	private int startIndex;
@@ -84,7 +86,10 @@ public class SalesAction extends BaseAction {
 	private List<Dict01Dto> makeareaList;
 	//支付方式
 	private List<Dict01Dto> payTypeList;
-		
+	
+	//铜价区间代码表记录
+	private List<Dict01Dto> cuPriceDict01List;
+	
 	//新增
 	private SalesDto addSalesDto;
 	private List<SalesItemDto> addSalesItemList;
@@ -858,6 +863,8 @@ public class SalesAction extends BaseAction {
 		colorList = dict01Service.queryDict01ByFieldcode(Constants.DICT_COLOR_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
 		//支付方式
 		payTypeList = dict01Service.queryDict01ByFieldcode(Constants.DICT_PAY_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+		
+		cuPriceDict01List = dict01Service.queryDict01ByFieldcode(Constants.DICT_CU_PRICE_AREA, Constants.SYSTEM_LANGUAGE_ENGLISH);
 	}
 
 	public SalesService getSalesService() {
@@ -1218,6 +1225,22 @@ public class SalesAction extends BaseAction {
 
 	public void setSalesItemHistList(List<SalesItemDto> salesItemHistList) {
 		this.salesItemHistList = salesItemHistList;
+	}
+
+	public CuPriceService getCuPriceService() {
+		return cuPriceService;
+	}
+
+	public void setCuPriceService(CuPriceService cuPriceService) {
+		this.cuPriceService = cuPriceService;
+	}
+
+	public List<Dict01Dto> getCuPriceDict01List() {
+		return cuPriceDict01List;
+	}
+
+	public void setCuPriceDict01List(List<Dict01Dto> cuPriceDict01List) {
+		this.cuPriceDict01List = cuPriceDict01List;
 	}
 
 
