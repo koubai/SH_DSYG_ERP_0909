@@ -161,6 +161,7 @@ public class SalesAction extends BaseAction {
 	public String showHistDetailAction() {
 		try {
 			this.clearMessages();
+			initDictList();
 			salesHistDetail = salesHisService.querySalesHisByID(salesHistId);
 			salesItemHistList = salesItemHisService.querySalesItemHisBySalesid(salesHistId);
 		} catch(Exception e) {

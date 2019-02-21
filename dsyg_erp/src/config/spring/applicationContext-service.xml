@@ -357,6 +357,12 @@
 		<property name="dict01Dao">
 			<ref local="dict01Dao"/>
 		</property>
+		<property name="cuPriceDao">
+			<ref local="cuPriceDao"/>
+		</property>
+		<property name="productDao">
+			<ref local="productDao"/>
+		</property>
 	</bean>
 	<bean id="salesItemHisService" class="com.cn.dsyg.service.impl.SalesItemHisServiceImpl" >
 		<property name="salesItemHisDao">
@@ -503,6 +509,12 @@
 		</property>
 		<property name="productBarcodeDao">
 			<ref local="productBarcodeDao"/>
+		</property>
+		<property name="cuPriceDao">
+			<ref local="cuPriceDao"/>
+		</property>
+		<property name="salesItemDao">
+			<ref local="salesItemDao"/>
 		</property>
 	</bean>
 	

@@ -78,13 +78,13 @@
 				return;
 			}
 			//计算未税金额
-			var purchaseAmount = tds[17].getElementsByTagName("input")[0].value.trim();
+			var purchaseAmount = tds[18].getElementsByTagName("input")[0].value.trim();
 			if(purchaseAmount == "") {
 				purchaseAmount = 0;
 			}
 			var taxamount = parseFloat(purchaseAmount) * (1 + parseFloat(rate));
 			//计算含税金额
-			tds[18].getElementsByTagName("input")[0].value = taxamount.toFixed(2);
+			tds[19].getElementsByTagName("input")[0].value = taxamount.toFixed(2);
 			//隐藏域
 			//销售金额未税
 			inputs[13].value = purchaseAmount;
@@ -99,13 +99,13 @@
 				return;
 			}
 			//销售金额已税
-			var purchaseTaxamount = tds[18].getElementsByTagName("input")[0].value.trim();
+			var purchaseTaxamount = tds[19].getElementsByTagName("input")[0].value.trim();
 			if(purchaseTaxamount == "") {
 				purchaseTaxamount = 0;
 			}
 			var amount = parseFloat(purchaseTaxamount) / (1 + parseFloat(rate));
 			//计算未税金额
-			tds[17].getElementsByTagName("input")[0].value = amount.toFixed(2);
+			tds[18].getElementsByTagName("input")[0].value = amount.toFixed(2);
 			
 			//隐藏域
 			//销售金额未税
@@ -220,7 +220,7 @@
 		//销售单货物数量
 		var salesQuantity = inputQuantitys[0].value;
 		//销售金额已税
-		var salesTaxamount = tds[18].getElementsByTagName("input")[0].value;
+		var salesTaxamount = tds[19].getElementsByTagName("input")[0].value;
 		//预出库数量
 		var beforeQuantity = beforeQuantitys[0].value;
 		
@@ -228,7 +228,7 @@
 		var paidamount = $("#tmpPaidamount").val();
 		
 		//备注
-		var res09 = tds[20].getElementsByTagName("input")[0].value.trim();
+		var res09 = tds[21].getElementsByTagName("input")[0].value.trim();
 		
 		if(salesQuantity == "") {
 			salesQuantity = 0;
@@ -245,14 +245,14 @@
 		var rate = parseFloat($("#common_rate").val());
 		
 		//单价
-		var prices = tds[15].getElementsByTagName("input");
+		var prices = tds[16].getElementsByTagName("input");
 		//var price = tds[14].innerHTML;
 		var price = prices[0].value.trim();
 		if(price == "") {
 			price = 0;
 		}
 		//含税单价
-		var taxprices = tds[16].getElementsByTagName("input")[0].value.trim();
+		var taxprices = tds[17].getElementsByTagName("input")[0].value.trim();
 		if(taxprices == "") {
 			taxprices = 0;
 		}
@@ -260,12 +260,12 @@
 		if(type == "6") {
 			//计算未税单价
 			price = parseFloat(taxprices) / (1 + rate);
-			tds[15].getElementsByTagName("input")[0].value = price.toFixed(6);
+			tds[16].getElementsByTagName("input")[0].value = price.toFixed(6);
 		}
 		if(type == "4") {
 			//计算已税单价
 			taxprices = parseFloat(price) * (1 + rate);
-			tds[16].getElementsByTagName("input")[0].value = taxprices.toFixed(6);
+			tds[17].getElementsByTagName("input")[0].value = taxprices.toFixed(6);
 		}
 		
 		//已出库数量
@@ -522,6 +522,7 @@
 	
 	//销售货物列表
 	function setSalesItemList() {
+		var res02 = getRadioValue("salesType");
 		$("#salesItemTable").empty();
 		var rows = document.getElementById("productData").rows;
 		var productAmountInfo = "";
@@ -588,6 +589,21 @@
 			td.appendChild(createInput("updSalesItemList[" + i + "].unitprice", unitprice));
 			
 			td.appendChild(createInput("updSalesItemList[" + i + "].taxunitprice", taxunitprice));
+			
+			if(res02 == "1") {
+				//询价才有铜价信息
+				//铜价区间
+				var cupriceobj = rows[i].cells[15].getElementsByTagName("select");
+				var cuprice = cupriceobj[0].value;
+				if(cuprice == "") {
+					alert("铜价区间不能为空！");
+					$("#" + cupriceobj[0].id).focus();
+					return false;
+				}
+				td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].res03", cuprice));
+			} else {
+				td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].res03", ""));
+			}
 			
 			td.appendChild(createInput("updSalesItemList[" + i + "].quantity", quantity));
 			td.appendChild(createInput("updSalesItemList[" + i + "].beforequantity", beforequantity));
@@ -1100,7 +1116,7 @@
 									</table>
 								</div>
 								<div class="tab_content" style="height: 305px;">
-									<table id="productTable" class="info_tab" width="140%" border="1" cellpadding="5" cellspacing="0">
+									<table id="productTable" class="info_tab" width="145%" border="1" cellpadding="5" cellspacing="0">
 										<tr style="background:#eee; border-top:black solid 1px;">
 											<td style="width: 0px; display: none"></td>
 											<td width="30"></td>
@@ -1117,6 +1133,12 @@
 											<td width="85">预出库数</td>
 											<td width="70">已出库数</td>
 											<td width="70">未出库数</td>
+											<s:if test='updSalesDto.res02 == "1"'>
+												<td width="100" class="cupricetd">铜价区间</td>
+											</s:if>
+											<s:else>
+												<td width="100" class="cupricetd" style="display: none;">铜价区间</td>
+											</s:else>
 											<td width="90">未税单价</td>
 											<td width="90" style="background:#86e657;">含税单价</td>
 											<td width="110">销售金额（未税）</td>
@@ -1203,6 +1225,19 @@
 													</td>
 													<td align="right"><s:property value="outquantity"/></td>
 													<td align="right"><s:property value="remainquantity"/></td>
+													<s:if test='updSalesDto.res02 == "1"'>
+													<td class="cupricetd">
+													</s:if>
+													<s:else>
+													<td class="cupricetd" style="display: none;">
+													</s:else>
+														<select name="tmpCuPrice" disabled="disabled" id="tmpCuPrice_<s:property value="productid"/>" style="width: 90px;">
+															<option value="" selected="selected">请选择</option>
+															<s:iterator id="cuPriceDict01List" value="cuPriceDict01List" status="st3">
+																<option value="<s:property value="code"/>" <s:if test="%{cuPriceDict01List[#st3.index].code == updSalesItemList[#st1.index].res03}">selected</s:if>><s:property value="fieldname"/></option>
+															</s:iterator>
+														</select>
+													</td>
 													<td align="right">
 														<input type="text" disabled="disabled" style="width: 80px;" id="tmpUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '4');" maxlength="11" value="<s:property value="unitprice"/>"/>
 													</td>

@@ -82,13 +82,13 @@
 				return;
 			}
 			//计算未税金额
-			var purchaseAmount = tds[17].getElementsByTagName("input")[0].value.trim();
+			var purchaseAmount = tds[18].getElementsByTagName("input")[0].value.trim();
 			if(purchaseAmount == "") {
 				purchaseAmount = 0;
 			}
 			var taxamount = parseFloat(purchaseAmount) * (1 + parseFloat(rate));
 			//计算含税金额
-			tds[18].getElementsByTagName("input")[0].value = taxamount.toFixed(2);
+			tds[19].getElementsByTagName("input")[0].value = taxamount.toFixed(2);
 			//隐藏域
 			//销售金额未税
 			inputs[13].value = purchaseAmount;
@@ -103,13 +103,13 @@
 				return;
 			}
 			//销售金额已税
-			var purchaseTaxamount = tds[18].getElementsByTagName("input")[0].value.trim();
+			var purchaseTaxamount = tds[19].getElementsByTagName("input")[0].value.trim();
 			if(purchaseTaxamount == "") {
 				purchaseTaxamount = 0;
 			}
 			var amount = parseFloat(purchaseTaxamount) / (1 + parseFloat(rate));
 			//计算未税金额
-			tds[17].getElementsByTagName("input")[0].value = amount.toFixed(2);
+			tds[18].getElementsByTagName("input")[0].value = amount.toFixed(2);
 			
 			//隐藏域
 			//销售金额未税
@@ -224,7 +224,7 @@
 		//销售单货物数量
 		var salesQuantity = inputQuantitys[0].value;
 		//销售金额已税
-		var salesTaxamount = tds[18].getElementsByTagName("input")[0].value;
+		var salesTaxamount = tds[19].getElementsByTagName("input")[0].value;
 		//预出库数量
 		var beforeQuantity = beforeQuantitys[0].value;
 		
@@ -232,7 +232,7 @@
 		var paidamount = $("#tmpPaidamount").val();
 		
 		//备注
-		var res09 = tds[20].getElementsByTagName("input")[0].value.trim();
+		var res09 = tds[21].getElementsByTagName("input")[0].value.trim();
 		
 		if(salesQuantity == "") {
 			salesQuantity = 0;
@@ -249,7 +249,7 @@
 		var rate = parseFloat($("#common_rate").val());
 		
 		//单价
-		var prices = tds[15].getElementsByTagName("input");
+		var prices = tds[16].getElementsByTagName("input");
 		//var price = tds[14].innerHTML;
 		var price = prices[0].value.trim();
 		if(price == "") {
@@ -257,7 +257,7 @@
 		}
 		
 		//含税单价
-		var taxprices = tds[16].getElementsByTagName("input")[0].value.trim();
+		var taxprices = tds[17].getElementsByTagName("input")[0].value.trim();
 		if(taxprices == "") {
 			taxprices = 0;
 		}
@@ -265,12 +265,12 @@
 		if(type == "6") {
 			//计算未税单价
 			price = parseFloat(taxprices) / (1 + rate);
-			tds[15].getElementsByTagName("input")[0].value = price.toFixed(6);
+			tds[16].getElementsByTagName("input")[0].value = price.toFixed(6);
 		}
 		if(type == "4") {
 			//计算已税单价
 			taxprices = parseFloat(price) * (1 + rate);
-			tds[16].getElementsByTagName("input")[0].value = taxprices.toFixed(6);
+			tds[17].getElementsByTagName("input")[0].value = taxprices.toFixed(6);
 		}
 		
 		//已出库数量
@@ -300,7 +300,7 @@
 		
 		//销售金额未税
 		var amount = salesQuantity * parseFloat(price);
-		tds[17].getElementsByTagName("input")[0].value = amount.toFixed(2);
+		tds[18].getElementsByTagName("input")[0].value = amount.toFixed(2);
 		
 		//补充隐藏TD中的数据内容
 		//===============================================
@@ -323,7 +323,7 @@
 		var vv = amount * (1 + rate);
 		inputs[14].value = vv.toFixed(2);
 		//输入框金额也对应变更
-		tds[18].getElementsByTagName("input")[0].value = vv.toFixed(2);
+		tds[19].getElementsByTagName("input")[0].value = vv.toFixed(2);
 		
 		//销售金额未税
 		var calcAmount = 0;
@@ -755,7 +755,8 @@
 		//var url = '<%=request.getContextPath()%>/warehouse/showWarehouseProductSelectAction.action';
 		//url += "?strFieldno=" + theme1 + "&date=" + new Date();
 		var url = '<%=request.getContextPath()%>/product/showSalesProductSelectPage.action';
-		url += "?strSalesType=" + getRadioValue("salesType") + "&strFieldno=" + theme1 + "&date=" + new Date();
+		url += "?strSalesType=" + getRadioValue("salesType") + "&strCustomerid=" + $("#customerid").val()
+			+ "&strFieldno=" + theme1 + "&date=" + new Date();
 		
 		//window.open(url);
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
@@ -1243,7 +1244,7 @@
 									</table>
 								</div>
 								<div class="tab_content" style="height: 305px;">
-									<table id="productTable" class="info_tab" width="140%" border="1" cellpadding="5" cellspacing="0">
+									<table id="productTable" class="info_tab" width="145%" border="1" cellpadding="5" cellspacing="0">
 										<tr style="background:#eee; border-top:black solid 1px;">
 											<td style="width: 0px; display: none"></td>
 											<td width="30"></td>
