@@ -879,7 +879,12 @@
 	
 	function changeThis(obj) {
 		if(obj.checked) {
-			if(confirm("确定终了订单？")) {
+			var msg = "确定终了订单？";
+			var res02 = ${updSalesDto.res02};
+			if(res02 == "1") {
+				msg = "确定作废询价？";
+			}
+			if(confirm(msg)) {
 				document.mainform.action = "../sales/finishSalesAction.action";
 				document.mainform.submit();
 			} else {
@@ -1216,7 +1221,12 @@
 								</s:else>
 							</td>
 							<td align="right">
-								<label class="pdf10">订单终了</label>
+								<s:if test='updSalesDto.res02 == "1"'>
+									<label class="pdf10">询价作废</label>
+								</s:if>
+								<s:else>
+									<label class="pdf10">订单终了</label>
+								</s:else>
 							</td>
 							<td>
 								<input id="finishOrder" type="checkbox" onclick="changeThis(this);"/>

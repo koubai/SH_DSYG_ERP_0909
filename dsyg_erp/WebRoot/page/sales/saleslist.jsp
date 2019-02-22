@@ -399,17 +399,33 @@
 									<td align="right"><s:property value="paidamount"/></td>
 									<td align="right"><s:property value="quantity"/></td>
 									<td>
-										<s:if test="%{status == 10}">
-											未发货
+										<s:if test='%{res02 == "1"}'>
+											<s:if test="%{status == 10}">
+												未发货
+											</s:if>
+											<s:elseif test="%{status == 15}">
+												部分发货
+											</s:elseif>
+											<s:elseif test="%{status == 20}">
+												询价作废
+											</s:elseif>
+											<s:else>
+												<s:property value="status"/>
+											</s:else>
 										</s:if>
-										<s:elseif test="%{status == 15}">
-											部分发货
-										</s:elseif>
-										<s:elseif test="%{status == 20}">
-											发货完成
-										</s:elseif>
 										<s:else>
-											<s:property value="status"/>
+											<s:if test="%{status == 10}">
+												未发货
+											</s:if>
+											<s:elseif test="%{status == 15}">
+												部分发货
+											</s:elseif>
+											<s:elseif test="%{status == 20}">
+												发货完成
+											</s:elseif>
+											<s:else>
+												<s:property value="status"/>
+											</s:else>
 										</s:else>
 									</td>
 									<td><s:property value="note"/></td>
