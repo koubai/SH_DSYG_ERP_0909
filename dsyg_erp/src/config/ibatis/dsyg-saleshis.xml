@@ -58,7 +58,7 @@
 		<isNotEmpty prepend="and" property="salesno">
 			T.theme2 = #salesno#
 		</isNotEmpty>
-		order by id desc
+		order by id 
 		LIMIT #start#, #end#
 	</select>
 	

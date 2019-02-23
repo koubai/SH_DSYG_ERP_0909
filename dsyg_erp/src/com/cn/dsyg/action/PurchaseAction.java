@@ -256,6 +256,7 @@ public class PurchaseAction extends BaseAction {
 			//当前操作用户ID
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
 			//更新数据
+			updPurchaseDto.setUpdateuid(username);
 			purchaseService.updatePurchase(updPurchaseDto, updPurchaseItemList, username);
 			//刷新页面
 			updPurchaseItemList = purchaseItemService.queryPurchaseItemByPurchaseno(updPurchaseDto.getPurchaseno());
@@ -345,6 +346,7 @@ public class PurchaseAction extends BaseAction {
 			//当前操作用户ID
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
 			//更新数据
+			updPurchaseDto.setUpdateuid(username);
 			purchaseService.updatePurchase(updPurchaseDto, tmpUpdPurchaseItemList, username);
 			//刷新页面
 			updPurchaseItemList = purchaseItemService.queryPurchaseItemByPurchaseno(updPurchaseDto.getPurchaseno());

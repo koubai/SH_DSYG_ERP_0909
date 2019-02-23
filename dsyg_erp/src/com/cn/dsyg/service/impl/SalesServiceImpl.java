@@ -640,6 +640,10 @@ public class SalesServiceImpl implements SalesService {
 			salesDao.deleteSales(id);
 			//删除warehouse记录
 			warehouseDao.deleteWarehouseByParentid(sales.getSalesno(), "", "");
+			
+			//添加履历
+			SalesDto salesHis = getSalesHis(sales);
+			long salesid = salesHisDao.insertSalesHis(salesHis);
 		}
 		
 		//逻辑删除
@@ -648,6 +652,7 @@ public class SalesServiceImpl implements SalesService {
 //			sales.setUpdateuid(userid);
 //			salesDao.updateSales(sales);
 //		}
+		
 	}
 
 	@Override
@@ -658,11 +663,17 @@ public class SalesServiceImpl implements SalesService {
 	@Override
 	public void finishSales(String id, String userid) {
 		SalesDto sales = salesDao.querySalesByID(id);
+
 		if(sales != null) {
 			//状态=终了（已收货）
 			sales.setStatus(Constants.SALES_STATUS_WAREHOUSE_OK);
 			sales.setUpdateuid(userid);
 			salesDao.updateSales(sales);
+			
+			//添加履历
+			SalesDto salesHis = getSalesHis(sales);
+			long salesid = salesHisDao.insertSalesHis(salesHis);
+
 		}
 	}
 

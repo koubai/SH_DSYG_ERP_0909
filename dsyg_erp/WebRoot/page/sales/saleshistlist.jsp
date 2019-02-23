@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="c" uri="/WEB-INF/c.tld" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -21,8 +22,8 @@
 			return;
 		} else {
 			var url = "<%=request.getContextPath()%>/sales/showHistDetailAction.action?salesHistId=" + id + "&date=" + new Date();
-			window.showModalDialog(url, window, "dialogheight:680px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no;scrollbars=yes;");
-			//window.open(url, "", "height=680, width=1200, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+			//window.showModalDialog(url, window, "dialogheight:680px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no;scrollbars=yes;");
+			window.open(url, "_blank", "height=680, width=1200, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
 			
 		}
 	}
@@ -115,14 +116,15 @@
 					</tr>
 					<s:iterator id="salesHistList" value="salesHistList" status="st1">
 						<s:if test="#st1.odd==true">
-							<tr class="tr_bg">
+							<tr class="tr_bg" onclick="checkRadioTr(this, event);">
 						</s:if>
 						<s:else>
-							<tr>
+							<tr onclick="checkRadioTr(this, event);"> 
 						</s:else>
 							<td><input name="radioKey" type="radio" value="<s:property value="id"/>"/></td>
 							<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
-							<td><s:property value="updatedate"/></td>
+							<!-- <td><s:property value="updatedate"/></td> -->
+							<td><fmt:formatDate value='${updatedate}' pattern='yyyy-MM-dd HH:mm:ss' /></td>
 							<td><s:property value="updateuid"/></td>
 						</tr>
 					</s:iterator>

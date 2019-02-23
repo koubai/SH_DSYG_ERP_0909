@@ -235,6 +235,7 @@ public class SalesAction extends BaseAction {
 			//当前操作用户ID
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
 			salesService.finishSales(updSalesId, username);
+			
 			this.addActionMessage("修改成功！");
 		} catch(Exception e) {
 			log.error("finishSalesAction error:" + e);
@@ -344,6 +345,7 @@ public class SalesAction extends BaseAction {
 			//当前操作用户ID
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
 			//更新数据
+			updSalesDto.setUpdateuid(username);
 			salesService.updateSales(updSalesDto, updSalesItemList, username);
 			//刷新页面
 			updSalesItemList = salesItemService.querySalesItemBySalesno(updSalesDto.getSalesno());
@@ -423,7 +425,9 @@ public class SalesAction extends BaseAction {
 
 			//当前操作用户ID
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
+			System.out.println("username: "+  username);
 			//更新数据
+			updSalesDto.setUpdateuid(username);
 			salesService.updateSales(updSalesDto, tmpUpdSalesItemList, username);
 			//刷新页面
 			updSalesItemList = salesItemService.querySalesItemBySalesno(updSalesDto.getSalesno());

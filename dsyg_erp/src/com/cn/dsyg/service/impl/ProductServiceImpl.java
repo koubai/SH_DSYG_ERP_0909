@@ -110,12 +110,12 @@ public class ProductServiceImpl implements ProductService {
 					SalesItemDto salesItemDto = salesItemDao.queryCuPriceByProductInfo(productDto.getFieldno(), productDto.getTradename(),
 							productDto.getTypeno(), productDto.getPackaging(), productDto.getUnit(),
 							productDto.getMakearea(), cuPriceDto.getCu_price_code(), customerid);
-					if(salesItemDto != null) {
+/*					if(salesItemDto != null) {
 						System.out.println("=======================cuprice=" + salesItemDto.getUnitprice());
 					} else {
 						System.out.println("=======================salesItemDto=" + salesItemDto);
 					}
-					return salesItemDto;
+*/					return salesItemDto;
 				}
 			}
 		}
