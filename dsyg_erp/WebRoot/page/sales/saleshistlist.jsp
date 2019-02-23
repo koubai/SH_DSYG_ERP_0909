@@ -122,7 +122,7 @@
 							<tr onclick="checkRadioTr(this, event);"> 
 						</s:else>
 							<td><input name="radioKey" type="radio" value="<s:property value="id"/>"/></td>
-							<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
+							<td><s:property value="pageHist.pageSize * (pageHist.nextIndex - 1) + #st1.index + 1"/></td>
 							<!-- <td><s:property value="updatedate"/></td> -->
 							<td><fmt:formatDate value='${updatedate}' pattern='yyyy-MM-dd HH:mm:ss' /></td>
 							<td><s:property value="updateuid"/></td>
