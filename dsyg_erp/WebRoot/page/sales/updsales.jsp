@@ -667,7 +667,7 @@
 			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].unitprice", unitprice));
 			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].taxunitprice", taxunitprice));
 			
-			if(res02 == "1") {
+			if(res02 == "1" && theme1 == "01") {
 				//询价才有铜价信息
 				//铜价区间
 				var cupriceobj = rows[i].cells[15].getElementsByTagName("select");

@@ -179,7 +179,7 @@
 			and A.packaging = #packaging#
 			and A.unit = #unit#
 			and A.makearea = #makearea#
-			and A.res03 = #cupricecode#
+			and (A.res03 = #cupricecode# or A.res03 = '20' or A.res03 = '60')
 			order by A.createdate,A.id desc
 	</select>
 	
