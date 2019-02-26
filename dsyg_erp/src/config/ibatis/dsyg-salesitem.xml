@@ -353,6 +353,7 @@
 			taxunitprice = #taxunitprice#,
 			amount = #amount#,
 			taxamount = #taxamount#,
+			customerid = #customerid#,
 			plandate = #plandate#,
 			approverid = #approverid#,
 			note = #note#,

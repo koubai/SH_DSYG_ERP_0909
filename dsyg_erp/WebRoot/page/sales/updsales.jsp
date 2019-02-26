@@ -926,6 +926,8 @@
 				<s:hidden name="updSalesDto.amount" id="amount"></s:hidden>
 				<s:hidden name="updSalesDto.status" id="status"></s:hidden>
 				
+				<s:hidden name="updSalesDto.plandate" id="plandate"></s:hidden>
+				
 				<s:hidden name="updSalesDto.handler" id="handler"></s:hidden>
 				<s:hidden name="updSalesDto.handlername" id="handlername"></s:hidden>
 				

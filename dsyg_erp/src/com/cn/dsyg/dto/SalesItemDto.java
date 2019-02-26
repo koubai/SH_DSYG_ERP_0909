@@ -205,7 +205,7 @@ public class SalesItemDto extends BaseAction {
 	private String res05;
 
 	/**
-	 * 预备项目6
+	 * 预备项目6(被履历表使用)
 	 */
 	private String res06;
 

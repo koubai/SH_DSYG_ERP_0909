@@ -337,15 +337,21 @@ public class SalesServiceImpl implements SalesService {
 
 					//预出库数重置为0
 					salesItem.setBeforequantity(new BigDecimal(0));
+					//2019.02.26 Pei for bug fix(salesitem update insufficent) start 
+					salesItem.setTheme2(sales.getTheme2());
+					salesItem.setBelongto(sales.getBelongto());
+					salesItem.setCustomerid("" + sales.getCustomerid());
+					salesItem.setPlandate("" + sales.getPlandate());
+					//2019.02.26 Pei for bug fix(salesitem update insufficent) end 
 					salesItemDao.updateSalesItem(salesItem);
 					
 					//添加履历
 					//销售单号
 					salesItem.setSalesno(sales.getSalesno());
 					//用户自己输入的订单号
-					salesItem.setTheme2(sales.getTheme2());
-					salesItem.setBelongto(sales.getBelongto());
-					salesItem.setCustomerid("" + sales.getCustomerid());
+//					salesItem.setTheme2(sales.getTheme2());
+//					salesItem.setBelongto(sales.getBelongto());
+//					salesItem.setCustomerid("" + sales.getCustomerid());
 					salesItem.setRes06("" + salesid);
 					salesItemHisDao.insertSalesItemHis(salesItem);
 				}
