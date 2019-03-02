@@ -81,28 +81,28 @@
 	
 	<select id="queryPositionCollectByPage" parameterClass="java.util.Map" resultMap="PositionCollectDto">
 		select A.* from (
-			select T.handler,T.checkday,count(T.checkday) as num from etb_position T where 1 = 1 and status = 1
+			select T.checkday,T.handler,count(T.checkday) as num from etb_position T where 1 = 1 and status = 1
 			<isNotEmpty prepend="and" property="handler">
 				T.handler = #handler#
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="checkday">
 				T.checkday = #checkday#
 			</isNotEmpty>
-			group by T.handler,T.checkday
-		) A order by A.num desc,A.handler asc
+			group by T.checkday,T.handler
+		) A order by A.checkday desc, A.num desc, A.handler asc
 		LIMIT #start#, #end#
 	</select>
 	
 	<select id="queryPositionCollectCountByPage" resultClass="int" parameterClass="java.util.Map">
 		select count(*) from (
-			select T.handler,T.checkday,count(T.checkday) as num from etb_position T where 1 = 1 and status = 1
+			select T.checkday,T.handler,count(T.checkday) as num from etb_position T where 1 = 1 and status = 1
 			<isNotEmpty prepend="and" property="handler">
 				T.handler = #handler#
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="checkday">
 				T.checkday = #checkday#
 			</isNotEmpty>
-			group by T.handler,T.checkday
+			group by T.checkday,T.handler
 		) A
 	</select>
 	

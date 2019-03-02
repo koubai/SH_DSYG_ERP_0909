@@ -36,7 +36,8 @@
 						<td width="60">包装</td>
 						<td width="100">盘点前数量</td>
 						<td width="80">盘点数量</td>
-						<td width="100">位置</td>
+						<td width="90">批次</td>
+						<td width="10">位置</td>
 						<td width="80">盘点人</td>
 					</tr>
 					<s:iterator id="positionDetailList" value="positionDetailList" status="st1">
@@ -72,6 +73,9 @@
 							</td>
 							<td>
 								<s:property value="amount"/>
+							</td>
+							<td>
+						        <s:property value="res01"/>
 							</td>
 							<td>
 								<s:property value="productposition"/>

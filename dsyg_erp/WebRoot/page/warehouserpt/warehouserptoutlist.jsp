@@ -210,7 +210,8 @@
 								<td width="60">创建时间</td>
 								<td width="60">来源类型</td>
 								<td width="120">客户</td>
-								<td width="80">联系人</td>
+								<!-- <td width="80">联系人</td> -->
+								<td width="80">制单人</td>
 								<td width="80">含税金额</td>
 								<!--
 								<td width="120">快递单号</td>
@@ -247,7 +248,8 @@
 										</s:else>
 									</td>
 									<td><s:property value="suppliername"/></td>
-									<td><s:property value="suppliermanager"/></td>
+									<!--<td><s:property value="suppliermanager"/></td>-->
+									<td><s:property value="createuid"/></td>
 									<td align="right"><s:property value="totaltaxamount"/></td>
 									<!--
 									<td><s:property value="expressno"/></td>

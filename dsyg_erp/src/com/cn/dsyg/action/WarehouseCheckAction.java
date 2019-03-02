@@ -107,6 +107,12 @@ public class WarehouseCheckAction extends BaseAction {
 			initDictList();
 			positionDetailList = new ArrayList<PositionDto>();
 			positionDetailList = positionService.queryPositionListByLogicId(strUser, "", strDay);
+			for(PositionDto pdt: positionDetailList) {
+				if (pdt.getRes01()== null)
+					pdt.setRes01("");
+				else
+					pdt.setRes01(decodeProdHist(pdt.getRes01()));
+			}			
 		} catch(Exception e) {
 			log.error("showCollectDetailAction error:" + e);
 			return ERROR;

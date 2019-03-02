@@ -20,11 +20,14 @@ import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.ProductDto;
+import com.cn.dsyg.dto.UserDto;
+import com.cn.dsyg.dto.WarehouseCheckDto;
 import com.cn.dsyg.dto.WarehouserptDto;
 import com.cn.dsyg.service.Dict01Service;
 import com.cn.dsyg.service.ProductService;
 import com.cn.dsyg.service.PurchaseItemService;
 import com.cn.dsyg.service.PurchaseService;
+import com.cn.dsyg.service.UserService;
 import com.cn.dsyg.service.WarehouserptService;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -44,6 +47,7 @@ public class WarehouserptAction extends BaseAction {
 	private PurchaseItemService purchaseItemService;
 	private Dict01Service dict01Service;
 	private ProductService productService;
+	private UserService userService;
 	
 	//页码
 	private int startIndex;
@@ -66,7 +70,10 @@ public class WarehouserptAction extends BaseAction {
 	private List<Dict01Dto> makeareaList;
 	//excel密码
 	private String excelPass;
-	
+
+	//制单者
+	private List<UserDto> createList;
+
 	//编辑
 	private String updWarehouserptId;
 	private WarehouserptDto updWarehouserptDto;
@@ -735,7 +742,16 @@ public class WarehouserptAction extends BaseAction {
 
 		page = warehouserptService.queryWarehouserptByPage(strNo, "", type, "", "", "", "", "", "", "",
 				strSuppliername, strWarehouseno, strCreatedateLow, strCreatedateHigh, page);
-		warehouserptList = (List<WarehouserptDto>) page.getItems();		
+		warehouserptList = (List<WarehouserptDto>) page.getItems();	
+		if (warehouserptList != null){
+			for(WarehouserptDto wdt: warehouserptList) {
+				if (wdt.getCreateuid() == null)
+					wdt.setCreateuid("");
+				else
+					wdt.setCreateuid(getUserName(wdt.getCreateuid()));
+			}	
+		}
+		
 		strTotalAmount = "";
 		strTotalAmount = warehouserptService.queryWarehouserptTotalAmount(strNo, "", type, "", "", "", "", "", "", "",
 				strSuppliername, strWarehouseno, strCreatedateLow, strCreatedateHigh);
@@ -759,7 +775,19 @@ public class WarehouserptAction extends BaseAction {
 		List<Dict01Dto> listPass = dict01Service.queryDict01ByFieldcode(Constants.EXCEL_PASS, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
 		if(listPass != null && listPass.size() > 0) {
 			excelPass = listPass.get(0).getCode();
+		}	
+		createList = userService.queryAllUser();
+	}
+	
+	private String getUserName(String userid) {
+		if (createList != null){
+			for(UserDto udt: createList) {
+				if (udt.getUserid().equals(userid)){
+					return udt.getUsername();
+				}
+			}				
 		}
+		return userid;
 	}
 	
 	public WarehouserptService getWarehouserptService() {
@@ -1019,6 +1047,22 @@ public class WarehouserptAction extends BaseAction {
 
 	public void setProductInfo(ProductDto productInfo) {
 		this.productInfo = productInfo;
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	public List<UserDto> getCreateList() {
+		return createList;
+	}
+
+	public void setCreateList(List<UserDto> createList) {
+		this.createList = createList;
 	}
 
 }
