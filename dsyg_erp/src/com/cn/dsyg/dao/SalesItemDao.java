@@ -13,6 +13,14 @@ import com.cn.dsyg.dto.SalesItemDto;
 public interface SalesItemDao {
 	
 	/**
+	 * 根据对应产品ID以及当前设置的价格区间数据查询最近的一次询价信息
+	 * @param productid
+	 * @param customerid
+	 * @return
+	 */
+	public SalesItemDto queryCuPriceByProductID(String productid, String customerid);
+	
+	/**
 	 * 根据对应产品以及当前设置的价格区间数据查询最近的一次询价信息
 	 * @param fieldno 类型
 	 * @param tradename 品名

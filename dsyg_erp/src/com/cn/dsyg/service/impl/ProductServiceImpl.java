@@ -79,7 +79,7 @@ public class ProductServiceImpl implements ProductService {
 					product.setBarcodeseq(1);
 				}
 				//查询单价
-				SalesItemDto salesItemDto = getCuPriceByProduct("" + product.getId(), customerid);
+				SalesItemDto salesItemDto = getCuPriceByProduct("" + product.getId(), customerid, product.getFieldno());
 				if(salesItemDto != null) {
 					product.setCuprice(salesItemDto.getUnitprice());
 					product.setTaxcuprice(salesItemDto.getTaxunitprice());
@@ -91,32 +91,25 @@ public class ProductServiceImpl implements ProductService {
 		return page;
 	}
 
-	private SalesItemDto getCuPriceByProduct(String productid, String customerid) {
+	private SalesItemDto getCuPriceByProduct(String productid, String customerid, String fieldno) {
 		if(StringUtil.isNotBlank(customerid)) {
-			//查询当前最近一次设置的价格区间
-			String setdate = DateUtil.dateToShortStr(new Date());
-			CuPriceDto cuPriceDto = cuPriceDao.queryLastCuPriceBySetDate(setdate);
-			if(cuPriceDto != null) {
-				ProductDto productDto = productDao.queryProductByID(productid);
-				if(productDto != null) {
-//					System.out.println("getFieldno=" + productDto.getFieldno());
-//					System.out.println("getTradename=" + productDto.getTradename());
-//					System.out.println("getTypeno=" + productDto.getTypeno());
-//					System.out.println("getPackaging=" + productDto.getPackaging());
-//					System.out.println("getUnit=" + productDto.getUnit());
-//					System.out.println("getMakearea=" + productDto.getMakearea());
-//					System.out.println("Cu_price_code=" + cuPriceDto.getCu_price_code());
-//					System.out.println("customerid=" + customerid);
-					SalesItemDto salesItemDto = salesItemDao.queryCuPriceByProductInfo(productDto.getFieldno(), productDto.getTradename(),
-							productDto.getTypeno(), productDto.getPackaging(), productDto.getUnit(),
-							productDto.getMakearea(), cuPriceDto.getCu_price_code(), customerid);
-/*					if(salesItemDto != null) {
-						System.out.println("=======================cuprice=" + salesItemDto.getUnitprice());
-					} else {
-						System.out.println("=======================salesItemDto=" + salesItemDto);
+			if(Constants.DICT_GOODS_TYPE_CODE_01.equals(fieldno)) {
+				//电子线，查询当前最近一次设置的价格区间
+				String setdate = DateUtil.dateToShortStr(new Date());
+				CuPriceDto cuPriceDto = cuPriceDao.queryLastCuPriceBySetDate(setdate);
+				if(cuPriceDto != null) {
+					ProductDto productDto = productDao.queryProductByID(productid);
+					if(productDto != null) {
+						SalesItemDto salesItemDto = salesItemDao.queryCuPriceByProductInfo(productDto.getFieldno(), productDto.getTradename(),
+								productDto.getTypeno(), productDto.getPackaging(), productDto.getUnit(),
+								productDto.getMakearea(), cuPriceDto.getCu_price_code(), customerid);
+						return salesItemDto;
 					}
-*/					return salesItemDto;
 				}
+			} else {
+				//非电子线，直接按产品ID查询价格
+				SalesItemDto salesItemDto = salesItemDao.queryCuPriceByProductID(productid, customerid);
+				return salesItemDto;
 			}
 		}
 		return null;

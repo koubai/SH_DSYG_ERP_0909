@@ -183,6 +183,30 @@
 			order by A.createdate,A.id desc
 	</select>
 	
+	<select id="queryCuPriceByProductID" parameterClass="java.util.Map" resultMap="SalesItemDto">
+		select A.* from(
+			SELECT B.* FROM(
+				select T.*,
+				(select S.res02 from etb_sales S where S.salesno = T.salesno) as salestype,
+				(select S.status from etb_sales S where S.salesno = T.salesno) as salesstatus,
+				(select P.tradename from etb_product P where P.id = T.productid) as tradename,
+				(select P.typeno from etb_product P where P.id = T.productid) as typeno,
+				(select P.color from etb_product P where P.id = T.productid) as color,
+				(select P.packaging from etb_product P where P.id = T.productid) as packaging,
+				(select P.unit from etb_product P where P.id = T.productid) as unit,
+				(select P.makearea from etb_product P where P.id = T.productid) as makearea,
+				
+				(select P.item10 from etb_product P where P.id = T.productid) as item01,
+				
+				(select "") as customername,
+				(select "") as bookdate
+				from etb_salesitem T where 1 = 1 and T.status = 1
+				and T.productid = #productid#
+				and T.customerid = #customerid#
+			) B where B.salestype = '1' and B.salesstatus != 20
+		) A where 1 = 1 order by A.createdate,A.id desc
+	</select>
+	
 	<select id="querySalesItemByProductid" parameterClass="java.util.Map" resultMap="SalesItemDto2">
 		select T.*,
 		(select P.tradename from etb_product P where P.id = T.productid) as tradename,

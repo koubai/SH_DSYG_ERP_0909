@@ -245,7 +245,7 @@
 		tr.appendChild(td);
 		
 		//铜价信息列表
-		td = createCuPriceTd();
+		td = createCuPriceTd(fieldno);
 		tr.appendChild(td);
 		
 		//税前单价
@@ -278,7 +278,7 @@
 		getOpener().document.getElementById("productData").appendChild(tr);
 	}
 	
-	function createCuPriceTd() {
+	function createCuPriceTd(fieldno) {
 		var td = getOpener().document.createElement("td");
 		td.className = "cupricetd";
 		var strSalesType = $("#strSalesType").val();
@@ -289,8 +289,15 @@
 			td.style.cssText = "display: none;";
 		}
 		var select = getOpener().document.createElement("select");
-		var cupriceselect = $("#cupricediv").children().html();
-		select.innerHTML = cupriceselect;
+		if(fieldno == "01") {
+			//电子线
+			var cupriceselect = $("#cupricediv").children().html();
+			select.innerHTML = cupriceselect;
+		} else {
+			//非电子线
+			var cupriceselect = '<select id="" disabled="disabled" name="tmpCuPrice" style="width: 90px;"><option value="" selected="selected">请选择</option></select>';
+			select.innerHTML = cupriceselect;
+		}
 		
 		td.appendChild(select);
 		return td;

@@ -41,9 +41,16 @@ public class SalesItemServiceImpl implements SalesItemService {
 		if(cuPriceDto != null) {
 			ProductDto productDto = productDao.queryProductByID(productid);
 			if(productDto != null) {
-				SalesItemDto salesItemDto = salesItemDao.queryCuPriceByProductInfo(productDto.getFieldno(), productDto.getTradename(),
-						productDto.getTypeno(), productDto.getPackaging(), productDto.getUnit(),
-						productDto.getMakearea(), cuPriceDto.getCu_price_code(), customerid);
+				SalesItemDto salesItemDto = null;
+				if(Constants.DICT_GOODS_TYPE_CODE_01.equals(productDto.getFieldno())) {
+					//电子线
+					salesItemDto = salesItemDao.queryCuPriceByProductInfo(productDto.getFieldno(), productDto.getTradename(),
+							productDto.getTypeno(), productDto.getPackaging(), productDto.getUnit(),
+							productDto.getMakearea(), cuPriceDto.getCu_price_code(), customerid);
+				} else {
+					//非电子线
+					salesItemDto = salesItemDao.queryCuPriceByProductID(productid, customerid);
+				}
 				return salesItemDto;
 			}
 		}
