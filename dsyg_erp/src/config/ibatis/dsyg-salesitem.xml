@@ -180,7 +180,7 @@
 			and A.unit = #unit#
 			and A.makearea = #makearea#
 			and (A.res03 = #cupricecode# or A.res03 = '20' or A.res03 = '60')
-			order by A.createdate,A.id desc
+			order by A.createdate desc,A.id desc
 	</select>
 	
 	<select id="queryCuPriceByProductID" parameterClass="java.util.Map" resultMap="SalesItemDto">
@@ -204,7 +204,7 @@
 				and T.productid = #productid#
 				and T.customerid = #customerid#
 			) B where B.salestype = '1' and B.salesstatus != 20
-		) A where 1 = 1 order by A.createdate,A.id desc
+		) A where 1 = 1 order by A.createdate desc,A.id desc
 	</select>
 	
 	<select id="querySalesItemByProductid" parameterClass="java.util.Map" resultMap="SalesItemDto2">
