@@ -1077,13 +1077,34 @@
 							<td align="right">
 								<label class="pdf10">退换货标识</label>
 							</td>
-							<td colspan="3">
+							<td>
 								<s:if test='salesHistDetail.refundflag == "1"'>
 									<input id="tmpRefund" type="checkbox" onclick="changeBackcolor(this);" checked="checked" value="1"/>
 								</s:if>
 								<s:else>
 									<input id="tmpRefund" type="checkbox" onclick="changeBackcolor(this);" value="1"/>
 								</s:else>
+							</td>
+							<td align="right">
+								<label class="pdf10">状态</label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:if test='salesHistDetail.status == "10"'>	
+										<s:textfield id="status" disabled="true"  maxlength="10" cssStyle="width:300px;" theme="simple" value = "未发货"></s:textfield>									
+									</s:if>
+									<s:elseif test='salesHistDetail.status == "15"'>
+										<s:textfield id="status" disabled="true"  maxlength="10" cssStyle="width:300px;" theme="simple" value = "部分发货"></s:textfield>										
+									</s:elseif>
+									<s:elseif test='salesHistDetail.status == "20"'>
+										<s:textfield id="status" disabled="true"  maxlength="10" cssStyle="width:300px;" theme="simple" value = "发货完成"></s:textfield>																				
+									</s:elseif>
+									<s:else>
+										<s:property value="salesHistDetail.status"/>
+									</s:else>
+								</div>
+								<div class="box1_right"></div>
 							</td>
 						</tr>
 						<tr>
