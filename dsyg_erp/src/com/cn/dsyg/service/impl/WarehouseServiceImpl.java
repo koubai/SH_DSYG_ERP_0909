@@ -27,7 +27,9 @@ import com.cn.dsyg.dao.ProductDao;
 import com.cn.dsyg.dao.PurchaseDao;
 import com.cn.dsyg.dao.PurchaseItemDao;
 import com.cn.dsyg.dao.SalesDao;
+import com.cn.dsyg.dao.SalesHisDao;
 import com.cn.dsyg.dao.SalesItemDao;
+import com.cn.dsyg.dao.SalesItemHisDao;
 import com.cn.dsyg.dao.SupplierDao;
 import com.cn.dsyg.dao.UserDao;
 import com.cn.dsyg.dao.WarehouseDao;
@@ -73,6 +75,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 	private PurchaseItemDao purchaseItemDao;
 	private SalesDao salesDao;
 	private SalesItemDao salesItemDao;
+	private SalesHisDao salesHisDao;
+	private SalesItemHisDao salesItemHisDao;
 	private WarehouseDao warehouseDao;
 	private WarehouserptDao warehouserptDao;
 	private SupplierDao supplierDao;
@@ -816,6 +820,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 			String[] idList = ids.split(",");
 			WarehouseDto warehouse = null;
 			
+			List<PurchaseDto> updPurchaseList = new ArrayList<PurchaseDto>();
+
 			//验证是否是同一个仓库，相同的预入库时间
 			String warehousename = "";
 			String plandate = "";
@@ -1059,6 +1065,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	
 	@Override
 	public void warehouseOutOk(String ids, String userid) throws RuntimeException {
+
 		if(StringUtil.isNotBlank(ids)) {
 			String belongto = PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_BELONG);
 			Date date = new Date();
@@ -1066,7 +1073,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 			
 			String[] idList = ids.split(",");
 			WarehouseDto warehouse = null;
-			
+						
+			List<SalesDto> updSalesList = new ArrayList<SalesDto>();
+
 			//验证是否是同一个仓库，相同的预出库时间
 			String warehousename = "";
 			String supplierid = "";
@@ -1198,14 +1207,39 @@ public class WarehouseServiceImpl implements WarehouseService {
 								salesDto.setStatus(Constants.SALES_STATUS_WAREHOUSE_OK);
 								salesDto.setUpdateuid(userid);
 								salesDao.updateSales(salesDto);
+								if (!updSalesList.contains(salesDto)){
+									updSalesList.add(salesDto);
+								}
 							} else {
 								//需要更新销售单状态=部分入库
 								SalesDto salesDto = salesDao.querySalesByNo(warehouse.getParentid());
 								salesDto.setStatus(Constants.SALES_STATUS_WAREHOUSE_PART);
 								salesDto.setUpdateuid(userid);
 								salesDao.updateSales(salesDto);
+								if (!updSalesList.contains(salesDto)){
+									updSalesList.add(salesDto);
+								}
 							}
 						}
+					}
+				}
+			}
+			// 更新销售履历
+			for(SalesDto updSalesDto : updSalesList) {
+				long updSalesid= salesHisDao.insertSalesHis(updSalesDto);
+				List <SalesItemDto> updSalesItemDto = new ArrayList<SalesItemDto>();
+				updSalesItemDto = salesItemDao.querySalesItemBySalesno(updSalesDto.getSalesno());
+				if(updSalesItemDto != null) {
+					for(SalesItemDto salesItem : updSalesItemDto) {
+						//销售单号
+						salesItem.setSalesno(updSalesDto.getSalesno().toString());
+						salesItem.setUpdateuid(userid);
+						salesItem.setCreateuid(userid);
+						salesItem.setStatus(Constants.STATUS_NORMAL);
+						salesItem.setBelongto(belongto);
+						//添加履历
+						salesItem.setRes06("" + updSalesid);
+						salesItemHisDao.insertSalesItemHis(salesItem);
 					}
 				}
 			}
@@ -1873,4 +1907,22 @@ public class WarehouseServiceImpl implements WarehouseService {
 	public void setProductService(ProductService productService) {
 		this.productService = productService;
 	}
+	
+	public SalesHisDao getSalesHisDao() {
+		return salesHisDao;
+	}
+
+	public void setSalesHisDao(SalesHisDao salesHisDao) {
+		this.salesHisDao = salesHisDao;
+	}
+
+	public SalesItemHisDao getSalesItemHisDao() {
+		return salesItemHisDao;
+	}
+
+	public void setSalesItemHisDao(SalesItemHisDao salesItemHisDao) {
+		this.salesItemHisDao = salesItemHisDao;
+	}
+
+
 }

@@ -408,6 +408,12 @@
 		<property name="salesItemDao">
 			<ref local="salesItemDao"/>
 		</property>
+		<property name="salesHisDao">
+			<ref local="salesHisDao"/>
+		</property>
+		<property name="salesItemHisDao">
+			<ref local="salesItemHisDao"/>
+		</property>
 		<property name="financeDao">
 			<ref local="financeDao"/>
 		</property>
