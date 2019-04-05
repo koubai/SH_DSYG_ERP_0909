@@ -221,7 +221,8 @@ public class ProductBarcodeAction extends BaseAction {
 		initDictList();
 		//翻页查询所有委托公司
 		this.page.setStartIndex(startIndex);
-		page = productService.queryProductByPage(strFieldno, strItem10, strKeyword, strPackaging, "", "", "",
+		//flag为空，这里不分采购单和销售单
+		page = productService.queryProductByPage("", strFieldno, strItem10, strKeyword, strPackaging, "", "", "",
 				"", "" + Constants.STATUS_NORMAL, "", page);
 		productList = (List<ProductDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());

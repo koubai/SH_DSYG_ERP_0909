@@ -185,7 +185,7 @@ public class PurchaseItemDto extends BaseAction {
 	private String res02;
 
 	/**
-	 * 预备项目3
+	 * 铜价区间信息
 	 */
 	private String res03;
 

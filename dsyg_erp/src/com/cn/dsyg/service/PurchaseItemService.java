@@ -14,6 +14,29 @@ import com.cn.dsyg.dto.PurchaseItemDto;
 public interface PurchaseItemService {
 	
 	/**
+	 * 根据对应产品ID以及当前设置的价格区间数据查询最近的一次询价信息
+	 * @param productid
+	 * @param supplierid
+	 * @return
+	 */
+	public PurchaseItemDto queryPurchaseCuPriceByProductID(String productid, String supplierid);
+	
+	/**
+	 * 根据对应产品以及当前设置的价格区间数据查询最近的一次询价信息
+	 * @param fieldno 类型
+	 * @param tradename 品名
+	 * @param typeno 规格
+	 * @param packaging 包装
+	 * @param unit 单位
+	 * @param makearea 产地
+	 * @param cupricecode 对应价格区间code
+	 * @param supplierid
+	 * @return
+	 */
+	public PurchaseItemDto queryPurchaseCuPriceByProductInfo(String fieldno, String tradename,
+			String typeno, String packaging, String unit, String makearea, String cupricecode, String supplierid);
+	
+	/**
 	 * 根据采购单号查询采购单货物列表
 	 * @param purchaseno
 	 * @return

@@ -3,7 +3,6 @@ package com.cn.dsyg.service;
 import java.util.List;
 
 import com.cn.common.util.Page;
-import com.cn.dsyg.dto.ProductCostDto;
 import com.cn.dsyg.dto.ProductDto;
 
 /**
@@ -16,6 +15,7 @@ public interface ProductService {
 
 	/**
 	 * 翻页查询信息
+	 * @param flag 1采购单，2销售单
 	 * @param fieldno 主题
 	 * @param item01 包装
 	 * @param keyword 关键字
@@ -28,7 +28,7 @@ public interface ProductService {
 	 * @param page
 	 * @return
 	 */
-	public Page queryProductByPage(String fieldno, String item10, String keyword, String packaging, String tradename,
+	public Page queryProductByPage(String flag, String fieldno, String item10, String keyword, String packaging, String tradename,
 			String typeno, String color, String supplierId, String status, String customerid, Page page);
 	
 	/**

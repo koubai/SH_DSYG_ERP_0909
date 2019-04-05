@@ -176,7 +176,7 @@ public class PurchaseDto extends BaseAction {
 	private String res01;
 
 	/**
-	 * 预备项目2
+	 * 采购模式：0：普通采购，1询价
 	 */
 	private String res02;
 

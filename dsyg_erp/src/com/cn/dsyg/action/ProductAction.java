@@ -70,6 +70,9 @@ public class ProductAction extends BaseAction {
 	private String strSalesType;
 	private String strCustomerid;
 	private String strProductid;
+	
+	//销售单
+	private String strPurchaseType;
 		
 	private String strFieldno;
 	private String strItem10;//包装
@@ -1005,7 +1008,7 @@ public class ProductAction extends BaseAction {
 		initDictList();
 		//翻页查询所有委托公司
 		this.page.setStartIndex(startIndex);
-		page = productService.queryProductByPage(strFieldno, strItem10, strKeyword, strPackaging, strTradename, strTypeno, strColor,
+		page = productService.queryProductByPage(strFlag, strFieldno, strItem10, strKeyword, strPackaging, strTradename, strTypeno, strColor,
 				strSupplierId, "" + Constants.STATUS_NORMAL, strCustomerid, page);
 		productList = (List<ProductDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
@@ -1372,5 +1375,13 @@ public class ProductAction extends BaseAction {
 
 	public void setStrProductid(String strProductid) {
 		this.strProductid = strProductid;
+	}
+
+	public String getStrPurchaseType() {
+		return strPurchaseType;
+	}
+
+	public void setStrPurchaseType(String strPurchaseType) {
+		this.strPurchaseType = strPurchaseType;
 	}
 }

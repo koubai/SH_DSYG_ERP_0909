@@ -522,6 +522,9 @@
 		<property name="salesItemDao">
 			<ref local="salesItemDao"/>
 		</property>
+		<property name="purchaseItemDao">
+			<ref local="purchaseItemDao"/>
+		</property>
 	</bean>
 	
 	<bean id="productDao" class="com.cn.dsyg.dao.impl.ProductDaoImpl">

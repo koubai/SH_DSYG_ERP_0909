@@ -12,7 +12,6 @@ import com.cn.dsyg.dao.Dict01Dao;
 import com.cn.dsyg.dao.PurchaseItemDao;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.PurchaseItemDto;
-import com.cn.dsyg.dto.SalesItemDto;
 import com.cn.dsyg.service.PurchaseItemService;
 
 /**
@@ -25,6 +24,18 @@ public class PurchaseItemServiceImpl implements PurchaseItemService {
 	
 	private PurchaseItemDao purchaseItemDao;
 	private Dict01Dao dict01Dao;
+	
+	@Override
+	public PurchaseItemDto queryPurchaseCuPriceByProductID(String productid, String supplierid) {
+		return purchaseItemDao.queryPurchaseCuPriceByProductID(productid, supplierid);
+	}
+
+	@Override
+	public PurchaseItemDto queryPurchaseCuPriceByProductInfo(String fieldno, String tradename, String typeno,
+			String packaging, String unit, String makearea, String cupricecode, String supplierid) {
+		return purchaseItemDao.queryPurchaseCuPriceByProductInfo(fieldno, tradename,
+				typeno, packaging, unit, makearea, cupricecode, supplierid);
+	}
 	
 	@Override
 	public List<PurchaseItemDto> queryPurchaseItemByPurchaseno(

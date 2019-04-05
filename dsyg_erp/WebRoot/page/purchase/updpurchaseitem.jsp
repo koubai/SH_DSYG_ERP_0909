@@ -51,13 +51,13 @@
 				return;
 			}
 			//计算未税金额
-			var purchaseAmount = tds[17].getElementsByTagName("input")[0].value.trim();
+			var purchaseAmount = tds[18].getElementsByTagName("input")[0].value.trim();
 			if(purchaseAmount == "") {
 				purchaseAmount = 0;
 			}
 			var taxamount = parseFloat(purchaseAmount) * (1 + parseFloat(rate));
 			//计算含税金额
-			tds[18].getElementsByTagName("input")[0].value = taxamount.toFixed(2);
+			tds[19].getElementsByTagName("input")[0].value = taxamount.toFixed(2);
 			//隐藏域
 			//采购金额未税
 			inputs[13].value = purchaseAmount;
@@ -72,13 +72,13 @@
 				return;
 			}
 			//采购金额已税
-			var purchaseTaxamount = tds[18].getElementsByTagName("input")[0].value.trim();
+			var purchaseTaxamount = tds[19].getElementsByTagName("input")[0].value.trim();
 			if(purchaseTaxamount == "") {
 				purchaseTaxamount = 0;
 			}
 			var amount = parseFloat(purchaseTaxamount) / (1 + parseFloat(rate));
 			//计算未税金额
-			tds[17].getElementsByTagName("input")[0].value = amount.toFixed(2);
+			tds[18].getElementsByTagName("input")[0].value = amount.toFixed(2);
 			
 			//隐藏域
 			//采购金额未税
@@ -190,7 +190,7 @@
 		//采购单货物数量
 		var purchaseQuantity = inputPurchaseQuantitys[0].value;
 		//采购金额已税
-		var purchaseTaxamount = tds[18].getElementsByTagName("input")[0].value;
+		var purchaseTaxamount = tds[19].getElementsByTagName("input")[0].value;
 		//预入库数量
 		var beforeQuantity = beforeQuantitys[0].value;
 		
@@ -198,12 +198,12 @@
 		var paidamount = $("#tmpPaidamount").val();
 		
 		//备注
-		var res09 = tds[20].getElementsByTagName("input")[0].value.trim();
+		var res09 = tds[21].getElementsByTagName("input")[0].value.trim();
 		
 		//单价
-		var prices = tds[15].getElementsByTagName("input");
+		var prices = tds[16].getElementsByTagName("input");
 		//含税单价
-		var taxprices = tds[16].getElementsByTagName("input")[0].value.trim();
+		var taxprices = tds[17].getElementsByTagName("input")[0].value.trim();
 		if(taxprices == "") {
 			taxprices = 0;
 		}
@@ -219,12 +219,12 @@
 		if(type == "6") {
 			//计算未税单价
 			price = parseFloat(taxprices) / (1 + rate);
-			tds[15].getElementsByTagName("input")[0].value = price.toFixed(6);
+			tds[16].getElementsByTagName("input")[0].value = price.toFixed(6);
 		}
 		if(type == "4") {
 			//计算已税单价
 			taxprices = parseFloat(price) * (1 + rate);
-			tds[16].getElementsByTagName("input")[0].value = taxprices.toFixed(6);
+			tds[17].getElementsByTagName("input")[0].value = taxprices.toFixed(6);
 		}
 		
 		if(purchaseQuantity == "") {
@@ -278,6 +278,18 @@
 		$("#productData").empty();
 		//清空ID
 		$("#productlist").val("");
+	}
+	
+	function getRadioValue(name) {
+		var id = "";
+		var list = document.getElementsByName(name);
+		for(var i = 0; i < list.length; i++) {
+			if(list[i].checked) {
+				id = list[i].value;
+				break;
+			}
+		}
+		return id;
 	}
 	
 	//验证数据格式
@@ -345,11 +357,6 @@
 		if(res01 == "") {
 			alert("请选择支付方式！");
 			$("#res01").focus();
-			return;
-		}
-		if(tmpPlandate == "") {
-			alert("预入库时间不能为空！");
-			$("#tmpPlandate").focus();
 			return;
 		}
 		/*
@@ -444,6 +451,11 @@
 		$("#paidamount").val($("#tmpPaidamount").val());
 		
 		$("#purchasedate").val($("#tmpPurchasedate").val());
+		if(tmpPlandate == "") {
+			alert("预入库时间不能为空！");
+			$("#tmpPlandate").focus();
+			return;
+		}
 		$("#plandate").val($("#tmpPlandate").val());
 		
 		//退换货标识
@@ -488,6 +500,8 @@
 	//采购货物列表
 	function setPurchaseItemList() {
 		$("#purchaseItemTable").empty();
+		//采购方式
+		var res02 = getRadioValue("purchaseType");
 		var rows = document.getElementById("productData").rows;
 		for(var i = 0; i < rows.length; i++) {
 			var childs = rows[i].cells[0].getElementsByTagName("input");
@@ -545,6 +559,21 @@
 			
 			td.appendChild(createInput("updPurchaseItemList[" + i + "].taxunitprice", taxunitprice));
 			
+			if(res02 == "1" && theme1=="01") {
+				//询价才有铜价信息
+				//铜价区间
+				var cupriceobj = rows[i].cells[15].getElementsByTagName("select");
+				var cuprice = cupriceobj[0].value;
+				if(cuprice == "") {
+					alert("铜价区间不能为空！");
+					$("#" + cupriceobj[0].id).focus();
+					return false;
+				}
+				td.appendChild(createInput("updPurchaseItemList[" + i + "].res03", cuprice));
+			} else {
+				td.appendChild(createInput("updPurchaseItemList[" + i + "].res03", ""));
+			}
+			
 			td.appendChild(createInput("updPurchaseItemList[" + i + "].quantity", quantity));
 			td.appendChild(createInput("updPurchaseItemList[" + i + "].beforequantity", beforequantity));
 			td.appendChild(createInput("updPurchaseItemList[" + i + "].inquantity", inquantity));
@@ -593,7 +622,8 @@
 		var seq = rows.length + 1;
 		var url = '<%=request.getContextPath()%>/product/showProductSelectPage.action';
 		//strFlag=1采购单，strFlag=2销售单
-		url += "?strFieldno=" + theme1 + "&strSeq=" + seq + "&strSupplierId=" + supplierid + "&strFlag=1" + "&date=" + new Date();
+		url += "?strPurchaseType=" + getRadioValue("purchaseType") + "&strFieldno=" + theme1 + "&strSeq=" + seq
+				+ "&strSupplierId=" + supplierid + "&strFlag=1" + "&date=" + new Date();
 		
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
@@ -748,6 +778,19 @@
 						</tr>
 						<tr>
 							<td align="right">
+								<label class="pdf10"><font color="red">*</font>采购方式</label>
+							</td>
+							<td>
+								<s:if test='updPurchaseDto.res02 == "1"'>
+									<input type="radio" disabled="disabled" id="tmpRes02" onclick="checkPurchaseType(this);" name="purchaseType" value="0"/>采购　
+									<input type="radio" disabled="disabled" name="purchaseType" onclick="checkPurchaseType(this);" checked="checked" value="1"/>询价　
+								</s:if>
+								<s:else>
+									<input type="radio" disabled="disabled" id="tmpRes02" onclick="checkPurchaseType(this);" name="purchaseType" checked="checked" value="0"/>采购　
+									<input type="radio" disabled="disabled" name="purchaseType" onclick="checkPurchaseType(this);" value="1"/>询价　
+								</s:else>
+							</td>
+							<td align="right">
 								<label class="pdf10"><font color="red">*</font>支付方式</label>
 							</td>
 							<td>
@@ -759,17 +802,6 @@
 											<option value="<s:property value="code"/>" <s:if test="%{payTypeList[#st1.index].code == updPurchaseDto.res01}">selected</s:if>><s:property value="fieldname"/></option>
 										</s:iterator>
 									</select>
-								</div>
-								<div class="box1_right"></div>
-							</td>
-							<td align="right">
-								<label class="pdf10"><font color="red">*</font>预入库日期</label>
-							</td>
-							<td>
-								<div class="box1_left"></div>
-								<div class="box1_center date_input">
-									<input type="text" id="tmpPlandate" disabled="disabled" style="width:285px;" value="<s:property value="updPurchaseDto.plandate"/>" />
-									<a class="date" href="javascript:;" onclick=""></a>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -946,15 +978,15 @@
 								<div style="margin-top: 9px;"><label>（含税）</label></div>
 							</td>
 							<td align="right">
-								<label class="pdf10">退换货标识</label>
+								<label class="pdf10"><font color="red">*</font>预入库日期</label>
 							</td>
 							<td>
-								<s:if test='updPurchaseDto.refundflag == "1"'>
-									<input id="tmpRefund" type="checkbox" onclick="changeBackcolor(this);" checked="checked" value="1"/>
-								</s:if>
-								<s:else>
-									<input id="tmpRefund" type="checkbox" onclick="changeBackcolor(this);" value="1"/>
-								</s:else>
+								<div class="box1_left"></div>
+								<div class="box1_center date_input">
+									<input type="text" id="tmpPlandate" disabled="disabled" style="width:285px;" value="<s:property value="updPurchaseDto.plandate"/>" />
+									<a class="date" href="javascript:;" onclick=""></a>
+								</div>
+								<div class="box1_right"></div>
 							</td>
 						</tr>
 						<tr>
@@ -978,6 +1010,20 @@
 								</div>
 								<div class="box1_right"></div>
 							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<label class="pdf10">退换货标识</label>
+							</td>
+							<td>
+								<s:if test='updPurchaseDto.refundflag == "1"'>
+									<input id="tmpRefund" type="checkbox" onclick="changeBackcolor(this);" checked="checked" value="1"/>
+								</s:if>
+								<s:else>
+									<input id="tmpRefund" type="checkbox" onclick="changeBackcolor(this);" value="1"/>
+								</s:else>
+							</td>
+							<td colspan="2"></td>
 						</tr>
 						<tr>
 							<td align="right">
@@ -1018,6 +1064,12 @@
 											<td width="85">预入库数</td>
 											<td width="70">已入库数</td>
 											<td width="70">未入库数</td>
+											<s:if test='updPurchaseDto.res02 == "1"'>
+												<td width="100" class="cupricetd">铜价区间</td>
+											</s:if>
+											<s:else>
+												<td width="100" class="cupricetd" style="display: none;">铜价区间</td>
+											</s:else>
 											<td width="90">未税单价</td>
 											<td width="90" style="background:#86e657;">含税单价</td>
 											<td width="110">采购金额（未税）</td>
@@ -1103,6 +1155,19 @@
 													</td>
 													<td align="right"><s:property value="inquantity"/></td>
 													<td align="right"><s:property value="remainquantity"/></td>
+													<s:if test='updPurchaseDto.res02 == "1"'>
+													<td class="cupricetd">
+													</s:if>
+													<s:else>
+													<td class="cupricetd" style="display: none;">
+													</s:else>
+														<select name="tmpCuPrice" id="tmpCuPrice_<s:property value="productid"/>" style="width: 90px;">
+															<option value="" selected="selected">请选择</option>
+															<s:iterator id="cuPriceDict01List" value="cuPriceDict01List" status="st3">
+																<option value="<s:property value="code"/>" <s:if test="%{cuPriceDict01List[#st3.index].code == updPurchaseItemList[#st1.index].res03}">selected</s:if>><s:property value="fieldname"/></option>
+															</s:iterator>
+														</select>
+													</td>
 													<td align="right">
 														<input type="text" disabled="disabled" style="width: 80px;" id="tmpUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '4');" maxlength="17" value="<s:property value="unitprice"/>"/>
 													</td>

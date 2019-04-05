@@ -24,7 +24,7 @@ import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.PurchaseDto;
 import com.cn.dsyg.dto.PurchaseItemDto;
-import com.cn.dsyg.dto.SalesItemDto;
+import com.cn.dsyg.service.CuPriceService;
 import com.cn.dsyg.service.Dict01Service;
 import com.cn.dsyg.service.PurchaseItemService;
 import com.cn.dsyg.service.PurchaseService;
@@ -43,6 +43,7 @@ public class PurchaseAction extends BaseAction {
 	private PurchaseService purchaseService;
 	private PurchaseItemService purchaseItemService;
 	private Dict01Service dict01Service;
+	private CuPriceService cuPriceService;
 	
 	//页码
 	private int startIndex;
@@ -62,6 +63,8 @@ public class PurchaseAction extends BaseAction {
 	private String strTheme2;
 	//状态
 	private String strStatus;
+	//采购OR询价
+	private String strType;
 	
 	//采购主题
 	private List<Dict01Dto> goodsList;
@@ -76,7 +79,10 @@ public class PurchaseAction extends BaseAction {
 	//产品ID
 	private String productid;
 	//产品信息
-	private String 	productinfo;	
+	private String 	productinfo;
+	
+	//铜价区间代码表记录
+	private List<Dict01Dto> cuPriceDict01List;
 
 	//新增
 	private PurchaseDto addPurchaseDto;
@@ -436,6 +442,7 @@ public class PurchaseAction extends BaseAction {
 			strTheme2 = "";
 			strStatus = "";
 			productid = "";
+			strType = "";
 			purchaseList = new ArrayList<PurchaseDto>();
 			
 // Pei 2018.07.22 As user's requirement, initial needn't to display data
@@ -739,7 +746,7 @@ public class PurchaseAction extends BaseAction {
 		initDictList();
 		//翻页查询所有委托公司
 		this.page.setStartIndex(startIndex);
-		page = purchaseService.queryPurchaseExtByPage(strPurchasedateLow, strPurchasedateHigh, strTheme2, productid, strStatus, page);
+		page = purchaseService.queryPurchaseExtByPage(strType, strPurchasedateLow, strPurchasedateHigh, strTheme2, productid, strStatus, page);
 		purchaseList = (List<PurchaseDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
 	}
@@ -763,6 +770,8 @@ public class PurchaseAction extends BaseAction {
 		colorList = dict01Service.queryDict01ByFieldcode(Constants.DICT_COLOR_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
 		//支付方式
 		payTypeList = dict01Service.queryDict01ByFieldcode(Constants.DICT_PAY_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+		
+		cuPriceDict01List = dict01Service.queryDict01ByFieldcode(Constants.DICT_CU_PRICE_AREA, Constants.SYSTEM_LANGUAGE_ENGLISH);
 	}
 
 	public int getStartIndex() {
@@ -1020,5 +1029,29 @@ public class PurchaseAction extends BaseAction {
 
 	public void setRemainPurchaseItemList(List<PurchaseItemDto> remainPurchaseItemList) {
 		this.remainPurchaseItemList = remainPurchaseItemList;
+	}
+
+	public List<Dict01Dto> getCuPriceDict01List() {
+		return cuPriceDict01List;
+	}
+
+	public void setCuPriceDict01List(List<Dict01Dto> cuPriceDict01List) {
+		this.cuPriceDict01List = cuPriceDict01List;
+	}
+
+	public CuPriceService getCuPriceService() {
+		return cuPriceService;
+	}
+
+	public void setCuPriceService(CuPriceService cuPriceService) {
+		this.cuPriceService = cuPriceService;
+	}
+
+	public String getStrType() {
+		return strType;
+	}
+
+	public void setStrType(String strType) {
+		this.strType = strType;
 	}
 }

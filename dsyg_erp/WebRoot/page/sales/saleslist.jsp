@@ -255,11 +255,15 @@
 							<input name="tmpType" type="radio" checked="checked" value="0"/>订单 <input name="tmpType" type="radio" value="1"/>询价
 						</s:else>
 					</div>
-					<div class="box1" style="margin-top: 6px; margin-left: 50px;">
-						<div class="box1_left">
+					<div class="box1" style="margin-top: 6px; margin-left: 20px;">
+						<div class="box1_left"></div>
+						<div class="box1_center">
 							<s:textfield name="productinfo" id="productinfo" size="30" maxlength="150" theme="simple" disabled="disabled"></s:textfield>
 						</div>
-						<div class="btn" style="margin-left: 230px;">
+						<div class="box1_right"></div>
+					</div>
+					<div class="box1" style="margin-top: 6px; margin-left: 10px;">
+						<div class="btn" style="margin-left: 60px;">
 							<div class="box1_left"></div>							
 							<div class="box1_center">
 								<input class="input40" type="button" onclick="clrProduct();" value="清除" />							

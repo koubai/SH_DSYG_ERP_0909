@@ -407,6 +407,9 @@
 		<property name="purchaseItemService">
 			<ref bean="purchaseItemService"/>
 		</property>
+		<property name="cuPriceService">
+			<ref bean="cuPriceService"/>
+		</property>
 	</bean>
 	
 	<!-- supplier -->

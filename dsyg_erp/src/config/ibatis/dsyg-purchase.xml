@@ -145,6 +145,9 @@
 		<isNotEmpty prepend="and" property="status">
 			T.status = #status#
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="res02">
+			T.res02 = #res02#
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="theme2">
 			T.theme2 like '%$theme2$%' ESCAPE '/'
 		</isNotEmpty>
@@ -160,6 +163,9 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="status">
 			T.status = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="res02">
+			T.res02 = #res02#
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="theme2">
 			T.theme2 like '%$theme2$%' ESCAPE '/'
@@ -200,6 +206,9 @@
 		<isNotEmpty prepend="and" property="status">
 			T.status = #status#
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="res02">
+			T.res02 = #res02#
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="theme2">
 			T.theme2 like '%$theme2$%' ESCAPE '/'
 		</isNotEmpty>
@@ -217,6 +226,9 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="status">
 			T.status = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="res02">
+			T.res02 = #res02#
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="theme2">
 			T.theme2 like '%$theme2$%' ESCAPE '/'

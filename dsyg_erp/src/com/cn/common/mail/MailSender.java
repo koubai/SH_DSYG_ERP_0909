@@ -50,7 +50,7 @@ public class MailSender {
 	// 默认邮件收件人
 	private final static String MAIL_TO_DEFAULT = "";
 	// SUBJECT_DEFAULT
-	private final static String MAIL_SUBJECT_DEFAULT = "SUBJECT_DEFAULT";
+	private final static String MAIL_SUBJECT_DEFAULT = "notify";
 
 	static {
 		// HOST

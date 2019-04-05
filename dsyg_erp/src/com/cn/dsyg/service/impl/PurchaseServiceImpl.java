@@ -86,10 +86,10 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public Page queryPurchaseByPage(String purchasedateLow,
+	public Page queryPurchaseByPage(String type, String purchasedateLow,
 			String purchasedateHigh, String theme2, String status, Page page) {
 		//查询总记录数
-		int totalCount = purchaseDao.queryPurchaseCountByPage(purchasedateLow, purchasedateHigh, theme2, status);
+		int totalCount = purchaseDao.queryPurchaseCountByPage(type, purchasedateLow, purchasedateHigh, theme2, status);
 		page.setTotalCount(totalCount);
 		if(totalCount % page.getPageSize() > 0) {
 			page.setTotalPage(totalCount / page.getPageSize() + 1);
@@ -97,7 +97,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 			page.setTotalPage(totalCount / page.getPageSize());
 		}
 		//翻页查询记录
-		List<PurchaseExtDto> list = purchaseDao.queryPurchaseByPage(purchasedateLow, purchasedateHigh, theme2, status,
+		List<PurchaseExtDto> list = purchaseDao.queryPurchaseByPage(type, purchasedateLow, purchasedateHigh, theme2, status,
 				page.getStartIndex() * page.getPageSize(), page.getPageSize());
 		if(list != null && list.size() > 0) {
 			for(PurchaseDto purchase : list) {
@@ -129,15 +129,15 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public Page queryPurchaseExtByPage(String purchasedateLow,
+	public Page queryPurchaseExtByPage(String type, String purchasedateLow,
 			String purchasedateHigh, String theme2, String productid, String status, Page page) {
 		//查询总记录数
 		int totalCount = 0;
-		purchaseDao.queryPurchaseCountByPage(purchasedateLow, purchasedateHigh, theme2, status);
+		//purchaseDao.queryPurchaseCountByPage(type, purchasedateLow, purchasedateHigh, theme2, status);
 		if (!productid.isEmpty() && !productid.equals("")){
-			totalCount = purchaseDao.queryPurchaseExtCountByPage(purchasedateLow, purchasedateHigh, theme2, productid, status);
+			totalCount = purchaseDao.queryPurchaseExtCountByPage(type, purchasedateLow, purchasedateHigh, theme2, productid, status);
 		} else {
-			totalCount = purchaseDao.queryPurchaseCountByPage(purchasedateLow, purchasedateHigh, theme2, status);
+			totalCount = purchaseDao.queryPurchaseCountByPage(type, purchasedateLow, purchasedateHigh, theme2, status);
 		}			
 		page.setTotalCount(totalCount);
 		if(totalCount % page.getPageSize() > 0) {
@@ -148,10 +148,10 @@ public class PurchaseServiceImpl implements PurchaseService {
 		//翻页查询记录
 		List<PurchaseExtDto> list = null;
 		if (!productid.isEmpty() && !productid.equals("")){
-			list = purchaseDao.queryPurchaseExtByPage(purchasedateLow, purchasedateHigh, theme2, productid, status,
+			list = purchaseDao.queryPurchaseExtByPage(type, purchasedateLow, purchasedateHigh, theme2, productid, status,
 					page.getStartIndex() * page.getPageSize(), page.getPageSize());
 		} else {
-			list = purchaseDao.queryPurchaseByPage(purchasedateLow, purchasedateHigh, theme2, status,
+			list = purchaseDao.queryPurchaseByPage(type, purchasedateLow, purchasedateHigh, theme2, status,
 					page.getStartIndex() * page.getPageSize(), page.getPageSize());
 		}
 

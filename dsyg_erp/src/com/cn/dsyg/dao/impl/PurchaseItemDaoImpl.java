@@ -7,7 +7,6 @@ import java.util.Map;
 import com.cn.common.dao.BaseDao;
 import com.cn.dsyg.dao.PurchaseItemDao;
 import com.cn.dsyg.dto.PurchaseItemDto;
-import com.cn.dsyg.dto.SalesItemDto;
 
 /**
  * @name PurchaseItemDaoImpl.java
@@ -16,6 +15,39 @@ import com.cn.dsyg.dto.SalesItemDto;
  * @version 1.0
  */
 public class PurchaseItemDaoImpl extends BaseDao implements PurchaseItemDao {
+	
+	@Override
+	public PurchaseItemDto queryPurchaseCuPriceByProductID(String productid, String supplierid) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("productid", productid);
+		paramMap.put("supplierid", supplierid);
+		@SuppressWarnings("unchecked")
+		List<PurchaseItemDto> list = getSqlMapClientTemplate().queryForList("queryPurchaseCuPriceByProductID", paramMap);
+		if(list != null && list.size() > 0) {
+			return list.get(0);
+		}
+		return null;
+	}
+
+	@Override
+	public PurchaseItemDto queryPurchaseCuPriceByProductInfo(String fieldno, String tradename, String typeno,
+			String packaging, String unit, String makearea, String cupricecode, String supplierid) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("fieldno", fieldno);
+		paramMap.put("tradename", tradename);
+		paramMap.put("typeno", typeno);
+		paramMap.put("packaging", packaging);
+		paramMap.put("unit", unit);
+		paramMap.put("makearea", makearea);
+		paramMap.put("cupricecode", cupricecode);
+		paramMap.put("supplierid", supplierid);
+		@SuppressWarnings("unchecked")
+		List<PurchaseItemDto> list = getSqlMapClientTemplate().queryForList("queryPurchaseCuPriceByProductInfo", paramMap);
+		if(list != null && list.size() > 0) {
+			return list.get(0);
+		}
+		return null;
+	}
 	
 	@Override
 	public List<PurchaseItemDto> queryPurchaseItemByPurchaseno(

@@ -12,11 +12,13 @@ import com.cn.dsyg.dao.CuPriceDao;
 import com.cn.dsyg.dao.Dict01Dao;
 import com.cn.dsyg.dao.ProductBarcodeDao;
 import com.cn.dsyg.dao.ProductDao;
+import com.cn.dsyg.dao.PurchaseItemDao;
 import com.cn.dsyg.dao.SalesItemDao;
 import com.cn.dsyg.dto.CuPriceDto;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.ProductBarcodeDto;
 import com.cn.dsyg.dto.ProductDto;
+import com.cn.dsyg.dto.PurchaseItemDto;
 import com.cn.dsyg.dto.SalesItemDto;
 import com.cn.dsyg.service.ProductService;
 
@@ -32,6 +34,7 @@ public class ProductServiceImpl implements ProductService {
 	private Dict01Dao dict01Dao;
 	private ProductBarcodeDao productBarcodeDao;
 	private SalesItemDao salesItemDao;
+	private PurchaseItemDao purchaseItemDao;
 	private CuPriceDao cuPriceDao;
 	
 	@Override
@@ -50,7 +53,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Page queryProductByPage(String fieldno, String item01, String keyword, String packaging, String tradename,
+	public Page queryProductByPage(String flag, String fieldno, String item01, String keyword, String packaging, String tradename,
 				String typeno, String color, String supplierId, String status, String customerid, Page page) {
 		keyword = StringUtil.replaceDatabaseKeyword_mysql(keyword);
 		tradename = StringUtil.replaceDatabaseKeyword_mysql(tradename);
@@ -79,10 +82,22 @@ public class ProductServiceImpl implements ProductService {
 					product.setBarcodeseq(1);
 				}
 				//查询单价
-				SalesItemDto salesItemDto = getCuPriceByProduct("" + product.getId(), customerid, product.getFieldno());
-				if(salesItemDto != null) {
-					product.setCuprice(salesItemDto.getUnitprice());
-					product.setTaxcuprice(salesItemDto.getTaxunitprice());
+				if("2".equals(flag)) {
+					//销售单铜价
+					SalesItemDto salesItemDto = getSalesCuPriceByProduct("" + product.getId(), customerid, product.getFieldno());
+					if(salesItemDto != null) {
+						product.setCuprice(salesItemDto.getUnitprice());
+						product.setTaxcuprice(salesItemDto.getTaxunitprice());
+					}
+				} else if("1".equals(flag)) {
+					//采购单铜价
+					PurchaseItemDto purchaseItemDto = getPurchaseCuPriceByProduct("" + product.getId(), supplierId, product.getFieldno());
+					if(purchaseItemDto != null) {
+						product.setCuprice(purchaseItemDto.getUnitprice());
+						product.setTaxcuprice(purchaseItemDto.getTaxunitprice());
+					}
+				} else {
+					//什么都不做
 				}
 			}
 			//productBarcodeDao
@@ -90,8 +105,46 @@ public class ProductServiceImpl implements ProductService {
 		page.setItems(list);
 		return page;
 	}
+	
+	/**
+	 * 采购单铜价信息
+	 * @param productid
+	 * @param supplierId
+	 * @param fieldno
+	 * @return
+	 */
+	private PurchaseItemDto getPurchaseCuPriceByProduct(String productid, String supplierId, String fieldno) {
+		if(StringUtil.isNotBlank(supplierId)) {
+			if(Constants.DICT_GOODS_TYPE_CODE_01.equals(fieldno)) {
+				//电子线，查询当前最近一次设置的价格区间
+				String setdate = DateUtil.dateToShortStr(new Date());
+				CuPriceDto cuPriceDto = cuPriceDao.queryLastCuPriceBySetDate(setdate);
+				if(cuPriceDto != null) {
+					ProductDto productDto = productDao.queryProductByID(productid);
+					if(productDto != null) {
+						PurchaseItemDto purchaseItemDto = purchaseItemDao.queryPurchaseCuPriceByProductInfo(productDto.getFieldno(), productDto.getTradename(),
+								productDto.getTypeno(), productDto.getPackaging(), productDto.getUnit(),
+								productDto.getMakearea(), cuPriceDto.getCu_price_code(), supplierId);
+						return purchaseItemDto;
+					}
+				}
+			} else {
+				//非电子线，直接按产品ID查询价格
+				PurchaseItemDto purchaseItemDto = purchaseItemDao.queryPurchaseCuPriceByProductID(productid, supplierId);
+				return purchaseItemDto;
+			}
+		}
+		return null;
+	}
 
-	private SalesItemDto getCuPriceByProduct(String productid, String customerid, String fieldno) {
+	/**
+	 * 销售单铜价信息
+	 * @param productid
+	 * @param customerid
+	 * @param fieldno
+	 * @return
+	 */
+	private SalesItemDto getSalesCuPriceByProduct(String productid, String customerid, String fieldno) {
 		if(StringUtil.isNotBlank(customerid)) {
 			if(Constants.DICT_GOODS_TYPE_CODE_01.equals(fieldno)) {
 				//电子线，查询当前最近一次设置的价格区间
@@ -362,5 +415,13 @@ public class ProductServiceImpl implements ProductService {
 
 	public void setCuPriceDao(CuPriceDao cuPriceDao) {
 		this.cuPriceDao = cuPriceDao;
+	}
+
+	public PurchaseItemDao getPurchaseItemDao() {
+		return purchaseItemDao;
+	}
+
+	public void setPurchaseItemDao(PurchaseItemDao purchaseItemDao) {
+		this.purchaseItemDao = purchaseItemDao;
 	}
 }

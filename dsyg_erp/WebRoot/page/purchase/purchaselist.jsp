@@ -92,6 +92,15 @@
 	
 	//查询日期赋值
 	function setQueryDate() {
+		var type = "";
+		var list = document.getElementsByName("tmpType");
+		for(var i = 0; i < list.length; i++) {
+			if(list[i].checked) {
+				type = list[i].value;
+				break;
+			}
+		}
+		$("#strType").attr("value", type);
 		$("#strPurchasedateLow").attr("value", $("#purchaseDateLow").val());
 		$("#strPurchasedateHigh").attr("value", $("#purchaseDateHigh").val());
 	}
@@ -173,6 +182,7 @@
 				<s:hidden name="strPurchasedateLow" id="strPurchasedateLow"/>
 				<s:hidden name="strPurchasedateHigh" id="strPurchasedateHigh"/>
 				<s:hidden name="productid" id="productid"/>
+				<s:hidden name="strType" id="strType"/>
 				<s:hidden name="intPageSize" id="intPageSize"/>
 				<div class="searchbox">
 					<div class="box1">
@@ -235,10 +245,22 @@
 				</div>
 				<div class="searchbox">
 					<div class="box1" style="margin-top: 6px; margin-left: 50px;">
-						<div class="box1_left">
+						<s:if test='strType == "1"'>
+							<input name="tmpType" type="radio" value=""/>采购 <input name="tmpType" checked="checked" type="radio" value="1"/>询价
+						</s:if>
+						<s:else>
+							<input name="tmpType" type="radio" checked="checked" value=""/>采购 <input name="tmpType" type="radio" value="1"/>询价
+						</s:else>
+					</div>
+					<div class="box1" style="margin-top: 6px; margin-left: 50px;">
+						<div class="box1_left"></div>
+						<div class="box1_center">
 							<s:textfield name="productinfo" id="productinfo" size="30" maxlength="150" theme="simple" disabled="disabled"></s:textfield>
 						</div>
-						<div class="btn" style="margin-left: 230px;">
+						<div class="box1_right"></div>
+					</div>
+					<div class="box1" style="margin-top: 6px; margin-left: 0px;">
+						<div class="btn" style="margin-left: 130px;">
 							<div class="box1_left"></div>							
 							<div class="box1_center">
 								<input class="input40" type="button" onclick="clrProduct();" value="清除" />							
@@ -280,6 +302,7 @@
 								<td width="20"></td>
 								<td width="30">序号</td>
 								<td width="120">采购订单号</td>
+								<td width="60">采购方式</td>
 								<!--
 								<td width="60">采购主题</td>
 								-->
@@ -314,6 +337,14 @@
 											<s:property value="theme2"/>
 										</td>
 									</s:else>
+									<td>
+										<s:if test='%{res02 == "1"}'>
+											询价
+										</s:if>
+										<s:else>
+											采购
+										</s:else>
+									</td>
 									<!--
 									<td>
 										<s:iterator id="goodsList" value="goodsList" status="st3">

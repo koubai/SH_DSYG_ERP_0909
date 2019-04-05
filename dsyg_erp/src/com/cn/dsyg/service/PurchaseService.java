@@ -38,6 +38,7 @@ public interface PurchaseService {
 
 	/**
 	 * 翻页查询满足条件的采购数据
+	 * @param type 采购OR询价
 	 * @param purchasedateLow
 	 * @param purchasedateHigh
 	 * @param theme2 单号
@@ -45,11 +46,12 @@ public interface PurchaseService {
 	 * @param page
 	 * @return
 	 */
-	public Page queryPurchaseByPage(String purchasedateLow, String purchasedateHigh,
+	public Page queryPurchaseByPage(String type, String purchasedateLow, String purchasedateHigh,
 			String theme2, String status, Page page);
 	
 	/**
 	 * 翻页查询满足条件的采购数据
+	 * @param type 采购OR询价
 	 * @param purchasedateLow
 	 * @param purchasedateHigh
 	 * @param theme2 单号
@@ -57,7 +59,7 @@ public interface PurchaseService {
 	 * @param page
 	 * @return
 	 */
-	public Page queryPurchaseExtByPage(String purchasedateLow, String purchasedateHigh,
+	public Page queryPurchaseExtByPage(String type, String purchasedateLow, String purchasedateHigh,
 			String theme2, String productid, String status, Page page);
 
 	/**

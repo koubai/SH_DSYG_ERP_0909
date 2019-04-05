@@ -108,6 +108,7 @@
 		//是否样品
 		var sampleflag = inputs[11].value;
 		
+		/*
 		//采购价格（税前）
 		var purchaseprice = inputs[12].value;
 		
@@ -116,7 +117,11 @@
 		if(purchaseprice != "") {
 			purchasetaxprice = parseFloat(purchaseprice) * (1 + parseFloat(rate));
 			purchasetaxprice = purchasetaxprice.toFixed(6);
-		}
+		}//*/
+		//铜价设置的单价逻辑
+		var purchaseprice = inputs[18].value;
+		//销售价格（税后）
+		var purchasetaxprice = inputs[19].value;
 		
 		//销售价格
 		var salesprice = inputs[13].value;
@@ -237,6 +242,10 @@
 		td = createTd("0");
 		tr.appendChild(td);
 		
+		//铜价信息列表
+		td = createCuPriceTd(fieldno);
+		tr.appendChild(td);
+		
 		//税前单价
 		td = createTdInputAddValue("tmpUnitprice", wid, 17, "calcquantity(this, '4');", id, purchaseprice);
 		//td = createTd(purchaseprice);
@@ -264,6 +273,31 @@
 		
 		getOpener().document.getElementById("productlist").value = productlist + id + ",";
 		getOpener().document.getElementById("productData").appendChild(tr);
+	}
+	
+	function createCuPriceTd(fieldno) {
+		var td = getOpener().document.createElement("td");
+		td.className = "cupricetd";
+		var strPurchaseType = $("#strPurchaseType").val();
+		if(strPurchaseType == "1") {
+			//询价需要展示这一列
+			td.style.cssText = "";
+		} else {
+			td.style.cssText = "display: none;";
+		}
+		var select = getOpener().document.createElement("select");
+		if(fieldno == "01") {
+			//电子线
+			var cupriceselect = $("#cupricediv").children().html();
+			select.innerHTML = cupriceselect;
+		} else {
+			//非电子线
+			var cupriceselect = '<select id="" disabled="disabled" name="tmpCuPrice" style="width: 90px;"><option value="" selected="selected">请选择</option></select>';
+			select.innerHTML = cupriceselect;
+		}
+		
+		td.appendChild(select);
+		return td;
 	}
 	
 	//刷新投标公司序号和斑马线
@@ -394,6 +428,7 @@
 </head>
 <body style="background: url(''); overflow-x:hidden;overflow-y:hidden;">
 <s:form id="mainform" name="mainform" method="POST">
+	<s:hidden name="strPurchaseType" id="strPurchaseType"></s:hidden>
 	<s:hidden name="common_rate" id="common_rate"></s:hidden>
 	<s:hidden name="startIndex" id="startIndex"/>
 	<s:hidden name="intPageSize" id="intPageSize"/>
@@ -430,6 +465,15 @@
 							<option value="<s:property value="code"/>" <s:if test="%{colorList[#st1.index].code == strColor}">selected</s:if>><s:property value="fieldname"/></option>
 						</s:iterator>
 					</select>
+					
+					<div id="cupricediv" style="display: none;">
+						<select id="" name="tmpCuPrice" style="width: 90px;">
+							<option value="" selected="selected">请选择</option>
+							<s:iterator id="cuPriceDict01List" value="cuPriceDict01List" status="st3">
+								<option value="<s:property value="code"/>"><s:property value="fieldname"/></option>
+							</s:iterator>
+						</select>
+					</div>
 				</div>
 				<div class="box1_right"></div>
 			</div>
@@ -487,6 +531,9 @@
 								<input type="hidden" value="<s:property value="item10"/>"/>
 								<input type="hidden" value="<s:iterator id="makeareaList" value="makeareaList" status="st3"><s:if test="%{makeareaList[#st3.index].code == productList[#st1.index].makearea}"><s:property value="fieldname"/></s:if></s:iterator>"/>
 								<input type="hidden" value="<s:property value="item11"/>"/>
+								
+								<input type="hidden" value="<s:property value="cuprice"/>"/>
+								<input type="hidden" value="<s:property value="taxcuprice"/>"/>
 							</td>
 							<!-- <td><input name="radioKey" type="radio" value="<s:property value="id"/>"/></td> -->
 							<td><input name="radioKey" type="checkbox" value="<s:property value="id"/>"/></td>
