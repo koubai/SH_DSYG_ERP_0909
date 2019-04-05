@@ -91,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
 					}
 				} else if("1".equals(flag)) {
 					//采购单铜价
-					PurchaseItemDto purchaseItemDto = getPurchaseCuPriceByProduct("" + product.getId(), supplierId, product.getFieldno());
+					PurchaseItemDto purchaseItemDto = getPurchaseCuPriceByProduct("" + product.getId(), customerid, product.getFieldno());
 					if(purchaseItemDto != null) {
 						product.setCuprice(purchaseItemDto.getUnitprice());
 						product.setTaxcuprice(purchaseItemDto.getTaxunitprice());

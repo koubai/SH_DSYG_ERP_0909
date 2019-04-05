@@ -621,9 +621,9 @@
 		var rows = document.getElementById("productData").rows;
 		var seq = rows.length + 1;
 		var url = '<%=request.getContextPath()%>/product/showProductSelectPage.action';
-		//strFlag=1采购单，strFlag=2销售单
+		//strFlag=1采购单，strFlag=2销售单，这里用strCustomerid把供应商ID传到产品页面，strSupplierId是产品页面查询条件
 		url += "?strPurchaseType=" + getRadioValue("purchaseType") + "&strFieldno=" + theme1 + "&strSeq=" + seq
-				+ "&strSupplierId=" + supplierid + "&strFlag=1" + "&date=" + new Date();
+				+ "&strSupplierId=" + "&strCustomerid=" + $("#supplierid").val() + "&strFlag=1" + "&date=" + new Date();
 		
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
@@ -742,6 +742,8 @@
 				
 				<s:hidden name="updPurchaseDto.handler" id="handler"></s:hidden>
 				<s:hidden name="updPurchaseDto.handlername" id="handlername"></s:hidden>
+				
+				<s:hidden name="updPurchaseDto.res02" id="res02"></s:hidden>
 				
 				<s:hidden name="updPurchaseDto.note" id="note"></s:hidden>
 				<s:hidden name="updPurchaseDto.refundflag" id="refundflag"></s:hidden>
@@ -1047,7 +1049,7 @@
 									</table>
 								</div>
 								<div class="tab_content" style="height: 305px;">
-									<table id="productTable" class="info_tab" width="140%" border="1" cellpadding="5" cellspacing="0">
+									<table id="productTable" class="info_tab" width="145%" border="1" cellpadding="5" cellspacing="0">
 										<tr style="background:#eee; border-top:black solid 1px;">
 											<td style="width: 0px; display: none"></td>
 											<td width="30"></td>

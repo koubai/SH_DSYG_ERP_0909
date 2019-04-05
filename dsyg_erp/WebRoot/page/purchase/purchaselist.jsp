@@ -246,10 +246,10 @@
 				<div class="searchbox">
 					<div class="box1" style="margin-top: 6px; margin-left: 50px;">
 						<s:if test='strType == "1"'>
-							<input name="tmpType" type="radio" value=""/>采购 <input name="tmpType" checked="checked" type="radio" value="1"/>询价
+							<input name="tmpType" type="radio" value="0"/>采购 <input name="tmpType" checked="checked" type="radio" value="1"/>询价
 						</s:if>
 						<s:else>
-							<input name="tmpType" type="radio" checked="checked" value=""/>采购 <input name="tmpType" type="radio" value="1"/>询价
+							<input name="tmpType" type="radio" checked="checked" value="0"/>采购 <input name="tmpType" type="radio" value="1"/>询价
 						</s:else>
 					</div>
 					<div class="box1" style="margin-top: 6px; margin-left: 50px;">
@@ -370,17 +370,33 @@
 									<td align="right"><s:property value="paidamount"/></td>
 									<td align="right"><s:property value="quantity"/></td>
 									<td>
-										<s:if test="%{status == 10}">
-											未收货
+										<s:if test='%{res02 == "1"}'>
+											<s:if test="%{status == 10}">
+												未收货
+											</s:if>
+											<s:elseif test="%{status == 15}">
+												部分收货
+											</s:elseif>
+											<s:elseif test="%{status == 20}">
+												询价作废
+											</s:elseif>
+											<s:else>
+												<s:property value="status"/>
+											</s:else>
 										</s:if>
-										<s:elseif test="%{status == 15}">
-											部分收货
-										</s:elseif>
-										<s:elseif test="%{status == 20}">
-											收货完成
-										</s:elseif>
 										<s:else>
-											<s:property value="status"/>
+											<s:if test="%{status == 10}">
+												未收货
+											</s:if>
+											<s:elseif test="%{status == 15}">
+												部分收货
+											</s:elseif>
+											<s:elseif test="%{status == 20}">
+												收货完成
+											</s:elseif>
+											<s:else>
+												<s:property value="status"/>
+											</s:else>
 										</s:else>
 									</td>
 									<td><s:property value="note"/></td>
