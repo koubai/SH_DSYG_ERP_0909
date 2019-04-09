@@ -582,7 +582,6 @@ public class ProductAction extends BaseAction {
 	public String showSalesProductSelectPage() {
 		try {
 			this.clearMessages();
-			cuPriceDict01List = dict01Service.queryDict01ByFieldcode(Constants.DICT_CU_PRICE_AREA, Constants.SYSTEM_LANGUAGE_ENGLISH);
 			//这里产品选择页面，不需要关键字检索
 			strKeyword = "";
 			startIndex = 0;
@@ -718,7 +717,6 @@ public class ProductAction extends BaseAction {
 	 */
 	public String querySalesProductSelectPage() {
 		try {
-			cuPriceDict01List = dict01Service.queryDict01ByFieldcode(Constants.DICT_CU_PRICE_AREA, Constants.SYSTEM_LANGUAGE_ENGLISH);
 			this.clearMessages();
 			startIndex = 0;
 			//默认10条
@@ -741,7 +739,6 @@ public class ProductAction extends BaseAction {
 	public String turnSalesProductSelectPage() {
 		try {
 			this.clearMessages();
-			cuPriceDict01List = dict01Service.queryDict01ByFieldcode(Constants.DICT_CU_PRICE_AREA, Constants.SYSTEM_LANGUAGE_ENGLISH);
 			queryData();
 		} catch(Exception e) {
 			log.error("turnSalesProductSelectPage error:" + e);
@@ -887,6 +884,8 @@ public class ProductAction extends BaseAction {
 		featureList01 = dict01Service.queryFeatureByFieldcode(Constants.DICT_GOODS_TYPE_CODE_01, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
 		//套管特征列表
 		featureList02 = dict01Service.queryFeatureByFieldcode(Constants.DICT_GOODS_TYPE_CODE_02, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+		
+		cuPriceDict01List = dict01Service.queryDict01ByFieldcode(Constants.DICT_CU_PRICE_AREA, Constants.SYSTEM_LANGUAGE_ENGLISH);
 	}
 	
 	/**
