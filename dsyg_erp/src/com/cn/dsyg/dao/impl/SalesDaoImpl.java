@@ -89,12 +89,14 @@ public class SalesDaoImpl extends BaseDao implements SalesDao {
 	}
 
 	@Override
-	public int querySalesExtCountByPage(String bookdateLow, String bookdateHigh, String theme2, String res02, String customername, String productid, String status) {
+	public int querySalesExtCountByPage(String productinfo, String bookdateLow, String bookdateHigh, String theme2, String res02, String customername, String productid, String status) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("bookdateLow", bookdateLow);
 		paramMap.put("bookdateHigh", bookdateHigh);
 		paramMap.put("theme2", theme2);
 		paramMap.put("status", status);
+		
+		paramMap.put("productinfo", productinfo);
 		
 		paramMap.put("customername", customername);
 		paramMap.put("res02", res02);
@@ -103,7 +105,7 @@ public class SalesDaoImpl extends BaseDao implements SalesDao {
 	}
 
 	@Override
-	public List<SalesExtDto> querySalesExtByPage(String bookdateLow,
+	public List<SalesExtDto> querySalesExtByPage(String productinfo, String bookdateLow,
 			String bookdateHigh, String theme2, String res02, String customername, String productid, String status, int start, int end) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("bookdateLow", bookdateLow);
@@ -114,6 +116,8 @@ public class SalesDaoImpl extends BaseDao implements SalesDao {
 		paramMap.put("customername", customername);
 		paramMap.put("res02", res02);
 		paramMap.put("productid", productid);
+		
+		paramMap.put("productinfo", productinfo);
 		
 		paramMap.put("start", start);
 		paramMap.put("end", end);

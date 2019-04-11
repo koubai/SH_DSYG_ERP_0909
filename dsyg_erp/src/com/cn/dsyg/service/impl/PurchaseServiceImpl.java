@@ -15,6 +15,7 @@ import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dao.Dict01Dao;
 import com.cn.dsyg.dao.FinanceDao;
+import com.cn.dsyg.dao.ProductDao;
 import com.cn.dsyg.dao.PurchaseDao;
 import com.cn.dsyg.dao.PurchaseItemDao;
 import com.cn.dsyg.dao.UserDao;
@@ -22,6 +23,7 @@ import com.cn.dsyg.dao.WarehouseDao;
 import com.cn.dsyg.dao.WarehouserptDao;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.FinanceDto;
+import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.dto.PurchaseDto;
 import com.cn.dsyg.dto.PurchaseExtDto;
 import com.cn.dsyg.dto.PurchaseItemDto;
@@ -46,6 +48,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 	private Dict01Dao dict01Dao;
 	private FinanceDao financeDao;
 	private UserDao userDao;
+	private ProductDao productDao;
 	
 	/**
 	 * 翻页查询满足条件的采购数据，然后等
@@ -129,13 +132,14 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public Page queryPurchaseExtByPage(String type, String purchasedateLow,
+	public Page queryPurchaseExtByPage(String productinfo, String type, String purchasedateLow,
 			String purchasedateHigh, String theme2, String productid, String status, Page page) {
+		productinfo = StringUtil.replaceDatabaseKeyword_mysql(productinfo);
 		//查询总记录数
 		int totalCount = 0;
 		//purchaseDao.queryPurchaseCountByPage(type, purchasedateLow, purchasedateHigh, theme2, status);
-		if (!productid.isEmpty() && !productid.equals("")){
-			totalCount = purchaseDao.queryPurchaseExtCountByPage(type, purchasedateLow, purchasedateHigh, theme2, productid, status);
+		if (StringUtil.isNotBlank(productinfo)){
+			totalCount = purchaseDao.queryPurchaseExtCountByPage(productinfo, type, purchasedateLow, purchasedateHigh, theme2, productid, status);
 		} else {
 			totalCount = purchaseDao.queryPurchaseCountByPage(type, purchasedateLow, purchasedateHigh, theme2, status);
 		}			
@@ -147,8 +151,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 		}
 		//翻页查询记录
 		List<PurchaseExtDto> list = null;
-		if (!productid.isEmpty() && !productid.equals("")){
-			list = purchaseDao.queryPurchaseExtByPage(type, purchasedateLow, purchasedateHigh, theme2, productid, status,
+		if (StringUtil.isNotBlank(productinfo)){
+			list = purchaseDao.queryPurchaseExtByPage(productinfo, type, purchasedateLow, purchasedateHigh, theme2, productid, status,
 					page.getStartIndex() * page.getPageSize(), page.getPageSize());
 		} else {
 			list = purchaseDao.queryPurchaseByPage(type, purchasedateLow, purchasedateHigh, theme2, status,
@@ -666,5 +670,13 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 	public void setWarehouserptDao(WarehouserptDao warehouserptDao) {
 		this.warehouserptDao = warehouserptDao;
+	}
+
+	public ProductDao getProductDao() {
+		return productDao;
+	}
+
+	public void setProductDao(ProductDao productDao) {
+		this.productDao = productDao;
 	}
 }

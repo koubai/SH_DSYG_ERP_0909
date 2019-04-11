@@ -79,6 +79,17 @@
 		<result property="updatedate" column="updatedate" />
 	</resultMap>
 	
+	<select id="queryProductByName" parameterClass="java.util.Map" resultMap="ProductDto">
+		select T.* from etb_product T where 1 = 1
+		<isNotEmpty prepend="and" property="status">
+			T.status = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="productname">
+			T.productname like '%$productname$%' ESCAPE '/'
+		</isNotEmpty>
+		order by T.id asc
+	</select>
+	
 	<select id="queryProductByLogicId" parameterClass="java.util.Map" resultMap="ProductDto">
 		select * from etb_product T where 1 = 1 and status = 1
 		<isNotEmpty prepend="and" property="tradename">

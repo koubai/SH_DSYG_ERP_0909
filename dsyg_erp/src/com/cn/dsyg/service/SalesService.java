@@ -50,6 +50,7 @@ public interface SalesService {
 	
 	/**
 	 * 翻页查询满足条件的销售数据
+	 * @param productinfo
 	 * @param bookdateLow
 	 * @param bookdateHigh
 	 * @param theme2
@@ -59,7 +60,7 @@ public interface SalesService {
 	 * @param page
 	 * @return
 	 */
-	public Page querySalesExtByPage(String bookdateLow, String bookdateHigh, String theme2, String type, String customername, String productid, String status, Page page);
+	public Page querySalesExtByPage(String productinfo, String bookdateLow, String bookdateHigh, String theme2, String type, String customername, String productid, String status, Page page);
 
 	/**
 	 * 根据ID查询销售单数据

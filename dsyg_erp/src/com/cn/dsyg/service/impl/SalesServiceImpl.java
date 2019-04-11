@@ -201,14 +201,15 @@ public class SalesServiceImpl implements SalesService {
 	}
 
 	@Override
-	public Page querySalesExtByPage(String bookdateLow, String bookdateHigh, String theme2,
+	public Page querySalesExtByPage(String productinfo, String bookdateLow, String bookdateHigh, String theme2,
 			String type, String customername, String productid, String status, Page page) {
 		customername = StringUtil.replaceDatabaseKeyword_mysql(customername);
+		productinfo = StringUtil.replaceDatabaseKeyword_mysql(productinfo);
 		
 		//查询总记录数
 		int totalCount = 0;
-		if (!productid.isEmpty() && !productid.equals("")){
-			totalCount = salesDao.querySalesExtCountByPage(bookdateLow, bookdateHigh, theme2, type, customername, productid, status);
+		if (StringUtil.isNotBlank(productinfo)){
+			totalCount = salesDao.querySalesExtCountByPage(productinfo, bookdateLow, bookdateHigh, theme2, type, customername, productid, status);
 		} else {
 			totalCount = salesDao.querySalesCountByPage(bookdateLow, bookdateHigh, theme2, type, customername, status);
 		}			
@@ -220,8 +221,8 @@ public class SalesServiceImpl implements SalesService {
 		}
 		//翻页查询记录
 		List<SalesExtDto> list = null;
-		if (!productid.isEmpty() && !productid.equals("")){
-			list = salesDao.querySalesExtByPage(bookdateLow, bookdateHigh, theme2, type, customername, productid, status,
+		if (StringUtil.isNotBlank(productinfo)){
+			list = salesDao.querySalesExtByPage(productinfo, bookdateLow, bookdateHigh, theme2, type, customername, productid, status,
 				page.getStartIndex() * page.getPageSize(), page.getPageSize());
 		} else {
 			list = salesDao.querySalesByPage(bookdateLow, bookdateHigh, theme2, type, customername, status,

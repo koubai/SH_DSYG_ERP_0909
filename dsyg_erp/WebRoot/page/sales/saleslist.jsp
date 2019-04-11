@@ -256,6 +256,7 @@
 						</s:else>
 					</div>
 					<div class="box1" style="margin-top: 6px; margin-left: 20px;">
+						<label class="pdf10">产品信息</label>
 						<div class="box1_left"></div>
 						<div class="box1_center">
 							<s:textfield name="productinfo" id="productinfo" size="30" maxlength="150" theme="simple" disabled="disabled"></s:textfield>

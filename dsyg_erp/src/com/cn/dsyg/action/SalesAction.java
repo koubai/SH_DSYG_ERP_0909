@@ -532,6 +532,7 @@ public class SalesAction extends BaseAction {
 			strType = "0";
 			strStatus = "10";
 			productid = "";
+			productinfo = "";
 			salesList = new ArrayList<SalesExtDto>();
 
 // Pei 2018.07.22 As user's requirement, initial needn't to display data			
@@ -844,7 +845,7 @@ public class SalesAction extends BaseAction {
 		//翻页查询所有委托公司
 		this.page.setStartIndex(startIndex);
 
-		page = salesService.querySalesExtByPage(strSalesdateLow, strSalesdateHigh, strTheme2, strType, strCustomername, productid, strStatus, page);
+		page = salesService.querySalesExtByPage(productinfo, strSalesdateLow, strSalesdateHigh, strTheme2, strType, strCustomername, productid, strStatus, page);
 		salesList = (List<SalesExtDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
 	}

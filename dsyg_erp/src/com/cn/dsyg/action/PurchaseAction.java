@@ -443,6 +443,7 @@ public class PurchaseAction extends BaseAction {
 			strStatus = "";
 			productid = "";
 			strType = "";
+			productinfo = "";
 			purchaseList = new ArrayList<PurchaseDto>();
 			
 // Pei 2018.07.22 As user's requirement, initial needn't to display data
@@ -746,7 +747,7 @@ public class PurchaseAction extends BaseAction {
 		initDictList();
 		//翻页查询所有委托公司
 		this.page.setStartIndex(startIndex);
-		page = purchaseService.queryPurchaseExtByPage(strType, strPurchasedateLow, strPurchasedateHigh, strTheme2, productid, strStatus, page);
+		page = purchaseService.queryPurchaseExtByPage(productinfo, strType, strPurchasedateLow, strPurchasedateHigh, strTheme2, productid, strStatus, page);
 		purchaseList = (List<PurchaseDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
 	}

@@ -153,8 +153,14 @@
 		</isNotEmpty>
 	</select>
 	<select id="queryPurchaseExtCountByPage" resultClass="int" parameterClass="java.util.Map">
-		select count(1) from etb_purchase T, etb_purchaseitem T2 where 1 = 1 and T.status > 0
-		and T.purchaseno = T2.purchaseno
+		select count(1)
+			from (
+			select A.*,(
+				select GROUP_CONCAT(P.productname) from etb_purchaseitem B left join etb_product P on P.id = B.productid where A.purchaseno = B.purchaseno
+			) as productnames
+			from etb_purchase A
+			where A.status > 0
+		) T where 1 = 1
 		<isNotEmpty prepend="and" property="purchasedateLow">
 			T.purchasedate <![CDATA[>=]]> #purchasedateLow#
 		</isNotEmpty>
@@ -170,8 +176,8 @@
 		<isNotEmpty prepend="and" property="theme2">
 			T.theme2 like '%$theme2$%' ESCAPE '/'
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="productid">
-			T2.productid = #productid#
+		<isNotEmpty prepend="and" property="productinfo">
+			T.productnames like '%$productinfo$%' ESCAPE '/'
 		</isNotEmpty>
 	</select>
 	
@@ -216,13 +222,19 @@
 		LIMIT #start#, #end#
 	</select>
 	<select id="queryPurchaseExtByPage" parameterClass="java.util.Map" resultMap="PurchaseExtDto">
-		select T.*, T2.quantity as quantity from etb_purchase T, etb_purchaseitem T2 where 1 = 1 and T.status > 0
-		and T.purchaseno = T2.purchaseno
+		select T.*,"" as quantity
+			from (
+			select A.*,(
+				select GROUP_CONCAT(P.productname) from etb_purchaseitem B left join etb_product P on P.id = B.productid where A.purchaseno = B.purchaseno
+			) as productnames
+			from etb_purchase A
+			where A.status > 0
+		) T where 1 = 1
 		<isNotEmpty prepend="and" property="purchasedateLow">
 			T.purchasedate <![CDATA[>=]]> #purchasedateLow#
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="purchasedateHigh">
-			T.purchasedate <![CDATA[<=]]> #purchasedateHigh#
+			T.purchasedate <![CDATA[<]]> #purchasedateHigh#
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="status">
 			T.status = #status#
@@ -233,8 +245,8 @@
 		<isNotEmpty prepend="and" property="theme2">
 			T.theme2 like '%$theme2$%' ESCAPE '/'
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="productid">
-			T2.productid = #productid#
+		<isNotEmpty prepend="and" property="productinfo">
+			T.productnames like '%$productinfo$%' ESCAPE '/'
 		</isNotEmpty>
 		order by T.theme2 desc, T.updatedate  desc
 		LIMIT #start#, #end#

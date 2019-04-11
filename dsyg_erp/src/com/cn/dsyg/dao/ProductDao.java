@@ -12,6 +12,14 @@ import com.cn.dsyg.dto.ProductDto;
  * @create 2015-5-19下午1:47:08
  */
 public interface ProductDao {
+	
+	/**
+	 * 根据名称模糊查询产品
+	 * @param productname
+	 * @param status
+	 * @return
+	 */
+	public List<ProductDto> queryProductByName(String productname, String status);
 
 	/**
 	 * 翻页查询信息

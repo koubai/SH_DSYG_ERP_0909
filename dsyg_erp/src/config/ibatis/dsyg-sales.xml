@@ -278,8 +278,14 @@
 	</select>
 
 	<select id="querySalesExtCountByPage" resultClass="int" parameterClass="java.util.Map">
-		select count(1) from etb_sales T, etb_salesitem T2 where 1 = 1 and T.status > 0
-		and T.salesno = T2.salesno and T.res05 is null
+		select count(1)
+			from (
+			select A.*,(
+				select GROUP_CONCAT(P.productname) from etb_salesitem B left join etb_product P on P.id = B.productid where A.salesno = B.salesno
+			) as productnames
+			from etb_sales A
+			where A.status > 0 and A.res05 is null
+		) T where 1 = 1
 		<isNotEmpty prepend="and" property="bookdateLow">
 			T.bookdate <![CDATA[>=]]> #bookdateLow#
 		</isNotEmpty>
@@ -300,12 +306,21 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="status">
 			T.status = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="productinfo">
+			T.productnames like '%$productinfo$%' ESCAPE '/'
 		</isNotEmpty>
 	</select>
 
 	<select id="querySalesExtByPage" parameterClass="java.util.Map" resultMap="SalesExtDto">
-		select T.*, T2.quantity as quantity from etb_sales T, etb_salesitem T2 where 1 = 1 and T.status > 0
-		and T.salesno = T2.salesno and T.res05 is null
+		select T.*,"" as quantity
+			from (
+			select A.*,(
+				select GROUP_CONCAT(P.productname) from etb_salesitem B left join etb_product P on P.id = B.productid where A.salesno = B.salesno
+			) as productnames
+			from etb_sales A
+			where A.status > 0 and A.res05 is null
+		) T where 1 = 1
 		<isNotEmpty prepend="and" property="bookdateLow">
 			T.bookdate <![CDATA[>=]]> #bookdateLow#
 		</isNotEmpty>
@@ -318,14 +333,17 @@
 		<isNotEmpty prepend="and" property="customername">
 			T.customername like '%$customername$%' ESCAPE '/'
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="productid">
-			T2.productid = #productid#
-		</isNotEmpty>
 		<isNotEmpty prepend="and" property="res02">
 			T.res02 = #res02#
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="productid">
+			T2.productid = #productid#
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="status">
 			T.status = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="productinfo">
+			T.productnames like '%$productinfo$%' ESCAPE '/'
 		</isNotEmpty>
 		order by T.bookdate desc
 		LIMIT #start#, #end#
