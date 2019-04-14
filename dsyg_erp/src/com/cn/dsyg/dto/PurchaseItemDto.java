@@ -180,7 +180,7 @@ public class PurchaseItemDto extends BaseAction {
 	private String res01;
 
 	/**
-	 * 预备项目2
+	 * 采购模式（0为采购，1为询价）
 	 */
 	private String res02;
 

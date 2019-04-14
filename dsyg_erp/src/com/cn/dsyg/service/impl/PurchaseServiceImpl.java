@@ -305,6 +305,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 				purchaseItem.setHandler(userid);
 				purchaseItem.setUpdateuid(userid);
 				purchaseItem.setCreateuid(userid);
+				//采购模式
+				purchaseItem.setRes02(purchase.getRes02());
 				//用户自己输入的订单号
 				purchaseItem.setTheme2(purchase.getTheme2());
 				purchaseItem.setStatus(Constants.STATUS_NORMAL);

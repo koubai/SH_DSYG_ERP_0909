@@ -173,12 +173,25 @@
 				and T.customerid = #customerid#
 			) B where B.salestype = '1' and B.salesstatus != 20
 		) A where 1 = 1
-			and A.theme1 = #fieldno#
-			and A.tradename = #tradename#
-			and A.typeno = #typeno#
-			and A.packaging = #packaging#
-			and A.unit = #unit#
-			and A.makearea = #makearea#
+		
+			<isNotEmpty prepend="and" property="fieldno">
+				A.theme1 = #fieldno#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="tradename">
+				A.tradename = #tradename#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="typeno">
+				A.typeno = #typeno#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="packaging">
+				A.packaging = #packaging#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="unit">
+				A.unit = #unit#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="makearea">
+				A.makearea = #makearea#
+			</isNotEmpty>
 			and (A.res03 = #cupricecode# or A.res03 = '20' or A.res03 = '60')
 			order by A.createdate desc,A.id desc
 	</select>

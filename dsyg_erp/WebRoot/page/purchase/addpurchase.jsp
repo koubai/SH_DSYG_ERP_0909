@@ -284,6 +284,7 @@
 			//输入框金额也对应变更
 			tds[19].getElementsByTagName("input")[0].value = vv.toFixed(2);
 		} else {
+			inputs[14].value = (0).toFixed(2);
 			tds[19].getElementsByTagName("input")[0].value = (0).toFixed(2);
 		}
 		//===============================================
