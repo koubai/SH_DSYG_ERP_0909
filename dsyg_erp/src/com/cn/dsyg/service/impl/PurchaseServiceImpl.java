@@ -137,12 +137,17 @@ public class PurchaseServiceImpl implements PurchaseService {
 		productinfo = StringUtil.replaceDatabaseKeyword_mysql(productinfo);
 		//查询总记录数
 		int totalCount = 0;
-		//purchaseDao.queryPurchaseCountByPage(type, purchasedateLow, purchasedateHigh, theme2, status);
-		if (StringUtil.isNotBlank(productinfo)){
-			totalCount = purchaseDao.queryPurchaseExtCountByPage(productinfo, type, purchasedateLow, purchasedateHigh, theme2, productid, status);
+		if (!productid.isEmpty() && !productid.equals("")){
+			totalCount = purchaseDao.queryPurchaseExtCountByPage1(purchasedateLow, purchasedateHigh, theme2, productid, status);
 		} else {
-			totalCount = purchaseDao.queryPurchaseCountByPage(type, purchasedateLow, purchasedateHigh, theme2, status);
+			//purchaseDao.queryPurchaseCountByPage(type, purchasedateLow, purchasedateHigh, theme2, status);
+			if (StringUtil.isNotBlank(productinfo)){
+				totalCount = purchaseDao.queryPurchaseExtCountByPage(productinfo, type, purchasedateLow, purchasedateHigh, theme2, productid, status);
+			} else {
+				totalCount = purchaseDao.queryPurchaseCountByPage(type, purchasedateLow, purchasedateHigh, theme2, status);
+			}			
 		}			
+		
 		page.setTotalCount(totalCount);
 		if(totalCount % page.getPageSize() > 0) {
 			page.setTotalPage(totalCount / page.getPageSize() + 1);
@@ -151,12 +156,18 @@ public class PurchaseServiceImpl implements PurchaseService {
 		}
 		//翻页查询记录
 		List<PurchaseExtDto> list = null;
-		if (StringUtil.isNotBlank(productinfo)){
-			list = purchaseDao.queryPurchaseExtByPage(productinfo, type, purchasedateLow, purchasedateHigh, theme2, productid, status,
+		
+		if (!productid.isEmpty() && !productid.equals("")){
+			list = purchaseDao.queryPurchaseExtByPage1(purchasedateLow, purchasedateHigh, theme2, productid, status,
 					page.getStartIndex() * page.getPageSize(), page.getPageSize());
 		} else {
-			list = purchaseDao.queryPurchaseByPage(type, purchasedateLow, purchasedateHigh, theme2, status,
-					page.getStartIndex() * page.getPageSize(), page.getPageSize());
+			if (StringUtil.isNotBlank(productinfo)){
+				list = purchaseDao.queryPurchaseExtByPage(productinfo, type, purchasedateLow, purchasedateHigh, theme2, productid, status,
+						page.getStartIndex() * page.getPageSize(), page.getPageSize());
+			} else {
+				list = purchaseDao.queryPurchaseByPage(type, purchasedateLow, purchasedateHigh, theme2, status,
+						page.getStartIndex() * page.getPageSize(), page.getPageSize());
+			}
 		}
 
 		if(list != null && list.size() > 0) {

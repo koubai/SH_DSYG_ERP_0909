@@ -60,6 +60,16 @@ public interface PurchaseDao {
 	
 	/**
 	 * 根据条件查询满足条件的采购单数量
+	 * @param purchasedateLow
+	 * @param purchasedateHigh
+	 * @param theme2
+	 * @param status
+	 * @return
+	 */
+	public int queryPurchaseExtCountByPage1(String purchasedateLow, String purchasedateHigh, String theme2, String productid, String status);
+	
+	/**
+	 * 根据条件查询满足条件的采购单数量
 	 * @param productinfo
 	 * @param type 采购OR询价
 	 * @param purchasedateLow
@@ -95,6 +105,19 @@ public interface PurchaseDao {
 	public List<PurchaseExtDto> queryPurchaseByPage(String type, String purchasedateLow,
 			String purchasedateHigh, String theme2, String status, int start, int end);
 	
+	/**
+	 * 翻页查询满足条件的采购数据
+	 * @param purchasedateLow
+	 * @param purchasedateHigh
+	 * @param theme2
+	 * @param status
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<PurchaseExtDto> queryPurchaseExtByPage1(String purchasedateLow,
+			String purchasedateHigh, String theme2, String productid, String status, int start, int end);
+
 	/**
 	 * 翻页查询满足条件的采购数据
 	 * @param productinfo

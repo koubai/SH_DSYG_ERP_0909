@@ -91,6 +91,34 @@ public class PurchaseDaoImpl extends BaseDao implements PurchaseDao {
 	}
 
 	@Override
+	public int queryPurchaseExtCountByPage1(String purchasedateLow,
+			String purchasedateHigh, String theme2, String productid, String status) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("purchasedateLow", purchasedateLow);
+		paramMap.put("purchasedateHigh", purchasedateHigh);
+		paramMap.put("theme2", theme2);
+		paramMap.put("productid", productid);
+		paramMap.put("status", status);
+		return (Integer) getSqlMapClientTemplate().queryForObject("queryPurchaseExtCountByPage1", paramMap);
+	}
+
+	@Override
+	public List<PurchaseExtDto> queryPurchaseExtByPage1(String purchasedateLow,
+			String purchasedateHigh, String theme2, String productid, String status, int start, int end) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("purchasedateLow", purchasedateLow);
+		paramMap.put("purchasedateHigh", purchasedateHigh);
+		paramMap.put("theme2", theme2);
+		paramMap.put("productid", productid);
+		paramMap.put("status", status);
+		paramMap.put("start", start);
+		paramMap.put("end", end);
+		@SuppressWarnings("unchecked")
+		List<PurchaseExtDto> list = getSqlMapClientTemplate().queryForList("queryPurchaseExtByPage1", paramMap);
+		return list;
+	}
+
+	@Override
 	public int queryPurchaseExtCountByPage(String productinfo, String type, String purchasedateLow,
 			String purchasedateHigh, String theme2, String productid, String status) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();

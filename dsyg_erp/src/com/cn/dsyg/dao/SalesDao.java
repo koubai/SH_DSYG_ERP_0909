@@ -61,6 +61,33 @@ public interface SalesDao {
 	 * @return
 	 */
 	public List<SalesExtDto> querySalesByPage(String bookdateLow, String bookdateHigh, String theme2, String type, String customername, String status, int start, int end);
+
+	
+	/**
+	 * 根据条件查询满足条件的销售单数量
+	 * @param bookdateLow
+	 * @param bookdateHigh
+	 * @param theme2
+	 * @param type
+	 * @param customername
+	 * @param status
+	 * @return
+	 */
+	public int querySalesExtCountByPage1(String bookdateLow, String bookdateHigh, String theme2, String type, String customername, String productid, String status);
+	
+	/**
+	 * 翻页查询满足条件的销售数据
+	 * @param bookdateLow
+	 * @param bookdateHigh
+	 * @param theme2
+	 * @param type
+	 * @param customername
+	 * @param status
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<SalesExtDto> querySalesExtByPage1(String bookdateLow, String bookdateHigh, String theme2, String type, String customername, String productid, String status, int start, int end);
 	
 	/**
 	 * 根据条件查询满足条件的销售单数量

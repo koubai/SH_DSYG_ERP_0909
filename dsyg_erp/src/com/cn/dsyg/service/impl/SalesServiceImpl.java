@@ -208,11 +208,16 @@ public class SalesServiceImpl implements SalesService {
 		
 		//查询总记录数
 		int totalCount = 0;
-		if (StringUtil.isNotBlank(productinfo)){
-			totalCount = salesDao.querySalesExtCountByPage(productinfo, bookdateLow, bookdateHigh, theme2, type, customername, productid, status);
+		
+		if (!productid.isEmpty() && !productid.equals("")){
+			totalCount = salesDao.querySalesExtCountByPage1(bookdateLow, bookdateHigh, theme2, type, customername, productid, status);
 		} else {
-			totalCount = salesDao.querySalesCountByPage(bookdateLow, bookdateHigh, theme2, type, customername, status);
-		}			
+			if (StringUtil.isNotBlank(productinfo)){
+				totalCount = salesDao.querySalesExtCountByPage(productinfo, bookdateLow, bookdateHigh, theme2, type, customername, productid, status);
+			} else {
+				totalCount = salesDao.querySalesCountByPage(bookdateLow, bookdateHigh, theme2, type, customername, status);
+			}			
+		}
 		page.setTotalCount(totalCount);
 		if(totalCount % page.getPageSize() > 0) {
 			page.setTotalPage(totalCount / page.getPageSize() + 1);
@@ -221,12 +226,17 @@ public class SalesServiceImpl implements SalesService {
 		}
 		//翻页查询记录
 		List<SalesExtDto> list = null;
-		if (StringUtil.isNotBlank(productinfo)){
-			list = salesDao.querySalesExtByPage(productinfo, bookdateLow, bookdateHigh, theme2, type, customername, productid, status,
+		if (!productid.isEmpty() && !productid.equals("")){
+			list = salesDao.querySalesExtByPage1(bookdateLow, bookdateHigh, theme2, type, customername, productid, status,
 				page.getStartIndex() * page.getPageSize(), page.getPageSize());
-		} else {
-			list = salesDao.querySalesByPage(bookdateLow, bookdateHigh, theme2, type, customername, status,
+		}else {
+			if (StringUtil.isNotBlank(productinfo)){
+				list = salesDao.querySalesExtByPage(productinfo, bookdateLow, bookdateHigh, theme2, type, customername, productid, status,
 					page.getStartIndex() * page.getPageSize(), page.getPageSize());
+			} else {
+				list = salesDao.querySalesByPage(bookdateLow, bookdateHigh, theme2, type, customername, status,
+						page.getStartIndex() * page.getPageSize(), page.getPageSize());
+			}			
 		}
 		if(list != null && list.size() > 0) {
 			String allquantity = salesDao.querySalesQuantity(bookdateLow, bookdateHigh, theme2, type, customername, productid, status);
