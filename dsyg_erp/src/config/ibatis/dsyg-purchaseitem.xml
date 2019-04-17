@@ -362,6 +362,7 @@
 			taxamount = #taxamount#,
 			plandate = #plandate#,
 			approverid = #approverid#,
+			handler = #handler#,
 			note = #note#,
 			rank = #rank#,
 			status = #status#,
