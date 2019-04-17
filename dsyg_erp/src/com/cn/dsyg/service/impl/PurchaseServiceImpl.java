@@ -397,6 +397,12 @@ public class PurchaseServiceImpl implements PurchaseService {
 					}
 					//特别号
 					purchaseItem.setRes09(purchaseItem.getRes09());
+					purchaseItem.setHandler(userid);
+					purchaseItem.setRank(Constants.ROLE_RANK_OPERATOR);
+					
+					//采购模式
+					purchaseItem.setRes02(purchase.getRes02());
+					purchaseItem.setPlandate(purchase.getPlandate());
 
 					//预入库数重置为0
 					purchaseItem.setBeforequantity(new BigDecimal(0));
@@ -421,6 +427,12 @@ public class PurchaseServiceImpl implements PurchaseService {
 					}
 					//特别号
 					purchaseItem.setRes09(purchaseItem.getRes09());
+					
+					//采购模式
+					purchaseItem.setRes02(purchase.getRes02());
+					purchaseItem.setHandler(userid);
+					purchaseItem.setRank(Constants.ROLE_RANK_OPERATOR);
+					purchaseItem.setPlandate(purchase.getPlandate());
 
 					//预入库数重置为0
 					purchaseItem.setBeforequantity(new BigDecimal(0));
@@ -444,35 +456,38 @@ public class PurchaseServiceImpl implements PurchaseService {
 		//删除status=0的数据
 		purchaseItemDao.deleteNoUsePurchaseItemByPurchaseno(purchase.getPurchaseno());
 		
-		//当前采购单状态若!=已入库时
-		if(purchase.getStatus() != Constants.PURCHASE_STATUS_WAREHOUSE_OK) {
-			//判断采购单是否是所有产品都均已入库
-			List<PurchaseItemDto> purchaseItemList = purchaseItemDao.queryPurchaseItemByPurchaseno(purchase.getPurchaseno());
-			if(purchaseItemList != null && purchaseItemList.size() > 0) {
-				boolean b = true;
-				//判断当前的采购单对应的货物是否都已入库：采购数量=入库数量
-				for(PurchaseItemDto item : purchaseItemList) {
-					if(item.getQuantity() != null && item.getQuantity().floatValue() > item.getInquantity().floatValue()) {
-						b = false;
-						break;
-					}
-				}
-				if(b) {
-					//判断所有的库存记录均为已确认
-					List<WarehouseDto> listWarehouse = warehouseDao.queryWarehouseByParentid(purchase.getPurchaseno(), "");
-					for(WarehouseDto warehouseDto : listWarehouse) {
-						if(warehouseDto.getStatus() <= Constants.WAREHOUSE_STATUS_NEW) {
+		if("0".equals(purchase.getRes02())) {
+			//非询价时
+			//当前采购单状态若!=已入库时
+			if(purchase.getStatus() != Constants.PURCHASE_STATUS_WAREHOUSE_OK) {
+				//判断采购单是否是所有产品都均已入库
+				List<PurchaseItemDto> purchaseItemList = purchaseItemDao.queryPurchaseItemByPurchaseno(purchase.getPurchaseno());
+				if(purchaseItemList != null && purchaseItemList.size() > 0) {
+					boolean b = true;
+					//判断当前的采购单对应的货物是否都已入库：采购数量=入库数量
+					for(PurchaseItemDto item : purchaseItemList) {
+						if(item.getQuantity() != null && item.getQuantity().floatValue() > item.getInquantity().floatValue()) {
 							b = false;
 							break;
 						}
 					}
-				}
-				//以上2个条件均满足，则更新采购单状态
-				if(b) {
-					//需要更新采购单状态=入库确认
-					purchase.setStatus(Constants.PURCHASE_STATUS_WAREHOUSE_OK);
-					purchase.setUpdateuid(userid);
-					purchaseDao.updatePurchase(purchase);
+					if(b) {
+						//判断所有的库存记录均为已确认
+						List<WarehouseDto> listWarehouse = warehouseDao.queryWarehouseByParentid(purchase.getPurchaseno(), "");
+						for(WarehouseDto warehouseDto : listWarehouse) {
+							if(warehouseDto.getStatus() <= Constants.WAREHOUSE_STATUS_NEW) {
+								b = false;
+								break;
+							}
+						}
+					}
+					//以上2个条件均满足，则更新采购单状态
+					if(b) {
+						//需要更新采购单状态=入库确认
+						purchase.setStatus(Constants.PURCHASE_STATUS_WAREHOUSE_OK);
+						purchase.setUpdateuid(userid);
+						purchaseDao.updatePurchase(purchase);
+					}
 				}
 			}
 		}
