@@ -963,7 +963,7 @@
 			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
 			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12'   
 		from(   
-			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, TP.fieldno as aid, "" as handler, round(sum((T.taxamount*IF(T.res05 IS NULL,1,-1)-cast(T.res04 as DECIMAL(18,6))* IF(T.res05 IS NULL,-1,1)*T.quantity*1.17)*IF(T.res05 IS NULL,1,-1)),2) as pur_sum_data     
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, TP.fieldno as aid, "" as handler, round(sum((T.taxamount*IF(T.res05 IS NULL,1,-1)-cast(T.res04 as DECIMAL(18,6))* IF(T.res05 IS NULL,-1,1)*T.quantity*if(T.amount=0, 1.17, T.taxamount/T.amount))*IF(T.res05 IS NULL,1,-1)),2) as pur_sum_data     
 			from etb_warehouse T, etb_product TP
 			where 1=1 
 			and T.warehousetype = '2'
@@ -998,7 +998,7 @@
 			SUM(case when months=11 then pur_sum_data else 0 end) 'pur_month11',   
 			SUM(case when months=12 then pur_sum_data else 0 end) 'pur_month12'   
 		from(   
-			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, TP.fieldno as aid, "" as handler, round(sum((T.taxamount*IF(T.res05 IS NULL,1,-1)-cast(T.res04 as DECIMAL(18,6))* IF(T.res05 IS NULL,-1,1)*T.quantity*1.17)*IF(T.res05 IS NULL,1,-1)),2) as pur_sum_data     
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, TP.fieldno as aid, "" as handler, round(sum((T.taxamount*IF(T.res05 IS NULL,1,-1)-cast(T.res04 as DECIMAL(18,6))* IF(T.res05 IS NULL,-1,1)*T.quantity*if(T.amount=0, 1.17, T.taxamount/T.amount))*IF(T.res05 IS NULL,1,-1)),2) as pur_sum_data     
 			from etb_warehouse T, etb_product TP
 			where 1=1 
 			and T.warehousetype = '2'
@@ -1033,7 +1033,7 @@
 			NULL 'pur_month11',   
 			NULL 'pur_month12'   
 		from(   
-			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, TP.fieldno as aid, "" as handler, round(sum((T.taxamount*IF(T.res05 IS NULL,1,-1)-cast(T.res04 as DECIMAL(18,6))* IF(T.res05 IS NULL,-1,1)*T.quantity*1.17)*IF(T.res05 IS NULL,1,-1)),2) as pur_sum_data     
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, TP.fieldno as aid, "" as handler, round(sum((T.taxamount*IF(T.res05 IS NULL,1,-1)-cast(T.res04 as DECIMAL(18,6))* IF(T.res05 IS NULL,-1,1)*T.quantity*if(T.amount=0, 1.17, T.taxamount/T.amount))*IF(T.res05 IS NULL,1,-1)),2) as pur_sum_data     
 			from etb_warehouse T, etb_product TP
 			where 1=1 
 			and T.warehousetype = '2'
@@ -1068,7 +1068,7 @@
 			NULL 'pur_month11',   
 			NULL 'pur_month12'   
 		from(   
-			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, TP.fieldno as aid, "" as handler, round(sum((T.taxamount*IF(T.res05 IS NULL,1,-1)-cast(T.res04 as DECIMAL(18,6))* IF(T.res05 IS NULL,-1,1)*T.quantity*1.17)*IF(T.res05 IS NULL,1,-1)),2) as pur_sum_data     
+			select DATE_FORMAT(T.warehousedate,'%y') as years, DATE_FORMAT(T.warehousedate,'%m') months, TP.fieldno as aid, "" as handler, round(sum((T.taxamount*IF(T.res05 IS NULL,1,-1)-cast(T.res04 as DECIMAL(18,6))* IF(T.res05 IS NULL,-1,1)*T.quantity*if(T.amount=0, 1.17, T.taxamount/T.amount))*IF(T.res05 IS NULL,1,-1)),2) as pur_sum_data     
 			from etb_warehouse T, etb_product TP
 			where 1=1 
 			and T.warehousetype = '2'
@@ -1437,7 +1437,7 @@
 	FROM (
 		SELECT P.fieldno as typeno, sum(S.allleave) as leavequantity, sum(S.kc) as warehousecost
 		FROM (
-				select productid, res07 as allleave, IFNULL(res04,IFNULL(unitprice,0))*1.17* res07 as kc 
+				select productid, res07 as allleave, IFNULL(res04,IFNULL(unitprice,0))*if(amount=0, 1.17, taxamount/amount)* res07 as kc 
 				FROM etb_warehouse
 				WHERE res07 > 0
 				and warehousetype != 6
