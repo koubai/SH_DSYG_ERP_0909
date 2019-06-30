@@ -1213,11 +1213,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 							} else {
 								//需要更新销售单状态=部分入库
 								SalesDto salesDto = salesDao.querySalesByNo(warehouse.getParentid());
-								salesDto.setStatus(Constants.SALES_STATUS_WAREHOUSE_PART);
-								salesDto.setUpdateuid(userid);
-								salesDao.updateSales(salesDto);
-								if (!updSalesList.contains(salesDto)){
-									updSalesList.add(salesDto);
+								if(Constants.SALES_STATUS_WAREHOUSE_PART != salesDto.getStatus()) {
+									salesDto.setStatus(Constants.SALES_STATUS_WAREHOUSE_PART);
+									salesDto.setUpdateuid(userid);
+									salesDao.updateSales(salesDto);
+									if (!updSalesList.contains(salesDto)){
+										updSalesList.add(salesDto);
+									}
 								}
 							}
 						}
