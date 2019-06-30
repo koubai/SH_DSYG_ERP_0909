@@ -1073,8 +1073,15 @@ public class WarehouseServiceImpl implements WarehouseService {
 			
 			String[] idList = ids.split(",");
 			WarehouseDto warehouse = null;
-						
+			
+			//部分入库的销售单列表
 			List<SalesDto> updSalesList = new ArrayList<SalesDto>();
+			//已入库的销售单列表
+			List<SalesDto> updSalesFinishList = new ArrayList<SalesDto>();
+			//部分入库的销售单ID map，用于保证不重复更新his记录
+			Map<String, String> salesHisMap = new HashMap<String, String>();
+			//已入库的销售单ID map，用于保证不重复更新his记录
+			Map<String, String> salesFinishHisMap = new HashMap<String, String>();
 
 			//验证是否是同一个仓库，相同的预出库时间
 			String warehousename = "";
@@ -1138,6 +1145,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 			BigDecimal count = new BigDecimal(0);
 			//含税金额合计
 			BigDecimal totaltaxamount = new BigDecimal(0);
+			
 			for(int i = 0; i < idList.length; i++) {
 				String id = idList[i];
 				if(StringUtil.isNotBlank(id)) {
@@ -1207,8 +1215,10 @@ public class WarehouseServiceImpl implements WarehouseService {
 								salesDto.setStatus(Constants.SALES_STATUS_WAREHOUSE_OK);
 								salesDto.setUpdateuid(userid);
 								salesDao.updateSales(salesDto);
-								if (!updSalesList.contains(salesDto)){
-									updSalesList.add(salesDto);
+								//已入库的销售单列表
+								if(!salesFinishHisMap.containsKey(salesDto.getSalesno())) {
+									salesFinishHisMap.put(salesDto.getSalesno(), salesDto.getSalesno());
+									updSalesFinishList.add(salesDto);
 								}
 							} else {
 								//需要更新销售单状态=部分入库
@@ -1217,7 +1227,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 									salesDto.setStatus(Constants.SALES_STATUS_WAREHOUSE_PART);
 									salesDto.setUpdateuid(userid);
 									salesDao.updateSales(salesDto);
-									if (!updSalesList.contains(salesDto)){
+									//部分入库的销售单列表
+									if(!salesHisMap.containsKey(salesDto.getSalesno())) {
+										salesHisMap.put(salesDto.getSalesno(), salesDto.getSalesno());
 										updSalesList.add(salesDto);
 									}
 								}
@@ -1226,8 +1238,27 @@ public class WarehouseServiceImpl implements WarehouseService {
 					}
 				}
 			}
-			// 更新销售履历
+			// 更新部分入库销售履历
 			for(SalesDto updSalesDto : updSalesList) {
+				long updSalesid= salesHisDao.insertSalesHis(updSalesDto);
+				List <SalesItemDto> updSalesItemDto = new ArrayList<SalesItemDto>();
+				updSalesItemDto = salesItemDao.querySalesItemBySalesno(updSalesDto.getSalesno());
+				if(updSalesItemDto != null) {
+					for(SalesItemDto salesItem : updSalesItemDto) {
+						//销售单号
+						salesItem.setSalesno(updSalesDto.getSalesno().toString());
+						salesItem.setUpdateuid(userid);
+						salesItem.setCreateuid(userid);
+						salesItem.setStatus(Constants.STATUS_NORMAL);
+						salesItem.setBelongto(belongto);
+						//添加履历
+						salesItem.setRes06("" + updSalesid);
+						salesItemHisDao.insertSalesItemHis(salesItem);
+					}
+				}
+			}
+			// 更新已入库的销售履历
+			for(SalesDto updSalesDto : updSalesFinishList) {
 				long updSalesid= salesHisDao.insertSalesHis(updSalesDto);
 				List <SalesItemDto> updSalesItemDto = new ArrayList<SalesItemDto>();
 				updSalesItemDto = salesItemDao.querySalesItemBySalesno(updSalesDto.getSalesno());
