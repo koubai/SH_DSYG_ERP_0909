@@ -108,6 +108,7 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 					XSSFCell cell6 = row.createCell(6);
 					XSSFCell cell7 = row.createCell(7);
 					XSSFCell cell8 = row.createCell(8);
+					XSSFCell cell9 = row.createCell(9);
 /* 2018.04.30 as user wish enlarge font, remove some items   --->start  
 					XSSFCell cell9 = row.createCell(9);
 					XSSFCell cell10 = row.createCell(10);
@@ -179,44 +180,45 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 					//货物信息
 					cell1.setCellValue(product.getTradename());
 					cell1.setCellStyle(style);
-					cell2.setCellValue(product.getTypeno());
+					cell2.setCellValue(product.getItem11());
 					cell2.setCellStyle(style);
-					cell3.setCellValue(dictMap.get(Constants.DICT_COLOR_TYPE + "_" + product.getColor()));
+					cell3.setCellValue(product.getTypeno());
 					cell3.setCellStyle(style);
-/*					if("0".equals(product.getPackaging())) {
-						cell4.setCellValue("整箱");
-					} else {
-						cell4.setCellValue("乱尺");
-					}*/
-					cell4.setCellValue("");
+					cell4.setCellValue(dictMap.get(Constants.DICT_COLOR_TYPE + "_" + product.getColor()));
 					cell4.setCellStyle(style);
+/*					if("0".equals(product.getPackaging())) {
+						cell5.setCellValue("整箱");
+					} else {
+						cell5.setCellValue("乱尺");
+					}*/
+					cell5.setCellValue("");
 					cell5.setCellStyle(style);
-					cell5.setCellValue(product.getItem10());
+					cell6.setCellValue(product.getItem10());
 					cell6.setCellStyle(style);
 					if(product.getNum() != null && !"".equals(product.getNum())) {
 						//Float n = Float.valueOf(product.getNum());
 						BigDecimal d = new BigDecimal(product.getNum());
 						//if(n < 0) {
-							//cell8.setCellValue("" + (n * -1));
+							//cell9.setCellValue("" + (n * -1));
 						//} else {
-							cell6.setCellValue(StringUtil.BigDecimal2StrAbs(d, 2));
+							cell7.setCellValue(StringUtil.BigDecimal2StrAbs(d, 2));
 						//}
 					} else {
-						cell6.setCellValue("");
+						cell7.setCellValue("");
 					}
-					cell6.setCellStyle(style);
-					cell7.setCellValue(dictMap.get(Constants.DICT_MAKEAREA + "_" + product.getMakearea()));
 					cell7.setCellStyle(style);
+					cell8.setCellValue(dictMap.get(Constants.DICT_MAKEAREA + "_" + product.getMakearea()));
+					cell8.setCellStyle(style);
 					if (product.getNum() != null && !"".equals(product.getNum())){
 						String str11 = StringUtil.BigDecimal2StrAbs(new BigDecimal(product.getNum()),2);
 						if (unitcase.getUnitAmount(str11) != "")
-							cell8.setCellValue(unitcase.getUnitAmount(str11)+unitcase.getBoxNameA());
+							cell9.setCellValue(unitcase.getUnitAmount(str11)+unitcase.getBoxNameA());
 						else
-							cell8.setCellValue("");
+							cell9.setCellValue("");
 					} else {
-						cell8.setCellValue("");						
+						cell9.setCellValue("");						
 					} 
-					cell8.setCellStyle(style);					
+					cell9.setCellStyle(style);					
 					num++;
 				}
 			} else {
@@ -230,6 +232,7 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 				XSSFCell cell6 = row.createCell(6);
 				XSSFCell cell7 = row.createCell(7);
 				XSSFCell cell8 = row.createCell(8);
+				XSSFCell cell9 = row.createCell(9);
 /* 2018.04.30 as user wish enlarge font, remove some items   --->start  
 				XSSFCell cell9 = row.createCell(9);
 				XSSFCell cell10 = row.createCell(10);
@@ -256,6 +259,7 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 				cell7.setCellStyle(style);
 				cell8.setCellValue("");
 				cell8.setCellStyle(style);
+				cell9.setCellValue("");
 /* 2018.04.30 as user wish enlarge font, remove some items   --->start  
 				cell9.setCellValue("");
 				cell9.setCellStyle(style);
@@ -310,23 +314,25 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 <-- end */
 		heads.add("品名");
 		sheet.setColumnWidth(1, 12 * 256);
+		heads.add("住友编码");
+		sheet.setColumnWidth(2, 16 * 256);
 		heads.add("规格");
 //		sheet.setColumnWidth(2, 30 * 256);
-		sheet.setColumnWidth(2, 40 * 256);
+		sheet.setColumnWidth(3, 36 * 256);
 		heads.add("颜色");
-		sheet.setColumnWidth(3, 6 * 256);
+		sheet.setColumnWidth(4, 6 * 256);
 //		heads.add("形式");
 //		sheet.setColumnWidth(4, 10 * 256);
 		heads.add("");
-		sheet.setColumnWidth(4, 0 * 256);
+		sheet.setColumnWidth(5, 0 * 256);
 		heads.add("包装");
-		sheet.setColumnWidth(5, 25 * 256);
+		sheet.setColumnWidth(6, 25 * 256);
 		heads.add("数量");
-		sheet.setColumnWidth(6, 20 * 256);
+		sheet.setColumnWidth(7, 16 * 256);
 		heads.add("产地");
-		sheet.setColumnWidth(7, 14 * 256);
+		sheet.setColumnWidth(8, 10 * 256);
 		heads.add("");
-		sheet.setColumnWidth(8, 18 * 256);
+		sheet.setColumnWidth(9, 14 * 256);
 		
 		//heads.add("税后金额");
 		//sheet.setColumnWidth(9, 15 * 256);

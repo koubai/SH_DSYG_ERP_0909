@@ -3,6 +3,8 @@ package com.cn.dsyg.service.impl;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -679,6 +681,11 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 						}
 					}
 				}
+				Collections.sort(list, new Comparator<ProductDto>(){
+					public int compare(ProductDto a, ProductDto b){
+						return a.getId().compareTo(b.getId());
+					}
+				});
 				rpt.setListProduct(list);
 			} else {
 				//根据父单号查询
@@ -727,6 +734,11 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 						}
 					}
 				}
+				Collections.sort(list, new Comparator<ProductDto>(){
+					public int compare(ProductDto a, ProductDto b){
+						return a.getId().compareTo(b.getId());
+					}
+				});
 				rpt.setListProduct(list);
 			}
 		}
