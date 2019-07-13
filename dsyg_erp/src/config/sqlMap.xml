@@ -26,6 +26,7 @@
 	<sqlMap resource="/config/ibatis/dsyg-supplier.xml" />
 	<sqlMap resource="/config/ibatis/dsyg-customer.xml" />
 	<sqlMap resource="/config/ibatis/dsyg-delivery.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-deliveryprice.xml" />
 	<sqlMap resource="/config/ibatis/dsyg-assets.xml" />
 	<sqlMap resource="/config/ibatis/dsyg-document.xml" />
 	<sqlMap resource="/config/ibatis/dsyg-personal.xml" />

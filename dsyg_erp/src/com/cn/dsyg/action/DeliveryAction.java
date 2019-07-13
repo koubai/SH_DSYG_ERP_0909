@@ -12,6 +12,8 @@ import com.cn.common.util.Constants;
 import com.cn.common.util.Page;
 import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dto.DeliveryDto;
+import com.cn.dsyg.dto.DeliveryPriceDto;
+import com.cn.dsyg.dto.PurchaseItemDto;
 import com.cn.dsyg.dto.SupplierDto;
 import com.cn.dsyg.service.DeliveryService;
 import com.opensymphony.xwork2.ActionContext;
@@ -69,6 +71,7 @@ public class DeliveryAction extends BaseAction {
 	 * 新增快递对象
 	 */
 	private DeliveryDto addDeliveryDto;
+	private List<DeliveryPriceDto> addPriceItemList;
 	
 	/**
 	 * 修改的快递编号
@@ -79,6 +82,8 @@ public class DeliveryAction extends BaseAction {
 	 * 修改快递对象
 	 */
 	private DeliveryDto updateDeliveryDto;
+	private List<DeliveryPriceDto> updPriceItemList;
+	private List<DeliveryPriceDto> tmpUpdPriceItemList;
 	
 	/**
 	 * 删除的快递编号
@@ -281,6 +286,7 @@ public class DeliveryAction extends BaseAction {
 		try {
 			this.clearMessages();
 			addDeliveryDto = new DeliveryDto();
+			addPriceItemList = new ArrayList<DeliveryPriceDto>();
 		} catch(Exception e) {
 			return ERROR;
 		}
@@ -329,9 +335,10 @@ public class DeliveryAction extends BaseAction {
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_NAME);
 			addDeliveryDto.setCreateuid(username);
 			addDeliveryDto.setBelongto((String)ActionContext.getContext().getSession().get(Constants.SESSION_BELONGTO));
-			deliveryService.insertEtbDelivery(addDeliveryDto);
+			deliveryService.insertEtbDelivery(addDeliveryDto, addPriceItemList, username);
 			this.addActionMessage("添加快递成功！");
 			addDeliveryDto = new DeliveryDto();
+			addPriceItemList = new ArrayList<DeliveryPriceDto>();
 		} catch(Exception e) {
 			this.addActionMessage("系统异常，添加快递失败！");
 			log.error("addEtbDeliveryAction error:" + e);
@@ -348,11 +355,14 @@ public class DeliveryAction extends BaseAction {
 		try {
 			this.clearMessages();
 //			System.out.println("id is: "+updateDeliveryNo);
+			updPriceItemList = new ArrayList<DeliveryPriceDto>();
+			tmpUpdPriceItemList = new ArrayList<DeliveryPriceDto>();
 			updateDeliveryDto = deliveryService.queryEtbDeliveryByID(updateDeliveryNo);
 			if(updateDeliveryDto == null) {
 				this.addActionMessage("该数据不存在！");
 				return "checkerror";
 			}
+			updPriceItemList = deliveryService.queryPriceItemById(updateDeliveryDto.getId()+"");
 			if (StringUtil.isNotBlank(updateDeliveryDto.getRes01())){
 				String price[] = updateDeliveryDto.getRes01().split(";");
 				if (price.length == 5){
@@ -398,7 +408,9 @@ public class DeliveryAction extends BaseAction {
 			//修改数据
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_NAME);
 			updateDeliveryDto.setUpdateuid(username);
-			deliveryService.updateEtbDelivery(updateDeliveryDto);
+			deliveryService.updateEtbDelivery(updateDeliveryDto, tmpUpdPriceItemList, username);
+			updPriceItemList = deliveryService.queryPriceItemById(updateDeliveryDto.getId()+"");
+			tmpUpdPriceItemList = new ArrayList<DeliveryPriceDto>();
 			this.addActionMessage("修改快递成功！");
 		} catch(Exception e) {
 			this.addActionMessage("系统异常，修改快递失败！");
@@ -713,6 +725,30 @@ public class DeliveryAction extends BaseAction {
 
 	public void setAreaprice05(String areaprice05) {
 		this.areaprice05 = areaprice05;
+	}
+
+	public List<DeliveryPriceDto> getAddPriceItemList() {
+		return addPriceItemList;
+	}
+
+	public void setAddPriceItemList(List<DeliveryPriceDto> addPriceItemList) {
+		this.addPriceItemList = addPriceItemList;
+	}
+
+	public List<DeliveryPriceDto> getUpdPriceItemList() {
+		return updPriceItemList;
+	}
+
+	public void setUpdPriceItemList(List<DeliveryPriceDto> updPriceItemList) {
+		this.updPriceItemList = updPriceItemList;
+	}
+
+	public List<DeliveryPriceDto> getTmpUpdPriceItemList() {
+		return tmpUpdPriceItemList;
+	}
+
+	public void setTmpUpdPriceItemList(List<DeliveryPriceDto> tmpUpdPriceItemList) {
+		this.tmpUpdPriceItemList = tmpUpdPriceItemList;
 	}
 
 }

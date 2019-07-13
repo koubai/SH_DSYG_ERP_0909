@@ -181,7 +181,6 @@
 								<td width="5%">序号</td>
 								<!-- <td width="5%">快递编号</td> -->
 								<td width="15%">快递商名称</td>
-								<td width="10%">单价(/Kg)</td>
 								<td width="15%">快递商地址</td>
 								<td width="10%">联系人</td>
 								<td width="10%">电话</td>
@@ -204,7 +203,6 @@
 											<s:property value="deliveryname"/>
 										</div>
 									</td>
-									<td><s:property value="res01"/></td>
 									<td><s:property value="deliveryaddress1"/></td>
 									<td><s:property value="deliverymanager1"/></td>
 									<td><s:property value="deliverytel1"/></td>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cn.common.util.Page;
 import com.cn.dsyg.dto.DeliveryDto;
+import com.cn.dsyg.dto.DeliveryPriceDto;
 
 /**
  * @name 
@@ -59,10 +60,26 @@ public interface DeliveryService {
 	public void insertEtbDelivery(DeliveryDto delivery);
 	
 	/**
+	 * 新增快递
+	 * @param delivery
+	 * @param deliveryPriceDto
+	 * @param userid
+	 */
+	public void insertEtbDelivery(DeliveryDto delivery, List<DeliveryPriceDto> addPriceItemList, String userid);
+	
+	/**
 	 * 修改快递
 	 * @param delivery
 	 */
 	public void updateEtbDelivery(DeliveryDto delivery);
+	
+	/**
+	 * 修改快递
+	 * @param delivery
+	 * @param updPriceItemList
+	 * @param userid
+	 */
+	public void updateEtbDelivery(DeliveryDto delivery, List<DeliveryPriceDto> updPriceItemList, String userid);
 	
 	/**
 	 * 删除快递
@@ -78,4 +95,11 @@ public interface DeliveryService {
 	 * @return
 	 */
 	public List<DeliveryDto> queryAllEtbDeliveryExport(String deliveryNoLow, String deliveryNoHigh);
+
+	/**
+	 * 根据ID查询快递单价记录（查询未删除的记录）
+	 * @param deliveryNo
+	 * @return
+	 */
+	public List<DeliveryPriceDto> queryPriceItemById(String deliveryNo);
 }

@@ -672,8 +672,17 @@
 		<property name="deliveryDao">
 			<ref local="deliveryDao"/>
 		</property>
+		<property name="deliveryPriceDao">
+			<ref local="deliveryPriceDao"/>
+		</property>
 		<property name="dict01Dao">
 			<ref local="dict01Dao"/>
+		</property>
+	</bean>
+	
+	<bean id="deliveryPriceDao" class="com.cn.dsyg.dao.impl.DeliveryPriceDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
 		</property>
 	</bean>
 	

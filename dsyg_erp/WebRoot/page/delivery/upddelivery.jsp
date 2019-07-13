@@ -88,7 +88,7 @@
 			return;
 		}
 		//快递单价（/Kg）
-		var areaprice01 = $("#areaprice01").val().trim();
+		/* var areaprice01 = $("#areaprice01").val().trim();
 		if (areaprice01 != "" && !isReal(areaprice01)) {
 			alert("区域1单价必须为大于0的实数！");
 			$("#areaprice01").focus();
@@ -118,15 +118,167 @@
 			$("#areaprice05").focus();
 			return;
 		}
-		$("#res01").attr("value", areaprice01 + ";" + areaprice02 + ";" + areaprice03 + ";" + areaprice04 + ";" + areaprice05 + ";");
+		$("#res01").attr("value", areaprice01 + ";" + areaprice02 + ";" + areaprice03 + ";" + areaprice04 + ";" + areaprice05 + ";"); */
 
 		if(tmpnote.length > 100) {
 			alert("备注不能超过100个字！");
 			$("#tmpnote").focus();
 			return;
 		}
+		
+		if(!setPriceItemList()) {
+			return false;
+		}
 		document.mainform.action = '<c:url value="/delivery/updEtbDeliveryAction.action"></c:url>';
 		document.mainform.submit();
+	}
+	
+	//单价列表
+	function setPriceItemList() {
+		$("#priceItemTable").empty();
+		var rows = document.getElementById("priceData").rows;
+		var priceList = "";
+		for(var i = 0; i < rows.length; i++) {
+			var marketcitylist = rows[i].cells[2].getElementsByTagName("input");
+			var marketcity = marketcitylist[0].value;
+			var arrivalcitylist = rows[i].cells[4].getElementsByTagName("input");
+			var arrivalcity = arrivalcitylist[0].value;
+			var pricekglist = rows[i].cells[5].getElementsByTagName("input");
+			var pricekg = pricekglist[0].value;
+			var pricem3list = rows[i].cells[7].getElementsByTagName("input");
+			var pricem3 = pricem3list[0].value;
+			var currentPrice = marketcity+arrivalcity;
+			
+			var tr = document.createElement("tr");
+			//单价列表
+			var td = document.createElement("td");
+			
+			if(priceList != ""){
+				var ll = priceList.split(",");
+				var newPricelist = "";
+				for(var j = 0; j < ll.length; j++) {
+					if(ll[j] == currentPrice) {
+						alert(marketcity + "到"+ arrivalcity +"单价信息有重复！");
+						return false;
+					}
+				}
+			}
+			priceList += currentPrice + ",";
+			
+			//出发城市check
+			if(marketcity == "") {
+				alert("出发城市不能为空！");
+				$("#" + marketcity).focus();
+				return false;
+			}
+			
+			//到达城市check
+			if(arrivalcity == "") {
+				alert("到达城市不能为空！");
+				$("#" + arrivalcity).focus();
+				return false;
+			}
+			
+			if(pricekg == ""){
+				pricekg = 0;
+			}
+			
+			if(pricem3 == ""){
+				pricem3 = 0;
+			}
+			
+			td.appendChild(createInput("tmpUpdPriceItemList[" + i + "].marketcity", marketcity));
+			td.appendChild(createInput("tmpUpdPriceItemList[" + i + "].arrivalcity", arrivalcity));
+			td.appendChild(createInput("tmpUpdPriceItemList[" + i + "].pricekg", pricekg));
+			td.appendChild(createInput("tmpUpdPriceItemList[" + i + "].pricem3", pricem3));
+			
+			tr.appendChild(td);
+			document.getElementById("priceItemTable").appendChild(tr);
+		}
+		return true;
+	}
+	
+	function createInput(id, value) {
+		var input = document.createElement("input");
+		input.type = "text";
+		input.name = id;
+		input.value = value;
+		return input;
+	}
+	
+	//添加记录
+	function addPrice() {
+		//验证该产品是否在产品列表中
+		var td0 = document.createElement("td");
+		td0.style.display = "none";
+		var tr = document.createElement("tr");
+		tr.appendChild(td0);
+		var td = document.createElement("td");
+		//单选框
+		var radio = document.createElement("input");
+		radio.name = "itemRadio";
+		radio.type = "radio";
+		radio.style.width = "10px";
+		td.appendChild(radio);
+		tr.appendChild(td);
+		
+		//出发城市
+		td = createTdInput("marketcity", "120", "20", "");
+		tr.appendChild(td);
+		//~
+		td = document.createElement("td");
+		td.appendChild(document.createTextNode("~"));
+		tr.appendChild(td);
+		//到达城市
+		td = createTdInput("arrivalcity", "120", "20", "");
+		tr.appendChild(td);
+		//重量单价
+		td = createTdInput("pricekg", "200", "40", "");
+		tr.appendChild(td);
+		//（/Kg）
+		td = document.createElement("td");
+		td.appendChild(document.createTextNode("（/Kg）"));
+		tr.appendChild(td);
+		//体积单价
+		td = createTdInput("pricem3", "200", "40", "");
+		tr.appendChild(td);
+		//（/M^3）
+		td = document.createElement("td");
+		td.appendChild(document.createTextNode("（/M^3）"));
+		tr.appendChild(td);
+		
+		document.getElementById("priceData").appendChild(tr);
+	}
+	
+	function delPrice() {
+		var list = document.getElementsByName("itemRadio");
+		var currentPrice = "";
+		for(var i = 0; i < list.length; i++) {
+			if(list[i].checked) {
+				if(confirm("确定删除该记录吗？")) {
+					var tr = list[i].parentNode.parentNode;
+					var tbody = list[i].parentNode.parentNode.parentNode;
+					tbody.removeChild(tr);
+					break;
+				} else {
+					return;
+				}
+			}
+		}
+	}
+	
+	function createTdInput(name, wid, maxlength, onblurevent) {
+		var td = document.createElement("td");
+		var input = document.createElement("input");
+		input.id = name;
+		input.style.width = wid + "px";
+		input.setAttribute("maxlength", maxlength);
+		input.type = "text";
+		if(onblurevent != "") {
+			input.setAttribute("onblur", onblurevent); 
+		}
+		td.appendChild(input);
+		return td;
 	}
 	
 	function golist() {
@@ -161,6 +313,8 @@
 		<div style="position:absolute; margin-left: 150px; margin-top: 10px; text-align: center; color: red;">
 			<s:actionmessage />
 		</div>
+		<table id="priceItemTable" style="display: none;">
+		</table>
 		<table style="margin-left: 50px; margin-top: 30px;" border="0" cellspacing="15" cellpadding="0">
 			<tr>
 				<td width="120"><font color="red">*</font>快递代码</td>
@@ -531,7 +685,7 @@
 					</div>
 				</td>
 			</tr>
-			<tr>
+			<%-- <tr>
 				<td colspan="2">
 					<div class="trade">
 						<table class="trade_tab" width="80%" border="0">		
@@ -587,6 +741,84 @@
 							</tr>
 						</table>		
 					</div>
+				</td>
+			</tr> --%>
+			<tr>
+				<td colspan="2">
+					<div class="tab_content" style="height: 205px;">
+						<table class="trade_tab" width="100%" border="0">
+							<tr>
+								<td colspan="9"><strong>单价信息</strong></td>
+							</tr>
+							<tr>
+								<td style="width: 0px; display: none;"></td>
+								<td></td>
+								<td align="center">出发城市</td>
+								<td></td>
+								<td align="center">到达城市</td>
+								<td align="center">重量单价（/Kg）</td>
+								<td></td>
+								<td align="center">体积单价（/M^3）</td>
+								<td></td>
+							</tr>
+							<tbody id="priceData">
+								<s:iterator id="updPriceItemList" value="updPriceItemList" status="st1">
+									<tr>
+										<td style="width: 0px; display: none;">
+											<input type="hidden" value="<s:property value="id"/>" />
+											<input type="hidden" value="<s:property value="deliveryid"/>" />
+											<input type="hidden" value="<s:property value="marketcity"/>" />
+											<input type="hidden" value="<s:property value="arrivalcity"/>" />
+											<input type="hidden" value="<s:property value="pricekg"/>" />
+											<input type="hidden" value="<s:property value="pricem3"/>" />
+										</td>
+										<td><input name="itemRadio" type="radio" style="width:10px"/></td>
+										<td>
+											<input type="text" id="marketcity" style="width:120px;" maxlength="20" value="<s:property value="marketcity"/>" />
+										</td>
+										<td>~</td>
+										<td>
+											<input type="text" id="arrivalcity" style="width:120px;" maxlength="20" value="<s:property value="arrivalcity"/>" />
+										</td>
+										<td>
+											<input type="text" id="pricekg" style="width:200px;" maxlength="20" value="<s:property value="pricekg"/>" />
+										</td>
+										<td>（/Kg）</td>
+										<td>
+											<input type="text" id="pricem3" style="width:200px;" maxlength="20" value="<s:property value="pricem3"/>" />
+										</td>
+										<td>（/M^3）</td>
+									</tr>
+								</s:iterator>
+							</tbody>
+						</table>		
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<table cellpadding="10" style="margin:0 auto;">
+						<tr>
+							<td>
+								<div class="btn1">
+									<div class="btn1_left"></div>
+									<div class="btn1_center">
+										<input class="input80" type="button" onclick="addPrice();" value="新增" />
+									</div>
+									<div class="btn1_right"></div>
+								</div>
+							</td>
+							<td>
+								<div class="btn1">
+									<div class="btn1_left"></div>
+									<div class="btn1_center">
+										<input class="input80" type="button" onclick="delPrice();" value="删除" />
+									</div>
+									<div class="btn1_right"></div>
+								</div>
+							</td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 			<tr>

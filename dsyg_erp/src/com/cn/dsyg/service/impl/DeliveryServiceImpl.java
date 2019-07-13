@@ -7,8 +7,10 @@ import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dao.DeliveryDao;
+import com.cn.dsyg.dao.DeliveryPriceDao;
 import com.cn.dsyg.dao.Dict01Dao;
 import com.cn.dsyg.dto.DeliveryDto;
+import com.cn.dsyg.dto.DeliveryPriceDto;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.service.DeliveryService;
 
@@ -21,6 +23,7 @@ import com.cn.dsyg.service.DeliveryService;
 public class DeliveryServiceImpl implements DeliveryService {
 	
 	private DeliveryDao deliveryDao;
+	private DeliveryPriceDao deliveryPriceDao;
 	private Dict01Dao dict01Dao;
 
 	public Dict01Dao getDict01Dao() {
@@ -104,8 +107,61 @@ public class DeliveryServiceImpl implements DeliveryService {
 	}
 
 	@Override
+	public void insertEtbDelivery(DeliveryDto delivery, List<DeliveryPriceDto> addPriceItemList, String userid) {
+		//快递商番号
+		String code = "";
+		
+		List<Dict01Dto> listDict = dict01Dao.queryDict01ByFieldcode(Constants.DICT_EXPRESSER_ORDER, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+		if(listDict != null && listDict.size() > 0) {
+			Dict01Dto dict = listDict.get(0);
+			code = dict.getCode();
+			//番号+1
+			dict.setCode("" + (Integer.valueOf(dict.getCode()) + 1));
+			dict01Dao.updateDict01(dict);
+			code = "" + (Integer.valueOf(dict.getCode()) + 1);
+		} else {
+			//插入数据
+			Dict01Dto dict = new Dict01Dto();
+			dict.setFieldcode(Constants.DICT_EXPRESSER_ORDER);
+			dict.setFieldname("快递商番号");
+			//番号默认从1开始
+			dict.setCode("1");
+			code = "1";
+			dict.setLang(PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			dict.setMean("快递商番号");
+			dict.setNote("快递商番号");
+			dict.setStatus(Constants.STATUS_NORMAL);
+			dict.setCreateuid("admin");
+			dict.setUpdateuid("admin");
+			dict01Dao.insertDict01(dict);
+		}
+		delivery.setId(Integer.valueOf(code));
+		deliveryDao.insertEtbDelivery(delivery);
+		for(DeliveryPriceDto deliveryPriceDto : addPriceItemList){
+			deliveryPriceDto.setDeliveryid(Integer.valueOf(code));
+			deliveryPriceDto.setLatestflag(Constants.STATUS_NORMAL);
+			deliveryPriceDto.setCreateuid(userid);
+			deliveryPriceDao.insertDeliveryPrice(deliveryPriceDto);
+		}
+	}
+
+	@Override
 	public void updateEtbDelivery(DeliveryDto delivery) {
 		deliveryDao.updateEtbDelivery(delivery);
+	}
+
+	@Override
+	public void updateEtbDelivery(DeliveryDto delivery, List<DeliveryPriceDto> listPriceItem, String userid) {
+		deliveryDao.updateEtbDelivery(delivery);
+		//根据快递单号删除所有的单价数据，将item的状态更新为0
+		deliveryPriceDao.delDeliveryPrice(delivery.getId()+"", userid);
+		for(DeliveryPriceDto deliveryPriceDto : listPriceItem){
+			deliveryPriceDto.setCreateuid(userid);
+			deliveryPriceDto.setUpdateuid(userid);
+			deliveryPriceDto.setDeliveryid(delivery.getId());
+			deliveryPriceDto.setLatestflag(Constants.STATUS_NORMAL);
+			deliveryPriceDao.insertDeliveryPrice(deliveryPriceDto);
+		}
 	}
 
 	@Override
@@ -125,11 +181,24 @@ public class DeliveryServiceImpl implements DeliveryService {
 		return deliveryDao.queryAllEtbDeliveryExport(deliveryNoLow, deliveryNoHigh);
 	}
 
+	@Override
+	public List<DeliveryPriceDto> queryPriceItemById(String deliveryNo) {
+		return deliveryPriceDao.queryDeliveryPriceByDeliveryID(deliveryNo);
+	}
+
 	public DeliveryDao getDeliveryDao() {
 		return deliveryDao;
 	}
 
 	public void setDeliveryDao(DeliveryDao deliveryDao) {
 		this.deliveryDao = deliveryDao;
+	}
+
+	public DeliveryPriceDao getDeliveryPriceDao() {
+		return deliveryPriceDao;
+	}
+
+	public void setDeliveryPriceDao(DeliveryPriceDao deliveryPriceDao) {
+		this.deliveryPriceDao = deliveryPriceDao;
 	}
 }
