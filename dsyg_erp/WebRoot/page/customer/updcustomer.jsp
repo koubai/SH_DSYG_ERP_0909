@@ -23,11 +23,18 @@
 			}
 		}
 		var customername = $("#customername").val().trim();
+		//客户地址
+		var res01 = $("#res01").val().trim();
 		var tmpnote = $("#tmpnote").val();
 		$("#note").attr("value", tmpnote);
 		if(customername == "") {
 			alert("客户名称不能为空！");
 			$("#customername").focus();
+			return;
+		}
+		if(res01 == "") {
+			alert("客户地址不能为空！");
+			$("#res01").focus();
 			return;
 		}
 		
@@ -140,6 +147,16 @@
 					<div class="box1_left"></div>
 					<div class="box1_center">
 						<s:textfield name="updateCustomerDto.customername" id="customername" cssStyle="width:350px;" maxlength="40" theme="simple"></s:textfield>
+					</div>
+					<div class="box1_right"></div>
+				</td>
+			</tr>
+			<tr>
+				<td width="150"><font color="red">*</font>客户地址</td>
+				<td width="550">
+					<div class="box1_left"></div>
+					<div class="box1_center">
+						<s:textfield name="updateCustomerDto.res01" id="res01" cssStyle="width:350px;" maxlength="40" theme="simple"></s:textfield>
 					</div>
 					<div class="box1_right"></div>
 				</td>
