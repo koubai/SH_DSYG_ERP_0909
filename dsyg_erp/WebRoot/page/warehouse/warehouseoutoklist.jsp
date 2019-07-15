@@ -122,6 +122,12 @@
 			return;
 		}	
 	}
+	
+	//运费评估
+	function assess() {
+		var url = '<%=request.getContextPath()%>/assess/showAssessExpressFeeAction.action';
+		window.showModalDialog(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+	}
 </script>
 </head>
 <body>
@@ -326,6 +332,15 @@
 				<div class="btns" style="margin-top:40px; margin-left:-90px;">
 					<table border="0" style="margin:0 auto;">
 						<tr>
+							<td>
+								<div class="btn">
+									<div class="box1_left"></div>
+									<div class="box1_center">
+										<input class="input80" type="button" value="运费评估" onclick="assess();" />
+									</div>
+									<div class="box1_right"></div>
+								</div>
+							</td>
 							<td>
 								<div class="btn">
 									<div class="box1_left"></div>

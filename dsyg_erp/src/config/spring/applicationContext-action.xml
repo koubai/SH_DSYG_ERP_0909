@@ -2,6 +2,25 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
 <beans>
 
+	<!-- assessExpressFee -->
+	<bean id="assessExpressFeeAction" class="com.cn.dsyg.action.AssessExpressFeeAction" scope="session">
+		<property name="warehouseService">
+			<ref bean="warehouseService" />
+		</property>
+		<property name="deliveryService">
+			<ref bean="deliveryService" />
+		</property>
+		<property name="deliveryPriceService">
+			<ref bean="deliveryPriceService" />
+		</property>
+		<property name="customerService">
+			<ref bean="customerService" />
+		</property>
+		<property name="dict01Service">
+			<ref bean="dict01Service" />
+		</property>
+	</bean>
+	
 	<!-- cuPrice -->
 	<bean id="cuPriceAction" class="com.cn.dsyg.action.CuPriceAction" scope="session">
 		<property name="cuPriceService">

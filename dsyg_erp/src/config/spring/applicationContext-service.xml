@@ -680,6 +680,12 @@
 		</property>
 	</bean>
 	
+	<bean id="deliveryPriceService" class="com.cn.dsyg.service.impl.DeliveryPriceServiceImpl" >
+		<property name="deliveryPriceDao">
+			<ref local="deliveryPriceDao"/>
+		</property>
+	</bean>
+	
 	<bean id="deliveryPriceDao" class="com.cn.dsyg.dao.impl.DeliveryPriceDaoImpl">
 		<property name="sqlMapClient">
 			<ref bean="sqlMapClient"/>
