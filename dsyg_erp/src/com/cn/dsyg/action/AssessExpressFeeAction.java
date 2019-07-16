@@ -1,15 +1,26 @@
 package com.cn.dsyg.action;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.struts2.ServletActionContext;
 
 import com.cn.common.action.BaseAction;
+import com.cn.common.util.Constants;
+import com.cn.common.util.PropertiesConfig;
+import com.cn.dsyg.dto.AjaxResultDto;
 import com.cn.dsyg.dto.CustomerDto;
 import com.cn.dsyg.service.CustomerService;
 import com.cn.dsyg.service.DeliveryPriceService;
 import com.cn.dsyg.service.DeliveryService;
 import com.cn.dsyg.service.Dict01Service;
 import com.cn.dsyg.service.WarehouseService;
+
+import net.sf.json.JSONArray;
 
 /**
  * 运费评估
@@ -31,6 +42,8 @@ public class AssessExpressFeeAction extends BaseAction {
 	private String strWeight;//重量
 	private String strCube;//体积
 	private CustomerDto showCustomerDto;
+	//起点所属
+	private String strBelongto;
 
 	/**
 	 * 显示运费评估页面
@@ -41,6 +54,13 @@ public class AssessExpressFeeAction extends BaseAction {
 			this.clearMessages();
 			strWeight = "";
 			strCube = "";
+			//起点
+			String belongto = PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_BELONG);
+			if("1".equals(belongto)) {
+				strBelongto = "深圳";
+			} else {
+				strBelongto = "上海";
+			}
 			//根据客户ID查询客户信息
 			showCustomerDto = customerService.queryEtbCustomerByID(strCustomerId);
 		} catch(Exception e) {
@@ -53,8 +73,13 @@ public class AssessExpressFeeAction extends BaseAction {
 	/**
 	 * 评估快递费用
 	 * @return
+	 * @throws IOException 
 	 */
-	public String assessExpressFeeAction() {
+	public String assessExpressFeeAction() throws IOException {
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out;
+		AjaxResultDto ajaxResult = new AjaxResultDto();
 		try {
 			this.clearMessages();
 			//根据客户ID查询客户信息
@@ -63,10 +88,17 @@ public class AssessExpressFeeAction extends BaseAction {
 			//查询出所有快递公司
 			//根据快递公司的费用列表来匹配出每个快递公司最优解快递费用
 		} catch(Exception e) {
-			log.error("showAssessExpressFeeAction error:" + e);
-			return ERROR;
+			ajaxResult.setCode(-1);
+			ajaxResult.setMsg("评估快递费用异常：" + e.getMessage());
+			log.error("assessExpressFeeAction error:" + e);
 		}
-		return SUCCESS;
+		out = response.getWriter();
+		String result = JSONArray.fromObject(ajaxResult).toString();
+		result = result.substring(1, result.length() - 1);
+		log.info(result);
+		out.write(result);
+		out.flush();
+		return null;
 	}
 
 	public DeliveryPriceService getDeliveryPriceService() {
@@ -139,5 +171,13 @@ public class AssessExpressFeeAction extends BaseAction {
 
 	public void setStrCube(String strCube) {
 		this.strCube = strCube;
+	}
+
+	public String getStrBelongto() {
+		return strBelongto;
+	}
+
+	public void setStrBelongto(String strBelongto) {
+		this.strBelongto = strBelongto;
 	}
 }

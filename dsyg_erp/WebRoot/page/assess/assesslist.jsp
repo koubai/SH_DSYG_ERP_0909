@@ -9,480 +9,101 @@
 <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/common.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.5.1.js"></script>
-<title>产品信息一览</title>
+<title>运费信息确认</title>
 <script type="text/javascript">
-	$(function() {
-	});
-	
-	function queryList() {
-		$("#startIndex").attr("value", "0");
-		document.mainform.action = '../product/turnProductSelectPage.action';
-		document.mainform.submit();
-	}
-	
-	function showUnit(id){
-		var strSupplierId = document.getElementById("strSupplierId").value;
-		//alert("供应商："+ supplierid + " 品名：" + tradename + " 采购价：" + purchaseprice);
-		
-		var url = '<%=request.getContextPath()%>/purchase/showProductPricePage.action';
-		//strFlag=1采购单，strFlag=2销售单
-		strSupplierId = "";
-		url += "?strProdoctid=" + id + "&strSupplierid=" + strSupplierId + "&strFlag=1" + "&date=" + new Date();
-		window.showModalDialog(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
-	}
-	
-	//给父页面添加记录
-	function addProduct() {
-		var obj = null;
-		var id = "";
-		var list = document.getElementsByName("radioKey");
-		for(var i = 0; i < list.length; i++) {
-			if(list[i].checked) {
-				obj = list[i];
-				id = list[i].value;
-				//添加父页面记录
-				addProductToParent(obj, id);
-			}
-		}
-		if(obj == null) {
-			alert("请选择一条记录！");
-			return;
-		}
-		//刷新父页面斑马线
-		refreshParentBidExpertData();
-		
-		window.close();
-	}
-	
-	//
-	function addProductToParent(obj, id) {
-		//验证该产品是否在产品列表中
-		var productlist = getOpener().document.getElementById("productlist").value;
-		var products = "," + productlist;
-		if(products.indexOf("," + id + ",") >= 0) {
-			//alert("该产品已存在！");
-			return;
-		}
-		var rate = $("#common_rate").val();
-		//添加产品信息
-		var tr = obj.parentNode.parentNode;
-		var tds = tr.getElementsByTagName("td");
-		var inputs = tds[0].getElementsByTagName("input");
-		
-		var td0 = getOpener().document.createElement("td");
-		td0.style.display = "none";
-		var tr = getOpener().document.createElement("tr");
-		tr.appendChild(td0);
-		var td = getOpener().document.createElement("td");
-		//单选框
-		var radio = getOpener().document.createElement("input");
-		radio.name = "itemRadio";
-		radio.type = "radio";
-		radio.value = id;
-		td.appendChild(radio);
-		tr.appendChild(td);
-		//序号
-		td = createTd("");
-		tr.appendChild(td);
-		
-		//类型
-		var fieldno = inputs[1].value;
-		//类型名
-		var fieldnoName = inputs[2].value;
-		//品名
-		var tradename = inputs[3].value;
-		//规格
-		var typeno = inputs[4].value;
-		//颜色
-		var color = inputs[5].value;
-		//颜色名
-		var colorName = inputs[6].value;
-		//单位
-		var unit = inputs[7].value;
-		//单位名
-		var unitName = inputs[8].value;
-		//形式
-		var packaging = inputs[9].value;
-		//包装名
-		var packagingName = inputs[10].value;
-		//是否样品
-		var sampleflag = inputs[11].value;
-		
-		/*
-		//采购价格（税前）
-		var purchaseprice = inputs[12].value;
-		
-		var purchasetaxprice = "";
-		//采购价格（税后）
-		if(purchaseprice != "") {
-			purchasetaxprice = parseFloat(purchaseprice) * (1 + parseFloat(rate));
-			purchasetaxprice = purchasetaxprice.toFixed(6);
-		}//*/
-		//铜价设置的单价逻辑
-		var purchaseprice = inputs[18].value;
-		//销售价格（税后）
-		var purchasetaxprice = inputs[19].value;
-		
-		//销售价格
-		var salesprice = inputs[13].value;
-		//销售价格（税后）
-		var salestaxprice = "";
-		if(salesprice != "") {
-			salestaxprice = parseFloat(salesprice) * (1 + parseFloat(rate));
-			salestaxprice = salestaxprice.toFixed(6);
-		}
-		
-		//产地
-		var makearea = inputs[14].value;
-		//包装
-		var item10 = inputs[15].value;
-		//产地名称
-		var makeareaname = inputs[16].value;
-		//住友编码
-		var item11 = inputs[17].value;
-		
-		//采购单货物表ID，这里ID为空
-		var input = createHidden("");
-		td0.appendChild(input);
-		//货物ID
-		var input = createHidden(id);
-		td0.appendChild(input);
-		
-		//类型
-		td = createTd(fieldnoName);
-		tr.appendChild(td);
-		var input = createHidden(fieldno);
-		td0.appendChild(input);
-		//品名
-		td = createTd(tradename);
-		tr.appendChild(td);
-		var input = createHidden(tradename);
-		td0.appendChild(input);
-		//住友编码
-		td = createTd(item11);
-		tr.appendChild(td);
-		var input = createHidden(item11);
-		td0.appendChild(input);
-
-		//规格
-		td = createTd(typeno);
-		tr.appendChild(td);
-		var input = createHidden(typeno);
-		td0.appendChild(input);
-		//颜色
-		td = createTd(colorName);
-		tr.appendChild(td);
-		var input = createHidden(color);
-		td0.appendChild(input);
-		//单位
-		td = createTd(unitName);
-		tr.appendChild(td);
-		var input = createHidden(unit);
-		td0.appendChild(input);
-		//形式
-		td = createTd(packagingName);
-		tr.appendChild(td);
-		var input = createHidden(packaging);
-		td0.appendChild(input);
-		
-		//产地
-		td = createTd(makeareaname);
-		tr.appendChild(td);
-		
-		//采购单价
-		var input = createHidden(purchaseprice);
-		td0.appendChild(input);
-		
-		//============================
-		//入库数量
-		var input = createHiddenAddAlt("", "tmpQuantity_" + id);
-		td0.appendChild(input);
-		//预入库数量
-		var input = createHiddenAddAlt("", "tmpBeforeQuantity_" + id);
-		td0.appendChild(input);
-		//未入库数量
-		var input = createHidden("");
-		td0.appendChild(input);
-		//采购金额未税
-		var input = createHidden("");
-		td0.appendChild(input);
-		//采购金额已税
-		var input = createHiddenAddAlt("", "tmpTaxamount_" + id);
-		td0.appendChild(input);
-		//已入库数，默认为0
-		var input = createHidden("0");
-		td0.appendChild(input);
-		//备注
-		var input = createHidden("");
-		td0.appendChild(input);
-		//销售单价含税
-		var input = createHidden("");
-		td0.appendChild(input);
-		
-		//产地
-		var input = createHidden(makearea);
-		td0.appendChild(input);
-		//==============================
-		
-		var wid = 80;
-		var maxlength = 11;
-		
-		//采购数量
-		td = createTdInput("tmpQuantity", wid, maxlength, "calcquantity(this, '1');", id);
-		tr.appendChild(td);
-		//预入库数量
-		td = createTdInput("tmpBeforeQuantity", wid, maxlength, "calcquantity(this, '2');", id);
-		tr.appendChild(td);
-		
-		//已入库数量
-		td = createTd("0");
-		tr.appendChild(td);
-		
-		//未入库数量
-		td = createTd("0");
-		tr.appendChild(td);
-		
-		//铜价信息列表
-		td = createCuPriceTd(fieldno);
-		tr.appendChild(td);
-		
-		//税前单价
-		td = createTdInputAddValue("tmpUnitprice", wid, 17, "calcquantity(this, '4');", id, purchaseprice);
-		//td = createTd(purchaseprice);
-		tr.appendChild(td);
-		
-		//税后
-		td = createTdInputAddValue("tmpTaxUnitprice", wid, 17, "calcquantity(this, '6');", id, purchasetaxprice);
-		tr.appendChild(td);
-		
-		//采购金额未税
-		//td = createTd("0");
-		td = createTdInput("tmpAmount", wid, 13, "calcAmount(this, '1');", id);
-		tr.appendChild(td);
-		//采购金额含税
-		td = createTdInput("tmpTaxamount", wid, 13, "calcAmount(this, '2');", id);
-		tr.appendChild(td);
-		
-		//包装
-		td = createTd(item10);
-		tr.appendChild(td);
-		
-		//备注
-		td = createTdInput("tmpRes09", 130, 32, "calcquantity(this, '9');", id);
-		tr.appendChild(td);
-		
-		getOpener().document.getElementById("productlist").value = productlist + id + ",";
-		getOpener().document.getElementById("productData").appendChild(tr);
-	}
-	
-	function createCuPriceTd(fieldno) {
-		var td = getOpener().document.createElement("td");
-		td.className = "cupricetd";
-		var strPurchaseType = $("#strPurchaseType").val();
-		if(strPurchaseType == "1") {
-			//询价需要展示这一列
-			td.style.cssText = "";
-		} else {
-			td.style.cssText = "display: none;";
-		}
-		var select = getOpener().document.createElement("select");
-		if(fieldno == "01") {
-			//电子线
-			var cupriceselect = $("#cupricediv").children().html();
-			select.innerHTML = cupriceselect;
-		} else {
-			//非电子线
-			var cupriceselect = '<select id="" disabled="disabled" name="tmpCuPrice" style="width: 90px;"><option value="" selected="selected">请选择</option></select>';
-			select.innerHTML = cupriceselect;
-		}
-		
-		td.appendChild(select);
-		return td;
-	}
-	
-	//刷新投标公司序号和斑马线
-	function refreshParentBidExpertData() {
-		var rows = getOpener().document.getElementById("productData").rows;
-		for(var i = 0; i < rows.length; i++) {
-			var num = i + 1;
-			rows[i].cells[2].innerHTML = num;
-			//斑马线
-			var cls = "";
-			if(i % 2 == 0) {
-				cls = "tr_bg";
-			} else {
-				cls = "";
-			}
-			rows[i].className = cls;
-		}
-	}
-	
-	function createTd(s) {
-		var td = getOpener().document.createElement("td");
-		td.appendChild(getOpener().document.createTextNode(s));
-		return td;
-	}
-	
-	function createTdInput(name, wid, maxlength, onblurevent, productid) {
-		var td = getOpener().document.createElement("td");
-		var input = getOpener().document.createElement("input");
-		//input.name = name;
-		input.id = name + "_" + productid;
-		input.style.width = wid + "px";
-		input.setAttribute("maxlength", maxlength);
-		input.type = "text";
-		if(onblurevent != "") {
-			input.setAttribute("onblur", onblurevent); 
-		}
-		td.appendChild(input);
-		return td;
-	}
-	
-	function createTdInputAddValue(name, wid, maxlength, onblurevent, productid, v) {
-		var td = getOpener().document.createElement("td");
-		var input = getOpener().document.createElement("input");
-		//input.name = name;
-		input.id = name + "_" + productid;
-		input.style.width = wid + "px";
-		input.setAttribute("maxlength", maxlength);
-		input.type = "text";
-		input.value = v;
-		if(onblurevent != "") {
-			input.setAttribute("onblur", onblurevent); 
-		}
-		td.appendChild(input);
-		return td;
-	}
-	
-	function createHidden(s) {
-		var input = getOpener().document.createElement("input");
-		input.type = "hidden";
-		input.value = s;
-		return input;
-	}
-	
-	function createHiddenAddAlt(s, id) {
-		var input = getOpener().document.createElement("input");
-		input.type = "hidden";
-		input.value = s;
-		input.alt = id;
-		return input;
-	}
-	
-	function getSelectedID() {
-		var obj = null;
-		var list = document.getElementsByName("radioKey");
-		for(var i = 0; i < list.length; i++) {
-			if(list[i].checked) {
-				obj = list[i];
-				break;
-			}
-		}
-		return obj;
-	}
-	
-	//修改pagesize
-	function changepagesize(pagesize) {
-		$("#intPageSize").attr("value", pagesize);
-		$("#startIndex").attr("value", "0");
-		document.mainform.action = '../product/queryProductSelectPage.action';
-		document.mainform.submit();
-	}
-	
-	//翻页
-	function changePage(pageNum) {
-		$("#startIndex").attr("value", pageNum);
-		document.mainform.action = '../product/turnProductSelectPage.action';
-		document.mainform.submit();
-	}
-
-	//页跳转
-	function turnPage() {
-		var totalPage = "${page.totalPage}";
-		var turnPage = document.getElementById("pagenum").value;
-		//判断是否输入页码
-		if ('' != turnPage) {
-			//判断页码是否是大于0的数字
-			if(!iscInteger(turnPage)){
-				alert("页码必须是大于0的整数！");
-				return;
-			}
-			turnPage = parseInt(turnPage);
-			if(turnPage < 1){
-				alert("页码必须是大于0的整数！");
-				return;
-			}
-			//判断页码大小是否正确
-			if(turnPage > parseInt(totalPage)){
-				alert("页码不能超过最大页数！");
-				return;
-			}
-			//换页
-			changePage(turnPage - 1);
-		} else {
-			alert("页码不能为空！");
-			return;
-		}	
-	}
 </script>
 </head>
 <body style="background: url(''); overflow-x:hidden;overflow-y:hidden;">
 <s:form id="mainform" name="mainform" method="POST">
-	<s:hidden name="strPurchaseType" id="strPurchaseType"></s:hidden>
-	<s:hidden name="common_rate" id="common_rate"></s:hidden>
-	<s:hidden name="startIndex" id="startIndex"/>
-	<s:hidden name="intPageSize" id="intPageSize"/>
-	<s:hidden name="strSupplierId" id="strSupplierId"/>
-	<s:hidden name="strFieldno" id="strFieldno"/>
-	<s:hidden name="strKeyword" id="strKeyword"/>
-	<s:hidden name="strFlag" id="strFlag"/>
-	<s:hidden name="strSeq" id="strSeq"/>
+	<s:hidden name="strCustomerId" id="strCustomerId"></s:hidden>
 	<div id="container" style="width: 100%; height: 100%;">
-		<div class="searchbox">
-			<div class="box1">
-				<label class="pdf10">品名：</label>
-				<div class="box1_left"></div>
-				<div class="box1_center">
-					<s:textfield name="strTradename" id="strTradename" cssStyle="width:120px;" maxlength="32" theme="simple"></s:textfield>
-				</div>
-				<div class="box1_right"></div>
-			</div>
-			<div class="box1">
-				<label class="pdf10">规格：</label>
-				<div class="box1_left"></div>
-				<div class="box1_center">
-					<s:textfield name="strTypeno" id="strTypeno" cssStyle="width:120px;" maxlength="32" theme="simple"></s:textfield>
-				</div>
-				<div class="box1_right"></div>
-			</div>
-			<div class="box1">
-				<label class="pdf10">颜色：</label>
-				<div class="box1_left"></div>
-				<div class="box1_center">
-					<select name="strColor" id="color" style="width: 120px;">
-						<option value="" selected="selected">请选择</option>
-						<s:iterator value="colorList" id="colorList" status="st1">
-							<option value="<s:property value="code"/>" <s:if test="%{colorList[#st1.index].code == strColor}">selected</s:if>><s:property value="fieldname"/></option>
-						</s:iterator>
-					</select>
-					
-					<div id="cupricediv" style="display: none;">
-						<select id="" name="tmpCuPrice" style="width: 90px;">
-							<option value="" selected="selected">请选择</option>
-							<s:iterator id="cuPriceDict01List" value="cuPriceDict01List" status="st3">
-								<option value="<s:property value="code"/>"><s:property value="fieldname"/></option>
-							</s:iterator>
-						</select>
+		<table class="info_tab" width="100%" border="0" cellpadding="5" cellspacing="0">
+			<tr>
+				<td width="100">　 </td>
+				<td width="250">　 </td>
+				<td width="100">　 </td>
+				<td>　 </td>
+			</tr>
+			<tr>
+				<td align="right">客户名称：</td>
+				<td colspan="3">
+					<div class="box1_left"></div>
+					<div class="box1_center">
+						<s:textfield name="showCustomerDto.customername" id="customername" disabled="true" cssStyle="width:410px;" maxlength="128" theme="simple"></s:textfield>
 					</div>
-				</div>
-				<div class="box1_right"></div>
+					<div class="box1_right"></div>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">具体地址：</td>
+				<td colspan="3">
+					<div class="box1_left"></div>
+					<div class="box1_center">
+						<s:textfield name="showCustomerDto.customeraddress1" id="customeraddress1" disabled="true" cssStyle="width:410px;" maxlength="128" theme="simple"></s:textfield>
+					</div>
+					<div class="box1_right"></div>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">起点：</td>
+				<td>
+					<div class="box1_left"></div>
+					<div class="box1_center">
+						<s:textfield name="strBelongto" id="strBelongto" disabled="true" cssStyle="width:120px;" maxlength="32" theme="simple"></s:textfield>
+					</div>
+					<div class="box1_right"></div>
+				</td>
+				<td align="right">终点：</td>
+				<td>
+					<div class="box1_left"></div>
+					<div class="box1_center">
+						<s:textfield name="showCustomerDto.res01" id="res01" disabled="true" cssStyle="width:120px;" maxlength="32" theme="simple"></s:textfield>
+					</div>
+					<div class="box1_right"></div>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">实重：</td>
+				<td>
+					<div class="box1_left"></div>
+					<div class="box1_center">
+						<input type="text" id="productWeight" style="width:120px;" maxlength="32"/>
+					</div>
+					<div class="box1_right"></div>
+					<label style="line-height: 35px;">Kg</label>
+				</td>
+				<td align="right">材积：</td>
+				<td>
+					<div class="box1_left"></div>
+					<div class="box1_center">
+						<input type="text" id="productVolume" style="width:120px;" maxlength="32"/>
+					</div>
+					<div class="box1_right"></div>
+					<label style="line-height: 35px;">m³</label>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4">
+					<div class="btn" style="margin-left: 0px;">
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							<input type="button" class="input40" value="评估" onclick=""/>
+						</div>
+						<div class="box1_right"></div>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<div class="tittle">
+			<div style="cursor: pointer;">
+				<div class="tittle_left"></div>
+				<div class="tittle_center" style="color:#000;">实重计费</div>
+				<div class="tittle_right"></div>
 			</div>
-			<div class="btn" style="margin-left: 0px;">
-				<div class="box1_left"></div>
-				<div class="box1_center">
-					<input type="button" class="input40" value="检索" onclick="queryList();"/>
-				</div>
-				<div class="box1_right"></div>
+			<div style="cursor: pointer;">
+				<div class="tittle_left"></div>
+				<div class="tittle_center" style="color:#000;">材积计费</div>
+				<div class="tittle_right"></div>
 			</div>
 		</div>
 		<div class="data_table" style="padding:0px;">
@@ -493,139 +114,23 @@
 			<div class="tab_content">
 				<table class="info_tab" width="100%" border="1" cellpadding="5" cellspacing="0">
 					<tr class="tittle">
-						<td style="display: none;"></td>
-						<td width="20"></td>
-						<td width="20">序号</td>
-						<td width="60">类型</td>
-						<td width="60">品名</td>
-						<td width="60">规格</td>
-						<td width="30">颜色</td>
-						<td width="30">形式</td>
-						<td width="60">住友编码</td>
-						<td width="60">包装</td>
-						<td width="60">产地</td>
+						<td width="80"></td>
+						<td width="200">快递公司</td>
+						<td width="120">单价</td>
+						<td width="120">合计</td>
+						<td width="180">备考</td>
 					</tr>
-					<s:iterator id="productList" value="productList" status="st1">
-						<s:if test="#st1.odd==true">
-							<tr class="tr_bg" onclick="checkCheckboxCuTr(this, event, 1, 0);">
-						</s:if>
-						<s:else>
-							<tr onclick="checkCheckboxCuTr(this, event, 1, 0);">
-						</s:else>
-							<td style="display: none;">
-								<input type="hidden" value="<s:property value="id"/>"/>
-								<input type="hidden" value="<s:property value="fieldno"/>"/>
-								<input type="hidden" value="<s:iterator id="goodsList" value="goodsList" status="st3"><s:if test="%{goodsList[#st3.index].code == productList[#st1.index].fieldno}"><s:property value="fieldname"/></s:if></s:iterator>"/>
-								<input type="hidden" value="<s:property value="tradename"/>"/>
-								<input type="hidden" value="<s:property value="typeno"/>"/>
-								<input type="hidden" value="<s:property value="color"/>"/>
-								<input type="hidden" value="<s:iterator id="colorList" value="colorList" status="st3"><s:if test="%{colorList[#st3.index].code == productList[#st1.index].color}"><s:property value="fieldname"/></s:if></s:iterator>"/>
-								<input type="hidden" value="<s:property value="unit"/>"/>
-								<input type="hidden" value="<s:iterator id="unitList" value="unitList" status="st3"><s:if test="%{unitList[#st3.index].code == productList[#st1.index].unit}"><s:property value="fieldname"/></s:if></s:iterator>"/>
-								<input type="hidden" value="<s:property value="packaging"/>"/>
-								<input type="hidden" value="<s:if test='%{productList[#st1.index].packaging == "1"}'>乱尺</s:if><s:elseif test='%{productList[#st1.index].packaging == "0"}'>整箱</s:elseif><s:elseif test='%{productList[#st1.index].packaging == "2"}'>样品</s:elseif><s:else>乱尺</s:else>"/>
-								<input type="hidden" value="<s:property value="sampleflag"/>"/>
-								<input type="hidden" value="<s:property value="purchaseprice"/>"/>
-								<input type="hidden" value="<s:property value="salesprice"/>"/>
-								<input type="hidden" value="<s:property value="makearea"/>"/>
-								<input type="hidden" value="<s:property value="item10"/>"/>
-								<input type="hidden" value="<s:iterator id="makeareaList" value="makeareaList" status="st3"><s:if test="%{makeareaList[#st3.index].code == productList[#st1.index].makearea}"><s:property value="fieldname"/></s:if></s:iterator>"/>
-								<input type="hidden" value="<s:property value="item11"/>"/>
-								
-								<input type="hidden" value="<s:property value="cuprice"/>"/>
-								<input type="hidden" value="<s:property value="taxcuprice"/>"/>
-							</td>
-							<!-- <td><input name="radioKey" type="radio" value="<s:property value="id"/>"/></td> -->
-							<td><input name="radioKey" type="checkbox" value="<s:property value="id"/>"/></td>
-							<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
-							<td>
-								<s:iterator id="goodsList" value="goodsList" status="st3">
-									<s:if test="%{goodsList[#st3.index].code == productList[#st1.index].fieldno}">
-										<s:property value="fieldname"/>
-									</s:if>
-								</s:iterator>
-							</td>
-							<td><a href="#" onclick="showUnit('<s:property value="id"/>');"><s:property value="tradename"/></a></td>
-							<td><s:property value="typeno"/></td>
-							<td>
-								<s:iterator id="colorList" value="colorList" status="st3">
-									<s:if test="%{colorList[#st3.index].code == productList[#st1.index].color}">
-										<s:property value="fieldname"/>
-									</s:if>
-								</s:iterator>
-							</td>
-							<td>
-								<s:if test='%{productList[#st1.index].packaging == "0"}'>整箱</s:if>
-								<s:elseif test='%{productList[#st1.index].packaging == "1"}'><font color="red">乱尺</font></s:elseif>
-								<s:elseif test='%{productList[#st1.index].packaging == "2"}'>样品</s:elseif>
-								<s:else>
-									<s:property value="packaging"/>
-								</s:else>
-							</td>
-							<td>
-								<s:property value="item11"/>
-							</td>
-							<td>
-								<s:property value="item10"/>
-							</td>
-							<td>
-								<s:iterator id="makeareaList" value="makeareaList" status="st3">
-									<s:if test="%{makeareaList[#st3.index].code == productList[#st1.index].makearea}">
-										<s:property value="fieldname"/>
-									</s:if>
-								</s:iterator>
-							</td>
-						</tr>
-					</s:iterator>
+					<tr class="tr_bg" onclick="checkCheckboxCuTr(this, event, 1, 0);">
+					<!-- <tr onclick="checkCheckboxCuTr(this, event, 1, 0);"> -->
+						<td>
+							<input type="radio"/>
+						</td>
+						<td>快递公司111</td>
+						<td>111</td>
+						<td>2222</td>
+						<td></td>
+					</tr>
 				</table>
-			</div>
-			<div class="pages">
-				<ul>
-					<li style="width: 180px;">
-						<s:if test="intPageSize != null && intPageSize == 20">
-							显示：<input name="tmpPagesize" type="radio" value="10" onclick="changepagesize('10')"/>10 
-							<input name="tmpPagesize" type="radio" value="20" checked="checked" onclick="changepagesize('20')"/>20 
-							<input name="tmpPagesize" type="radio" value="30" onclick="changepagesize('30')"/>30
-						</s:if>
-						<s:elseif test="intPageSize != null && intPageSize == 30">
-							显示：<input name="tmpPagesize" type="radio" value="10" onclick="changepagesize('10')"/>10 
-							<input name="tmpPagesize" type="radio" value="20" onclick="changepagesize('20')"/>20 
-							<input name="tmpPagesize" type="radio" value="30" checked="checked" onclick="changepagesize('30')"/>30
-						</s:elseif>
-						<s:else>
-							显示：<input name="tmpPagesize" type="radio" value="10" checked="checked" onclick="changepagesize('10')"/>10 
-							<input name="tmpPagesize" type="radio" value="20" onclick="changepagesize('20')"/>20 
-							<input name="tmpPagesize" type="radio" value="30" onclick="changepagesize('30')"/>30
-						</s:else>
-					</li>
-					<li>第<strong>${page.startIndex + 1}</strong>页/共<strong>${page.totalPage==0?1:page.totalPage}</strong>页/共<strong>${page.totalCount}</strong>条记录</li>
-					<li class="mgl15">跳转到
-						<input type="text" id="pagenum" class="text" maxlength="4" size="4"/>
-						<input type="button" value="GO" onclick="javascript:turnPage();"/>
-					</li>
-					<li class="mgl15">
-						<a class="first" href="#" onclick="changePage(0);">首页</a>
-					</li>
-					<li>
-						<s:if test="%{page.startIndex <= 0}">
-							<a class="last" href="#">上一页</a>
-						</s:if>
-						<s:else>
-							<a class="next" href="#" onclick="changePage('${page.previousIndex}');">上一页</a>
-						</s:else>
-					</li>
-					<li>
-						<s:if test="%{page.nextIndex > page.totalPage - 1}">
-							<a class="last" href="#">下一页</a>
-						</s:if>
-						<s:else>
-							<a class="next" href="#" onclick="changePage('${page.nextIndex}');">下一页</a>
-						</s:else>
-					</li>
-					<li>
-						<a class="next" href="#" onclick="changePage('${page.totalPage - 1}');">末页</a>
-					</li>
-				</ul>
 			</div>
 		</div>
 		<div class="btns" style="margin-top:40px; margin-left: 0px;">
@@ -635,14 +140,7 @@
 						<div class="btn">
 							<div class="box1_left"></div>
 							<div class="box1_center">
-								<input type="button" class="input80" value="追加" onclick="addProduct();"/>
-							</div>
-							<div class="box1_right"></div>
-						</div>
-						<div class="btn">
-							<div class="box1_left"></div>
-							<div class="box1_center">
-								<input type="button" class="input80" value="关闭" onclick="window.close();"/>
+								<input type="button" class="input80" value="取消" onclick="window.close();"/>
 							</div>
 							<div class="box1_right"></div>
 						</div>

@@ -125,8 +125,35 @@
 	
 	//运费评估
 	function assess() {
-		var url = '<%=request.getContextPath()%>/assess/showAssessExpressFeeAction.action';
-		window.showModalDialog(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		var ids = getSelectedID();
+		if(ids == "") {
+			alert("请选择一条记录！");
+			return;
+		}
+		//判断是否是同一个客户
+		var list = document.getElementsByName("radioKey");
+		var isonecustomer = true;
+		var tmpcustomerid = "";
+		for(var i = 0; i < list.length; i++) {
+			if(list[i].checked) {
+				if(isonecustomer) {
+					if(tmpcustomerid == "") {
+						tmpcustomerid = list[i].alt;
+					} else {
+						if(tmpcustomerid != list[i].alt) {
+							isonecustomer = false;
+							break;
+						}
+					}
+				}
+			}
+		}
+		if(!isonecustomer) {
+			alert("不同客户的记录不能合并成一个出库单！");
+			return;
+		}
+		var url = '<%=request.getContextPath()%>/assess/showAssessExpressFeeAction.action?strCustomerId=' + tmpcustomerid;
+		window.showModalDialog(url, window, "dialogheight:600px;dialogwidth:900px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 </script>
 </head>
@@ -227,7 +254,7 @@
 									<tr onclick="checkCheckboxTr(this, event);">
 								</s:else>
 									<td>
-										<input name="radioKey" type="checkbox" value="<s:property value="ids"/>"/>
+										<input name="radioKey" type="checkbox" alt="<s:property value="supplierid"/>" value="<s:property value="ids"/>"/>
 									</td>
 									<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
 									<td><s:property value="suppliername"/></td>
