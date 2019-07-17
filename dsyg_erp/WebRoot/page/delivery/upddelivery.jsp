@@ -139,13 +139,13 @@
 		var rows = document.getElementById("priceData").rows;
 		var priceList = "";
 		for(var i = 0; i < rows.length; i++) {
-			var marketcitylist = rows[i].cells[2].getElementsByTagName("input");
+			var marketcitylist = rows[i].cells[3].getElementsByTagName("input");
 			var marketcity = marketcitylist[0].value;
-			var arrivalcitylist = rows[i].cells[4].getElementsByTagName("input");
+			var arrivalcitylist = rows[i].cells[5].getElementsByTagName("input");
 			var arrivalcity = arrivalcitylist[0].value;
-			var pricekglist = rows[i].cells[5].getElementsByTagName("input");
+			var pricekglist = rows[i].cells[6].getElementsByTagName("input");
 			var pricekg = pricekglist[0].value;
-			var pricem3list = rows[i].cells[7].getElementsByTagName("input");
+			var pricem3list = rows[i].cells[8].getElementsByTagName("input");
 			var pricem3 = pricem3list[0].value;
 			var currentPrice = marketcity+arrivalcity;
 			
@@ -207,8 +207,12 @@
 	}
 	
 	//添加记录
-	function addPrice() {
-		//验证该产品是否在产品列表中
+	function addPrice(belongTo) {
+		if(belongTo == 0){
+			belongTo = "上海";
+		} else {
+			belongTo = "深圳";
+		}
 		var td0 = document.createElement("td");
 		td0.style.display = "none";
 		var tr = document.createElement("tr");
@@ -221,26 +225,33 @@
 		radio.style.width = "10px";
 		td.appendChild(radio);
 		tr.appendChild(td);
+		//序号
+		var rows = document.getElementById("priceData").rows;
+		var seq = rows.length + 1;
+		td = document.createElement("td");
+		td.appendChild(document.createTextNode(seq));
+		td.align = "center";
+		tr.appendChild(td);
 		
 		//出发城市
-		td = createTdInput("marketcity", "120", "20", "");
+		td = createTdInput("marketcity", "120", "20", "", belongTo);
 		tr.appendChild(td);
 		//~
 		td = document.createElement("td");
 		td.appendChild(document.createTextNode("~"));
 		tr.appendChild(td);
 		//到达城市
-		td = createTdInput("arrivalcity", "120", "20", "");
+		td = createTdInput("arrivalcity", "120", "20", "", "");
 		tr.appendChild(td);
 		//重量单价
-		td = createTdInput("pricekg", "200", "40", "");
+		td = createTdInput("pricekg", "200", "40", "", "");
 		tr.appendChild(td);
 		//（/Kg）
 		td = document.createElement("td");
 		td.appendChild(document.createTextNode("（/Kg）"));
 		tr.appendChild(td);
 		//体积单价
-		td = createTdInput("pricem3", "200", "40", "");
+		td = createTdInput("pricem3", "200", "40", "", "");
 		tr.appendChild(td);
 		//（/M^3）
 		td = document.createElement("td");
@@ -265,15 +276,26 @@
 				}
 			}
 		}
+		refreshItemData();
 	}
 	
-	function createTdInput(name, wid, maxlength, onblurevent) {
+	//刷新序号
+	function refreshItemData() {
+		var rows = document.getElementById("priceData").rows;
+		for(var i = 0; i < rows.length; i++) {
+			var num = i + 1;
+			rows[i].cells[2].innerHTML = num;
+		}
+	}
+	
+	function createTdInput(name, wid, maxlength, onblurevent, value) {
 		var td = document.createElement("td");
 		var input = document.createElement("input");
 		input.id = name;
 		input.style.width = wid + "px";
 		input.setAttribute("maxlength", maxlength);
 		input.type = "text";
+		input.value = value;
 		if(onblurevent != "") {
 			input.setAttribute("onblur", onblurevent); 
 		}
@@ -753,6 +775,7 @@
 							<tr>
 								<td style="width: 0px; display: none;"></td>
 								<td></td>
+								<td align="center">序号</td>
 								<td align="center">出发城市</td>
 								<td></td>
 								<td align="center">到达城市</td>
@@ -773,6 +796,7 @@
 											<input type="hidden" value="<s:property value="pricem3"/>" />
 										</td>
 										<td><input name="itemRadio" type="radio" style="width:10px"/></td>
+										<td align="center"><s:property value="#st1.index + 1"/></td>
 										<td>
 											<input type="text" id="marketcity" style="width:120px;" maxlength="20" value="<s:property value="marketcity"/>" />
 										</td>
@@ -803,7 +827,7 @@
 								<div class="btn1">
 									<div class="btn1_left"></div>
 									<div class="btn1_center">
-										<input class="input80" type="button" onclick="addPrice();" value="新增" />
+										<input class="input80" type="button" onclick="addPrice(<s:property value="belongTo"/>);" value="新增" />
 									</div>
 									<div class="btn1_right"></div>
 								</div>

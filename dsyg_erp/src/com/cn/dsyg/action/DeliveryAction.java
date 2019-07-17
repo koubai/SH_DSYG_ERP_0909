@@ -1,6 +1,5 @@
 package com.cn.dsyg.action;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +12,6 @@ import com.cn.common.util.Page;
 import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dto.DeliveryDto;
 import com.cn.dsyg.dto.DeliveryPriceDto;
-import com.cn.dsyg.dto.PurchaseItemDto;
-import com.cn.dsyg.dto.SupplierDto;
 import com.cn.dsyg.service.DeliveryService;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -71,6 +68,7 @@ public class DeliveryAction extends BaseAction {
 	 * 新增快递对象
 	 */
 	private DeliveryDto addDeliveryDto;
+	private String belongTo;
 	private List<DeliveryPriceDto> addPriceItemList;
 	
 	/**
@@ -287,6 +285,7 @@ public class DeliveryAction extends BaseAction {
 			this.clearMessages();
 			addDeliveryDto = new DeliveryDto();
 			addPriceItemList = new ArrayList<DeliveryPriceDto>();
+			belongTo = (String)ActionContext.getContext().getSession().get(Constants.SESSION_BELONGTO);
 		} catch(Exception e) {
 			return ERROR;
 		}
@@ -358,6 +357,7 @@ public class DeliveryAction extends BaseAction {
 			updPriceItemList = new ArrayList<DeliveryPriceDto>();
 			tmpUpdPriceItemList = new ArrayList<DeliveryPriceDto>();
 			updateDeliveryDto = deliveryService.queryEtbDeliveryByID(updateDeliveryNo);
+			belongTo = (String)ActionContext.getContext().getSession().get(Constants.SESSION_BELONGTO);
 			if(updateDeliveryDto == null) {
 				this.addActionMessage("该数据不存在！");
 				return "checkerror";
@@ -749,6 +749,14 @@ public class DeliveryAction extends BaseAction {
 
 	public void setTmpUpdPriceItemList(List<DeliveryPriceDto> tmpUpdPriceItemList) {
 		this.tmpUpdPriceItemList = tmpUpdPriceItemList;
+	}
+
+	public String getBelongTo() {
+		return belongTo;
+	}
+
+	public void setBelongTo(String belongTo) {
+		this.belongTo = belongTo;
 	}
 
 }
