@@ -2,6 +2,11 @@ package com.cn.dsyg.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,8 +17,11 @@ import org.apache.struts2.ServletActionContext;
 import com.cn.common.action.BaseAction;
 import com.cn.common.util.Constants;
 import com.cn.common.util.PropertiesConfig;
+import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dto.AjaxResultDto;
+import com.cn.dsyg.dto.CalcDeliveryPriceDto;
 import com.cn.dsyg.dto.CustomerDto;
+import com.cn.dsyg.dto.DeliveryPriceDto;
 import com.cn.dsyg.service.CustomerService;
 import com.cn.dsyg.service.DeliveryPriceService;
 import com.cn.dsyg.service.DeliveryService;
@@ -83,10 +91,70 @@ public class AssessExpressFeeAction extends BaseAction {
 		try {
 			this.clearMessages();
 			//根据客户ID查询客户信息
-			showCustomerDto = customerService.queryEtbCustomerByID(strCustomerId);
-			//计算客户的快递费用
-			//查询出所有快递公司
-			//根据快递公司的费用列表来匹配出每个快递公司最优解快递费用
+			CustomerDto customerDto = customerService.queryEtbCustomerByID(strCustomerId);
+			
+			//客户信息不能为空，并且客户的城市信息不能为空
+			if(customerDto != null && StringUtil.isNotBlank(customerDto.getRes01())) {
+				//开始计算每个快递公司的快递费用
+				//起点
+				String belongto = PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_BELONG);
+				String startpoing = "";
+				if("1".equals(belongto)) {
+					startpoing = "深圳";
+				} else {
+					startpoing = "上海";
+				}
+				List<CalcDeliveryPriceDto> data = new ArrayList<CalcDeliveryPriceDto>();
+				List<CalcDeliveryPriceDto> data1 = new ArrayList<CalcDeliveryPriceDto>();
+				//查询出所有快递公司
+				List<DeliveryPriceDto> deliveryPriceList = deliveryPriceService.queryDeliveryPriceByCondition(startpoing, showCustomerDto.getRes01());
+				//根据快递公司的费用列表来匹配出每个快递公司最优解快递费用
+				if(deliveryPriceList != null && deliveryPriceList.size() > 0) {
+					for(DeliveryPriceDto deliveryPrice : deliveryPriceList) {
+						//根据重量计算
+						CalcDeliveryPriceDto price = new CalcDeliveryPriceDto();
+						price.setDeliveryname(deliveryPrice.getDeliveryname());
+						//费用
+						price.setDeliveryprice(calcPrice(strWeight, deliveryPrice.getPricekg()));
+						price.setUnitprice("" + deliveryPrice.getPricekg());
+						data.add(price);
+						
+						//根据体积计算
+						CalcDeliveryPriceDto price1 = new CalcDeliveryPriceDto();
+						price1.setDeliveryname(deliveryPrice.getDeliveryname());
+						//费用
+						price1.setDeliveryprice(calcPrice(strCube, deliveryPrice.getPricem3()));
+						price1.setUnitprice("" + deliveryPrice.getPricem3());
+						data1.add(price1);
+					}
+				}
+				//对费用排序
+				Collections.sort(data, new Comparator<CalcDeliveryPriceDto>() {
+
+					@Override
+					public int compare(CalcDeliveryPriceDto o1, CalcDeliveryPriceDto o2) {
+						BigDecimal b1 = o1.getDeliveryprice();
+						BigDecimal b2 = o2.getDeliveryprice();
+						return b1.compareTo(b2);
+					}
+					
+				});
+				Collections.sort(data1, new Comparator<CalcDeliveryPriceDto>() {
+
+					@Override
+					public int compare(CalcDeliveryPriceDto o1, CalcDeliveryPriceDto o2) {
+						BigDecimal b1 = o1.getDeliveryprice();
+						BigDecimal b2 = o2.getDeliveryprice();
+						return b1.compareTo(b2);
+					}
+					
+				});
+				
+				ajaxResult.setCode(0);
+				ajaxResult.setMsg("");
+				ajaxResult.setData(data);
+				ajaxResult.setData1(data1);
+			}
 		} catch(Exception e) {
 			ajaxResult.setCode(-1);
 			ajaxResult.setMsg("评估快递费用异常：" + e.getMessage());
@@ -99,6 +167,20 @@ public class AssessExpressFeeAction extends BaseAction {
 		out.write(result);
 		out.flush();
 		return null;
+	}
+	
+	/**
+	 * 计算费用
+	 * @param amount
+	 * @param unitprice
+	 * @return
+	 */
+	private BigDecimal calcPrice(String amount, BigDecimal unitprice) {
+		BigDecimal bb = new BigDecimal(amount);
+		//四舍五入
+		BigDecimal result = bb.multiply(unitprice).setScale(2, BigDecimal.ROUND_HALF_UP);
+		return result;
+				
 	}
 
 	public DeliveryPriceService getDeliveryPriceService() {

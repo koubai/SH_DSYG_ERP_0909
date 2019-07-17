@@ -24,6 +24,11 @@ public class DeliveryPriceDto extends BaseDto {
 	 * 快递ID
 	 */
 	private int deliveryid;
+	
+	/**
+	 * 快递名（主表关联出来）
+	 */
+	private String deliveryname;
 
 	/**
 	 * 出发城市
@@ -286,6 +291,14 @@ public class DeliveryPriceDto extends BaseDto {
 
 	public void setDeliveryid(int deliveryid) {
 		this.deliveryid = deliveryid;
+	}
+
+	public String getDeliveryname() {
+		return deliveryname;
+	}
+
+	public void setDeliveryname(String deliveryname) {
+		this.deliveryname = deliveryname;
 	}
 	
 }

@@ -11,6 +11,87 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.5.1.js"></script>
 <title>运费信息确认</title>
 <script type="text/javascript">
+function showCubePriceList() {
+	$("#weightprice_tab").hide();
+	$("#cubeprice_tab").show();
+}
+
+function showWeightPriceList() {
+	$("#weightprice_tab").show();
+	$("#cubeprice_tab").hide();
+}
+
+function calcPrice() {
+	//var strBelongto = $("#strBelongto").val();
+	var res01 = $("#res01").val();
+	var productWeight = $("#productWeight").val();
+	var productVolume = $("#productVolume").val();
+	if(res01 == "") {
+		alert("终点信息为空，不能计算快递费用！");
+		$("#res01").focus();
+		return;
+	}
+	if(productWeight == "") {
+		alert("请输入货物重量！");
+		$("#productWeight").focus();
+		return;
+	}
+	if(!isReal(productWeight)) {
+		alert("货物重量格式不正确！");
+		$("#productWeight").focus();
+		return;
+	}
+	if(productVolume == "") {
+		alert("请输入货物体积！");
+		$("#productVolume").focus();
+		return;
+	}
+	if(!isReal(productVolume)) {
+		alert("货物体积a格式不正确！");
+		$("#productVolume").focus();
+		return;
+	}
+	//开始计算
+	var param = new Object();
+	param.strWeight = productWeight;
+	param.strCube = productVolume;
+	$("#weightprice_body").empty();
+	$("#cubeprice_body").empty();
+	$.getJSON('<%=request.getContextPath()%>/agentcomp/queryAgentCompAjax.action', param, function(data) {
+		if(data.code == 0) {
+			//重量
+			var items = data.data;
+			$.each(items, function(i, n) {
+				var html = '';
+				html += '<tr>';
+				html += '	<td><input type="radio"/></td>';
+				html += '	<td>' + (i + 1) + '</td>';
+				html += '	<td>' + n.deliveryname + '</td>';
+				html += '	<td>' + n.unitprice + '</td>';
+				html += '	<td>' + n.deliveryprice + '</td>';
+				html += '	<td>' + '</td>';
+				html += '</tr>';
+				$("#weightprice_body").append(html);
+			});
+			//体积
+			var items1 = data.data1;
+			$.each(items1, function(i, n) {
+				var html = '';
+				html += '<tr>';
+				html += '	<td><input type="radio"/></td>';
+				html += '	<td>' + (i + 1) + '</td>';
+				html += '	<td>' + n.deliveryname + '</td>';
+				html += '	<td>' + n.unitprice + '</td>';
+				html += '	<td>' + n.deliveryprice + '</td>';
+				html += '	<td>' + '</td>';
+				html += '</tr>';
+				$("#cubeprice_body").append(html);
+			});
+		} else {
+			alert(data.msg);
+		}
+	});
+}
 </script>
 </head>
 <body style="background: url(''); overflow-x:hidden;overflow-y:hidden;">
@@ -87,7 +168,7 @@
 					<div class="btn" style="margin-left: 0px;">
 						<div class="box1_left"></div>
 						<div class="box1_center">
-							<input type="button" class="input40" value="评估" onclick=""/>
+							<input type="button" class="input40" value="评估" onclick="calcPrice();"/>
 						</div>
 						<div class="box1_right"></div>
 					</div>
@@ -95,12 +176,12 @@
 			</tr>
 		</table>
 		<div class="tittle">
-			<div style="cursor: pointer;">
+			<div style="cursor: pointer;" onclick="showWeightPriceList();">
 				<div class="tittle_left"></div>
 				<div class="tittle_center" style="color:#000;">实重计费</div>
 				<div class="tittle_right"></div>
 			</div>
-			<div style="cursor: pointer;">
+			<div style="cursor: pointer;" onclick="showCubePriceList();">
 				<div class="tittle_left"></div>
 				<div class="tittle_center" style="color:#000;">材积计费</div>
 				<div class="tittle_right"></div>
@@ -112,24 +193,33 @@
 				</table>
 			</div>
 			<div class="tab_content">
-				<table class="info_tab" width="100%" border="1" cellpadding="5" cellspacing="0">
-					<tr class="tittle">
-						<td width="80"></td>
-						<td width="200">快递公司</td>
-						<td width="120">单价</td>
-						<td width="120">合计</td>
-						<td width="180">备考</td>
-					</tr>
-					<tr class="tr_bg" onclick="checkCheckboxCuTr(this, event, 1, 0);">
-					<!-- <tr onclick="checkCheckboxCuTr(this, event, 1, 0);"> -->
-						<td>
-							<input type="radio"/>
-						</td>
-						<td>快递公司111</td>
-						<td>111</td>
-						<td>2222</td>
-						<td></td>
-					</tr>
+				<table id="weightprice_tab" class="info_tab" width="100%" border="1" cellpadding="5" cellspacing="0">
+					<thead>
+						<tr class="tittle">
+							<td width="80"></td>
+							<td width="80"></td>
+							<td width="200">快递公司</td>
+							<td width="120">单价</td>
+							<td width="120">合计</td>
+							<td width="180">备考</td>
+						</tr>
+					</thead>
+					<tbody id="weightprice_body">
+					</tbody>
+				</table>
+				<table id="cubeprice_tab" style="display: none;" class="info_tab" width="100%" border="1" cellpadding="5" cellspacing="0">
+					<thead>
+						<tr class="tittle">
+							<td width="80"></td>
+							<td width="80"></td>
+							<td width="200">快递公司</td>
+							<td width="120">单价</td>
+							<td width="120">合计</td>
+							<td width="180">备考</td>
+						</tr>
+					</thead>
+					<tbody id="cubeprice_body">
+					</tbody>
 				</table>
 			</div>
 		</div>

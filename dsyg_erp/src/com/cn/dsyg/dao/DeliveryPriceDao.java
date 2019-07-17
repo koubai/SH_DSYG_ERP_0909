@@ -26,6 +26,14 @@ public interface DeliveryPriceDao {
 	public List<DeliveryPriceDto> queryAllDeliveryPrice();
 	
 	/**
+	 * 根据起点终点查询快递费用
+	 * @param marketcity 起点
+	 * @param arrivalcity 终点
+	 * @return
+	 */
+	public List<DeliveryPriceDto> queryDeliveryPriceByCondition(String marketcity, String arrivalcity);
+	
+	/**
 	 * 删除快递单价记录
 	 * @param deliveryId
 	 * @param userid

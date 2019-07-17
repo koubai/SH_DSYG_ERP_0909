@@ -19,6 +19,11 @@ public class DeliveryPriceServiceImpl implements DeliveryPriceService {
 	public List<DeliveryPriceDto> queryAllDeliveryPrice() {
 		return deliveryPriceDao.queryAllDeliveryPrice();
 	}
+	
+	@Override
+	public List<DeliveryPriceDto> queryDeliveryPriceByCondition(String marketcity, String arrivalcity) {
+		return deliveryPriceDao.queryDeliveryPriceByCondition(marketcity, arrivalcity);
+	}
 
 	@Override
 	public void delDeliveryPrice(String deliveryId, String userid) {
