@@ -12,6 +12,8 @@
 	
 	<constant name="struts.multipart.saveDir" value="/tmp"/>
 	
+	<!-- assess -->
+	<include file="struts-assess.xml"></include>
 	<!-- cuprice -->
 	<include file="struts-cuprice.xml"></include>
 	<!-- barcodeinfo -->

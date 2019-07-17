@@ -31,6 +31,16 @@ public class DeliveryPriceDaoImpl extends BaseDao implements DeliveryPriceDao {
 		List<DeliveryPriceDto> list = getSqlMapClientTemplate().queryForList("queryAllDeliveryPrice");
 		return list;
 	}
+	
+	@Override
+	public List<DeliveryPriceDto> queryDeliveryPriceByCondition(String marketcity, String arrivalcity) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("marketcity", marketcity);
+		paramMap.put("arrivalcity", arrivalcity);
+		@SuppressWarnings("unchecked")
+		List<DeliveryPriceDto> list = getSqlMapClientTemplate().queryForList("queryDeliveryPriceByCondition", paramMap);
+		return list;
+	}
 
 	@Override
 	public void insertDeliveryPrice(DeliveryPriceDto delivery) {

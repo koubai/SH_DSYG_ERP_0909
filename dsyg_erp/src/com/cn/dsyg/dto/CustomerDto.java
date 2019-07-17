@@ -418,7 +418,7 @@ public class CustomerDto extends BaseDto {
 	private int status;
 
 	/**
-	 * 预备项目1
+	 * 客户地址（目前让客户自己填写，精确到地级市）
 	 */
 	private String res01;
 

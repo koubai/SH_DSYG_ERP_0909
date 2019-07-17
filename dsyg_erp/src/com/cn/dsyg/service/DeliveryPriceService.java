@@ -1,16 +1,10 @@
-package com.cn.dsyg.dao;
+package com.cn.dsyg.service;
 
 import java.util.List;
 
 import com.cn.dsyg.dto.DeliveryPriceDto;
 
-/**
- * @name 
- * @author 
- * @time 
- * @version 1.0
- */
-public interface DeliveryPriceDao {
+public interface DeliveryPriceService {
 
 	/**
 	 * 根据快递ID查询快递单价记录（查询有效记录）
