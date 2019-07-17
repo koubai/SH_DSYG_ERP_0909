@@ -14,11 +14,13 @@
 function showCubePriceList() {
 	$("#weightprice_tab").hide();
 	$("#cubeprice_tab").show();
+	$("#cubeDiv").css({"background-color": "grey"});
 }
 
 function showWeightPriceList() {
 	$("#weightprice_tab").show();
 	$("#cubeprice_tab").hide();
+	$("#weightDiv").css({"background-color": "grey"});
 }
 
 function calcPrice() {
@@ -57,7 +59,7 @@ function calcPrice() {
 	param.strCube = productVolume;
 	$("#weightprice_body").empty();
 	$("#cubeprice_body").empty();
-	$.getJSON('<%=request.getContextPath()%>/agentcomp/queryAgentCompAjax.action', param, function(data) {
+	$.getJSON('<%=request.getContextPath()%>/assess/calcAssessExpressFeeAction.action', param, function(data) {
 		if(data.code == 0) {
 			//重量
 			var items = data.data;
@@ -175,15 +177,19 @@ function calcPrice() {
 				</td>
 			</tr>
 		</table>
-		<div class="tittle">
-			<div style="cursor: pointer;" onclick="showWeightPriceList();">
+		<div class="tittle" style="width: 600px;">
+			<div id="weightDiv" style="cursor: pointer;" onclick="showWeightPriceList();">
 				<div class="tittle_left"></div>
-				<div class="tittle_center" style="color:#000;">实重计费</div>
+				<div id="weightPriceDetail" class="tittle_center" style="color:#000;">
+					实重计费
+				</div>
 				<div class="tittle_right"></div>
 			</div>
-			<div style="cursor: pointer;" onclick="showCubePriceList();">
+			<div id="cubeDiv" style="cursor: pointer;" onclick="showCubePriceList();">
 				<div class="tittle_left"></div>
-				<div class="tittle_center" style="color:#000;">材积计费</div>
+				<div id="cubePriceDetail" class="tittle_center" style="color:#000;">
+					材积计费
+				</div>
 				<div class="tittle_right"></div>
 			</div>
 		</div>

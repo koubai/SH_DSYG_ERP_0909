@@ -10,7 +10,7 @@
 			<result name="*">/page/assess/assesslist.jsp</result>
 		</action>
 		
-		<action name="assessExpressFeeAction" class="assessExpressFeeAction" method="assessExpressFeeAction">
+		<action name="calcAssessExpressFeeAction" class="assessExpressFeeAction" method="calcAssessExpressFeeAction">
 			<result type="json"></result>
 		</action>
 		

@@ -83,7 +83,7 @@ public class AssessExpressFeeAction extends BaseAction {
 	 * @return
 	 * @throws IOException 
 	 */
-	public String assessExpressFeeAction() throws IOException {
+	public String calcAssessExpressFeeAction() throws IOException {
 		HttpServletResponse response = ServletActionContext.getResponse();
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out;
@@ -158,7 +158,7 @@ public class AssessExpressFeeAction extends BaseAction {
 		} catch(Exception e) {
 			ajaxResult.setCode(-1);
 			ajaxResult.setMsg("评估快递费用异常：" + e.getMessage());
-			log.error("assessExpressFeeAction error:" + e);
+			log.error("calcAssessExpressFeeAction error:" + e);
 		}
 		out = response.getWriter();
 		String result = JSONArray.fromObject(ajaxResult).toString();
