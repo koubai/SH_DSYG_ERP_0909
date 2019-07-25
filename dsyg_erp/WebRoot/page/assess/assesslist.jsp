@@ -11,16 +11,26 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.5.1.js"></script>
 <title>运费信息确认</title>
 <script type="text/javascript">
+function changeStyle(obj, flag) {
+	/* if(flag == 1) {
+		$(obj).css("background", "6699CC");
+	} else {
+		$(obj).css("background", "");
+	} */
+}
+
 function showCubePriceList() {
 	$("#weightprice_tab").hide();
 	$("#cubeprice_tab").show();
-	$("#cubeDiv").css({"background-color": "grey"});
+	$("#weightDiv").css({"background": ""});
+	$("#cubeDiv").css({"background": "#6699CC"});
 }
 
 function showWeightPriceList() {
 	$("#weightprice_tab").show();
 	$("#cubeprice_tab").hide();
-	$("#weightDiv").css({"background-color": "grey"});
+	$("#weightDiv").css({"background": "#6699CC"});
+	$("#cubeDiv").css({"background": ""});
 }
 
 function calcPrice() {
@@ -33,23 +43,18 @@ function calcPrice() {
 		$("#res01").focus();
 		return;
 	}
-	if(productWeight == "") {
-		alert("请输入货物重量！");
+	if(productWeight == "" && productVolume == "") {
+		alert("请输入货物重量或体积！");
 		$("#productWeight").focus();
 		return;
 	}
-	if(!isReal(productWeight)) {
+	if(productWeight != "" && !isReal(productWeight)) {
 		alert("货物重量格式不正确！");
 		$("#productWeight").focus();
 		return;
 	}
-	if(productVolume == "") {
-		alert("请输入货物体积！");
-		$("#productVolume").focus();
-		return;
-	}
-	if(!isReal(productVolume)) {
-		alert("货物体积a格式不正确！");
+	if(productVolume != "" && !isReal(productVolume)) {
+		alert("货物体积格式不正确！");
 		$("#productVolume").focus();
 		return;
 	}
@@ -75,6 +80,12 @@ function calcPrice() {
 				html += '</tr>';
 				$("#weightprice_body").append(html);
 			});
+			if(data.minWeight != "") {
+				$("#weightPriceDetail").html("最优合计：" + data.minWeight + "元");
+			} else {
+				$("#weightPriceDetail").html("");
+			}
+			
 			//体积
 			var items1 = data.data1;
 			$.each(items1, function(i, n) {
@@ -89,6 +100,11 @@ function calcPrice() {
 				html += '</tr>';
 				$("#cubeprice_body").append(html);
 			});
+			if(data.minCube != "") {
+				$("#cubePriceDetail").html("最优合计：" + data.minCube + "元");
+			} else {
+				$("#cubePriceDetail").html("");
+			}
 		} else {
 			alert(data.msg);
 		}
@@ -178,22 +194,26 @@ function calcPrice() {
 			</tr>
 		</table>
 		<div class="tittle" style="width: 600px;">
-			<div id="weightDiv" style="cursor: pointer;" onclick="showWeightPriceList();">
-				<div class="tittle_left"></div>
-				<div id="weightPriceDetail" class="tittle_center" style="color:#000;">
-					实重计费
-				</div>
-				<div class="tittle_right"></div>
-			</div>
-			<div id="cubeDiv" style="cursor: pointer;" onclick="showCubePriceList();">
-				<div class="tittle_left"></div>
-				<div id="cubePriceDetail" class="tittle_center" style="color:#000;">
-					材积计费
-				</div>
-				<div class="tittle_right"></div>
-			</div>
+			<table width="100%" border="1" cellpadding="5" cellspacing="0" style="height: 100%;">
+				<tr>
+					<td id="weightDiv" style="cursor: pointer; width:250px; background:#6699CC;" width="300" onclick="showWeightPriceList();" onmouseout="changeStyle(this, 0);" onmouseover="changeStyle(this, 1);">
+						<div>
+							实重计费
+						</div>
+						<div id="weightPriceDetail" style="float: right; line-height: 0px; vertical-align: middle; color: red; margin-top: -5px;">
+						</div>
+					</td>
+					<td id="cubeDiv" style="cursor: pointer; width:250px;" width="300" onclick="showCubePriceList();" onmouseout="changeStyle(this, 0);" onmouseover="changeStyle(this, 1);">
+						<div>
+							材积计费
+						</div>
+						<div id="cubePriceDetail" style="float: right; line-height: 0px; vertical-align: middle; color: red; margin-top: -5px;">
+						</div>
+					</td>
+				</tr>
+			</table>
 		</div>
-		<div class="data_table" style="padding:0px;">
+		<div class="data_table" style="padding:0px; margin-top: 0px;">
 			<div class="tab_tittle">
 				<table width="100%" border="1" cellpadding="5" cellspacing="0">
 				</table>
@@ -203,10 +223,10 @@ function calcPrice() {
 					<thead>
 						<tr class="tittle">
 							<td width="80"></td>
-							<td width="80"></td>
+							<td width="80">#</td>
 							<td width="200">快递公司</td>
 							<td width="120">单价</td>
-							<td width="120">合计</td>
+							<td width="120">合计（元）</td>
 							<td width="180">备考</td>
 						</tr>
 					</thead>
@@ -217,10 +237,10 @@ function calcPrice() {
 					<thead>
 						<tr class="tittle">
 							<td width="80"></td>
-							<td width="80"></td>
+							<td width="80">#</td>
 							<td width="200">快递公司</td>
 							<td width="120">单价</td>
-							<td width="120">合计</td>
+							<td width="120">合计（元）</td>
 							<td width="180">备考</td>
 						</tr>
 					</thead>

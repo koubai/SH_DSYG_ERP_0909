@@ -108,26 +108,61 @@ public class AssessExpressFeeAction extends BaseAction {
 				List<CalcDeliveryPriceDto> data1 = new ArrayList<CalcDeliveryPriceDto>();
 				//查询出所有快递公司
 				List<DeliveryPriceDto> deliveryPriceList = deliveryPriceService.queryDeliveryPriceByCondition(startpoing, showCustomerDto.getRes01());
+				
+				BigDecimal minWeight = new BigDecimal(0);
+				BigDecimal minCube = new BigDecimal(0);
 				//根据快递公司的费用列表来匹配出每个快递公司最优解快递费用
 				if(deliveryPriceList != null && deliveryPriceList.size() > 0) {
 					for(DeliveryPriceDto deliveryPrice : deliveryPriceList) {
 						//根据重量计算
-						CalcDeliveryPriceDto price = new CalcDeliveryPriceDto();
-						price.setDeliveryname(deliveryPrice.getDeliveryname());
-						//费用
-						price.setDeliveryprice(calcPrice(strWeight, deliveryPrice.getPricekg()));
-						price.setUnitprice("" + deliveryPrice.getPricekg());
-						data.add(price);
+						if(StringUtil.isNotBlank(strWeight)) {
+							CalcDeliveryPriceDto price = new CalcDeliveryPriceDto();
+							price.setDeliveryname(deliveryPrice.getDeliveryname());
+							//费用
+							BigDecimal weightprice = calcPrice(strWeight, deliveryPrice.getPricekg());
+							price.setDeliveryprice(weightprice);
+							price.setUnitprice("" + deliveryPrice.getPricekg());
+							data.add(price);
+							if(minWeight.compareTo(new BigDecimal(0)) == 0) {
+								minWeight = weightprice;
+							} else {
+								if(minWeight.compareTo(weightprice) > 0) {
+									minWeight = weightprice;
+								}
+							}
+						}
 						
 						//根据体积计算
-						CalcDeliveryPriceDto price1 = new CalcDeliveryPriceDto();
-						price1.setDeliveryname(deliveryPrice.getDeliveryname());
-						//费用
-						price1.setDeliveryprice(calcPrice(strCube, deliveryPrice.getPricem3()));
-						price1.setUnitprice("" + deliveryPrice.getPricem3());
-						data1.add(price1);
+						if(StringUtil.isNotBlank(strCube)) {
+							CalcDeliveryPriceDto price1 = new CalcDeliveryPriceDto();
+							price1.setDeliveryname(deliveryPrice.getDeliveryname());
+							//费用
+							BigDecimal cubeprice = calcPrice(strCube, deliveryPrice.getPricem3());
+							price1.setDeliveryprice(cubeprice);
+							price1.setUnitprice("" + deliveryPrice.getPricem3());
+							data1.add(price1);
+							if(minCube.compareTo(new BigDecimal(0)) == 0) {
+								minCube = cubeprice;
+							} else {
+								if(minCube.compareTo(cubeprice) > 0) {
+									minCube = cubeprice;
+								}
+							}
+						}
 					}
 				}
+				if(StringUtil.isBlank(strWeight)) {
+					ajaxResult.setMinWeight("");
+				} else {
+					ajaxResult.setMinWeight("" + minWeight);
+				}
+				
+				if(StringUtil.isBlank(strCube)) {
+					ajaxResult.setMinCube("");
+				} else {
+					ajaxResult.setMinCube("" + minCube);
+				}
+				
 				//对费用排序
 				Collections.sort(data, new Comparator<CalcDeliveryPriceDto>() {
 

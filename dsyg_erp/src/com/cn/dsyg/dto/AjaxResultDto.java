@@ -21,6 +21,9 @@ public class AjaxResultDto {
 	 * 返回的数据内容1
 	 */
 	private Object data1;
+	
+	private String minWeight;
+	private String minCube;
 
 	public int getCode() {
 		return code;
@@ -52,5 +55,21 @@ public class AjaxResultDto {
 
 	public void setData1(Object data1) {
 		this.data1 = data1;
+	}
+
+	public String getMinWeight() {
+		return minWeight;
+	}
+
+	public void setMinWeight(String minWeight) {
+		this.minWeight = minWeight;
+	}
+
+	public String getMinCube() {
+		return minCube;
+	}
+
+	public void setMinCube(String minCube) {
+		this.minCube = minCube;
 	}
 }
