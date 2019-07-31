@@ -683,7 +683,7 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 				}
 				Collections.sort(list, new Comparator<ProductDto>(){
 					public int compare(ProductDto a, ProductDto b){
-						return a.getId().compareTo(b.getId());
+						return a.getTradename().compareTo(b.getTradename());
 					}
 				});
 				rpt.setListProduct(list);
@@ -736,7 +736,7 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 				}
 				Collections.sort(list, new Comparator<ProductDto>(){
 					public int compare(ProductDto a, ProductDto b){
-						return a.getId().compareTo(b.getId());
+						return a.getTradename().compareTo(b.getTradename());
 					}
 				});
 				rpt.setListProduct(list);

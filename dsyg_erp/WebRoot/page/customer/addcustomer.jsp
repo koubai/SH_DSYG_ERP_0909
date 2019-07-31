@@ -156,7 +156,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td width="150"><font color="red">*</font>客户地址</td>
+				<td width="150"><font color="red">*</font>客户城市</td>
 				<td width="550">
 					<div class="box1_left"></div>
 					<div class="box1_center">
