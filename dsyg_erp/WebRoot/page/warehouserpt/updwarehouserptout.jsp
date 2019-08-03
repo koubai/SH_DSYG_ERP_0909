@@ -264,6 +264,13 @@
 			};			
 		};
 	}
+	
+	//运费评估
+	function assess() {
+		var url = '<%=request.getContextPath()%>/assess/showAssessExpressFeeAction.action?strCustomerId=' + $("#supplierid").val().trim();
+		window.showModalDialog(url, window, "dialogheight:600px;dialogwidth:900px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.open(url);
+	}
 </script>
 </head>
 <body>
@@ -318,6 +325,7 @@
 				<s:hidden name="updWarehouserptDto.warehousedate" id="warehousedate"></s:hidden>
 				<s:hidden name="updWarehouserptDto.receiptdate" id="receiptdate"></s:hidden>
 				<s:hidden name="updWarehouserptDto.deliveryunitprice" id="deliveryunitprice"></s:hidden>
+				<s:hidden name="updWarehouserptDto.supplierid" id="supplierid"></s:hidden>
 				
 				<div class="searchbox update" style="height:0px;">
 					<table width="100%" border="0" cellpadding="5" cellspacing="0">
@@ -655,6 +663,15 @@
 									<div class="box1_left"></div>
 									<div class="box1_center">
 										<input class="input80" type="button" value="更新" onclick="upd();"/>
+									</div>
+									<div class="box1_right"></div>
+								</div>
+							</td>
+							<td>
+								<div class="btn">
+									<div class="box1_left"></div>
+									<div class="box1_center">
+										<input class="input80" type="button" value="运费评估" onclick="assess();" />
 									</div>
 									<div class="box1_right"></div>
 								</div>
