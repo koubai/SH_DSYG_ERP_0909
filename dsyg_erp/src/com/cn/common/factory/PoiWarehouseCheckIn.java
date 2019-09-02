@@ -81,7 +81,7 @@ public class PoiWarehouseCheckIn extends Poi2007Base {
 	        log.info("数据解析成功");	
             fis.close();  
 	        return getData;
-		} else if (fileType.equals("zip")|| fileType.equals("fileTypedocx")) {
+		} else if (fileType.equals("zip")|| fileType.equals("docx")) {
 		        log.info("开始解析XLS_DOC文件");
 		        FileInputStream fis = new FileInputStream(ff);
 		        XSSFWorkbook xssfWorkbook = new XSSFWorkbook(fis);
