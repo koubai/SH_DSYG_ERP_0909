@@ -29,6 +29,8 @@ import org.json.JSONObject;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.cn.common.util.Constants;
+import com.cn.common.util.PropertiesConfig;
 import com.cn.dsyg.dto.ChartDto;
 import com.cn.dsyg.service.ChartService;
 
@@ -78,7 +80,8 @@ public class ChartServlet extends HttpServlet {
         System.out.println("request.dur_type:" + dur_type);
         String handerList=request.getParameter("handerList");  
         System.out.println("request.handerList:" + handerList);
-        String belongto=(String)request.getSession().getAttribute("belongto");  
+//        String belongto=(String)request.getSession().getAttribute("belongto");  
+		String belongto = PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_BELONG);
         System.out.println("request.belongto:" + belongto);
         
         ServletContext servletContext = request.getSession().getServletContext();
