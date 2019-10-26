@@ -66,6 +66,71 @@ public class FinanceServiceImpl implements FinanceService {
 	}
 	
 	@Override
+	public void newkaiPiao(String ids, String billno, String userid) {
+		if(StringUtil.isNotBlank(ids)) {
+			String list[] = ids.split(",");
+			FinanceDto finance = null;
+			Date date = new Date();
+			for(String id : list) {
+				if(StringUtil.isNotBlank(id)) {
+					finance = financeDao.queryFinanceByID(id);
+					//出库单和入库单不做处理
+					if(finance.getFinancetype() != Constants.FINANCE_TYPE_PURCHASE && finance.getFinancetype() != Constants.FINANCE_TYPE_SALES ) {
+						finance.setRes10(billno);
+						//开票日期+金额
+						finance.setRes09(DateUtil.dateToShortStr(date) + "&&" + finance.getAmount());
+					}
+					finance.setUpdateuid(userid);
+					financeDao.updateFinance(finance);
+					
+					//发票逻辑
+					InvoiceDto invoice = new InvoiceDto();
+					invoice.setBelongto(PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_BELONG));
+					invoice.setWarehouserptno(finance.getInvoiceid());
+					//这里物流，应该没有产品ID
+					invoice.setProductid("");
+					invoice.setFinanceno(finance.getReceiptid());
+					//发票号，在预开票的时候用户自己填写
+					invoice.setInvoiceno(billno);
+					invoice.setCustomerid(finance.getCustomerid());
+					invoice.setCustomername(finance.getCustomername());
+					invoice.setCustomer_info1("");
+					invoice.setCustomer_info2("");
+					invoice.setCustomer_info3("");
+					invoice.setCustomer_info4("");
+					invoice.setCustomer_info5("");
+					//这里物流，应该没有数量
+					invoice.setQuantity(null);
+					//invoice.setPrice("");
+					//这里物流，应该没有价格
+					invoice.setPricetax(null);
+					//invoice.setAmount("");
+					invoice.setAmounttax(finance.getAmount());
+					//这里物流，只有开票
+					invoice.setRecpay(1);
+					//状态=开票1
+					invoice.setStatus(Constants.INVOICE_STATUS_OK);
+					
+					//开票作废信息
+					invoice.setInvoicedelno("");
+					invoice.setQuantitydel(new BigDecimal(0));
+					invoice.setFinanacedelno("");
+					invoice.setWarehouserptdelno("");
+					
+					invoice.setNote("");
+					//开票时间
+					invoice.setInvoice_date(new Date());
+					//开票人
+					invoice.setInvoide_mem_id(finance.getUpdateuid());
+					invoice.setCreateuid(finance.getUpdateuid());
+					invoice.setUpdateuid(finance.getUpdateuid());
+					invoiceDao.insertInvoice(invoice);
+				}
+			}
+		}
+	}
+	
+	@Override
 	public List<FinanceDto> queryFinanceByCpDate(String status, String customerid, String accountdateLow, String accountdateHigh){
 		return financeDao.queryFinanceByCpDate(status, customerid, accountdateLow, accountdateHigh);		
 	}
@@ -315,6 +380,38 @@ public class FinanceServiceImpl implements FinanceService {
 			finance.setProductList(productList);
 		}
 		return finance;
+	}
+	
+	@Override
+	public List<FinanceDto> queryFinanceByIDs(String ids) {
+		List<FinanceDto> list = financeDao.queryFinanceByIDs(ids);
+		if(list != null && list.size() > 0) {
+			for(FinanceDto finance : list) {
+				UserDto user = userDao.queryUserByID(finance.getHandler());
+				if(user != null) {
+					finance.setHandlername(user.getUsername());
+				}
+				//已开票金额含税，这里只查询status=1的
+				BigDecimal invoiceAmount = invoiceDao.querySumInvoiceByFinanceno(finance.getReceiptid(), "" + Constants.INVOICE_STATUS_OK);
+				finance.setInvoiceAmount(invoiceAmount);
+
+				//预开票金额含税，这里只查询status=1的
+				BigDecimal preinvoiceAmount = invoiceDao.querySumInvoiceByFinanceno(finance.getReceiptid(), "" + Constants.INVOICE_STATUS_NEW);
+				finance.setPreinvoiceAmount(preinvoiceAmount);
+				
+				if (invoiceAmount == null)
+					invoiceAmount = new BigDecimal(0);
+				if (preinvoiceAmount == null)
+					preinvoiceAmount = new BigDecimal(0);
+				
+				if (finance.getAmount().equals(invoiceAmount.add(preinvoiceAmount)))
+					finance.setInvoicestatus(new BigDecimal(1));
+				else
+					finance.setInvoicestatus(new BigDecimal(0));
+
+			}
+		}
+		return list;
 	}
 
 	@Override

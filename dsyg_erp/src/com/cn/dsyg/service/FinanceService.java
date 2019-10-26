@@ -22,6 +22,14 @@ public interface FinanceService {
 	public void kaiPiao(String ids, String billno, String userid);
 	
 	/**
+	 * 开票（新开票逻辑20191022）
+	 * @param ids
+	 * @param billno
+	 * @param userid
+	 */
+	public void newkaiPiao(String ids, String billno, String userid);
+	
+	/**
 	 * 根据状态查询财务记录(客户名，日期)
 	 * @param status
 	 * @param customername
@@ -103,6 +111,13 @@ public interface FinanceService {
 	 * @return
 	 */
 	public FinanceDto queryFinanceByID(String id);
+	
+	/**
+	 * 根据ID列表查询记录
+	 * @param ids
+	 * @return
+	 */
+	public List<FinanceDto> queryFinanceByIDs(String ids);
 	
 	/**
 	 * 新增记录

@@ -183,6 +183,15 @@ public class FinanceDaoImpl extends BaseDao implements FinanceDao {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<FinanceDto> queryFinanceByIDs(String ids) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("ids", ids);
+		@SuppressWarnings("unchecked")
+		List<FinanceDto> list = getSqlMapClientTemplate().queryForList("queryFinanceByIDs", paramMap);
+		return list;
+	}
 
 	@Override
 	public void insertFinance(FinanceDto finance) {

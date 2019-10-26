@@ -296,6 +296,12 @@
 		<property name="dict01Service">
 			<ref bean="dict01Service"/>
 		</property>
+		<property name="warehouserptService">
+			<ref bean="warehouserptService"/>
+		</property>
+		<property name="invoiceService">
+			<ref bean="invoiceService"/>
+		</property>
 	</bean>
 
 	<!-- 预收款 -->

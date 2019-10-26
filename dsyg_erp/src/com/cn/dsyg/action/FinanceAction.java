@@ -1,6 +1,8 @@
 package com.cn.dsyg.action;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.LogManager;
@@ -8,15 +10,18 @@ import org.apache.log4j.Logger;
 
 import com.cn.common.action.BaseAction;
 import com.cn.common.util.Constants;
+import com.cn.common.util.DateUtil;
 import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.FinanceDto;
 import com.cn.dsyg.dto.FinanceProductDetailDto;
+import com.cn.dsyg.dto.InvoiceDto;
 import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.service.Dict01Service;
 import com.cn.dsyg.service.FinanceService;
+import com.cn.dsyg.service.InvoiceService;
 import com.cn.dsyg.service.WarehouserptService;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -34,6 +39,7 @@ public class FinanceAction extends BaseAction {
 	private FinanceService financeService;
 	private Dict01Service dict01Service;
 	private WarehouserptService warehouserptService;
+	private InvoiceService invoiceService;
 	
 	//页码
 	private int startIndex;
@@ -116,6 +122,14 @@ public class FinanceAction extends BaseAction {
 	
 	//已开发票显示    0：隐藏  1：显示
 	private String strInvoiceddsp_flg;
+	
+	//20191022新开票逻辑
+	private String strNewKaipiaoIds;
+	private String strNewFaPiaoNo;
+	private String strNewFaPiaoCustomername;
+	private String strNewFaPiaodate;
+	private String strNewFaPiaoAmount;
+	private String strNewFaPiaoFlag;
 
 	/**
 	 * 开票
@@ -296,6 +310,66 @@ public class FinanceAction extends BaseAction {
 			queryData();
 		} catch(Exception e) {
 			log.error("updFinanceStatusAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	
+	/**
+	 * 显示新的开票页面----20191022
+	 * @return
+	 */
+	public String showNewKaiPiaoAction() {
+		try {
+			this.clearMessages();
+			strNewFaPiaoNo = "";
+			strNewFaPiaoCustomername = "";
+			strNewFaPiaoFlag = "1";
+			List<FinanceDto> list = financeService.queryFinanceByIDs(strNewKaipiaoIds);
+			//统计金额
+			BigDecimal amount = new BigDecimal(0);
+			if(list != null && list.size() > 0) {
+				FinanceDto financeDto = null;
+				for(int i = 0; i < list.size(); i++) {
+					//未开票金额还是金额??
+					financeDto = list.get(i);
+					if(i == 0) {
+						strNewFaPiaoCustomername = financeDto.getCustomername();
+					}
+					amount = amount.add(financeDto.getAmount());
+				}
+			}
+			strNewFaPiaoAmount = "" + amount;
+			//开票日期默认=今天
+			strNewFaPiaodate = DateUtil.dateToShortStr(new Date());
+		} catch(Exception e) {
+			log.error("showNewKaiPiaoAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	
+	/**
+	 * 新的开票逻辑----20191022
+	 * @return
+	 */
+	public String newKaiPiaoAction() {
+		try {
+			this.clearMessages();
+			//验证发票是否存在
+			List<InvoiceDto> invoiceList = invoiceService.queryInvoiceByInvoiceno(strNewFaPiaoNo, null);
+			if(invoiceList != null && invoiceList.size() > 0) {
+				this.addActionMessage("发票" + strNewFaPiaoNo + "已存在，开票失败");
+			} else {
+				//当前操作用户ID
+				String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
+				financeService.newkaiPiao(strNewKaipiaoIds, strNewFaPiaoNo, username);
+				//开票成功，页面清空
+				strNewFaPiaoFlag = "2";
+				this.addActionMessage(strNewFaPiaoNo + "开票成功！");
+			}
+		} catch(Exception e) {
+			log.error("newKaiPiaoAction error:" + e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -1059,6 +1133,62 @@ public class FinanceAction extends BaseAction {
 
 	public void setStrInvoiceddsp_flg(String strInvoiceddsp_flg) {
 		this.strInvoiceddsp_flg = strInvoiceddsp_flg;
+	}
+
+	public String getStrNewFaPiaoNo() {
+		return strNewFaPiaoNo;
+	}
+
+	public void setStrNewFaPiaoNo(String strNewFaPiaoNo) {
+		this.strNewFaPiaoNo = strNewFaPiaoNo;
+	}
+
+	public String getStrNewFaPiaoCustomername() {
+		return strNewFaPiaoCustomername;
+	}
+
+	public void setStrNewFaPiaoCustomername(String strNewFaPiaoCustomername) {
+		this.strNewFaPiaoCustomername = strNewFaPiaoCustomername;
+	}
+
+	public String getStrNewFaPiaodate() {
+		return strNewFaPiaodate;
+	}
+
+	public void setStrNewFaPiaodate(String strNewFaPiaodate) {
+		this.strNewFaPiaodate = strNewFaPiaodate;
+	}
+
+	public String getStrNewFaPiaoAmount() {
+		return strNewFaPiaoAmount;
+	}
+
+	public void setStrNewFaPiaoAmount(String strNewFaPiaoAmount) {
+		this.strNewFaPiaoAmount = strNewFaPiaoAmount;
+	}
+
+	public String getStrNewKaipiaoIds() {
+		return strNewKaipiaoIds;
+	}
+
+	public void setStrNewKaipiaoIds(String strNewKaipiaoIds) {
+		this.strNewKaipiaoIds = strNewKaipiaoIds;
+	}
+
+	public String getStrNewFaPiaoFlag() {
+		return strNewFaPiaoFlag;
+	}
+
+	public void setStrNewFaPiaoFlag(String strNewFaPiaoFlag) {
+		this.strNewFaPiaoFlag = strNewFaPiaoFlag;
+	}
+
+	public InvoiceService getInvoiceService() {
+		return invoiceService;
+	}
+
+	public void setInvoiceService(InvoiceService invoiceService) {
+		this.invoiceService = invoiceService;
 	}
 
 

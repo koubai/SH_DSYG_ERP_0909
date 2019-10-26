@@ -139,6 +139,13 @@ public interface FinanceDao {
 	public FinanceDto queryFinanceByID(String id);
 	
 	/**
+	 * 根据ID列表查询记录
+	 * @param ids
+	 * @return
+	 */
+	public List<FinanceDto> queryFinanceByIDs(String ids);
+	
+	/**
 	 * 根据invoiceid查询记录
 	 * @param invoiceid
 	 * @param financetype

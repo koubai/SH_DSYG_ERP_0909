@@ -192,6 +192,14 @@
 		<action name="showKaiPiaoCpAction" class="financeAction" method="showKaiPiaoCpAction">
 			<result name="success">/page/finance/kaipiaocplist.jsp</result>
 		</action>
+		
+		<action name="showNewKaiPiaoAction" class="financeAction" method="showNewKaiPiaoAction">
+			<result name="*">/page/finance/newkaipiao.jsp</result>
+		</action>
+		
+		<action name="newKaiPiaoAction" class="financeAction" method="newKaiPiaoAction">
+			<result name="*">/page/finance/newkaipiao.jsp</result>
+		</action>
 	</package>
 
 </struts>

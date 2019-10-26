@@ -21,7 +21,7 @@
 		document.mainform.submit();
 	}
 	
-	function upd() {
+	function upd_old() {
 		var id = getSelectedID();
 //		var alt = getSelectedAlt();
 		if(id == "") {
@@ -41,6 +41,37 @@
 				document.mainform.submit();
 			//}
 		}
+	}
+	//新的开票逻辑20191022
+	function upd() {
+		//验证开票对象是否一致
+		var list = $("#data_tab").find("input[name='chk_item']");
+		if(list == null || list.length == 0) {
+			return;
+		}
+		var ids = "";
+		var customername = "";
+		for(var i = 0; i < list.length; i++) {
+			if(list[i].checked) {
+				if(customername == "") {
+					customername = list[i].value;
+				} else {
+					if(customername != list[i].value) {
+						alert("开票对象不一致！");
+						return;
+					}
+				}
+				ids += list[i].alt;
+			}
+		}
+		if(ids == "") {
+			alert("请选择开票对象！");
+			return;
+		}
+		//开票动作
+		var url = "../finance/showNewKaiPiaoAction.action?strNewKaipiaoIds=" + ids;
+		url += "&date=" + new Date();
+		window.showModalDialog(url, window, "dialogheight:320px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	function auditor_bak(id, status, tip) {
@@ -356,6 +387,20 @@
 		}
 	}
 	
+	function checkAll(obj) {
+		var list = $("#data_tab").find("input[name='chk_item']");
+		var chk = false;
+		if($('#chk_all').attr('checked')) {
+			chk = true;
+		}
+		for(var j = 0; j < list.length; j++) {
+			list[j].checked = chk;
+		}
+	}
+	
+	function checkItem(obj) {
+	}
+	
 </script>
 </head>
 <body>
@@ -607,14 +652,16 @@
 						</div>
 						<div id="overlay" class="black_overlay"></div>
 						<div style="width: 130%; overflow: auto;">
-							<table class="info_tab" width="100%" border="1" cellpadding="5" cellspacing="0">
+							<table id="data_tab" class="info_tab" width="100%" border="1" cellpadding="5" cellspacing="0">
 								<tr class="tittle">
 									<td width="30"></td>
 									<td width="40">序号</td>
 									<td width="130">账目编号</td>
 									<td width="130">关联单据编号</td>
 									<td width="130">快递单号</td>
-									<td width="80">主题</td>
+									<td width="80">
+										主题<input type="checkbox" id="chk_all" onclick="checkAll(this);"/>
+									</td>
 									<td width="110">对象</td>
 									<td width="80">联系人</td>
 									<td width="80">经手人</td>
@@ -648,7 +695,7 @@
 												订单
 											</s:elseif>
 											<s:elseif test="financetype == 3">
-												物流
+												物流<input type="checkbox" name="chk_item" alt="<s:property value="id"/>" value="<s:property value="customername"/>" onclick="checkItem(this);"/>
 											</s:elseif>
 											<s:elseif test="financetype == 4">
 												<s:iterator id="financeDictList" value="financeDictList" status="st3">
