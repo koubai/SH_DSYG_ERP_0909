@@ -331,12 +331,18 @@ public class FinanceAction extends BaseAction {
 			if(list != null && list.size() > 0) {
 				FinanceDto financeDto = null;
 				for(int i = 0; i < list.size(); i++) {
-					//未开票金额还是金额??
 					financeDto = list.get(i);
 					if(i == 0) {
 						strNewFaPiaoCustomername = financeDto.getCustomername();
 					}
-					amount = amount.add(financeDto.getAmount());
+					//判断已开票金额是否为空
+					if(financeDto.getInvoiceAmount() != null) {
+						//这里需要减掉已开票金额
+						amount = amount.add(financeDto.getAmount().subtract(financeDto.getInvoiceAmount()));
+					} else {
+						//已开票金额为空，则直接加上金额
+						amount = amount.add(financeDto.getAmount());
+					}
 				}
 			}
 			strNewFaPiaoAmount = "" + amount;

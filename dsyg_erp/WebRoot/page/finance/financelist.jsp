@@ -72,6 +72,7 @@
 		var url = "../finance/showNewKaiPiaoAction.action?strNewKaipiaoIds=" + ids;
 		url += "&date=" + new Date();
 		window.showModalDialog(url, window, "dialogheight:320px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.open(url);
 	}
 	
 	function auditor_bak(id, status, tip) {

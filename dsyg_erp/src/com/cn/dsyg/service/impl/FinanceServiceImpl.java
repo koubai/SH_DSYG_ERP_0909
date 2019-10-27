@@ -83,6 +83,9 @@ public class FinanceServiceImpl implements FinanceService {
 					finance.setUpdateuid(userid);
 					financeDao.updateFinance(finance);
 					
+					//已开票金额
+					BigDecimal invoiceAmount = invoiceDao.querySumInvoiceByFinanceno(finance.getReceiptid(), "" + Constants.INVOICE_STATUS_OK);
+					
 					//发票逻辑
 					InvoiceDto invoice = new InvoiceDto();
 					invoice.setBelongto(PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_BELONG));
@@ -105,7 +108,16 @@ public class FinanceServiceImpl implements FinanceService {
 					//这里物流，应该没有价格
 					invoice.setPricetax(null);
 					//invoice.setAmount("");
-					invoice.setAmounttax(finance.getAmount());
+					
+					//判断已开票金额是否为空
+					if(invoiceAmount != null) {
+						//这里需要减掉已开票金额
+						invoice.setAmounttax(finance.getAmount().subtract(invoiceAmount));
+					} else {
+						//已开票金额为空，则直接加上金额
+						invoice.setAmounttax(finance.getAmount());
+					}
+					
 					//这里物流，只有开票
 					invoice.setRecpay(1);
 					//状态=开票1

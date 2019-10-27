@@ -26,9 +26,16 @@
 			$("#tmpNewFaPiaodate").focus();
 			return;
 		}
+		if($("#strNewFaPiaoAmount").val() == "" || parseFloat($("#strNewFaPiaoAmount").val()) <= 0) {
+			alert("发票金额必须大于0！");
+			$("#strNewFaPiaoAmount").focus();
+			return;
+		}
 		$("#strNewFaPiaodate").val($("#tmpNewFaPiaodate").val());
-		document.mainform.action = "../finance/newKaiPiaoAction.action";
-		document.mainform.submit();
+		if(confirm("确定开票吗？")) {
+			document.mainform.action = "../finance/newKaiPiaoAction.action";
+			document.mainform.submit();
+		}
 	}
 	
 	//页面关闭响应
