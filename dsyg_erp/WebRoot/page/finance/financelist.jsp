@@ -61,12 +61,14 @@
 						return;
 					}
 				}
-				ids += list[i].alt;
+				ids += list[i].alt + ",";
 			}
 		}
 		if(ids == "") {
 			alert("请选择开票对象！");
 			return;
+		} else {
+			ids = ids.substring(0, ids.length - 1);
 		}
 		//开票动作
 		var url = "../finance/showNewKaiPiaoAction.action?strNewKaipiaoIds=" + ids;
@@ -696,7 +698,10 @@
 												订单
 											</s:elseif>
 											<s:elseif test="financetype == 3">
-												物流<input type="checkbox" name="chk_item" alt="<s:property value="id"/>" value="<s:property value="customername"/>" onclick="checkItem(this);"/>
+												物流
+												<s:if test="amount > invoiceAmount">
+													<input type="checkbox" name="chk_item" alt="<s:property value="id"/>" value="<s:property value="customername"/>" onclick="checkItem(this);"/>
+												</s:if>
 											</s:elseif>
 											<s:elseif test="financetype == 4">
 												<s:iterator id="financeDictList" value="financeDictList" status="st3">

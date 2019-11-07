@@ -260,7 +260,7 @@
 	</select>
 	
 	<select id="queryFinanceByIDs" parameterClass="java.util.Map" resultMap="FinanceDto">
-		select * from etb_finance where id in (#ids#)
+		select * from etb_finance where id in ($ids$)
 	</select>
 	
 	<select id="queryFinanceByReceiptid" parameterClass="java.util.Map" resultMap="FinanceDto">
