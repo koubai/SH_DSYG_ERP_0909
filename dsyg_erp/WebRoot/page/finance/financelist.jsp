@@ -47,34 +47,37 @@
 		//验证开票对象是否一致
 		var list = $("#data_tab").find("input[name='chk_item']");
 		if(list == null || list.length == 0) {
-			return;
-		}
-		var ids = "";
-		var customername = "";
-		for(var i = 0; i < list.length; i++) {
-			if(list[i].checked) {
-				if(customername == "") {
-					customername = list[i].value;
-				} else {
-					if(customername != list[i].value) {
-						alert("开票对象不一致！");
-						return;
+			//普通开票
+			upd_old();
+		} else {
+			//物流开票
+			var ids = "";
+			var customername = "";
+			for(var i = 0; i < list.length; i++) {
+				if(list[i].checked) {
+					if(customername == "") {
+						customername = list[i].value;
+					} else {
+						if(customername != list[i].value) {
+							alert("开票对象不一致！");
+							return;
+						}
 					}
+					ids += list[i].alt + ",";
 				}
-				ids += list[i].alt + ",";
+			}
+			if(ids == "") {
+				//普通开票
+				upd_old();
+			} else {
+				ids = ids.substring(0, ids.length - 1);
+				//物流开票动作
+				var url = "../finance/showNewKaiPiaoAction.action?strNewKaipiaoIds=" + ids;
+				url += "&date=" + new Date();
+				window.showModalDialog(url, window, "dialogheight:320px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+				//window.open(url);
 			}
 		}
-		if(ids == "") {
-			alert("请选择开票对象！");
-			return;
-		} else {
-			ids = ids.substring(0, ids.length - 1);
-		}
-		//开票动作
-		var url = "../finance/showNewKaiPiaoAction.action?strNewKaipiaoIds=" + ids;
-		url += "&date=" + new Date();
-		window.showModalDialog(url, window, "dialogheight:320px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
-		//window.open(url);
 	}
 	
 	function auditor_bak(id, status, tip) {
