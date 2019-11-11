@@ -546,7 +546,7 @@
 					</div>
 					<div class="icons thums">
 						<a class="add" onclick="add();">增加</a>
-						<a class="edit" onclick="upd();">修改</a>
+						<a class="edit" onclick="upd_old();">修改</a>
 						<!--
 						<a class="delete" onclick="del();">删除</a>
 						-->
