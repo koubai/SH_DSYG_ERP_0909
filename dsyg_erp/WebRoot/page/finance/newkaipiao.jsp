@@ -119,7 +119,41 @@
 					</div>
 					<div class="box1_right"></div>
 				</td>
-				<td colspan="3">
+				<td></td>
+				<td>
+					<label class="pdf10">发票状态：</label>
+				</td>
+				<td>
+					<div class="box1_left"></div>
+					<div class="box1_center">
+						<select id="strNewFaPiaoStatus" name="strNewFaPiaoStatus" style="width: 185px;">
+							<s:if test='%{strNewFaPiaoStatus == "10"}'>
+								<option value="1">未收到发票, 未付款</option>
+								<option value="10" selected="selected">收到发票, 安排付款</option>
+								<option value="15">未收到发票, 已付款</option>
+								<option value="99">收到发票, 已付款</option>
+							</s:if>
+							<s:elseif test='%{strNewFaPiaoStatus == "15"}'>
+								<option value="1">未收到发票, 未付款</option>
+								<option value="10">收到发票, 安排付款</option>
+								<option value="15" selected="selected">未收到发票, 已付款</option>
+								<option value="99">收到发票, 已付款</option>
+							</s:elseif>
+							<s:elseif test='%{strNewFaPiaoStatus == "99"}'>
+								<option value="1">未收到发票, 未付款</option>
+								<option value="10">收到发票, 安排付款</option>
+								<option value="15">未收到发票, 已付款</option>
+								<option value="99" selected="selected">收到发票, 已付款</option>
+							</s:elseif>
+							<s:else>
+								<option value="1" selected="selected">未收到发票, 未付款</option>
+								<option value="10">收到发票, 安排付款</option>
+								<option value="15">未收到发票, 已付款</option>
+								<option value="99">收到发票, 已付款</option>
+							</s:else>
+						</select>
+					</div>
+					<div class="box1_right"></div>
 				</td>
 			</tr>
 		</table>

@@ -130,6 +130,8 @@ public class FinanceAction extends BaseAction {
 	private String strNewFaPiaodate;
 	private String strNewFaPiaoAmount;
 	private String strNewFaPiaoFlag;
+	//发票状态
+	private String strNewFaPiaoStatus;
 
 	/**
 	 * 开票
@@ -323,6 +325,7 @@ public class FinanceAction extends BaseAction {
 		try {
 			this.clearMessages();
 			strNewFaPiaoNo = "";
+			strNewFaPiaoStatus = "1";
 			strNewFaPiaoCustomername = "";
 			strNewFaPiaoFlag = "1";
 			List<FinanceDto> list = financeService.queryFinanceByIDs(strNewKaipiaoIds);
@@ -369,7 +372,7 @@ public class FinanceAction extends BaseAction {
 			} else {
 				//当前操作用户ID
 				String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
-				financeService.newkaiPiao(strNewKaipiaoIds, strNewFaPiaoNo, username);
+				financeService.newkaiPiao(strNewFaPiaoStatus, strNewKaipiaoIds, strNewFaPiaoNo, username);
 				//开票成功，页面清空
 				strNewFaPiaoFlag = "2";
 				this.addActionMessage(strNewFaPiaoNo + "开票成功！");
@@ -1195,6 +1198,14 @@ public class FinanceAction extends BaseAction {
 
 	public void setInvoiceService(InvoiceService invoiceService) {
 		this.invoiceService = invoiceService;
+	}
+
+	public String getStrNewFaPiaoStatus() {
+		return strNewFaPiaoStatus;
+	}
+
+	public void setStrNewFaPiaoStatus(String strNewFaPiaoStatus) {
+		this.strNewFaPiaoStatus = strNewFaPiaoStatus;
 	}
 
 

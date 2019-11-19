@@ -23,11 +23,12 @@ public interface FinanceService {
 	
 	/**
 	 * 开票（新开票逻辑20191022）
+	 * @param status
 	 * @param ids
 	 * @param billno
 	 * @param userid
 	 */
-	public void newkaiPiao(String ids, String billno, String userid);
+	public void newkaiPiao(String status, String ids, String billno, String userid);
 	
 	/**
 	 * 根据状态查询财务记录(客户名，日期)

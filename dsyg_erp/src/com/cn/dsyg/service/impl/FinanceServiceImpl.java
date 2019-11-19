@@ -66,7 +66,7 @@ public class FinanceServiceImpl implements FinanceService {
 	}
 	
 	@Override
-	public void newkaiPiao(String ids, String billno, String userid) {
+	public void newkaiPiao(String status, String ids, String billno, String userid) {
 		if(StringUtil.isNotBlank(ids)) {
 			String list[] = ids.split(",");
 			FinanceDto finance = null;
@@ -81,6 +81,7 @@ public class FinanceServiceImpl implements FinanceService {
 						finance.setRes09(DateUtil.dateToShortStr(date) + "&&" + finance.getAmount());
 					}
 					finance.setUpdateuid(userid);
+					finance.setStatus(Integer.valueOf(status));
 					financeDao.updateFinance(finance);
 					
 					//已开票金额
@@ -211,10 +212,11 @@ public class FinanceServiceImpl implements FinanceService {
 				if (preinvoiceAmount == null)
 					preinvoiceAmount = new BigDecimal(0);
 				
-				if (finance.getAmount().equals(invoiceAmount.add(preinvoiceAmount)))
+				if (finance.getAmount() != null && finance.getAmount().equals(invoiceAmount.add(preinvoiceAmount))) {
 					finance.setInvoicestatus(new BigDecimal(1));
-				else
+				} else {
 					finance.setInvoicestatus(new BigDecimal(0));
+				}
 
 			}
 		}
