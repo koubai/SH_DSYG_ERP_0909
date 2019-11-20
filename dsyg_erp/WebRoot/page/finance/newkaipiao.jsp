@@ -127,29 +127,68 @@
 					<div class="box1_left"></div>
 					<div class="box1_center">
 						<select id="strNewFaPiaoStatus" name="strNewFaPiaoStatus" style="width: 185px;">
-							<s:if test='%{strNewFaPiaoStatus == "10"}'>
-								<option value="1">未收到发票, 未付款</option>
-								<option value="10" selected="selected">收到发票, 安排付款</option>
-								<option value="15">未收到发票, 已付款</option>
-								<option value="99">收到发票, 已付款</option>
+							<s:if test='strNewFaPiaoMode == "1"'>
+								<s:if test='%{strNewFaPiaoStatus == "10"}'>
+									<option value="1">未对帐</option>
+									<option value="10" selected="selected">已对帐, 未开票</option>
+									<option value="15">已收款, 未对账</option>
+									<option value="20">已开票, 未收款</option>
+									<option value="99">已开票, 已收款</option>
+								</s:if>
+								<s:elseif test='%{strNewFaPiaoStatus == "15"}'>
+									<option value="1">未对帐</option>
+									<option value="10">已对帐, 未开票</option>
+									<option value="15" selected="selected">已收款, 未对账</option>
+									<option value="20">已开票, 未收款</option>
+									<option value="99">已开票, 已收款</option>
+								</s:elseif>
+								<s:elseif test='%{strNewFaPiaoStatus == "20"}'>
+									<option value="1">未对帐</option>
+									<option value="10">已对帐, 未开票</option>
+									<option value="15">已收款, 未对账</option>
+									<option value="20" selected="selected">已开票, 未收款</option>
+									<option value="99">已开票, 已收款</option>
+								</s:elseif>
+								<s:elseif test='%{strNewFaPiaoStatus == "99"}'>
+									<option value="1">未对帐</option>
+									<option value="10">已对帐, 未开票</option>
+									<option value="15">已收款, 未对账</option>
+									<option value="20">已开票, 未收款</option>
+									<option value="99" selected="selected">已开票, 已收款</option>
+								</s:elseif>
+								<s:else>
+									<option value="1" selected="selected">未对帐</option>
+									<option value="10">已对帐, 未开票</option>
+									<option value="15">已收款, 未对账</option>
+									<option value="20">已开票, 未收款</option>
+									<option value="99">已开票, 已收款</option>
+								</s:else>
 							</s:if>
-							<s:elseif test='%{strNewFaPiaoStatus == "15"}'>
-								<option value="1">未收到发票, 未付款</option>
-								<option value="10">收到发票, 安排付款</option>
-								<option value="15" selected="selected">未收到发票, 已付款</option>
-								<option value="99">收到发票, 已付款</option>
-							</s:elseif>
-							<s:elseif test='%{strNewFaPiaoStatus == "99"}'>
-								<option value="1">未收到发票, 未付款</option>
-								<option value="10">收到发票, 安排付款</option>
-								<option value="15">未收到发票, 已付款</option>
-								<option value="99" selected="selected">收到发票, 已付款</option>
-							</s:elseif>
 							<s:else>
-								<option value="1" selected="selected">未收到发票, 未付款</option>
-								<option value="10">收到发票, 安排付款</option>
-								<option value="15">未收到发票, 已付款</option>
-								<option value="99">收到发票, 已付款</option>
+								<s:if test='%{strNewFaPiaoStatus == "10"}'>
+									<option value="1">未收到发票, 未付款</option>
+									<option value="10" selected="selected">收到发票, 安排付款</option>
+									<option value="15">未收到发票, 已付款</option>
+									<option value="99">收到发票, 已付款</option>
+								</s:if>
+								<s:elseif test='%{strNewFaPiaoStatus == "15"}'>
+									<option value="1">未收到发票, 未付款</option>
+									<option value="10">收到发票, 安排付款</option>
+									<option value="15" selected="selected">未收到发票, 已付款</option>
+									<option value="99">收到发票, 已付款</option>
+								</s:elseif>
+								<s:elseif test='%{strNewFaPiaoStatus == "99"}'>
+									<option value="1">未收到发票, 未付款</option>
+									<option value="10">收到发票, 安排付款</option>
+									<option value="15">未收到发票, 已付款</option>
+									<option value="99" selected="selected">收到发票, 已付款</option>
+								</s:elseif>
+								<s:else>
+									<option value="1" selected="selected">未收到发票, 未付款</option>
+									<option value="10">收到发票, 安排付款</option>
+									<option value="15">未收到发票, 已付款</option>
+									<option value="99">收到发票, 已付款</option>
+								</s:else>
 							</s:else>
 						</select>
 					</div>

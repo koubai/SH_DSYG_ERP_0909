@@ -132,6 +132,7 @@ public class FinanceAction extends BaseAction {
 	private String strNewFaPiaoFlag;
 	//发票状态
 	private String strNewFaPiaoStatus;
+	private String strNewFaPiaoMode;
 
 	/**
 	 * 开票
@@ -326,6 +327,7 @@ public class FinanceAction extends BaseAction {
 			this.clearMessages();
 			strNewFaPiaoNo = "";
 			strNewFaPiaoStatus = "1";
+			strNewFaPiaoMode = "";
 			strNewFaPiaoCustomername = "";
 			strNewFaPiaoFlag = "1";
 			List<FinanceDto> list = financeService.queryFinanceByIDs(strNewKaipiaoIds);
@@ -336,6 +338,7 @@ public class FinanceAction extends BaseAction {
 				for(int i = 0; i < list.size(); i++) {
 					financeDto = list.get(i);
 					if(i == 0) {
+						strNewFaPiaoMode = financeDto.getMode();
 						strNewFaPiaoCustomername = financeDto.getCustomername();
 					}
 					//判断已开票金额是否为空
@@ -1206,6 +1209,14 @@ public class FinanceAction extends BaseAction {
 
 	public void setStrNewFaPiaoStatus(String strNewFaPiaoStatus) {
 		this.strNewFaPiaoStatus = strNewFaPiaoStatus;
+	}
+
+	public String getStrNewFaPiaoMode() {
+		return strNewFaPiaoMode;
+	}
+
+	public void setStrNewFaPiaoMode(String strNewFaPiaoMode) {
+		this.strNewFaPiaoMode = strNewFaPiaoMode;
 	}
 
 
