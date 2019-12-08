@@ -417,7 +417,7 @@ public class DeliveryDto extends BaseDto {
 	private String res01;
 
 	/**
-	 * 预备项目2
+	 * 预备项目2（参与运费评估：1为参与评估，0或者其他为不参与）
 	 */
 	private String res02;
 

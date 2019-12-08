@@ -113,6 +113,28 @@
 		document.mainform.action = '../warehouserpt/exportWarehouserptOutAction.action';
 		document.mainform.submit();
 	}
+	
+	//运费评估
+	function assess() {
+		var id = getSelectedID();
+		if(id == "") {
+			alert("请选择一条记录！");
+			return;
+		} else {
+			//获得客户ID
+			var customerId = "";
+			var list = document.getElementsByName("radioKey");
+			for(var i = 0; i < list.length; i++) {
+				if(list[i].checked) {
+					customerId = list[i].alt;
+					break;
+				}
+			}
+			var url = '<%=request.getContextPath()%>/assess/showAssessExpressFeeAction.action?strCustomerId=' + customerId;
+			window.showModalDialog(url, window, "dialogheight:600px;dialogwidth:900px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			//window.open(url);
+		}
+	}
 </script>
 </head>
 <body>
@@ -195,6 +217,13 @@
 						<a class="delete" onclick="del();">删除</a>
 						-->
 					</div>
+					<div class="btn" style="margin-left: 160px;">
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							<input class="input80" type="button" value="运费评估" onclick="assess();" />
+						</div>
+						<div class="box1_right"></div>
+					</div>
 				</div>
 				<div class="data_table" style="padding:0px;">
 					<div class="tab_tittle">
@@ -226,7 +255,7 @@
 								<s:else>
 									<tr onclick="checkRadioTr(this, event);">
 								</s:else>
-									<td><input name="radioKey" type="radio" value="<s:property value="id"/>"/></td>
+									<td><input name="radioKey" type="radio" alt="<s:property value="supplierid"/>" value="<s:property value="id"/>"/></td>
 									<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
 									<td><s:property value="warehouseno"/></td>
 									<td><s:property value="createdate"/></td>

@@ -284,6 +284,8 @@ public class DeliveryAction extends BaseAction {
 		try {
 			this.clearMessages();
 			addDeliveryDto = new DeliveryDto();
+			//默认为1，参与运费评估：1为参与评估
+			addDeliveryDto.setRes02("1");
 			addPriceItemList = new ArrayList<DeliveryPriceDto>();
 			belongTo = (String)ActionContext.getContext().getSession().get(Constants.SESSION_BELONGTO);
 		} catch(Exception e) {
@@ -337,6 +339,8 @@ public class DeliveryAction extends BaseAction {
 			deliveryService.insertEtbDelivery(addDeliveryDto, addPriceItemList, username);
 			this.addActionMessage("添加快递成功！");
 			addDeliveryDto = new DeliveryDto();
+			//默认为1，参与运费评估：1为参与评估
+			addDeliveryDto.setRes02("1");
 			addPriceItemList = new ArrayList<DeliveryPriceDto>();
 		} catch(Exception e) {
 			this.addActionMessage("系统异常，添加快递失败！");

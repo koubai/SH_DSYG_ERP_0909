@@ -62,17 +62,20 @@
 	</select>
 	
 	<select id="queryDeliveryPriceByCondition" parameterClass="java.util.Map" resultMap="DeliveryPriceDto1">
-		select 
-			(select B.deliveryname from etb_delivery B where B.id = T.deliveryid) as deliveryname,
-			T.* 
-		from etb_delivery_price T where 1 = 1 and T.latestflag = '1'
-			<isNotEmpty prepend="and" property="marketcity">
-				T.marketcity = #marketcity#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="arrivalcity">
-				T.arrivalcity = #arrivalcity#
-			</isNotEmpty>
-		order by T.updatedate desc
+		select * from(
+			select 
+				(select B.deliveryname from etb_delivery B where B.id = T.deliveryid) as deliveryname,
+				(select B.res02 from etb_delivery B where B.id = T.deliveryid) as delivery_flag,
+				T.* 
+			from etb_delivery_price T where 1 = 1 and T.latestflag = '1'
+				<isNotEmpty prepend="and" property="marketcity">
+					T.marketcity = #marketcity#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="arrivalcity">
+					T.arrivalcity = #arrivalcity#
+				</isNotEmpty>
+		) A where 1 = 1 and (A.delivery_flag != '0' or A.delivery_flag is null)
+		order by A.updatedate desc
 	</select>
 	
 	<delete id="deletePriceItemByDeliveryId" parameterClass="java.util.Map">

@@ -27,6 +27,12 @@
 		var deliveryname = $("#deliveryname").val().trim();
 		var tmpnote = $("#tmpnote").val();
 		$("#note").attr("value", tmpnote);
+		
+		if($("#assessChk").attr("checked")) {
+			$("#res02").attr("value", "1");
+		} else {
+			$("#res02").attr("value", "0");
+		}
 /*		if(id == "") {
 			alert("快递代码不能为空！");
 			$("#id").focus();
@@ -342,6 +348,7 @@
 			<s:hidden name="addDeliveryDto.deliverymail3" id="deliverymail3"></s:hidden>
 			<s:hidden name="addDeliveryDto.deliverymail4" id="deliverymail4"></s:hidden>
 			<s:hidden name="addDeliveryDto.deliverymail5" id="deliverymail5"></s:hidden>
+			<s:hidden name="addDeliveryDto.res02" id="res02"></s:hidden>
 		<div style="position:absolute; margin-left: 150px; margin-top: 10px; text-align: center; color: red;">
 			<s:actionmessage />
 		</div>
@@ -804,6 +811,14 @@
 									</div>
 									<div class="btn1_right"></div>
 								</div>
+							</td>
+							<td>
+								<s:if test='addDeliveryDto.res02 != null && addDeliveryDto.res02 == "0"'>
+									<input type="checkbox" id="assessChk" value="0">参与运费评估</input>
+								</s:if>
+								<s:else>
+									<input type="checkbox" id="assessChk" checked="checked" value="1">参与运费评估</input>
+								</s:else>
 							</td>
 						</tr>
 					</table>
