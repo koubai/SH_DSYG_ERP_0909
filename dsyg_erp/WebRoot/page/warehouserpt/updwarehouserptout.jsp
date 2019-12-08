@@ -668,6 +668,7 @@
 								</div>
 							</td>
 							<td>
+								<!--
 								<div class="btn">
 									<div class="box1_left"></div>
 									<div class="box1_center">
@@ -675,6 +676,7 @@
 									</div>
 									<div class="box1_right"></div>
 								</div>
+								-->
 							</td>
 							<td>
 								<div class="btn">
