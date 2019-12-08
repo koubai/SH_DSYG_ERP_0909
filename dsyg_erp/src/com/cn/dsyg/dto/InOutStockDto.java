@@ -23,6 +23,7 @@ public class InOutStockDto extends BaseDto {
 	private BigDecimal quantity;
 	private Date warehousedate;
 	private String theme2;
+	private Date orderdate;
 	private String customername;
 
 	/**
@@ -242,4 +243,14 @@ public class InOutStockDto extends BaseDto {
 	public void setWarehousedate(Date warehousedate) {
 		this.warehousedate = warehousedate;
 	}
+	
+	public Date getOrderdate() {
+		return orderdate;
+	}
+
+	public void setOrderdate(Date orderdate) {
+		this.orderdate = orderdate;
+	}
+
+
 }

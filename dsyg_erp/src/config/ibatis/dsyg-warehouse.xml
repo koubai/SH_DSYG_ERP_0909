@@ -360,6 +360,7 @@
 		<result property="quantity" column="quantity" />
 		<result property="warehousedate" column="warehousedate" />
 		<result property="theme2" column="theme2" />
+		<result property="orderdate" column="orderdate" />
 		<result property="customername" column="customername" />
 	</resultMap>
 	
@@ -665,6 +666,7 @@
 		select A.* from (
 			SELECT
 				W.id,W.productid,W.parentid,W.warehousetype,W.quantity,W.warehousedate,W.theme2,
+				(SELECT S.bookdate FROM etb_sales S WHERE S.salesno = W.parentid) AS orderdate,
 				(SELECT S.customername FROM etb_sales S WHERE S.salesno = W.parentid) AS customername
 			FROM etb_warehouse W WHERE 1 = 1 AND W.productid = #productid# AND W.warehousetype = '2'
 				AND W.status <![CDATA[>=]]> 20
@@ -679,6 +681,7 @@
 			
 			SELECT
 				W.id,W.productid,W.parentid,W.warehousetype,W.quantity,W.warehousedate,W.theme2,
+				(SELECT P.purchasedate FROM etb_purchase P WHERE P.purchaseno = W.parentid) AS orderdate,
 				(SELECT P.suppliername FROM etb_purchase P WHERE P.purchaseno = W.parentid) AS customername
 			FROM etb_warehouse W WHERE 1 = 1 AND W.productid = #productid# AND W.warehousetype = '1'
 				AND W.status <![CDATA[>=]]> 20

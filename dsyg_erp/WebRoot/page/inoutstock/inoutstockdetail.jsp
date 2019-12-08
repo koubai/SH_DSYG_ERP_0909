@@ -46,9 +46,10 @@
 					<tr class="tittle">
 						<td width="20">序号</td>
 						<td width="120">客户</td>
-						<td width="90">订单号</td>
-						<td width="80">入库数量</td>
-						<td width="100">入库日期</td>
+						<td width="70">订单号</td>
+						<td width="60">订单日</td>
+						<td width="60">入库数量</td>
+						<td width="60">入库日期</td>
 					</tr>
 					<s:iterator id="inDetailList" value="inDetailList" status="st1">
 						<s:if test="#st1.odd==true">
@@ -63,6 +64,9 @@
 							</td>
 							<td>
 								<s:property value="theme2"/>
+							</td>
+							<td>
+								<s:date name="orderdate" format="yyyy/MM/dd" />
 							</td>
 							<td>
 								<s:property value="quantity"/>
@@ -88,9 +92,10 @@
 					<tr class="tittle">
 						<td width="20">序号</td>
 						<td width="120">客户</td>
-						<td width="90">订单号</td>
-						<td width="80">出库数量</td>
-						<td width="100">出库日期</td>
+						<td width="70">订单号</td>
+						<td width="60">订单日</td>
+						<td width="60">出库数量</td>
+						<td width="60">出库日期</td>
 					</tr>
 					<s:iterator id="outDetailList" value="outDetailList" status="st1">
 						<s:if test="#st1.odd==true">
@@ -105,6 +110,9 @@
 							</td>
 							<td>
 								<s:property value="theme2"/>
+							</td>
+							<td>
+								<s:date name="orderdate" format="yyyy/MM/dd" />
 							</td>
 							<td>
 								<s:property value="quantity"/>
