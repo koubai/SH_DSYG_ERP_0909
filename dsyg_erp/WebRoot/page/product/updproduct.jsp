@@ -47,8 +47,21 @@
 			}
 		}
 		$("#packaging").val(v);
-		
 		var packaging = $("#packaging").val().trim();
+
+		
+		//库存阀值设定
+		var tmpRes05list = document.getElementsByName("tmpRes05");
+		var v2 = "";
+		for(var j2 = 0; j2 < tmpRes05list.length; j2++) {
+			if(tmpRes05list[j2].checked) {
+				v2 = tmpRes05list[j2].value;
+				break;
+			}
+		}
+		$("#tmpRes05").val(v2);
+
+		
 		
 		//产地
 		var makearea = $("#makearea").val().trim();
@@ -455,6 +468,7 @@
 				<s:hidden name="file02Name" id="file02Name"></s:hidden>
 				<s:hidden name="file03Name" id="file03Name"></s:hidden>
 				<s:hidden name="file04Name" id="file04Name"></s:hidden>
+				<s:hidden name="updProductDto.res05" id="tmpRes05"></s:hidden>
 				<div class="searchbox update" style="height:0px;">
 					<table width="100%" border="0" cellpadding="5" cellspacing="0">
 						<tr>
@@ -1018,6 +1032,72 @@
 								<div class="box1_right"></div>
 							</td>
 						</tr>
+						<tr>
+							<td align="right">
+								<label class="pdf2">阀值设定</label>
+							</td>
+							<td>
+								<s:if test='%{updProductDto.res05 == "1"}'>
+									<input type="radio" name="tmpRes05" value="0"/>自动
+									<input type="radio" name="tmpRes05" value="1" checked="checked"/>人工
+								</s:if>
+								<s:elseif test='%{updProductDto.res05 == "0"}'>
+									<input type="radio" name="tmpRes05" value="0" checked="checked"/>自动
+									<input type="radio" name="tmpRes05" value="1"/>人工
+								</s:elseif>
+								<s:else>
+									<input type="radio" name="tmpRes05" value="0" checked="checked"/>自动
+									<input type="radio" name="tmpRes05" value="1"/>人工
+								</s:else>
+							</td>
+							<td align="right">
+								<label class="pdf2">推荐库存数</label>
+							</td>
+							<td align="right">
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.res01" id="res01" maxlength="15" cssStyle="width:80px;" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<label class="pdf10">发货数（3月内）</label>
+							</td>
+							<td align="right">
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.res02" id="res02" maxlength="15" cssStyle="width:80px;" theme="simple" ></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<label class="pdf10">发货数（6月内）</label>
+							</td>
+							<td align="right">
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.res03" id="res03" maxlength="15" cssStyle="width:80px;" theme="simple" ></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<label class="pdf10">发货数（12月内）</label>
+							</td>
+							<td align="right">
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.res04" id="res04" maxlength="15" cssStyle="width:80px;" theme="simple" ></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+							</td>
+						</tr>
+						
 						<tr>
 							<td align="right">
 								<label class="pdf10">备注</label>

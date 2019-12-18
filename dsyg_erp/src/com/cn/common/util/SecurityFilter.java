@@ -20,8 +20,9 @@ public class SecurityFilter extends HttpServlet implements Filter {
 	
 	
 	public final String www_url_encode= "application/x-www-form-urlencoded";
-	public final String mul_data= "multipart/form-data ";
+	public final String mul_data= "multipart/form-data";
 	public final String txt_pla= "text/plain";
+	public final String html_pla= "text/html";
  
 	public void doFilter(ServletRequest arg0, ServletResponse arg1,
 			FilterChain arg2) throws IOException, ServletException {
@@ -31,11 +32,10 @@ public class SecurityFilter extends HttpServlet implements Filter {
 		
 		String contenType=request.getHeader("conTent-type");
 		
-		if(contenType!=null&&!contenType.equals("")&&!contenType.equalsIgnoreCase(www_url_encode)&&!contenType.equalsIgnoreCase(mul_data)&&!contenType.equalsIgnoreCase(txt_pla)){
-			
+		if(contenType!=null&&!contenType.equals("")&&!contenType.startsWith(www_url_encode)&&!contenType.startsWith(mul_data)&&!contenType.startsWith(txt_pla)&&!contenType.startsWith(html_pla)){			
 			response.setContentType("text/html;charset=UTF-8");
 			response.getWriter().write("非法请求Content-Type！");
-			return;
+			return;				
 		}
 		arg2.doFilter(request, response);
 	}

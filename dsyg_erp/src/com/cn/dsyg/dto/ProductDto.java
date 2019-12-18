@@ -389,27 +389,27 @@ public class ProductDto extends BaseDto {
 	private Integer status;
 
 	/**
-	 * 预备项目1
+	 * 预备项目1(预计发货量)
 	 */
 	private String res01;
 
 	/**
-	 * 预备项目2
+	 * 预备项目2(3月内发货量)
 	 */
 	private String res02;
 
 	/**
-	 * 预备项目3
+	 * 预备项目3(6月内发货量)
 	 */
 	private String res03;
 
 	/**
-	 * 预备项目4
+	 * 预备项目4(12月内发货量)
 	 */
 	private String res04;
 
 	/**
-	 * 预备项目5
+	 * 预备项目5(0/null 自动预计发货量，1：人工设定发货量)
 	 */
 	private String res05;
 

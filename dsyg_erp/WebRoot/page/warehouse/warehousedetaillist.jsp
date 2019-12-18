@@ -171,10 +171,13 @@
 								<td width="60">产地</td>
 								<td width="80">订单数量</td>
 								<td width="80">库存数量</td>
-								<td width="80">差数</td>
-								<td width="80">深圳差数</td>
+								<td width="60">差数</td>
+								<td width="60">深圳差数</td>
 								<td width="80">采购数量</td>
-								<td width="80">预计交货期</td>
+								<!-- <td width="80">预计交货期</td> -->
+								<td width="60">库存阀值</td>
+								<td width="60">半年出库</td>
+								<td width="80">一年出库</td>
 							</tr>
 							<s:iterator id="warehouseDetailList" value="warehouseDetailList" status="st1">
 								<s:if test="#st1.odd==true">
@@ -216,7 +219,14 @@
 										</s:iterator>
 									</td>
 									<td align="right"><a href="#" onclick="showSales('<s:property value="id"/>');"><u><s:property value="quantitys"/></u></a></td>
-									<td align="right"><s:property value="quantity"/></td>
+									<td align="right">
+										<s:if test="%{quantity < res01}">
+											<span style="background-color: yellow"><s:property value="quantity"/></span>
+										</s:if>
+										<s:else>
+											<s:property value="quantity"/>
+										</s:else>				
+									</td>
 									<td align="right">
 										<s:if test="%{warehouseDetailList[#st1.index].diffquantity <= 0}">
 											<span style="color: red"><s:property value="diffquantity"/></span>
@@ -234,7 +244,17 @@
 										</s:else>
 									</td>
 									<td align="right"><a href="#" onclick="showPurchase('<s:property value="id"/>');"><u><s:property value="quantityp"/></u></a></td>
-									<td><s:property value="plandate"/></td>
+									<!-- <td><s:property value="plandate"/></td> -->
+									<td>
+										<s:if test="%{res05 == 1}">
+											<span style="color: blue"><s:property value="res01"/></span>
+										</s:if>
+										<s:else>
+											<s:property value="res01"/>
+										</s:else>									
+									</td>
+									<td><s:property value="res03"/></td>
+									<td><s:property value="res04"/></td>
 								</tr>
 							</s:iterator>
 						</table>
