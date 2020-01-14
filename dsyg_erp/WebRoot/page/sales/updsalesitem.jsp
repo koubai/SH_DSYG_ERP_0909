@@ -1318,13 +1318,15 @@
 							-->
 							</s:if>
 							<td>
-								<div class="btn">
-									<div class="box1_left"></div>
-									<div class="box1_center">
-										<input class="input80" type="button" value="提交" onclick="upd();"/>
+								<s:if test='#session.user_role != "warehousersaler" && #session.user_role != "fanicalsaler"'>							
+									<div class="btn">
+										<div class="box1_left"></div>
+										<div class="box1_center">
+											<input class="input80" type="button" value="提交" onclick="upd();"/>
+										</div>
+										<div class="box1_right"></div>
 									</div>
-									<div class="box1_right"></div>
-								</div>
+								</s:if>
 							</td>
 							<td>
 								<div class="btn">
