@@ -114,6 +114,12 @@
 		document.mainform.submit();
 	}
 	
+	//导出库清单
+	function exportWarehouseList() {
+		document.mainform.action = '../warehouserpt/exportWarehouserptOutAllListAction.action';
+		document.mainform.submit();
+	}
+	
 	//运费评估
 	function assess() {
 		var id = getSelectedID();
@@ -221,6 +227,13 @@
 						<div class="box1_left"></div>
 						<div class="box1_center">
 							<input class="input80" type="button" value="运费评估" onclick="assess();" />
+						</div>
+						<div class="box1_right"></div>
+					</div>
+					<div class="btn" style="margin-left: 160px;">
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							<input class="input80" type="button" value="出库清单" onclick="exportWarehouseList();" />
 						</div>
 						<div class="box1_right"></div>
 					</div>

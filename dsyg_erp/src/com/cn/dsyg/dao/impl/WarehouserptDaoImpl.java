@@ -107,6 +107,33 @@ public class WarehouserptDaoImpl extends BaseDao implements WarehouserptDao {
 		List<WarehouserptDto> list = getSqlMapClientTemplate().queryForList("queryWarehouserptByPage", paramMap);
 		return list;
 	}
+	
+	@Override
+	public List<WarehouserptDto> queryWarehouserptByCondition(String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,
+			String strWarehouseno, String createdateLow, String createdateHigh) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("status", status);
+		paramMap.put("warehousetype", warehousetype);
+		paramMap.put("warehouseno", warehouseno);
+		paramMap.put("theme1", theme1);
+		paramMap.put("parentid", parentid);
+		paramMap.put("supplierid", supplierid);
+		paramMap.put("productid", productid);
+		
+		paramMap.put("beginDate", beginDate);
+		paramMap.put("endDate", endDate);
+		paramMap.put("suppliername", strSuppliername);
+		paramMap.put("warehouseno", strWarehouseno);
+		
+		paramMap.put("createdateLow", createdateLow);
+		paramMap.put("createdateHigh", createdateHigh);
+		
+		@SuppressWarnings("unchecked")
+		List<WarehouserptDto> list = getSqlMapClientTemplate().queryForList("queryWarehouserptByCondition", paramMap);
+		return list;
+	}
 
 	@Override
 	public int queryWarehouserptCountByPage(String status, String warehousetype, String warehouseno, String theme1,

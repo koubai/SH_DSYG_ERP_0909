@@ -179,6 +179,45 @@
 		LIMIT #start#, #end#
 	</select>
 	
+	<select id="queryWarehouserptByCondition" parameterClass="java.util.Map" resultMap="WarehouserptDto">
+		select T.* from etb_warehouserpt T where 1 = 1
+		<isNotEmpty prepend="and" property="status">
+			T.status = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehousetype">
+			T.warehousetype = #warehousetype#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehouseno">
+			T.warehouseno = #warehouseno#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="theme1">
+			T.theme1 = #theme1#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="parentid">
+			T.parentid = #parentid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="supplierid">
+			T.supplierid = #supplierid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="beginDate">
+			T.warehousedate <![CDATA[>=]]> #beginDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			T.warehousedate <![CDATA[<]]> #endDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="suppliername">
+			T.suppliername like '%$suppliername$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createdateLow">
+			T.createdate <![CDATA[>=]]> #createdateLow#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createdateHigh">
+			T.createdate <![CDATA[<]]> #createdateHigh#
+		</isNotEmpty>
+		
+		order by T.warehouseno desc
+	</select>
+	
 	<select id="queryWarehouserptCountByPage" resultClass="int" parameterClass="java.util.Map">
 		select count(*) from etb_warehouserpt T where 1 = 1
 		<isNotEmpty prepend="and" property="status">

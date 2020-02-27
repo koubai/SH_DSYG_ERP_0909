@@ -66,6 +66,30 @@ public interface WarehouserptService {
 			String createdateLow, String createdateHigh, Page page);
 	
 	/**
+	 * 查询RPT数据---出库单导出用 ---add by frank 20200226
+	 * @param no
+	 * @param status
+	 * @param warehousetype
+	 * @param warehouseno
+	 * @param theme1
+	 * @param parentid
+	 * @param supplierid
+	 * @param productid
+	 * @param beginDate
+	 * @param endDate
+	 * @param strSuppliername
+	 * @param strWarehouseno
+	 * @param createdateLow
+	 * @param createdateHigh
+	 * @return
+	 */
+	public List<WarehouserptDto> queryWarehouserptByCondition(String no, String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,String strWarehouseno,
+			String createdateLow, String createdateHigh);
+	
+	
+	/**
 	 * 合计含税金额查询
 	 * @param no 采购单OR订单
 	 * @param status

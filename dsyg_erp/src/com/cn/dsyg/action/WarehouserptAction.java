@@ -577,6 +577,58 @@ public class WarehouserptAction extends BaseAction {
 	}
 	
 	/**
+	 * 导出出库清单 --add by frank at 20200226
+	 * @return
+	 */
+	public String exportWarehouserptOutAllListAction() {
+		try {
+			this.clearMessages();
+			//根据条件查询出库单列表
+			List<WarehouserptDto> list = warehouserptService.queryWarehouserptByCondition(strNo, "", "" + Constants.WAREHOUSE_TYPE_OUT, "", "", "", "", "", "", "",
+					strSuppliername, strWarehouseno, strCreatedateLow, strCreatedateHigh);
+			
+			//字典数据组织个MAP
+			Map<String, String> dictMap = new HashMap<String, String>();
+			if(goodsList != null && goodsList.size() > 0) {
+				for(Dict01Dto dict : goodsList) {
+					dictMap.put(Constants.DICT_GOODS_TYPE + "_" + dict.getCode(), dict.getFieldname());
+				}
+			}
+			if(unitList != null && unitList.size() > 0) {
+				for(Dict01Dto dict : unitList) {
+					dictMap.put(Constants.DICT_UNIT_TYPE + "_" + dict.getCode(), dict.getFieldname());
+				}
+			}
+			if(makeareaList != null && makeareaList.size() > 0) {
+				for(Dict01Dto dict : makeareaList) {
+					dictMap.put(Constants.DICT_MAKEAREA + "_" + dict.getCode(), dict.getFieldname());
+				}
+			}
+			if(colorList != null && colorList.size() > 0) {
+				for(Dict01Dto dict : colorList) {
+					dictMap.put(Constants.DICT_COLOR_TYPE + "_" + dict.getCode(), dict.getFieldname());
+				}
+			}
+			dictMap.put(Constants.EXCEL_PASS, excelPass);
+			
+			String exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_LIST_ALL;
+			String name = StringUtil.createFileName(exceltype);
+			response.setHeader("Content-Disposition","attachment;filename=" + name);//指定下载的文件名
+			response.setContentType("application/vnd.ms-excel");
+			Poi2007Base base = PoiFactory.getPoi(exceltype);
+			
+			base.setDatas(list);
+			base.setSheetName(exceltype);
+			base.setDictMap(dictMap);
+			base.exportExcel(response.getOutputStream());
+		} catch(Exception e) {
+			log.error("exportWarehouserptOutAllListAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	
+	/**
 	 * 导出明细数据
 	 * @param type
 	 * @param id

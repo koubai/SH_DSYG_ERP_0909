@@ -243,6 +243,82 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 		}
 		return listWarehouserpt;
 	}
+	
+	@Override
+	public List<WarehouserptDto> queryWarehouserptByCondition(String no, String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,
+			String strWarehouseno, String createdateLow, String createdateHigh) {
+		System.out.println("queryWarehouserptByCondition: start" + warehousetype);
+
+		strSuppliername = StringUtil.replaceDatabaseKeyword_mysql(strSuppliername);
+		List<WarehouserptDto> listAll = new ArrayList<WarehouserptDto>();
+		List<WarehouserptDto> list = new ArrayList<WarehouserptDto>();
+		
+		if(StringUtil.isNotBlank(no)) {
+			System.out.println("queryWarehouserptByCondition: start1" + warehousetype);
+			
+			List<WarehouserptDto> listTemp = new ArrayList<WarehouserptDto>();
+			
+			//根据采购单OR订单模糊查询RPT数据
+			List<WarehouseDto> listWarehouse = warehouseDao.queryWarehouseByTheme2(warehousetype, no);
+			if(listWarehouse != null && listWarehouse.size() > 0) {
+				//查询RPT记录
+				for(WarehouseDto warehouse : listWarehouse) {
+					List<WarehouserptDto> ll = warehouserptDao.queryWarehouserptByWarehouse(warehousetype, strWarehouseno,
+							warehouse.getWarehouseno(), strSuppliername, createdateLow, createdateHigh);
+					if(ll != null) {
+						listTemp.addAll(ll);
+					}
+				}
+				//合并相同的记录，保证同一个RPT只有一条记录
+				Map<String, WarehouserptDto> map = new LinkedHashMap<String, WarehouserptDto>();
+				for(WarehouserptDto rpt : listTemp) {
+					if(map.get(rpt.getWarehouseno()) == null) {
+						map.put(rpt.getWarehouseno(), rpt);
+					}
+				}
+				for(Map.Entry<String, WarehouserptDto> entry : map.entrySet()) {
+					listAll.add(entry.getValue());
+				}
+				
+				if(listAll != null && listAll.size() > 0) {
+					FinanceDto finance = null;
+					for(WarehouserptDto rpt : listAll) {
+						//查询财务记录的发票
+						finance = financeDao.queryFinanceByInvoiceid(rpt.getWarehouseno(), "" + rpt.getWarehousetype());
+						if(finance != null) {
+							rpt.setFinanceBillno(finance.getRes10());
+						}
+					}
+				}
+			}
+			System.out.println("queryWarehouserptByCondition: start3" + warehousetype);
+		} else {
+			System.out.println("queryWarehouserptByCondition: start2" + warehousetype);
+			//翻页查询记录
+			listAll = warehouserptDao.queryWarehouserptByCondition(status, warehousetype,
+					warehouseno, theme1, parentid, supplierid, productid, beginDate, endDate, strSuppliername,
+					strWarehouseno, createdateLow, createdateHigh);
+			if(listAll != null && listAll.size() > 0) {
+				FinanceDto finance = null;
+				for(WarehouserptDto rpt : listAll) {
+					//查询财务记录的发票
+					finance = financeDao.queryFinanceByInvoiceid(rpt.getWarehouseno(), "" + rpt.getWarehousetype());
+					if(finance != null) {
+						rpt.setFinanceBillno(finance.getRes10());
+					}
+				}
+			}
+			System.out.println("queryWarehouserptByCondition: start4" + warehousetype);
+		}
+		if(listAll != null && listAll.size() > 0) {
+			for(WarehouserptDto rpt : listAll) {
+				list.add(queryWarehouserptInterByID("" + rpt.getId()));
+			}
+		}
+		return list;
+	}
 
 	@Override
 	public Page queryWarehouserptByPage(String no, String status, String warehousetype,

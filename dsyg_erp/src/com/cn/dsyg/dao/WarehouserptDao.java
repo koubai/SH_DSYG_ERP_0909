@@ -64,6 +64,28 @@ public interface WarehouserptDao {
 			String strWarehouseno, String createdateLow, String createdateHigh, int start, int end);
 	
 	/**
+	 * 查询数据，RPT导出用，---add by frank 20200226
+	 * @param status
+	 * @param warehousetype
+	 * @param warehouseno
+	 * @param theme1
+	 * @param parentid
+	 * @param supplierid
+	 * @param productid
+	 * @param beginDate
+	 * @param endDate
+	 * @param strSuppliername
+	 * @param strWarehouseno
+	 * @param createdateLow
+	 * @param createdateHigh
+	 * @return
+	 */
+	public List<WarehouserptDto> queryWarehouserptByCondition(String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,
+			String strWarehouseno, String createdateLow, String createdateHigh);
+	
+	/**
 	 * 查询总记录数
 	 * @param status
 	 * @param warehousetype
