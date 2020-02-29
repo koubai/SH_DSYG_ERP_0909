@@ -21,6 +21,8 @@ public class Constants {
 	public final static int ONLINE_ORDER_STATUS_SEND = 70;//已发货
 	public final static int ONLINE_ORDER_STATUS_RECEIVE = 80;//已收货订单完成
 	public final static int ONLINE_ORDER_STATUS_CLOSE = 99;//订单关闭
+	
+	public final static int WAREHOUSE_RPT_LOG_TYPE_DELIVERY = 10;
 
 	//销售报告编号前缀
 	public final static String SALESREPORT_NO_PRE = "BGN";

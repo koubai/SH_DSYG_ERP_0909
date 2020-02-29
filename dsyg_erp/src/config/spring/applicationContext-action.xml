@@ -393,8 +393,11 @@
 		<property name="productService">
 			<ref bean="productService"/>
 		</property>
-				<property name="userService">
+		<property name="userService">
 			<ref bean="userService"/>
+		</property>
+		<property name="warehouserptHistService">
+			<ref bean="warehouserptHistService"/>
 		</property>
 	</bean>
 	

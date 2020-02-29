@@ -7,19 +7,29 @@ import java.util.List;
 import com.cn.common.action.BaseAction;
 
 /**
- * @name WarehouserptDto.java
+ * @name WarehouserptHistDto.java
  * @author Frank
  * @time 2015-5-19下午10:18:02
  * @version 1.0
  */
-public class WarehouserptDto extends BaseAction {
+public class WarehouserptHistDto extends BaseAction {
 
 	private static final long serialVersionUID = -5743344392215386839L;
 
 	/**
-	 * id
+	 * id主键
 	 */
 	private Long id;
+	
+	/**
+	 * 外键rpt ID
+	 */
+	private Long rptid;
+	
+	/**
+	 * rpt历史记录类型，10为快递信息修改日志，其他待补充 ---add by frank 20200227
+	 */
+	private Integer histtype;
 
 	/**
 	 * 类型：1为入库单，2为出库单，3为退换货，4为手动录入
@@ -223,9 +233,6 @@ public class WarehouserptDto extends BaseAction {
 
 	//快递单据日期
 	private String receiptdate;
-	
-	//rpt日志记录数--- add by frank 20200228
-	private int rptlogCount;
 
 	/**
 	 * 开票日期（显示用）
@@ -813,12 +820,20 @@ public class WarehouserptDto extends BaseAction {
 		this.deliveryunitprice = deliveryunitprice;
 	}
 
-	public int getRptlogCount() {
-		return rptlogCount;
+	public Long getRptid() {
+		return rptid;
 	}
 
-	public void setRptlogCount(int rptlogCount) {
-		this.rptlogCount = rptlogCount;
+	public void setRptid(Long rptid) {
+		this.rptid = rptid;
+	}
+
+	public Integer getHisttype() {
+		return histtype;
+	}
+
+	public void setHisttype(Integer histtype) {
+		this.histtype = histtype;
 	}
 	
 }

@@ -24,6 +24,7 @@ import com.cn.dsyg.dao.PurchaseItemDao;
 import com.cn.dsyg.dao.SalesDao;
 import com.cn.dsyg.dao.WarehouseDao;
 import com.cn.dsyg.dao.WarehouserptDao;
+import com.cn.dsyg.dao.WarehouserptHistDao;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.FinanceDto;
 import com.cn.dsyg.dto.ProductDto;
@@ -31,6 +32,7 @@ import com.cn.dsyg.dto.PurchaseDto;
 import com.cn.dsyg.dto.SalesDto;
 import com.cn.dsyg.dto.WarehouseDto;
 import com.cn.dsyg.dto.WarehouserptDto;
+import com.cn.dsyg.dto.WarehouserptHistDto;
 import com.cn.dsyg.service.WarehouserptService;
 
 /**
@@ -42,6 +44,7 @@ import com.cn.dsyg.service.WarehouserptService;
 public class WarehouserptServiceImpl implements WarehouserptService {
 	
 	private WarehouserptDao warehouserptDao;
+	private WarehouserptHistDao warehouserptHistDao;
 	private ProductDao productDao;
 	private WarehouseDao warehouseDao;
 	private PurchaseItemDao purchaseItemDao;
@@ -366,11 +369,20 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 				}
 				if(list != null && list.size() > 0) {
 					FinanceDto finance = null;
+					List<WarehouserptHistDto> histList = null;
 					for(WarehouserptDto rpt : list) {
 						//查询财务记录的发票
 						finance = financeDao.queryFinanceByInvoiceid(rpt.getWarehouseno(), "" + rpt.getWarehousetype());
 						if(finance != null) {
 							rpt.setFinanceBillno(finance.getRes10());
+						}
+						//查询快递日志记录数
+						histList = warehouserptHistDao.queryWarehouserpthistByRprid("", "", "" + rpt.getId(),
+								"" + Constants.WAREHOUSE_RPT_LOG_TYPE_DELIVERY, "", "");
+						if(histList != null) {
+							rpt.setRptlogCount(histList.size());
+						} else {
+							rpt.setRptlogCount(0);
 						}
 					}
 				}
@@ -396,12 +408,21 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 					strWarehouseno, createdateLow, createdateHigh,
 					page.getStartIndex() * page.getPageSize(), page.getPageSize());
 			if(list != null && list.size() > 0) {
+				List<WarehouserptHistDto> histList = null;
 				FinanceDto finance = null;
 				for(WarehouserptDto rpt : list) {
 					//查询财务记录的发票
 					finance = financeDao.queryFinanceByInvoiceid(rpt.getWarehouseno(), "" + rpt.getWarehousetype());
 					if(finance != null) {
 						rpt.setFinanceBillno(finance.getRes10());
+					}
+					//查询快递日志记录数
+					histList = warehouserptHistDao.queryWarehouserpthistByRprid("", "", "" + rpt.getId(),
+							"" + Constants.WAREHOUSE_RPT_LOG_TYPE_DELIVERY, "", "");
+					if(histList != null) {
+						rpt.setRptlogCount(histList.size());
+					} else {
+						rpt.setRptlogCount(0);
 					}
 				}
 			}
@@ -1004,6 +1025,14 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 			}
 			warehouserpt.setProductinfo(productinfo);
 		}
+		
+		//判断快递记录是否更改 add by frank 20200227
+		boolean b = isDeliveryLog(warehouserpt);
+		if(b) {
+			//插入日志
+			insertDeliveryLog(warehouserpt);
+		}
+		
 		warehouserpt.setRes01(warehouserpt.getReceiptdate());
 		warehouserptDao.updateWarehouserpt(warehouserpt);
 		
@@ -1090,6 +1119,159 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 		List<WarehouserptDto> warehouserptlst = warehouserptDao.queryWarehouseInfoList(strProductid, strCustomerid);
 		return warehouserptlst;
 	}
+	
+	/**
+	 * 插入快递日志
+	 * @param warehouserpt
+	 */
+	private void insertDeliveryLog(WarehouserptDto warehouserpt) {
+		WarehouserptHistDto hist = new WarehouserptHistDto();
+		hist.setRptid(warehouserpt.getId());
+		//默认为快递日志
+		hist.setHisttype(Constants.WAREHOUSE_RPT_LOG_TYPE_DELIVERY);
+		hist.setWarehousetype(warehouserpt.getWarehousetype());
+		hist.setWarehouseno(warehouserpt.getWarehouseno());
+		hist.setWarehousename(warehouserpt.getWarehousename());
+		hist.setProductinfo(warehouserpt.getProductinfo());
+		hist.setBelongto(warehouserpt.getBelongto());
+		hist.setTheme1(warehouserpt.getTheme1());
+		hist.setTheme2(warehouserpt.getTheme2());
+		hist.setParentid(warehouserpt.getParentid());
+		hist.setTotaltaxamount(warehouserpt.getTotaltaxamount());
+		hist.setTotalnum(warehouserpt.getTotalnum());
+		hist.setWarehousedate(warehouserpt.getWarehousedate());
+		hist.setHandler(warehouserpt.getHandler());
+		hist.setSupplierid(warehouserpt.getSupplierid());
+		hist.setSuppliername(warehouserpt.getSuppliername());
+		hist.setSuppliertel(warehouserpt.getSuppliertel());
+		hist.setSuppliermanager(warehouserpt.getSuppliermanager());
+		hist.setSupplieraddress(warehouserpt.getSupplieraddress());
+		hist.setSupplierfax(warehouserpt.getSupplierfax());
+		hist.setSuppliermail(warehouserpt.getSuppliermail());
+		hist.setExpressid(warehouserpt.getExpressid());
+		hist.setExpressname(warehouserpt.getExpressname());
+		hist.setExpresstel(warehouserpt.getExpresstel());
+		hist.setExpressfax(warehouserpt.getExpressfax());
+		hist.setExpressmanager(warehouserpt.getExpressmanager());
+		hist.setExpressaddress(warehouserpt.getExpressaddress());
+		hist.setExpressmail(warehouserpt.getExpressmail());
+		hist.setExpressno(warehouserpt.getExpressno());
+		hist.setExpressamount(warehouserpt.getExpressamount());
+		hist.setExpresstaxamount(warehouserpt.getExpresstaxamount());
+		hist.setExpressnote(warehouserpt.getExpressnote());
+		hist.setApproverid(warehouserpt.getApproverid());
+		hist.setNote(warehouserpt.getNote());
+		hist.setRank(warehouserpt.getRank());
+		hist.setStatus(warehouserpt.getStatus());
+		hist.setRes01(warehouserpt.getRes01());
+		hist.setRes02(warehouserpt.getRes02());
+		hist.setRes03(warehouserpt.getRes03());
+		hist.setRes04(warehouserpt.getRes04());
+		hist.setRes05(warehouserpt.getRes05());
+		hist.setRes06(warehouserpt.getRes06());
+		hist.setRes07(warehouserpt.getRes07());
+		hist.setRes08(warehouserpt.getRes08());
+		hist.setRes09(warehouserpt.getRes09());
+		hist.setRes10(warehouserpt.getRes10());
+		hist.setCreateuid(warehouserpt.getCreateuid());
+		hist.setCreatedate(warehouserpt.getCreatedate());
+		hist.setUpdateuid(warehouserpt.getUpdateuid());
+		hist.setUpdatedate(warehouserpt.getUpdatedate());
+		warehouserptHistDao.insertWarehouserpthist(hist);
+	}
+	
+	/**
+	 * 判断快递信息是否有更改，并插入RPT修改日志
+	 * @param warehouserpt
+	 */
+	private boolean isDeliveryLog(WarehouserptDto warehouserpt) {
+		WarehouserptDto oldWarehouserptDto = warehouserptDao.queryWarehouserptByID("" + warehouserpt.getId());
+		//快递名称
+		if(!compareStringObject(oldWarehouserptDto.getExpressname(), warehouserpt.getExpressname())) {
+			return true;
+		}
+		//快递单号
+		if(!compareStringObject(oldWarehouserptDto.getExpressno(), warehouserpt.getExpressno())) {
+			return true;
+		}
+		//快递公司地址
+		if(!compareStringObject(oldWarehouserptDto.getExpressaddress(), warehouserpt.getExpressaddress())) {
+			return true;
+		}
+		//联系人
+		if(!compareStringObject(oldWarehouserptDto.getExpressmanager(), warehouserpt.getExpressmanager())) {
+			return true;
+		}
+		//重量
+		if(!compareStringObject(oldWarehouserptDto.getRes03(), warehouserpt.getRes03())) {
+			return true;
+		}
+		//联系人电话
+		if(!compareStringObject(oldWarehouserptDto.getExpresstel(), warehouserpt.getExpresstel())) {
+			return true;
+		}
+		//转运费用合计
+		if(!compareBigDecimalObject(oldWarehouserptDto.getExpresstaxamount(), warehouserpt.getExpresstaxamount())) {
+			return true;
+		}
+		//联系人传真
+		if(!compareStringObject(oldWarehouserptDto.getExpressfax(), warehouserpt.getExpressfax())) {
+			return true;
+		}
+		//单据日期
+		if(!compareStringObject(oldWarehouserptDto.getRes01(), warehouserpt.getRes01())) {
+			return true;
+		}
+		//联系人信箱
+		if(!compareStringObject(oldWarehouserptDto.getExpressmail(), warehouserpt.getExpressmail())) {
+			return true;
+		}
+		//发货日期
+		if(!compareStringObject(oldWarehouserptDto.getShowWarehousedate(), warehouserpt.getWarehousedate())) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 对比两个对象是否一致
+	 * @param o1
+	 * @param o2
+	 * @return
+	 */
+	private boolean compareStringObject(String o1, String o2) {
+		if(StringUtil.isNotBlank(o1) && StringUtil.isNotBlank(o2)) {
+			return o1.equals(o2);
+		} else {
+			if(StringUtil.isNotBlank(o1)) {
+				return false;
+			}
+			if(StringUtil.isNotBlank(o2)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * 对比两个对象是否一致
+	 * @param d1
+	 * @param d2
+	 * @return
+	 */
+	private boolean compareBigDecimalObject(BigDecimal d1, BigDecimal d2) {
+		if(d1 != null && d2 != null) {
+			return d1.equals(d2);
+		} else {
+			if(d1 == null) {
+				return false;
+			}
+			if(d2 == null) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 
 	public WarehouserptDao getWarehouserptDao() {
@@ -1154,5 +1336,13 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 
 	public void setSalesDao(SalesDao salesDao) {
 		this.salesDao = salesDao;
+	}
+
+	public WarehouserptHistDao getWarehouserptHistDao() {
+		return warehouserptHistDao;
+	}
+
+	public void setWarehouserptHistDao(WarehouserptHistDao warehouserptHistDao) {
+		this.warehouserptHistDao = warehouserptHistDao;
 	}
 }

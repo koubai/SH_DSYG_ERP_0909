@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+        "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.cn.dsyg">
+
+	<resultMap id="WarehouserptHistDto" class="com.cn.dsyg.dto.WarehouserptHistDto">
+		<result property="id" column="id" />
+		<result property="rptid" column="rptid" />
+		<result property="histtype" column="histtype" />
+		<result property="warehousetype" column="warehousetype" />
+		<result property="warehouseno" column="warehouseno" />
+		<result property="warehousename" column="warehousename" />
+		<result property="productinfo" column="productinfo" />
+		<result property="belongto" column="belongto" />
+		<result property="theme1" column="theme1" />
+		<result property="theme2" column="theme2" />
+		<result property="parentid" column="parentid" />
+		<result property="totaltaxamount" column="totaltaxamount" />
+		<result property="totalnum" column="totalnum" />
+		<result property="warehousedate" column="warehousedate" />
+		<result property="handler" column="handler" />
+		<result property="supplierid" column="supplierid" />
+		<result property="suppliername" column="suppliername" />
+		<result property="suppliertel" column="suppliertel" />
+		<result property="suppliermanager" column="suppliermanager" />
+		<result property="supplieraddress" column="supplieraddress" />
+		<result property="supplierfax" column="supplierfax" />
+		<result property="suppliermail" column="suppliermail" />
+		<result property="expressid" column="expressid" />
+		<result property="expressname" column="expressname" />
+		<result property="expresstel" column="expresstel" />
+		<result property="expressfax" column="expressfax" />
+		<result property="expressmanager" column="expressmanager" />
+		<result property="expressaddress" column="expressaddress" />
+		<result property="expressmail" column="expressmail" />
+		<result property="expressno" column="expressno" />
+		<result property="expressamount" column="expressamount" />
+		<result property="expresstaxamount" column="expresstaxamount" />
+		<result property="expressnote" column="expressnote" />
+		<result property="approverid" column="approverid" />
+		<result property="note" column="note" />
+		<result property="rank" column="rank" />
+		<result property="status" column="status" />
+		<result property="res01" column="res01" />
+		<result property="res02" column="res02" />
+		<result property="res03" column="res03" />
+		<result property="res04" column="res04" />
+		<result property="res05" column="res05" />
+		<result property="res06" column="res06" />
+		<result property="res07" column="res07" />
+		<result property="res08" column="res08" />
+		<result property="res09" column="res09" />
+		<result property="res10" column="res10" />
+		<result property="createuid" column="createuid" />
+		<result property="createdate" column="createdate" />
+		<result property="updateuid" column="updateuid" />
+		<result property="updatedate" column="updatedate" />
+	</resultMap>
+	
+	<select id="queryWarehouserpthistByRprid" parameterClass="java.util.Map" resultMap="WarehouserptHistDto">
+		select T.* from etb_warehouserpt_hist T where 1 = 1
+		<isNotEmpty prepend="and" property="warehousetype">
+			T.warehousetype = #warehousetype#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehouseno">
+			T.warehouseno = #warehouseno#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="rptid">
+			T.rptid = #rptid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="histtype">
+			T.histtype = #histtype#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createdateLow">
+			T.createdate <![CDATA[>=]]> #createdateLow#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createdateHigh">
+			T.createdate <![CDATA[<]]> #createdateHigh#
+		</isNotEmpty>
+		order by T.id desc
+	</select>
+	
+	<insert id="insertWarehouserpthist" parameterClass="com.cn.dsyg.dto.WarehouserptHistDto">
+		insert into etb_warehouserpt_hist(rptid,histtype,warehousetype,warehouseno,warehousename,belongto,theme1,theme2,parentid,totaltaxamount,totalnum,productinfo,
+			warehousedate,handler,supplierid,suppliername,suppliertel,suppliermanager,supplieraddress,suppliermail,supplierfax,
+			expressid,expressname,expresstel,expressfax,expressmanager,expressaddress,expressmail,expressno,expressamount,
+			expresstaxamount,expressnote,approverid,note,rank,status,res01,res02,res03,res04,res05,res06,res07,
+			res08,res09,res10,createuid,createdate,updateuid,updatedate)
+		values(#rptid#,#histtype#,#warehousetype#,#warehouseno#,#warehousename#,#belongto#,#theme1#,#theme2#,#parentid#,#totaltaxamount#,#totalnum#,#productinfo#,
+			#warehousedate#,#handler#,#supplierid#,#suppliername#,#suppliertel#,#suppliermanager#,#supplieraddress#,#suppliermail#,#supplierfax#,
+			#expressid#,#expressname#,#expresstel#,#expressfax#,#expressmanager#,#expressaddress#,#expressmail#,#expressno#,#expressamount#,
+			#expresstaxamount#,#expressnote#,#approverid#,#note#,#rank#,#status#,#res01#,#res02#,#res03#,#res04#,#res05#,#res06#,#res07#,
+			#res08#,#res09#,#res10#,#createuid#,NOW(),#updateuid#,NOW())
+		<selectKey resultClass="long" keyProperty="id" >
+			select LAST_INSERT_ID() as value
+		</selectKey>
+	</insert>
+	
+</sqlMap>

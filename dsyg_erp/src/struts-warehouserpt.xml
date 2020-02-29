@@ -78,6 +78,10 @@
 			<result name="success">/page/download.jsp</result>
 		</action>
 		
+		<action name="showDeliveryListAction" class="warehouserptAction" method="showDeliveryListAction">
+			<result name="*">/page/warehouserpt/warehouserptloglist.jsp</result>
+		</action>
+		
 	</package>
 
 </struts>

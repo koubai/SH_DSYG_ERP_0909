@@ -21,13 +21,14 @@ import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.dto.UserDto;
-import com.cn.dsyg.dto.WarehouseCheckDto;
 import com.cn.dsyg.dto.WarehouserptDto;
+import com.cn.dsyg.dto.WarehouserptHistDto;
 import com.cn.dsyg.service.Dict01Service;
 import com.cn.dsyg.service.ProductService;
 import com.cn.dsyg.service.PurchaseItemService;
 import com.cn.dsyg.service.PurchaseService;
 import com.cn.dsyg.service.UserService;
+import com.cn.dsyg.service.WarehouserptHistService;
 import com.cn.dsyg.service.WarehouserptService;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -48,6 +49,7 @@ public class WarehouserptAction extends BaseAction {
 	private Dict01Service dict01Service;
 	private ProductService productService;
 	private UserService userService;
+	private WarehouserptHistService warehouserptHistService;
 	
 	//页码
 	private int startIndex;
@@ -104,6 +106,9 @@ public class WarehouserptAction extends BaseAction {
 	private String strProductid;
 	//查询用产品信息
 	private ProductDto productInfo;
+	
+	private String rptDeliveryId;
+	private List<WarehouserptHistDto> rptLogList;
 
 	//发货单
 	/**
@@ -629,6 +634,22 @@ public class WarehouserptAction extends BaseAction {
 	}
 	
 	/**
+	 * 显示RPT快递历史记录
+	 * @return
+	 */
+	public String showDeliveryListAction() {
+		try {
+			this.clearMessages();
+			rptLogList = warehouserptHistService.queryWarehouserpthistByRprid("", "", rptDeliveryId,
+					"" + Constants.WAREHOUSE_RPT_LOG_TYPE_DELIVERY, "", "");
+		} catch(Exception e) {
+			log.error("showDeliveryListAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	
+	/**
 	 * 导出明细数据
 	 * @param type
 	 * @param id
@@ -1115,6 +1136,36 @@ public class WarehouserptAction extends BaseAction {
 
 	public void setCreateList(List<UserDto> createList) {
 		this.createList = createList;
+	}
+
+
+	public String getRptDeliveryId() {
+		return rptDeliveryId;
+	}
+
+
+	public void setRptDeliveryId(String rptDeliveryId) {
+		this.rptDeliveryId = rptDeliveryId;
+	}
+
+
+	public List<WarehouserptHistDto> getRptLogList() {
+		return rptLogList;
+	}
+
+
+	public void setRptLogList(List<WarehouserptHistDto> rptLogList) {
+		this.rptLogList = rptLogList;
+	}
+
+
+	public WarehouserptHistService getWarehouserptHistService() {
+		return warehouserptHistService;
+	}
+
+
+	public void setWarehouserptHistService(WarehouserptHistService warehouserptHistService) {
+		this.warehouserptHistService = warehouserptHistService;
 	}
 
 }
