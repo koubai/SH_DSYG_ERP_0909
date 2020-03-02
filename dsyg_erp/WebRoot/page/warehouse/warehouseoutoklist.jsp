@@ -34,6 +34,22 @@
 		}
 	}
 	
+	function checkCheckboxTr(tr, evt) {
+		var tds = tr.getElementsByTagName("td");
+		var inputs = tds[0].getElementsByTagName("input");
+		var amountinputs = tds[12].innerHTML;
+		var sumAmount = parseFloat($("#sumAmount").val());
+		if(inputs[0].checked) {
+			inputs[0].checked = false;
+			sumAmount -= parseFloat(amountinputs);
+		} else {
+			inputs[0].checked = true;
+			sumAmount += parseFloat(amountinputs);
+		}
+		sumAmount = sumAmount.toFixed(2);
+		$("#sumAmount").val(sumAmount);
+	}
+
 	function getSelectedID() {
 		var ids = "";
 		var list = document.getElementsByName("radioKey");
@@ -239,10 +255,12 @@
 								<td width="140">订单号</td>
 								<td width="120">品名</td>
 								<td width="120">规格</td>
-								<td width="60">颜色</td>
+								<td width="40">颜色</td>
 								<td width="60">包装</td>
 								<td width="80">预出库数量</td>
-								<td width="120">预出库时间</td>
+								<td width="80">未税单价</td>
+								<td width="60">预出库时间</td>
+								<td width="0">含税金额</td>
 								<!--
 								<td width="60"></td>
 								-->
@@ -278,7 +296,9 @@
 										</s:else>
 									</td>
 									<td><s:property value="showQuantity"/></td>
+									<td><s:property value="unitprice"/></td>
 									<td><s:property value="plandate"/></td>
+									<td><s:property value="taxamount"/></td>
 									<!--
 									<td width="60">
 										<input type="button" value="确认" onclick="warehouseOk('<s:property value="productid"/>', '<s:property value="supplierid"/>', '<s:property value="warehousename"/>')"/>
@@ -387,6 +407,11 @@
 									<div class="box1_right"></div>
 								</div>
 							</td>
+							<td align="right" style="width: 100px;">合计金额：</td>
+							<td>
+								<input id="sumAmount" type="text" value="0.00" style="width: 150px;"/>
+							</td>
+							
 						</tr>
 					</table>
 				</div>

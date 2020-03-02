@@ -91,6 +91,21 @@ public class WarehouseInOutOkDto extends BaseAction {
 	private String unit;
 	
 	/**
+	 * 单价
+	 */
+	private BigDecimal unitprice;
+
+	/**
+	 * 入出库金额
+	 */
+	private BigDecimal amount;
+
+	/**
+	 * 入出库金额（含税）
+	 */
+	private BigDecimal taxamount;
+
+	/**
 	 * 仓库名
 	 */
 	private String warehousename;
@@ -238,6 +253,30 @@ public class WarehouseInOutOkDto extends BaseAction {
 
 	public void setStrRange(String strRange) {
 		this.strRange = strRange;
+	}
+
+	public BigDecimal getUnitprice() {
+		return unitprice;
+	}
+
+	public void setUnitprice(BigDecimal unitprice) {
+		this.unitprice = unitprice;
+	}
+
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+
+	public BigDecimal getTaxamount() {
+		return taxamount;
+	}
+
+	public void setTaxamount(BigDecimal taxamount) {
+		this.taxamount = taxamount;
 	}
 
 }
