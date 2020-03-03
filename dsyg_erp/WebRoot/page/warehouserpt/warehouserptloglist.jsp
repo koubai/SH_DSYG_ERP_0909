@@ -36,6 +36,8 @@
 						<td width="60">转运费用合计</td>
 						<td width="60">单据日期</td>
 						<td width="60">发货日期</td>
+						<td width="60">操作者</td>
+						<td width="60">操作日期</td>
 					</tr>
 					<s:iterator id="rptLogList" value="rptLogList" status="st1">
 						<s:if test="#st1.odd==true">
@@ -54,6 +56,8 @@
 							<td><s:property value="expresstaxamount"/></td>
 							<td><s:property value="res01"/></td>
 							<td><s:property value="showWarehousedate"/></td>
+							<td><s:property value="createuid"/></td>
+							<td><s:date name="createdate" format="yyyy/MM/dd HH:mm:ss" /></td>
 						</tr>
 					</s:iterator>
 				</table>

@@ -144,7 +144,7 @@
 	
 	function showDeliveryList(rptid) {
 		var url = '<%=request.getContextPath()%>/warehouserpt/showDeliveryListAction.action?rptDeliveryId=' + rptid;
-		window.showModalDialog(url, window, "dialogheight:600px;dialogwidth:900px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		window.showModalDialog(url, window, "dialogheight:600px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 </script>
 </head>
@@ -275,14 +275,16 @@
 								</s:else>
 									<td><input name="radioKey" type="radio" alt="<s:property value="supplierid"/>" value="<s:property value="id"/>"/></td>
 									<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
-									<td>
-										<s:if test="rptlogCount > 1">
-											<a href="#" style="color: red;" onclick="showDeliveryList('<s:property value="id"/>');"><s:property value="warehouseno"/></a>
-										</s:if>
-										<s:else>
+									<s:if test="rptlogCount > 1">
+										<td style="cursor:pointer; background-color: yellow;" onclick="showDeliveryList('<s:property value="id"/>');">
 											<s:property value="warehouseno"/>
-										</s:else>
-									</td>
+										</td>
+									</s:if>
+									<s:else>
+										<td>
+											<s:property value="warehouseno"/>
+										</td>
+									</s:else>
 									<td><s:property value="createdate"/></td>
 									<td>
 										<s:if test="%{warehousetype == 1}">
@@ -308,15 +310,26 @@
 									<!--
 									<td><s:property value="expressno"/></td>
 									-->
-									<td>
-										<s:if test="rptlogCount > 1">
-											<a href="#" style="color: red;" onclick="showDeliveryList('<s:property value="id"/>');"><s:property value="expressname"/></a>
-										</s:if>
-										<s:else>
+									<s:if test="rptlogCount > 1">
+										<td style="cursor:pointer; background-color: yellow;" onclick="showDeliveryList('<s:property value="id"/>');">
 											<s:property value="expressname"/>
-										</s:else>
-									</td>
-									<td align="right"><s:property value="expresstaxamount"/></td>
+										</td>
+									</s:if>
+									<s:else>
+										<td>
+											<s:property value="expressname"/>
+										</td>
+									</s:else>
+									<s:if test="rptlogCount > 1">
+										<td align="right" style="cursor:pointer; background-color: yellow;" onclick="showDeliveryList('<s:property value="id"/>');">
+											<s:property value="expresstaxamount"/>
+										</td>
+									</s:if>
+									<s:else>
+										<td align="right">
+											<s:property value="expresstaxamount"/>
+										</td>
+									</s:else>
 								</tr>
 							</s:iterator>
 						</table>
