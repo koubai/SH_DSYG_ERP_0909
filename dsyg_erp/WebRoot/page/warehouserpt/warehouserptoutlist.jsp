@@ -276,7 +276,7 @@
 									<td><input name="radioKey" type="radio" alt="<s:property value="supplierid"/>" value="<s:property value="id"/>"/></td>
 									<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
 									<s:if test="rptlogCount > 1">
-										<td style="cursor:pointer; background-color: yellow;" onclick="showDeliveryList('<s:property value="id"/>');">
+										<td style="cursor:pointer; " onclick="showDeliveryList('<s:property value="id"/>');">
 											<s:property value="warehouseno"/>
 										</td>
 									</s:if>
