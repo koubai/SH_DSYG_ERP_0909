@@ -80,6 +80,7 @@
 		<result property="plandate" column="plandate" />
 		<result property="unitprice" column="unitprice" />
 		<result property="taxamount" column="taxamount" />
+		<result property="taxunitprice" column="res02" />
 	</resultMap>
 	
 	<!-- WarehouseCheckDto -->
@@ -1136,7 +1137,7 @@
 	
 	<select id="queryWarehouseInOkByPage" parameterClass="java.util.Map" resultMap="WarehouseInOutOkDto">
 		select * from (
-			select GROUP_CONCAT(id) as ids,sum(A.quantity) as quantity,A.suppliername,A.tradename,A.typeno,A.color,A.packaging,A.unit,A.supplierid,A.theme1,A.productid,A.warehousename,A.plandate,A.parentid,A.theme2,A.unitprice,A.taxamount from (
+			select GROUP_CONCAT(id) as ids,sum(A.quantity) as quantity,A.suppliername,A.tradename,A.typeno,A.color,A.packaging,A.unit,A.supplierid,A.theme1,A.productid,A.warehousename,A.plandate,A.parentid,A.theme2,A.unitprice,A.taxamount,A.res02 from (
 				select * from (
 					select T.*,
 						(select S.suppliername from etb_supplier S where S.id = T.supplierid) as suppliername,
@@ -1179,7 +1180,7 @@
 	
 	<select id="queryWarehouseOutOkByPage" parameterClass="java.util.Map" resultMap="WarehouseInOutOkDto">
 		select * from (
-			select GROUP_CONCAT(id) as ids,sum(A.quantity) as quantity,A.suppliername,A.tradename,A.typeno,A.color,A.packaging,A.unit,A.supplierid,A.theme1,A.productid,A.warehousename,A.plandate,A.parentid,A.theme2,A.unitprice,A.taxamount from (
+			select GROUP_CONCAT(id) as ids,sum(A.quantity) as quantity,A.suppliername,A.tradename,A.typeno,A.color,A.packaging,A.unit,A.supplierid,A.theme1,A.productid,A.warehousename,A.plandate,A.parentid,A.theme2,A.unitprice,A.taxamount,A.res02 from (
 				select * from (
 					select T.*,
 						(select S.customername from etb_customer S where S.id = T.supplierid) as suppliername,
@@ -1307,7 +1308,7 @@
 	<!-- online -->
 	<select id="queryWarehouseOutOk2ByPage" parameterClass="java.util.Map" resultMap="WarehouseInOutOkDto">
 		select * from (
-			select GROUP_CONCAT(id) as ids,sum(A.quantity) as quantity,A.suppliername,A.tradename,A.typeno,A.color,A.packaging,A.unit,A.supplierid,A.theme1,A.productid,A.warehousename,A.plandate,A.parentid,A.theme2,A.unitprice, A.taxamount from (
+			select GROUP_CONCAT(id) as ids,sum(A.quantity) as quantity,A.suppliername,A.tradename,A.typeno,A.color,A.packaging,A.unit,A.supplierid,A.theme1,A.productid,A.warehousename,A.plandate,A.parentid,A.theme2,A.unitprice, A.taxamount,A.res02 from (
 				select * from (
 					select T.*,
 						(select S.companycn from otb_customer S where S.customerid = T.supplierid) as suppliername,
@@ -1393,7 +1394,7 @@
 	<!-- erp -->
 	<select id="queryWarehouseOutOk1ByPage" parameterClass="java.util.Map" resultMap="WarehouseInOutOkDto">
 		select * from (
-			select GROUP_CONCAT(id) as ids,sum(A.quantity) as quantity,A.suppliername,A.tradename,A.typeno,A.color,A.packaging,A.unit,A.supplierid,A.theme1,A.productid,A.warehousename,A.plandate,A.parentid,A.theme2, A.unitprice, A.taxamount from (
+			select GROUP_CONCAT(id) as ids,sum(A.quantity) as quantity,A.suppliername,A.tradename,A.typeno,A.color,A.packaging,A.unit,A.supplierid,A.theme1,A.productid,A.warehousename,A.plandate,A.parentid,A.theme2, A.unitprice, A.taxamount,A.res02 from (
 				select * from (
 					select T.*,
 						(select S.customername from etb_customer S where S.id = T.supplierid) as suppliername,

@@ -115,6 +115,10 @@ public class WarehouseInOutOkDto extends BaseAction {
 	 */
 	private String strRange;
 	
+	/**
+	 * 单价
+	 */
+	private BigDecimal taxunitprice;
 
 	public Long getSupplierid() {
 		return supplierid;
@@ -277,6 +281,14 @@ public class WarehouseInOutOkDto extends BaseAction {
 
 	public void setTaxamount(BigDecimal taxamount) {
 		this.taxamount = taxamount;
+	}
+
+	public BigDecimal getTaxunitprice() {
+		return taxunitprice;
+	}
+
+	public void setTaxunitprice(BigDecimal taxunitprice) {
+		this.taxunitprice = taxunitprice;
 	}
 
 }

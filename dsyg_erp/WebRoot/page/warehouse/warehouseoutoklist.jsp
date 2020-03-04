@@ -251,7 +251,7 @@
 								<td width="40"></td>
 								<td width="40">序号</td>
 								<td width="140">客户名称</td>
-								<td width="60">仓库</td>
+								<!-- <td width="60">仓库</td> -->
 								<td width="140">订单号</td>
 								<td width="120">品名</td>
 								<td width="120">规格</td>
@@ -259,6 +259,7 @@
 								<td width="60">包装</td>
 								<td width="80">预出库数量</td>
 								<td width="60">未税单价</td>
+								<td width="60">含税单价</td>
 								<td width="60">含税金额</td>
 								<td width="60">预出库时间</td>
 								<!--
@@ -277,7 +278,7 @@
 									</td>
 									<td><s:property value="page.pageSize * (page.nextIndex - 1) + #st1.index + 1"/></td>
 									<td><s:property value="suppliername"/></td>
-									<td><s:property value="warehousename"/></td>
+									<!-- <td><s:property value="warehousename"/></td> -->
 									<td><s:property value="theme2"/></td>
 									<td><s:property value="tradename"/></td>
 									<td><s:property value="typeno"/></td>
@@ -297,6 +298,7 @@
 									</td>
 									<td><s:property value="showQuantity"/></td>
 									<td><s:property value="unitprice"/></td>
+									<td><s:property value="taxunitprice"/></td>
 									<td><s:property value="taxamount"/></td>
 									<td><s:property value="plandate"/></td>
 									<!--
