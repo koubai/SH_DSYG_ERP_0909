@@ -720,16 +720,25 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 		WarehouserptDto rpt = warehouserptDao.queryWarehouserptByID(id);
 		if(rpt != null) {
 			//TODO
+			WarehouseDto warehouseDto = null;
 			//查询对应的库存记录列表
 			if(StringUtil.isNotBlank(rpt.getProductinfo()) && StringUtil.isNotBlank(rpt.getParentid())
 					&& (rpt.getParentid().split(",").length == rpt.getProductinfo().split("#").length)) {
 				List<ProductDto> list = new ArrayList<ProductDto>();
 				String[] infos = rpt.getProductinfo().split("#");
+				String[] parentids = rpt.getParentid().split(",");;
 				for(int i = 0; i < infos.length; i++) {
 					if(StringUtil.isNotBlank(infos[i])) {
 						String[] ll = infos[i].split(",");
 						ProductDto product = productDao.queryProductByID(ll[0]);
 						if(product != null) {
+							//库存表含税单价
+							if(parentids.length > i) {
+								//根据父ID查询库存记录
+								warehouseDto = warehouseDao.queryWarehouseByWarehouseno(parentids[i]);
+								product.setWarehousetaxprice(warehouseDto.getRes02());
+							}
+							
 							boolean isInlist = false;
 							int index = 0;
 							for (int j = 0; j < list.size(); j++) { 
@@ -796,6 +805,8 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 							ProductDto product = productDao.queryProductByID(ww.getProductid());
 							if(product != null) {
 								boolean isInlist = false;
+								//库存表含税单价
+								product.setWarehousetaxprice(ww.getRes02());
 								int index = 0;
 								for (int j = 0; j < list.size(); j++) { 
 									if(list.get(j).getId() == Long.parseLong(ww.getProductid())){

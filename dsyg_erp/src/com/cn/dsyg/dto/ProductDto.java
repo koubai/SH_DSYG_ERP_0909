@@ -462,6 +462,11 @@ public class ProductDto extends BaseDto {
 	 * 数据更新时间
 	 */
 	private Date updatedate;
+	
+	/**
+	 * 库存表含税单价
+	 */
+	private String warehousetaxprice;
 
 	public Long getId() {
 		return id;
@@ -1576,5 +1581,13 @@ public class ProductDto extends BaseDto {
 
 	public void setTaxcuprice(BigDecimal taxcuprice) {
 		this.taxcuprice = taxcuprice;
+	}
+
+	public String getWarehousetaxprice() {
+		return warehousetaxprice;
+	}
+
+	public void setWarehousetaxprice(String warehousetaxprice) {
+		this.warehousetaxprice = warehousetaxprice;
 	}
 }

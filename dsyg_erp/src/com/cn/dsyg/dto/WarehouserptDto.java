@@ -820,5 +820,4 @@ public class WarehouserptDto extends BaseAction {
 	public void setRptlogCount(int rptlogCount) {
 		this.rptlogCount = rptlogCount;
 	}
-	
 }
