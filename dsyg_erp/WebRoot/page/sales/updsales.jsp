@@ -900,6 +900,24 @@
 		url += "?salesNoHist=" + salesNoHist + "&date=" + new Date();
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
+	
+	//根据未税单价计算
+	function calcByPrice() {
+		var rows = document.getElementById("productData").rows;
+		for(var i = 0; i < rows.length; i++) {
+			var childs = rows[i].cells[16].getElementsByTagName("input");
+			calcquantity(childs[0], '4');
+		}
+	}
+	
+	//根据含税单价计算
+	function calcByTaxPrice() {
+		var rows = document.getElementById("productData").rows;
+		for(var i = 0; i < rows.length; i++) {
+			var childs = rows[i].cells[17].getElementsByTagName("input");
+			calcquantity(childs[0], '6');
+		}
+	}
 </script>
 </head>
 <body>
@@ -1280,8 +1298,12 @@
 											<s:else>
 												<td width="100" class="cupricetd" style="display: none;">铜价区间</td>
 											</s:else>
-											<td width="90">未税单价</td>
-											<td width="90" style="background:#86e657;">含税单价</td>
+											<td width="90">
+												<input type="button" style="width: 70px;" onclick="calcByPrice();" value="未税单价"/>
+											</td>
+											<td width="90" style="background:#86e657;">
+												<input type="button" style="width: 70px;" onclick="calcByTaxPrice();" value="含税单价"/>
+											</td>
 											<td width="110">销售金额（未税）</td>
 											<td width="110" style="background:#86e657;">销售金额（含税）</td>
 											<td width="110">包装</td>
