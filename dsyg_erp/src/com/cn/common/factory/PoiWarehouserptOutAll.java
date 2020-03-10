@@ -15,6 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.cn.common.util.Constants;
+import com.cn.common.util.DateUtil;
 import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.dto.WarehouserptDto;
@@ -147,7 +148,8 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 					
 					//发货日期
 					cell10.setCellStyle(style);
-					cell10.setCellValue(StringUtil.getStr(warehouserpt.getShowWarehousedate()));
+					//cell10.setCellValue(StringUtil.getStr(warehouserpt.getShowWarehousedate()));
+					cell10.setCellValue(DateUtil.dateToShortStr(warehouserpt.getCreatedate()));
 					num++;
 				}
 			}
@@ -195,7 +197,8 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 		sheet.setColumnWidth(8, 15 * 256);
 		heads.add("金额");
 		sheet.setColumnWidth(9, 15 * 256);
-		heads.add("发货日期");
+		//heads.add("发货日期");
+		heads.add("创建日期");
 		sheet.setColumnWidth(10, 20 * 256);
 		
 		//Head部分颜色字体
