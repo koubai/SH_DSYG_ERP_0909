@@ -131,8 +131,9 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 						cell8.setCellValue(product.getWarehousetaxprice());
 						//金额=数量*含税单价
 						if(product.getNum() != null && !"".equals(product.getNum())) {
-							price = new BigDecimal(product.getWarehousetaxprice());
-							amount = price.multiply(n);
+//							price = new BigDecimal(product.getWarehousetaxprice());
+//							amount = price.multiply(n);
+							amount = new BigDecimal(product.getAmount());
 							cell9.setCellValue(StringUtil.BigDecimal2StrAbs(amount, 6));
 							//合计金额
 							amountCount = amountCount.add(amount);
