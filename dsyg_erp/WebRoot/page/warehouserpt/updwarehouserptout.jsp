@@ -624,12 +624,13 @@
 													</s:iterator>
 												</td>
 												<td align="right">
-													<s:if test="num < 0">
+													<%-- <s:if test="num < 0">
 														<s:property value="numabs"/>
 													</s:if>
 													<s:else>
 														<s:property value="num"/>
-													</s:else>
+													</s:else> --%>
+													<s:property value="shownum"/>
 												</td>
 												<td align="right">
 													<s:property value="amount"/>

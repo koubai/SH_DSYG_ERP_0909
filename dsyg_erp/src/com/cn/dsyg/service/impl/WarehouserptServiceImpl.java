@@ -549,6 +549,8 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 								//数量
 								BigDecimal nn = new BigDecimal(pp.getNum());
 								BigDecimal n = new BigDecimal(ll[1]);
+								//原始数量，对于出库单，出库显示正数，退货显示负数
+								BigDecimal basen = new BigDecimal(ll[1]).multiply(new BigDecimal(-1));
 								//金额
 								BigDecimal aa = new BigDecimal(pp.getAmount());
 								BigDecimal a = new BigDecimal(ll[2]);
@@ -567,6 +569,8 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 									res09 = res09.substring(0, res09.length() - 1);
 								}
 								pp.setRes09(res09);
+								
+								pp.setShownum("" + basen);
 								
 								pp.setNum("" + nn.add(n));
 								pp.setAmount("" + aa.add(a));
@@ -588,8 +592,13 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 									}
 								}
 								if(product != null) {
+									//原始数量，对于出库单，出库显示正数，退货显示负数
+									BigDecimal basen = new BigDecimal(ll[1]).multiply(new BigDecimal(-1));
+									
 									//货物数量
 									product.setNum(ll[1]);
+									//原始数量
+									product.setShownum("" + basen);
 									BigDecimal num = new BigDecimal(ll[1]);
 									product.setNumabs(StringUtil.BigDecimal2StrAbs(num, 2));
 									//货物金额

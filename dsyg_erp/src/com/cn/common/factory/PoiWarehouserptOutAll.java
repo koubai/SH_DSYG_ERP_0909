@@ -71,6 +71,7 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 		int num = 0;
 		//合计数量
 		BigDecimal count = new BigDecimal(0);
+		//金额合计
 		BigDecimal amountCount = new BigDecimal(0);
 		for(int i = 0; i < datas.size(); i++) {
 			warehouserpt = (WarehouserptDto) datas.get(i);
@@ -114,12 +115,12 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 					//数量
 					cell7.setCellStyle(style);
 					BigDecimal n = null;
-					BigDecimal price = null;
 					BigDecimal amount = null;
 					
 					if(product.getNum() != null && !"".equals(product.getNum())) {
-						n = new BigDecimal(product.getNum());
-						cell7.setCellValue(StringUtil.BigDecimal2StrAbs(n, 2));
+						//这里需要乘-1 upd by frank，为了保证出库清单数量在退货时显示为负
+						n = new BigDecimal(product.getNum()).multiply(new BigDecimal(-1));
+						cell7.setCellValue(StringUtil.BigDecimal2Str(n, 2));
 						count = count.add(n);
 					} else {
 						cell7.setCellValue("");
@@ -134,7 +135,7 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 //							price = new BigDecimal(product.getWarehousetaxprice());
 //							amount = price.multiply(n);
 							amount = new BigDecimal(product.getAmount());
-							cell9.setCellValue(StringUtil.BigDecimal2StrAbs(amount, 6));
+							cell9.setCellValue(StringUtil.BigDecimal2Str(amount, 6));
 							//合计金额
 							amountCount = amountCount.add(amount);
 						} else {

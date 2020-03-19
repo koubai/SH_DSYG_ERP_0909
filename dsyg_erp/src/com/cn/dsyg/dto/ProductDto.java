@@ -151,6 +151,8 @@ public class ProductDto extends BaseDto {
 	private String num;
 	//数量（入出库单显示用）
 	private String numabs;
+	//数量原始值（入出库单显示用）
+	private String shownum;
 	//单价（入出库单显示用）
 	private String unitprice;
 	//金额（入出库单显示用）
@@ -1589,5 +1591,13 @@ public class ProductDto extends BaseDto {
 
 	public void setWarehousetaxprice(String warehousetaxprice) {
 		this.warehousetaxprice = warehousetaxprice;
+	}
+
+	public String getShownum() {
+		return shownum;
+	}
+
+	public void setShownum(String shownum) {
+		this.shownum = shownum;
 	}
 }
