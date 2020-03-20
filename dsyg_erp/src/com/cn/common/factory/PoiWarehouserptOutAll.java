@@ -168,7 +168,7 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 		cell7.setCellStyle(style);
 		cell8.setCellValue("金额合计");
 		cell8.setCellStyle(style);
-		cell9.setCellValue(StringUtil.BigDecimal2StrAbs(amountCount, 6));
+		cell9.setCellValue(StringUtil.BigDecimal2StrAbs(amountCount, 2));
 		cell9.setCellStyle(style);
 	}
 	
@@ -180,17 +180,17 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 	public void writeHead(XSSFSheet sheet, XSSFWorkbook workbook) {
 		heads = new ArrayList<String>();
 		heads.add("编号");
-		sheet.setColumnWidth(0, 10 * 256);
+		sheet.setColumnWidth(0, 6 * 256);
 		heads.add("出库单号");
-		sheet.setColumnWidth(1, 20 * 256);
+		sheet.setColumnWidth(1, 16 * 256);
 		heads.add("客户");
 		sheet.setColumnWidth(2, 30 * 256);
 		heads.add("品名");
 		sheet.setColumnWidth(3, 25 * 256);
 		heads.add("规格");
-		sheet.setColumnWidth(4, 20 * 256);
+		sheet.setColumnWidth(4, 35 * 256);
 		heads.add("颜色");
-		sheet.setColumnWidth(5, 15 * 256);
+		sheet.setColumnWidth(5, 12 * 256);
 		heads.add("包装");
 		sheet.setColumnWidth(6, 20 * 256);
 		heads.add("数量");
@@ -201,7 +201,7 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 		sheet.setColumnWidth(9, 15 * 256);
 		//heads.add("发货日期");
 		heads.add("创建日期");
-		sheet.setColumnWidth(10, 20 * 256);
+		sheet.setColumnWidth(10, 16 * 256);
 		
 		//Head部分颜色字体
 		XSSFFont font = workbook.createFont();
