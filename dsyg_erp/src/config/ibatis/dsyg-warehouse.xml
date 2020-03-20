@@ -1131,7 +1131,7 @@
 					<isNotEmpty prepend="and" property="color">
 						C.color = #color#
 					</isNotEmpty>
-			) A group by A.tradename,A.typeno,A.color,A.packaging,A.unit,A.supplierid,A.theme1,A.productid,A.warehousename,A.parentid,A.theme2,A.unitprice,A.taxamount,A.res02
+			) A group by A.tradename,A.typeno,A.color,A.packaging,A.unit,A.supplierid,A.theme1,A.productid,A.warehousename,A.parentid,A.theme2,A.unitprice,A.res02
 		) B where 1 = 1 and B.quantity != 0
 	</select>
 	
@@ -1172,7 +1172,7 @@
 					<isNotEmpty prepend="and" property="color">
 						C.color = #color#
 					</isNotEmpty>
-			) A group by A.tradename,A.productid,A.typeno,A.color,A.packaging,A.unit,A.supplierid,A.theme1,A.warehousename,A.plandate,A.parentid,A.theme2,A.unitprice,A.taxamount,A.res02
+			) A group by A.tradename,A.productid,A.typeno,A.color,A.packaging,A.unit,A.supplierid,A.theme1,A.warehousename,A.plandate,A.parentid,A.theme2,A.unitprice,A.res02
 		) AA where 1 = 1 and AA.quantity != 0
 		order by AA.suppliername asc,AA.parentid asc, AA.productid asc
 		LIMIT #start#, #end#
@@ -1236,7 +1236,7 @@
 					<isNotEmpty prepend="and" property="color">
 						C.color = #color#
 					</isNotEmpty>
-			) A group by A.suppliername,A.tradename,A.productid,A.typeno,A.color,A.packaging,A.unit,A.supplierid,A.theme1,A.warehousename,A.plandate,A.parentid,A.theme2,A.unitprice,A.taxamount,A.res02
+			) A group by A.suppliername,A.tradename,A.productid,A.typeno,A.color,A.packaging,A.unit,A.supplierid,A.theme1,A.warehousename,A.plandate,A.parentid,A.theme2,A.unitprice,A.res02
 		) AA where 1 = 1 and AA.quantity != 0
 		order by AA.suppliername asc,AA.theme2 asc, AA.productid asc
 		LIMIT #start#, #end#
@@ -1300,7 +1300,7 @@
 					<isNotEmpty prepend="and" property="color">
 						C.color = #color#
 					</isNotEmpty>
-			) A group by A.suppliername,A.tradename,A.typeno,A.color,A.packaging,A.unit,A.supplierid,A.theme1,A.productid,A.warehousename,A.parentid,A.theme2,A.unitprice,A.taxamount,A.res02
+			) A group by A.suppliername,A.tradename,A.typeno,A.color,A.packaging,A.unit,A.supplierid,A.theme1,A.productid,A.warehousename,A.parentid,A.theme2,A.unitprice,A.res02
 		) B where 1 = 1 and B.quantity != 0
 	</select>
 	
