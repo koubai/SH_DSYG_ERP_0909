@@ -1059,6 +1059,30 @@
 						</tr>						
 						<tr>
 							<td align="right">
+								<label class="pdf10">用友产品编码</label>
+							</td>
+							<td align="right">
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.item16" id="item16" maxlength="15" cssStyle="width:80px;" theme="simple" ></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+							</td>
+						</tr>						
+						<tr>
+							<td align="right">
+								<label class="pdf10">用友单位编码</label>
+							</td>
+							<td align="right">
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="addProductDto.item17" id="item17" maxlength="15" cssStyle="width:80px;" theme="simple" ></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+							</td>
+						</tr>						
+						<tr>
+							<td align="right">
 								<label class="pdf10">备注</label>
 							</td>
 							<td colspan="3">

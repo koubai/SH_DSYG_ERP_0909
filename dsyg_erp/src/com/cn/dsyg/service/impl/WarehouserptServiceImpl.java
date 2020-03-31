@@ -746,6 +746,10 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 								//根据父ID查询库存记录
 								warehouseDto = warehouseDao.queryWarehouseByWarehouseno(parentids[i]);
 								product.setWarehousetaxprice(warehouseDto.getRes02());
+								//非含税单价
+								product.setUnitprice(warehouseDto.getUnitprice().toString());
+								//含税金额
+								product.setRes06(warehouseDto.getTaxamount().toString());
 							}
 							
 							boolean isInlist = false;
@@ -816,6 +820,10 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 								boolean isInlist = false;
 								//库存表含税单价
 								product.setWarehousetaxprice(ww.getRes02());
+								//非含税单价
+								product.setUnitprice(ww.getUnitprice().toString());
+								//含税金额
+								product.setRes06(ww.getTaxamount().toString());
 								int index = 0;
 								for (int j = 0; j < list.size(); j++) { 
 									if(list.get(j).getId() == Long.parseLong(ww.getProductid())){
@@ -1019,7 +1027,9 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 					newwarehouserpt.setSuppliermanager(warehouserpt.getSuppliermanager());
 					newwarehouserpt.setSuppliertel(warehouserpt.getSuppliertel());
 					newwarehouserpt.setSupplierfax(warehouserpt.getSupplierfax());
-					
+					// 供应商信息 （用友编号）
+					newwarehouserpt.setRes04(warehouserpt.getRes04());
+
 					newwarehouserpt.setNote(warehouserpt.getNote());
 					//快递公司ID==============================这里不需要快递信息
 					

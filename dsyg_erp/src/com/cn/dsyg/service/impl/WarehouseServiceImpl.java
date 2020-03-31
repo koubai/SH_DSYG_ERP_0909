@@ -1006,6 +1006,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 			SupplierDto supplier = supplierDao.queryAllSupplierByID(supplierid);
 			//获得采购单的供应商
 			warehouserpt.setSupplierid(supplierid);
+			//获得采购单的供应商用友编码
+			warehouserpt.setRes04(supplier.getRes02());
+			
 			if(supplier != null) {
 				warehouserpt.setSuppliername(supplier.getSuppliername());
 				warehouserpt.setSupplieraddress(supplier.getSupplieraddress1());
@@ -1342,7 +1345,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 			
 			//获得销售单的客户信息
 			warehouserpt.setSupplierid(customerid);
-			
+
 			CustomerDto customer = null;
 			CustomerOnlineDto customerOnline = null;
 			if("1".equals(res06)) {
@@ -1373,6 +1376,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 						warehouserpt.setSuppliermanager(customerOnline.getName2());
 					if (customerOnline.getTell2()!= null)
 						warehouserpt.setSuppliertel(customerOnline.getTell2());
+					//获得采购单的供应商用友编码
+					warehouserpt.setRes04(customerOnline.getRes02());
 				}
 			} else {
 				//非online订单
@@ -1386,6 +1391,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 					warehouserpt.setSuppliermanager(customer.getCustomermanager1());
 					warehouserpt.setSuppliertel(customer.getCustomertel1());
 					warehouserpt.setSupplierfax(customer.getCustomerfax1());
+					//获得采购单的供应商用友编码
+					warehouserpt.setRes04(customer.getRes02());
 				}
 			}
 			//快递公司ID==============================这里不做填充，等发货单时填充

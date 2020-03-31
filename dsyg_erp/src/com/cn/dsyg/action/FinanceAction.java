@@ -780,9 +780,9 @@ public class FinanceAction extends BaseAction {
 		page = financeService.queryFinanceByPage("", "", strFinancetype, strInvoiceid,
 				"", "", strReceiptdateLow, strReceiptdateHigh, strBillno, "", strCustomername, strInvoiceddsp_flg, page);
 		financeList = (List<FinanceDto>) page.getItems();
-		strTotalAmount = financeService.queryFinanceTotalAmount("", "", "", strInvoiceid,
+		strTotalAmount = financeService.queryFinanceTotalAmount("", "", strFinancetype, strInvoiceid,
 				"", "", strReceiptdateLow, strReceiptdateHigh, strBillno, "", strCustomername);
-		strTotalInvoiceAmount = financeService.queryInvoiceTotalAmount("", "", "", strInvoiceid,
+		strTotalInvoiceAmount = financeService.queryInvoiceTotalAmount("", "", strFinancetype, strInvoiceid,
 				"", "", strReceiptdateLow, strReceiptdateHigh, strBillno, "", strCustomername);
 		this.setStartIndex(page.getStartIndex());
 	}

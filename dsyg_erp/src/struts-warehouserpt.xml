@@ -77,6 +77,10 @@
 		<action name="exportWarehouserptOutAllListAction" class="warehouserptAction" method="exportWarehouserptOutAllListAction">
 			<result name="success">/page/download.jsp</result>
 		</action>
+
+		<action name="exportCGDlistAction" class="warehouserptAction" method="exportCGDlistAction">
+			<result name="success">/page/download.jsp</result>
+		</action>
 		
 		<action name="showDeliveryListAction" class="warehouserptAction" method="showDeliveryListAction">
 			<result name="*">/page/warehouserpt/warehouserptloglist.jsp</result>

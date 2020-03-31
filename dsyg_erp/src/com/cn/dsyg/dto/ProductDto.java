@@ -266,12 +266,12 @@ public class ProductDto extends BaseDto {
 	private String item15;
 
 	/**
-	 * 项目16
+	 * 项目16   // 用友输出用产品编码
 	 */
 	private String item16;
 
 	/**
-	 * 项目17
+	 * 项目17  // 用友输出用单位编码
 	 */
 	private String item17;
 
@@ -416,7 +416,7 @@ public class ProductDto extends BaseDto {
 	private String res05;
 
 	/**
-	 * 预备项目6
+	 * 预备项目6    (warehouse 账票出力时，用于产品含税金额)
 	 */
 	private String res06;
 

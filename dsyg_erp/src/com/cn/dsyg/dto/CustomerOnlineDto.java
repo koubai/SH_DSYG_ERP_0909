@@ -168,7 +168,7 @@ public class CustomerOnlineDto extends BaseDto {
 	private String res01;
 
 	/**
-	 * 预备项目2
+	 * 预备项目2 （用友编码）
 	 */
 	private String res02;
 

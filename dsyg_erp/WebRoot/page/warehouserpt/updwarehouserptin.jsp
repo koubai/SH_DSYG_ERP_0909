@@ -225,6 +225,14 @@
 		$("#" + "overlay").hide();
 		$("#" + "scanBarcodeDiv").hide();
 	}
+	
+	function CGDlistOut(isInter){
+		var id = ${updWarehouserptId};
+		var exportunitprice = $("#exportunitprice").val().trim();
+		window.location.href = "../warehouserpt/exportCGDlistAction.action?strExportDetailId=" + id
+				+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice;		
+	}
+	
 </script>
 </head>
 <body>
@@ -634,6 +642,15 @@
 										<div class="box1_right"></div>
 									</div>
 								</td>
+							<td>
+								<div class="btn">
+									<div class="box1_left"></div>
+									<div class="box1_center">
+										<input class="input80" type="button" value="用友导出" onclick="CGDlistOut(3);"/>
+									</div>
+									<div class="box1_right"></div>
+								</div>
+							</td>
 							<td>
 								<div class="btn">
 									<div class="box1_left"></div>

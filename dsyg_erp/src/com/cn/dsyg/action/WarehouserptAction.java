@@ -72,6 +72,8 @@ public class WarehouserptAction extends BaseAction {
 	private List<Dict01Dto> makeareaList;
 	//excel密码
 	private String excelPass;
+	//税率
+	private String rate = "0";
 
 	//制单者
 	private List<UserDto> createList;
@@ -648,6 +650,25 @@ public class WarehouserptAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
+
+	/**
+	 * 导出用友入库明细数据
+	 * @return
+	 */
+	public String exportCGDlistAction() {
+		try {
+			this.clearMessages();
+			updWarehouserptDto = warehouserptService.queryWarehouserptByID(updWarehouserptId, null);
+			//初期化字典数据
+			initDictList();
+
+			exportDetail("" + Constants.WAREHOUSE_TYPE_IN, strExportDetailId);
+		} catch(Exception e) {
+			log.error("exportWarehouserptOutDetailAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
 	
 	/**
 	 * 导出明细数据
@@ -680,6 +701,7 @@ public class WarehouserptAction extends BaseAction {
 			}
 		}
 		dictMap.put(Constants.EXCEL_PASS, excelPass);
+		dictMap.put(Constants.DICT_RATE, rate);
 
 		WarehouserptDto rpt;
 		String exceltype = "";
@@ -689,13 +711,21 @@ public class WarehouserptAction extends BaseAction {
 				exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_INTER_LIST;
 				rpt = warehouserptService.queryWarehouserptInterByID(strExportDetailId);
 			} else {
-				//入库单明细
-				if(exportunitprice != null && exportunitprice.equals("1")){
-					exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_LIST;
-				} else {
-					exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_LIST_NOPRICE;
+				if(strInter != null && strInter.equals("3")){
+					//入库单用友导出
+					exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_CGD_LIST;
+					rpt = warehouserptService.queryWarehouserptInterByID(strExportDetailId);
+				
+				}else {
+					
+					//入库单明细
+					if(exportunitprice != null && exportunitprice.equals("1")){
+						exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_LIST;
+					} else {
+						exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_LIST_NOPRICE;
+					}
+					rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
 				}
-				rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
 			}
 		} else {
 			if(strInter != null && strInter.equals("1")){
@@ -848,7 +878,12 @@ public class WarehouserptAction extends BaseAction {
 		List<Dict01Dto> listPass = dict01Service.queryDict01ByFieldcode(Constants.EXCEL_PASS, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
 		if(listPass != null && listPass.size() > 0) {
 			excelPass = listPass.get(0).getCode();
-		}	
+		}
+		//税率
+		List<Dict01Dto> listRate = dict01Service.queryDict01ByFieldcode(Constants.DICT_RATE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+		if(listRate != null && listRate.size() > 0) {
+			rate = listRate.get(0).getCode();
+		}
 		createList = userService.queryAllUser();
 	}
 	
@@ -1166,6 +1201,17 @@ public class WarehouserptAction extends BaseAction {
 
 	public void setWarehouserptHistService(WarehouserptHistService warehouserptHistService) {
 		this.warehouserptHistService = warehouserptHistService;
+	}
+
+	
+
+	public String getRate() {
+		return rate;
+	}
+
+
+	public void setRate(String rate) {
+		this.rate = rate;
 	}
 
 }

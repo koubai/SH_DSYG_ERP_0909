@@ -90,6 +90,8 @@ public class Constants {
 	public final static String EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_INTER_LIST = "warehouserpt_in_detail_inter";
 	//出库单明细数据
 	public final static String EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_INTER_LIST = "warehouserpt_out_detail_inter";
+	//入库单明细用友数据
+	public final static String EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_CGD_LIST = "warehouserpt_in_detail_cgdlist";
 	//库存盘点数据
 	public final static String EXCEL_TYPE_WAREHOUSCHECK = "warehousercheck";
 	//库存盘点数据上传
@@ -190,7 +192,7 @@ public class Constants {
 	
 	//excel密码
 	public final static String EXCEL_PASS = "excelpass";
-	
+
 	//properties
 	public final static String PROPERTIES_IMAGES_URL = "images_url";
 	public final static String PROPERTIES_IMAGES_PATH = "images_path";

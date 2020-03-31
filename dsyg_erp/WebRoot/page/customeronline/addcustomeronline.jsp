@@ -783,6 +783,16 @@
 				</td>
 			</tr>
 			<tr>
+				<td width="120"><font color="red"></font>用友客户编号</td>
+				<td width="500">
+					<div class="box1_left"></div>
+					<div class="box1_center">
+						<s:textfield name="addCustomerOnlineDto.res02" id="res02" cssStyle="width:350px;" maxlength="40" theme="simple"></s:textfield>
+					</div>
+					<div class="box1_right"></div>
+				</td>
+			</tr>
+			<tr>
 				<td>&nbsp;</td>
 				<td>
 					<div class="btn">

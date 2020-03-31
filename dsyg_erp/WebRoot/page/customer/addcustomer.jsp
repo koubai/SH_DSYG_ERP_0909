@@ -521,6 +521,16 @@
 				</td>
 			</tr>
 			<tr>
+				<td width="120"><font color="red"></font>用友客户编号</td>
+				<td width="500">
+					<div class="box1_left"></div>
+					<div class="box1_center">
+						<s:textfield name="addCustomerDto.res02" id="res02" cssStyle="width:350px;" maxlength="40" theme="simple"></s:textfield>
+					</div>
+					<div class="box1_right"></div>
+				</td>
+			</tr>
+			<tr>
 				<td>备注</td>
 				<td>
 					<textarea name="" id="tmpnote" cols="" rows="5" style="width:350px;"><s:property value="addCustomerDto.note"/></textarea>
