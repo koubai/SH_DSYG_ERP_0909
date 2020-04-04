@@ -759,7 +759,12 @@ public class WarehouserptAction extends BaseAction {
 			imagebase.createMatrixImage();			
 		}
 		
-		String name = StringUtil.createFileName(exceltype);
+		String name ="";
+		if(strInter != null && strInter.equals("3")){
+			name = StringUtil.createFileName2(exceltype);
+		}else{
+			name = StringUtil.createFileName(exceltype);
+		}
 		response.setHeader("Content-Disposition","attachment;filename=" + name);//指定下载的文件名
 		response.setContentType("application/vnd.ms-excel");
 		Poi2007Base base = PoiFactory.getPoi(exceltype);
@@ -770,6 +775,7 @@ public class WarehouserptAction extends BaseAction {
 		} else {
 			log.warn("queryWarehouserptByID is null, id=" + strExportDetailId);
 		}
+		base.setName(name);
 		base.setDatas(list);
 		base.setSheetName(exceltype);
 		base.setDictMap(dictMap);

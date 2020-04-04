@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -64,28 +66,33 @@ public class PoiAccountCGDlist extends Poi2007Base {
 	/**
 	 * 创建Excel2007
 	 */
-	public void createExcel() {
-		FileOutputStream os = null;
+	public void createExcel(OutputStream out) {
 		try {
 			//从模板复制输出文件
-	        File source_file = new File("D:\\workspace_org\\dsyg_erp\\dsyg_erp\\WebRoot\\page\\cgdlst_temple.xls");
+			String filePath = PoiSalesPrice.class.getClassLoader().getResource("").toURI().getPath();
+			filePath = filePath.replace("WEB-INF/classes/", "");
+			path = filePath;
+	        File source_file = new File(filePath + "page/cgdlst_temple.xls");
 	        
 	        //ディレクトリ、ファイルの存在を確認する
 	        if (source_file.exists()){
 	        	log.info("template Excel fileName=[" + path + name + "] is exist.");
 				// 创建新文件
 //		        copyExcel("D:\\workspace_org\\dsyg_erp\\dsyg_erp\\WebRoot\\page\\cgdlst_temple.xls", path + name);
-	        	Path from1 = Paths.get("D:\\workspace_org\\dsyg_erp\\dsyg_erp\\WebRoot\\page\\cgdlst_temple.xls");
-	            Path to1 = Paths.get(path + name);
-		        Files.copy(from1, to1);
+	        	//Path from1 = Paths.get(filePath + "page/cgdlst_temple.xls");
+	        	log.info("from1 fileName=[" + source_file.getPath() + "] .");
+	        	
+	            //Path to1 = Paths.get(filePath +"page/"+ name);
+		        //Files.copy(from1, to1);
 		        
 		        // java.io.inputStream
-		        POIFSFileSystem filein = new POIFSFileSystem(new FileInputStream(path + name));
+		        POIFSFileSystem filein = new POIFSFileSystem(new FileInputStream(source_file.getPath()));
 		        HSSFWorkbook workbook = new HSSFWorkbook(filein);
 //				os = new FileOutputStream(path + name);
 //				HSSFWorkbook workbook = new HSSFWorkbook();
 		    	HSSFSheet sheet = workbook.getSheet("sample");
-		    	os = new FileOutputStream(path + name); 
+//		    	workbook.cloneSheet(1);
+//		    	os = new FileOutputStream(filePath + "page/"+ name); 
 				//输出title
 				//writeTitle(sheet, workbook);
 				//输出Head部分
@@ -93,17 +100,19 @@ public class PoiAccountCGDlist extends Poi2007Base {
 				//输出数据部分
 				writeData(sheet, workbook);
 				
-				workbook.write(os);
-				log.info("createExcel fileName=[" + path + name + "] success.");
+				//输出Excel
+				out.flush();
+				workbook.write(out);
+				log.info("createExcel fileName=[" + filePath + name + "] success.");
 	        }else{
-	        	log.info("template Excel fileName=[" + path + name + "] is not exist.");
+	        	log.info("template Excel fileName=[" + filePath + name + "] is not exist.");
 	        }
 	        
 		} catch (Exception e) {
 			log.error("createExcel fileName=[" + path + name + "] error:" + e);
 		} finally {
 			try {
-				os.close();
+				out.close();
 			} catch (Exception e) {
 				log.error("createExcel close os error:" + e);
 			}
@@ -252,7 +261,9 @@ public class PoiAccountCGDlist extends Poi2007Base {
 				cell1.setCellValue("123");
 				cell1.setCellStyle(style);
 			// 订单日期	客户要求使用创建日期
-				cell2.setCellValue(warehouserpt.getCreatedate());
+		        //SimpleDateFormatクラスでフォーマットパターンを設定する
+		        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");		    
+				cell2.setCellValue(sdf.format(warehouserpt.getCreatedate()));
 				cell2.setCellStyle(style);
 			// 供应商编号	
 //				cell3.setCellValue(warehouserpt.getSupplierAccountId());
@@ -425,7 +436,7 @@ public class PoiAccountCGDlist extends Poi2007Base {
 //				cell56.setCellValue(num + 1);
 //				cell56.setCellStyle(style);
 			// 计划到货日期	客户要求使用创建日期
-				cell57.setCellValue(warehouserpt.getCreatedate());
+				cell57.setCellValue(sdf.format(warehouserpt.getCreatedate()));
 				cell57.setCellStyle(style);
 			// 表体自定义项1	
 /*				cell58.setCellValue(num + 1);
@@ -524,6 +535,7 @@ public class PoiAccountCGDlist extends Poi2007Base {
 				cell89.setCellValue(num + 1);
 				cell89.setCellStyle(style);
 */
+				num++;
 			}
 		}		
 		
@@ -659,4 +671,17 @@ public class PoiAccountCGDlist extends Poi2007Base {
 	
     public static void copySheet(HSSFSheet newSheet, HSSFSheet sheet) {  
     }
+    
+	/**
+	 * 导出Excel2007
+	 * @param out
+	 */
+	public void exportExcel(OutputStream out) {
+		try {
+			createExcel(out);
+			log.info("exportExcel success.");
+		} catch (Exception e) {
+			log.error("exportExcel error:" + e);
+		}
+	}
 }

@@ -67,6 +67,10 @@ public class PoiFactory {
 			//库存盘点数据
 			return new PoiWarehouseCheckIn();
 		}
+		if(Constants.EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_CGD_LIST.equals(type)) {
+			//用友数据导出
+			return new PoiAccountCGDlist();
+		}
 		return null;
 	}
 }

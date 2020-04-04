@@ -286,4 +286,6 @@ public class Poi2007Base {
 		
 	}
 
+	public void createExcel(OutputStream out) {
+	}
 }

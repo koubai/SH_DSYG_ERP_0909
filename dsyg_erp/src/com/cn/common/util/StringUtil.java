@@ -410,6 +410,19 @@ public class StringUtil {
 	}
 	
 	/**
+	 * 创建文件名XLS
+	 * @param pre
+	 * @return
+	 */
+	public static String createFileName2(String pre) {
+		String name = null;
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		name = sdf.format(date);
+		return pre + name + ".xls";
+	}
+	
+	/**
 	 * 创建html文件名
 	 * @param pre
 	 * @return
