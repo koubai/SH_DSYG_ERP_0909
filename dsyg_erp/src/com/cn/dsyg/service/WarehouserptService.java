@@ -1,5 +1,6 @@
 package com.cn.dsyg.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.cn.common.util.Page;
@@ -174,4 +175,12 @@ public interface WarehouserptService {
 	 * @param customerid
 	 */
 	public List<WarehouserptDto> queryWarehouseInfoList(String strProductid, String strCustomerid);
+	
+	/**
+	 * 用友账套序号更新
+	 * @param strAccountFlg 账套选择 0 或空为 上海贸易或深圳发展  1为上海发展
+	 * @param strAccountNo  用友账套序号
+	 */
+	public String updateAccountNo(String strAccountFlg, String strAccountNo);
+
 }

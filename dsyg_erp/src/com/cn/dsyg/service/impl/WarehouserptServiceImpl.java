@@ -1,5 +1,6 @@
 package com.cn.dsyg.service.impl;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -1302,7 +1303,50 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 		}
 		return true;
 	}
-
+	
+	public String updateAccountNo (String strAccountFlg, String strAccountNo) {
+		List<Dict01Dto> listDict = null;
+		String code = "0";
+		if (strAccountFlg == null || strAccountFlg.equals("0")){
+			listDict = dict01Dao.queryDict01ByFieldcode(Constants.DICT_ACCOUNTNO1, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+		}else{
+			listDict = dict01Dao.queryDict01ByFieldcode(Constants.DICT_ACCOUNTNO2, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+		}	
+		if(listDict != null && listDict.size() > 0) {
+			Dict01Dto dict = listDict.get(0);
+			//番号+1
+			if (strAccountNo== null || strAccountNo.equals("")){
+				code = "1";
+			}else{
+				code = "" + (Integer.valueOf(strAccountNo) + 1);
+			}
+			dict.setCode(code);
+			dict01Dao.updateDict01(dict);
+		} else {
+			//插入数据
+			Dict01Dto dict = new Dict01Dto();
+			if (strAccountFlg == null || strAccountFlg.equals("0")){
+				dict.setFieldcode(Constants.DICT_ACCOUNTNO1);
+				dict.setFieldname("用友账套01 序号");
+				dict.setMean("用友账套01 序号");
+				dict.setNote("用友账套01 序号");
+			}else{ 
+				dict.setFieldcode(Constants.DICT_ACCOUNTNO2);
+				dict.setFieldname("用友账套02 序号");
+				dict.setMean("用友账套02序号");
+				dict.setNote("用友账套02序号");
+			}
+			//番号默认从1开始
+			dict.setCode("1");
+			dict.setLang(PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			dict.setStatus(Constants.STATUS_NORMAL);
+			dict.setCreateuid("admin");
+			dict.setUpdateuid("admin");
+			dict01Dao.insertDict01(dict);
+			code = "1";
+		}
+		return code;
+	}
 
 	public WarehouserptDao getWarehouserptDao() {
 		return warehouserptDao;

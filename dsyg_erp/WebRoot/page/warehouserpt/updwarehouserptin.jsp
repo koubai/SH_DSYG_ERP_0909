@@ -227,10 +227,22 @@
 	}
 	
 	function CGDlistOut(isInter){
+		var list = document.getElementsByName("tmp_strAccountFlg");
+		$("#strAccountFlg").val(0);
+		for(var i = 0; i < list.length; i++) {
+			if(list[i].checked) {
+				$("#strAccountFlg").val(i);
+			}
+		}
+//		alert($("#strAccountFlg").val());
 		var id = ${updWarehouserptId};
 		var exportunitprice = $("#exportunitprice").val().trim();
+		var strAccountFlg = $("#strAccountFlg").val().trim();
+		var strAccountNo1 = $("#strAccountNo1").val().trim();
+		var strAccountNo2 = $("#strAccountNo2").val().trim();
+//		alert(strAccountNo1);
 		window.location.href = "../warehouserpt/exportCGDlistAction.action?strExportDetailId=" + id
-				+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice;		
+				+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice +"&strAccountFlg=" + strAccountFlg +"&strAccountNo1=" + strAccountNo1 +"&strAccountNo2=" + strAccountNo2;		
 	}
 	
 </script>
@@ -286,6 +298,7 @@
 				<s:hidden name="updWarehouserptDto.expressid" id="expressid"></s:hidden>
 				<s:hidden name="updWarehouserptDto.warehousedate" id="warehousedate"></s:hidden>
 				<s:hidden name="updWarehouserptDto.receiptdate" id="receiptdate"></s:hidden>
+				<s:hidden name="strAccountFlg" id="strAccountFlg"></s:hidden>
 				
 				<div class="searchbox update" style="height:0px;">
 					<table width="100%" border="0" cellpadding="5" cellspacing="0">
@@ -600,6 +613,38 @@
 				</div>
 				<div class="trade">
 					<table cellpadding="10" style="margin:0 auto;">
+						<tr>
+							<td align="right">
+								<label class="pdf10">用友单号（上海贸易）</label>
+							</td>
+							<td>
+								<input type="radio" name="tmp_strAccountFlg" <c:if test="${strAccountFlg == null || strAccountFlg == '0'}">checked</c:if>  value="0" />
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="strAccountNo1" id="strAccountNo1" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+							</td>
+							<td align="right">
+								<label class="pdf10">用友单号（上海发展）</label>
+							</td>
+							<td>
+								<input type="radio" name="tmp_strAccountFlg" <c:if test="${strAccountFlg == '1'}">checked</c:if> value="1" />
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="strAccountNo2" id="strAccountNo2" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+							</td>
+							<td>
+							</td>
+							<td>
+							</td>
+						</tr>					
 						<tr>
 							<td>
 								<div class="btn">

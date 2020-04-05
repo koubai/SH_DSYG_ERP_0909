@@ -112,6 +112,15 @@ public class WarehouserptAction extends BaseAction {
 	private String rptDeliveryId;
 	private List<WarehouserptHistDto> rptLogList;
 
+	//用友单号的账套选择 0或空为 上海贸易公司或深圳公司， 1为发展公司
+	private String strAccountFlg;
+	
+	//用友单号的账套  上海贸易公司或深圳公司
+	private String strAccountNo1;
+	
+	//用友单号的账套  发展公司
+	private String strAccountNo2;
+	
 	//发货单
 	/**
 	 * 修改发货单页面
@@ -469,6 +478,8 @@ public class WarehouserptAction extends BaseAction {
 			strCreatedateLow = "";
 			strCreatedateHigh = "";
 			strNo = "";
+			strAccountNo1 = "";
+			strAccountNo2 = "";
 			warehouserptList = new ArrayList<WarehouserptDto>();
 			//页面数据初期化
 			startIndex = 0;
@@ -677,6 +688,9 @@ public class WarehouserptAction extends BaseAction {
 	 * @throws IOException
 	 */
 	private void exportDetail(String type, String id) throws IOException {
+		System.out.println("strAccountFlg:" + strAccountFlg);
+		System.out.println("strAccountNo1:" + strAccountNo1);
+		System.out.println("strAccountNo2:" + strAccountNo2);
 		initDictList();
 		//字典数据组织个MAP
 		Map<String, String> dictMap = new HashMap<String, String>();
@@ -702,6 +716,11 @@ public class WarehouserptAction extends BaseAction {
 		}
 		dictMap.put(Constants.EXCEL_PASS, excelPass);
 		dictMap.put(Constants.DICT_RATE, rate);
+		if (strAccountFlg == null || strAccountFlg.equals("0")){
+			dictMap.put(Constants.DICT_ACCOUNTNO1, strAccountNo1);
+		}else{	
+			dictMap.put(Constants.DICT_ACCOUNTNO1, strAccountNo2);		
+		}
 
 		WarehouserptDto rpt;
 		String exceltype = "";
@@ -782,7 +801,15 @@ public class WarehouserptAction extends BaseAction {
 		base.setImagepath(PropertiesConfig.getPropertiesValueByKey(Constants.PROPERTIES_IMAGES_PATH) +"//"+jpgname);
 		base.exportExcel(response.getOutputStream());
 		
+		// 导出成功后 账套序号增加
+		String code = "";
+		if(strInter != null && strInter.equals("3"))
+			if (strAccountFlg == null || strAccountFlg.equals("0"))
+				code = warehouserptService.updateAccountNo(strAccountFlg, strAccountNo1);
+			else
+				code = warehouserptService.updateAccountNo(strAccountFlg, strAccountNo2);
 	}
+	
 	
 	/**
 	 * 导出一览数据
@@ -864,7 +891,7 @@ public class WarehouserptAction extends BaseAction {
 		strTotalAmount = "";
 		strTotalAmount = warehouserptService.queryWarehouserptTotalAmount(strNo, "", type, "", "", "", "", "", "", "",
 				strSuppliername, strWarehouseno, strCreatedateLow, strCreatedateHigh);
-		System.out.println("strTotalAmount:" + strTotalAmount);
+//		System.out.println("strTotalAmount:" + strTotalAmount);
 		this.setStartIndex(page.getStartIndex());
 	}
 	
@@ -889,6 +916,20 @@ public class WarehouserptAction extends BaseAction {
 		List<Dict01Dto> listRate = dict01Service.queryDict01ByFieldcode(Constants.DICT_RATE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
 		if(listRate != null && listRate.size() > 0) {
 			rate = listRate.get(0).getCode();
+		}
+		//账套No1 编号
+		List<Dict01Dto> listAccountNo1 = dict01Service.queryDict01ByFieldcode(Constants.DICT_ACCOUNTNO1, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+		if(listAccountNo1 != null && listAccountNo1.size() > 0) {
+			if (strAccountNo1 == null || strAccountNo1==""){
+				strAccountNo1 = listAccountNo1.get(0).getCode();
+			}
+		}
+		//账套No2 编号
+		List<Dict01Dto> listAccountNo2 = dict01Service.queryDict01ByFieldcode(Constants.DICT_ACCOUNTNO2, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+		if(listAccountNo2 != null && listAccountNo2.size() > 0) {
+			if (strAccountNo2 ==null || strAccountNo2 ==""){
+				strAccountNo2 = listAccountNo2.get(0).getCode();
+			}
 		}
 		createList = userService.queryAllUser();
 	}
@@ -1208,7 +1249,6 @@ public class WarehouserptAction extends BaseAction {
 	public void setWarehouserptHistService(WarehouserptHistService warehouserptHistService) {
 		this.warehouserptHistService = warehouserptHistService;
 	}
-
 	
 
 	public String getRate() {
@@ -1220,4 +1260,35 @@ public class WarehouserptAction extends BaseAction {
 		this.rate = rate;
 	}
 
+
+	public String getStrAccountFlg() {
+		return strAccountFlg;
+	}
+
+
+	public void setStrAccountFlg(String strAccountFlg) {
+		this.strAccountFlg = strAccountFlg;
+	}
+
+	
+	public String getStrAccountNo1() {
+		return strAccountNo1;
+	}
+
+
+	public void setStrAccountNo1(String strAccountNo1) {
+		this.strAccountNo1 = strAccountNo1;
+	}
+
+
+	public String getStrAccountNo2() {
+		return strAccountNo2;
+	}
+
+
+	public void setStrAccountNo2(String strAccountNo2) {
+		this.strAccountNo2 = strAccountNo2;
+	}
+	
+	
 }

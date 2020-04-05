@@ -172,6 +172,12 @@ public class Constants {
 	//税率
 	public final static String DICT_RATE = "rate";
 
+	//用友账套01 序号
+	public final static String DICT_ACCOUNTNO1 = "account01";
+
+	//用友账套02序号
+	public final static String DICT_ACCOUNTNO2 = "account02";
+	
 	//产地
 	public final static String DICT_MAKEAREA_TYPE = "makearea";
 

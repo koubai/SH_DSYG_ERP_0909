@@ -77,21 +77,11 @@ public class PoiAccountCGDlist extends Poi2007Base {
 	        //ディレクトリ、ファイルの存在を確認する
 	        if (source_file.exists()){
 	        	log.info("template Excel fileName=[" + path + name + "] is exist.");
-				// 创建新文件
-//		        copyExcel("D:\\workspace_org\\dsyg_erp\\dsyg_erp\\WebRoot\\page\\cgdlst_temple.xls", path + name);
-	        	//Path from1 = Paths.get(filePath + "page/cgdlst_temple.xls");
 	        	log.info("from1 fileName=[" + source_file.getPath() + "] .");
-	        	
-	            //Path to1 = Paths.get(filePath +"page/"+ name);
-		        //Files.copy(from1, to1);
-		        
-		        // java.io.inputStream
+	        		        
 		        POIFSFileSystem filein = new POIFSFileSystem(new FileInputStream(source_file.getPath()));
 		        HSSFWorkbook workbook = new HSSFWorkbook(filein);
-//				os = new FileOutputStream(path + name);
-//				HSSFWorkbook workbook = new HSSFWorkbook();
 		    	HSSFSheet sheet = workbook.getSheet("sample");
-//		    	workbook.cloneSheet(1);
 //		    	os = new FileOutputStream(filePath + "page/"+ name); 
 				//输出title
 				//writeTitle(sheet, workbook);
@@ -147,6 +137,9 @@ public class PoiAccountCGDlist extends Poi2007Base {
 			rate = new BigDecimal(str_rate);
 			rate100 = rate.multiply(new BigDecimal(100));
 		}		
+		//用友账套序号
+		String str_accountno = dictMap.get(Constants.DICT_ACCOUNTNO1);
+
 		for(int i = 0; i < datas.size(); i++) {
 			warehouserpt = (WarehouserptDto) datas.get(i);
 			//对货物数据解析
@@ -258,7 +251,7 @@ public class PoiAccountCGDlist extends Poi2007Base {
 			// 订单编号	
 				// get CKD account no
 //				cell1.setCellValue(warehouserpt.getCKG_No());
-				cell1.setCellValue("123");
+				cell1.setCellValue(String.format("%09d", Integer.valueOf(str_accountno)));
 				cell1.setCellStyle(style);
 			// 订单日期	客户要求使用创建日期
 		        //SimpleDateFormatクラスでフォーマットパターンを設定する
