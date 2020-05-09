@@ -613,7 +613,7 @@
 				</div>
 				<div class="trade">
 					<table cellpadding="10" style="margin:0 auto;">
-						<tr>
+						<!-- Pei comment out 2020.05.09 <tr>
 							<td align="right">
 								<label class="pdf10">用友单号（上海贸易）</label>
 							</td>
@@ -644,7 +644,7 @@
 							</td>
 							<td>
 							</td>
-						</tr>					
+						</tr>	-->				
 						<tr>
 							<td>
 								<div class="btn">
@@ -687,7 +687,7 @@
 										<div class="box1_right"></div>
 									</div>
 								</td>
-							<td>
+							<!-- Pei comment out 2020.05.09 <td>
 								<div class="btn">
 									<div class="box1_left"></div>
 									<div class="box1_center">
@@ -695,7 +695,7 @@
 									</div>
 									<div class="box1_right"></div>
 								</div>
-							</td>
+							</td> -->
 							<td>
 								<div class="btn">
 									<div class="box1_left"></div>

@@ -571,7 +571,7 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 								}
 								pp.setRes09(res09);
 								
-								pp.setShownum("" + basen);
+								pp.setShownum("" + nn.multiply(new BigDecimal(-1)).add(basen));
 								
 								pp.setNum("" + nn.add(n));
 								pp.setAmount("" + aa.add(a));
