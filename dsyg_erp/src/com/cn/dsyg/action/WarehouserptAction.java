@@ -21,6 +21,7 @@ import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.dto.UserDto;
+import com.cn.dsyg.dto.WarehouseDto;
 import com.cn.dsyg.dto.WarehouserptDto;
 import com.cn.dsyg.dto.WarehouserptHistDto;
 import com.cn.dsyg.service.Dict01Service;
@@ -28,6 +29,7 @@ import com.cn.dsyg.service.ProductService;
 import com.cn.dsyg.service.PurchaseItemService;
 import com.cn.dsyg.service.PurchaseService;
 import com.cn.dsyg.service.UserService;
+import com.cn.dsyg.service.WarehouseService;
 import com.cn.dsyg.service.WarehouserptHistService;
 import com.cn.dsyg.service.WarehouserptService;
 import com.opensymphony.xwork2.ActionContext;
@@ -44,6 +46,7 @@ public class WarehouserptAction extends BaseAction {
 	private static final Logger log = LogManager.getLogger(WarehouserptAction.class);
 	
 	private WarehouserptService warehouserptService;
+	private WarehouseService warehouseService;
 	private PurchaseService purchaseService;
 	private PurchaseItemService purchaseItemService;
 	private Dict01Service dict01Service;
@@ -604,6 +607,7 @@ public class WarehouserptAction extends BaseAction {
 			//根据条件查询出库单列表
 			List<WarehouserptDto> list = warehouserptService.queryWarehouserptByCondition(strNo, "", "" + Constants.WAREHOUSE_TYPE_OUT, "", "", "", "", "", "", "",
 					strSuppliername, strWarehouseno, strCreatedateLow, strCreatedateHigh);
+			List<WarehouserptDto> list2 = new ArrayList<WarehouserptDto>();
 			
 			//字典数据组织个MAP
 			Map<String, String> dictMap = new HashMap<String, String>();
@@ -635,10 +639,31 @@ public class WarehouserptAction extends BaseAction {
 			response.setContentType("application/vnd.ms-excel");
 			Poi2007Base base = PoiFactory.getPoi(exceltype);
 			
-			base.setDatas(list);
+// 			set output necessary info into list   20200523 pei
+			WarehouserptDto warehouserpt = new WarehouserptDto(); 
+			WarehouseDto warehouse = new WarehouseDto();
+			if(list != null && list.size() > 0) {
+				//对warehouse record数据解析
+				for(int i = 0; i < list.size(); i++) {
+					warehouserpt = list.get(i);
+					String theme2buf = "";
+					String[] parentidlst = warehouserpt.getParentid().split(",");
+					if (parentidlst !=null && parentidlst.length > 0){
+						for (int j = 0; j < parentidlst.length; j++){
+							warehouse = warehouseService.queryWarehouseByWarehouseno(parentidlst[j]);
+							if (warehouse!= null) {
+								theme2buf += warehouse.getTheme2()+",";
+							}
+						}
+						warehouserpt.setRes06(theme2buf);
+					}
+					list2.add(warehouserpt);					
+				}
+			}					
+			base.setDatas(list2);
 			base.setSheetName(exceltype);
 			base.setDictMap(dictMap);
-			base.exportExcel(response.getOutputStream());
+			base.exportExcel(response.getOutputStream());				
 		} catch(Exception e) {
 			log.error("exportWarehouserptOutAllListAction error:" + e);
 			return ERROR;
@@ -1273,6 +1298,16 @@ public class WarehouserptAction extends BaseAction {
 	
 	public String getStrAccountNo1() {
 		return strAccountNo1;
+	}
+	
+
+	public WarehouseService getWarehouseService() {
+		return warehouseService;
+	}
+
+
+	public void setWarehouseService(WarehouseService warehouseService) {
+		this.warehouseService = warehouseService;
 	}
 
 

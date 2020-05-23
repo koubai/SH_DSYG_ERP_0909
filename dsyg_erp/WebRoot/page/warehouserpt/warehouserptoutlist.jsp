@@ -116,6 +116,11 @@
 	
 	//导出库清单
 	function exportWarehouseList() {
+		var totalCount = "${page.totalCount}";
+		if (totalCount > 200){
+			alert("超过200条出库单记录了！");
+			return;
+		}	
 		document.mainform.action = '../warehouserpt/exportWarehouserptOutAllListAction.action';
 		document.mainform.submit();
 	}

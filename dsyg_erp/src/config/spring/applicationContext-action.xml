@@ -399,6 +399,9 @@
 		<property name="warehouserptHistService">
 			<ref bean="warehouserptHistService"/>
 		</property>
+		<property name="warehouseService">
+			<ref bean="warehouseService"/>
+		</property>
 	</bean>
 	
 	<!-- Product -->
