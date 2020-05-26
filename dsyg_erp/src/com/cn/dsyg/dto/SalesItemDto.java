@@ -220,7 +220,7 @@ public class SalesItemDto extends BaseAction {
 	private String res08;
 
 	/**
-	 * 预备项目9
+	 * 预备项目9   特殊订单号
 	 */
 	private String res09;
 

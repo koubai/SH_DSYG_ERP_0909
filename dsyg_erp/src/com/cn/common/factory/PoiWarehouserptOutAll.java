@@ -117,6 +117,10 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 				String[] theme2lst = null;
 				if (warehouserpt.getRes06() != null)
 					theme2lst = warehouserpt.getRes06().split(",");
+				//对特殊订单号解析
+				String[] res09lst = null;
+				if (warehouserpt.getRes07() != null)
+					res09lst = warehouserpt.getRes07().split(",");
 				
 				if (orgSuppliername != null && !orgSuppliername.equals(warehouserpt.getSuppliername()))
 					Suppliernameflg = false;
@@ -163,12 +167,15 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 					cell5.setCellStyle(style);
 					cell5.setCellValue(dictMap.get(Constants.DICT_COLOR_TYPE + "_" + product.getColor()));
 
-// as user requirement change 包装 to 备注号        20200523 pei 
+// as user requirement change 包装 to 特殊订单号        20200523 pei 
 //					//包装
 //					cell6.setCellStyle(style);
 //					cell6.setCellValue(product.getItem10());
 					cell6.setCellStyle(style);
-					cell6.setCellValue(warehouserpt.getNote());
+					if (res09lst[j] == null || res09lst[j].equals(""))
+						cell6.setCellValue("");
+					else
+						cell6.setCellValue(res09lst[j]);
 					
 					//数量
 					cell7.setCellStyle(style);

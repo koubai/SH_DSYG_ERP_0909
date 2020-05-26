@@ -647,15 +647,21 @@ public class WarehouserptAction extends BaseAction {
 				for(int i = 0; i < list.size(); i++) {
 					warehouserpt = list.get(i);
 					String theme2buf = "";
+					String res09buf = "";
 					String[] parentidlst = warehouserpt.getParentid().split(",");
 					if (parentidlst !=null && parentidlst.length > 0){
 						for (int j = 0; j < parentidlst.length; j++){
 							warehouse = warehouseService.queryWarehouseByWarehouseno(parentidlst[j]);
 							if (warehouse!= null) {
 								theme2buf += warehouse.getTheme2()+",";
+								if (warehouse.getRes09()== null || warehouse.getRes09().equals(""))
+									res09buf += " ,";
+								else
+									res09buf += warehouse.getRes09()+",";
 							}
 						}
 						warehouserpt.setRes06(theme2buf);
+						warehouserpt.setRes07(res09buf);
 					}
 					list2.add(warehouserpt);					
 				}

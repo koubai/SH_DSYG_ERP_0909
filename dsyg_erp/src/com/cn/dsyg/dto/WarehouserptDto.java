@@ -263,7 +263,7 @@ public class WarehouserptDto extends BaseAction {
 	private String res06;
 
 	/**
-	 * 预备项目7
+	 * 预备项目7	   (产品备注配列)
 	 */
 	private String res07;
 
