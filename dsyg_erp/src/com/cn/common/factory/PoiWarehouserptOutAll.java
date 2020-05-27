@@ -114,13 +114,13 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 			warehouserpt = (WarehouserptDto) datas.get(i);
 			if(warehouserpt.getListProduct() != null && warehouserpt.getListProduct().size() > 0) {
 				//对货物数据解析
-				String[] theme2lst = null;
-				if (warehouserpt.getRes06() != null)
-					theme2lst = warehouserpt.getRes06().split(",");
+//				String[] theme2lst = null;
+//				if (warehouserpt.getRes06() != null)
+//					theme2lst = warehouserpt.getRes06().split(",");
 				//对特殊订单号解析
-				String[] res09lst = null;
-				if (warehouserpt.getRes07() != null)
-					res09lst = warehouserpt.getRes07().split(",");
+//				String[] res09lst = null;
+//				if (warehouserpt.getRes07() != null)
+//					res09lst = warehouserpt.getRes07().split(",");
 				
 				if (orgSuppliername != null && !orgSuppliername.equals(warehouserpt.getSuppliername()))
 					Suppliernameflg = false;
@@ -154,7 +154,7 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 //					cell2.setCellValue(warehouserpt.getSuppliername());
 //					cell2.setCellStyle(style);
 					// 订单号
-					cell2.setCellValue(theme2lst[j]);
+					cell2.setCellValue(product.getRes10());
 					cell2.setCellStyle(style);
 					
 					//品名
@@ -172,11 +172,12 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 //					cell6.setCellStyle(style);
 //					cell6.setCellValue(product.getItem10());
 					cell6.setCellStyle(style);
-					if (res09lst[j] == null || res09lst[j].equals(""))
+					cell6.setCellValue(product.getRes09());
+/*					if (res09lst[j] == null || res09lst[j].equals(""))
 						cell6.setCellValue("");
 					else
 						cell6.setCellValue(res09lst[j]);
-					
+*/					
 					//数量
 					cell7.setCellStyle(style);
 					BigDecimal n = null;

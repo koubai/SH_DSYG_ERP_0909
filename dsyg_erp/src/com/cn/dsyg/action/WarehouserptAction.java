@@ -607,7 +607,7 @@ public class WarehouserptAction extends BaseAction {
 			//根据条件查询出库单列表
 			List<WarehouserptDto> list = warehouserptService.queryWarehouserptByCondition(strNo, "", "" + Constants.WAREHOUSE_TYPE_OUT, "", "", "", "", "", "", "",
 					strSuppliername, strWarehouseno, strCreatedateLow, strCreatedateHigh);
-			List<WarehouserptDto> list2 = new ArrayList<WarehouserptDto>();
+//			List<WarehouserptDto> list2 = new ArrayList<WarehouserptDto>();
 			
 			//字典数据组织个MAP
 			Map<String, String> dictMap = new HashMap<String, String>();
@@ -640,10 +640,9 @@ public class WarehouserptAction extends BaseAction {
 			Poi2007Base base = PoiFactory.getPoi(exceltype);
 			
 // 			set output necessary info into list   20200523 pei
-			WarehouserptDto warehouserpt = new WarehouserptDto(); 
+/*			WarehouserptDto warehouserpt = new WarehouserptDto(); 
 			WarehouseDto warehouse = new WarehouseDto();
 			if(list != null && list.size() > 0) {
-				//对warehouse record数据解析
 				for(int i = 0; i < list.size(); i++) {
 					warehouserpt = list.get(i);
 					String theme2buf = "";
@@ -665,8 +664,10 @@ public class WarehouserptAction extends BaseAction {
 					}
 					list2.add(warehouserpt);					
 				}
-			}					
+			}
 			base.setDatas(list2);
+*/					
+			base.setDatas(list);
 			base.setSheetName(exceltype);
 			base.setDictMap(dictMap);
 			base.exportExcel(response.getOutputStream());				

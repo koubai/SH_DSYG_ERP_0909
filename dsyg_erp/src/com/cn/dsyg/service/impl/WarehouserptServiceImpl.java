@@ -751,6 +751,8 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 								product.setUnitprice(warehouseDto.getUnitprice().toString());
 								//含税金额
 								product.setRes06(warehouseDto.getTaxamount().toString());
+								//RES10 订单号
+								product.setRes10(StringUtil.getStr(warehouseDto.getTheme2()));
 							}
 							
 							boolean isInlist = false;
@@ -825,6 +827,8 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 								product.setUnitprice(ww.getUnitprice().toString());
 								//含税金额
 								product.setRes06(ww.getTaxamount().toString());
+								//RES10 订单号
+								product.setRes10(StringUtil.getStr(ww.getTheme2()));
 								int index = 0;
 								for (int j = 0; j < list.size(); j++) { 
 									if(list.get(j).getId() == Long.parseLong(ww.getProductid())){
