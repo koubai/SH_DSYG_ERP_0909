@@ -227,17 +227,23 @@ public class FinanceServiceImpl implements FinanceService {
 	@Override
 	public String queryInvoiceTotalAmount(String expressno, String status, String financetype, String invoiceid,
 			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh, String billno,
-			String res02, String expressName) {
+			String res02, String expressName, String invoiceddsp_flg) {
 		expressName = StringUtil.replaceDatabaseKeyword_mysql(expressName);
 		expressno = StringUtil.replaceDatabaseKeyword_mysql(expressno);
 		invoiceid = StringUtil.replaceDatabaseKeyword_mysql(invoiceid);
 		receiptid = StringUtil.replaceDatabaseKeyword_mysql(receiptid);
 		billno = StringUtil.replaceDatabaseKeyword_mysql(billno);
 		
+		invoiceddsp_flg = StringUtil.replaceDatabaseKeyword_mysql(invoiceddsp_flg);
+		
+		String nostatus="";
+		
+		if (invoiceddsp_flg.equals("0"))
+			nostatus = "99";		
 		//查询财务记录
 		BigDecimal totalInvoiceAmount = new BigDecimal(0);
 		List<FinanceDto> financeList = financeDao.queryAllFinance(expressno, status, financetype, invoiceid, receiptid,
-				customerid, receiptdateLow, receiptdateHigh, billno, res02, expressName);
+				customerid, receiptdateLow, receiptdateHigh, billno, res02, expressName, nostatus);
 		if(financeList != null && financeList.size() > 0) {
 			Map<String, String> financeMap = new HashMap<String, String>();
 			for(FinanceDto finance : financeList) {
@@ -267,17 +273,22 @@ public class FinanceServiceImpl implements FinanceService {
 	@Override
 	public String  queryFinanceTotalAmount(String expressno, String status, String financetype,
 			String invoiceid, String receiptid, String customerid,
-			String receiptdateLow, String receiptdateHigh, String billno, String res02, String expressName) {
+			String receiptdateLow, String receiptdateHigh, String billno, String res02, String expressName, String invoiceddsp_flg) {
 		expressName = StringUtil.replaceDatabaseKeyword_mysql(expressName);
 		expressno = StringUtil.replaceDatabaseKeyword_mysql(expressno);
 		invoiceid = StringUtil.replaceDatabaseKeyword_mysql(invoiceid);
 		receiptid = StringUtil.replaceDatabaseKeyword_mysql(receiptid);
 		billno = StringUtil.replaceDatabaseKeyword_mysql(billno);
+		invoiceddsp_flg = StringUtil.replaceDatabaseKeyword_mysql(invoiceddsp_flg);
 		
+		String nostatus="";
+		
+		if (invoiceddsp_flg.equals("0"))
+			nostatus = "99";		
 		//查询记录
 		Double dblTotalAmount;
 		dblTotalAmount = financeDao.queryFinance(expressno, status, financetype, invoiceid, receiptid,
-				customerid, receiptdateLow, receiptdateHigh, billno, res02, expressName);
+				customerid, receiptdateLow, receiptdateHigh, billno, res02, expressName, nostatus);
 		if (dblTotalAmount == null)
 			dblTotalAmount = new Double(0);
 		BigDecimal bdamount = new BigDecimal(Double.toString(dblTotalAmount));  

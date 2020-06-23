@@ -86,7 +86,7 @@ public interface FinanceService {
 	 * @return
 	 */
 	public String queryFinanceTotalAmount(String expressno, String status, String financetype, String invoiceid,
-			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh, String billno, String res02, String expressName);
+			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh, String billno, String res02, String expressName,String strInvoiceddsp_flg);
 	
 	/**
 	 * 查询已开票金额信息
@@ -104,7 +104,7 @@ public interface FinanceService {
 	 * @return
 	 */
 	public String queryInvoiceTotalAmount(String expressno, String status, String financetype, String invoiceid,
-			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh, String billno, String res02, String expressName);
+			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh, String billno, String res02, String expressName, String strInvoiceddsp_flg);
 
 	/**
 	 * 根据ID查询记录

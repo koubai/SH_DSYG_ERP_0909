@@ -138,6 +138,13 @@ public interface WarehouserptService {
 	public WarehouserptDto queryWarehouserptInterByID(String id);
 	
 	/**
+	 * 根据ID查询数据
+	 * @param id
+	 * @return
+	 */
+	public WarehouserptDto queryWarehouserptInterByID2(String id);
+	
+	/**
 	 * 新增数据
 	 * @param warehouserpt
 	 */

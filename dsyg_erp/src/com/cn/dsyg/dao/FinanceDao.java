@@ -67,11 +67,12 @@ public interface FinanceDao {
 	 * @param billno
 	 * @param res02
 	 * @param expressName
+	 * @param nostatus
 	 * @return
 	 */
 	public List<FinanceDto> queryAllFinance(String expressno, String status, String financetype, String invoiceid,
 			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh,
-			String billno, String res02, String expressName);
+			String billno, String res02, String expressName, String nostatus);
 	
 	/**
 	 * 查询财务金额信息
@@ -86,11 +87,12 @@ public interface FinanceDao {
 	 * @param billno
 	 * @param res02
 	 * @param expressName
+	 * @param nostatus
 	 * @return
 	 */
 	public Double queryFinance(String expressno, String status, String financetype, String invoiceid,
 			String receiptid, String customerid, String receiptdateLow, String receiptdateHigh,
-			String billno, String res02, String expressName);
+			String billno, String res02, String expressName, String nostatus);
 	
 	/**
 	 * 查询已开票金额

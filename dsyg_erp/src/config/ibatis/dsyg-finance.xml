@@ -106,6 +106,9 @@
 		<isNotEmpty prepend="and" property="customername">
 			T.customername like '%$customername$%' ESCAPE '/'
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="nostatus">
+			T.status != #nostatus#
+		</isNotEmpty>
 		order by T.updatedate desc,T.id desc
 	</select>
 	
@@ -252,6 +255,9 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="customername">
 			T.customername like '%$customername$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="nostatus">
+			T.status != #nostatus#
 		</isNotEmpty>
 	</select>
 	

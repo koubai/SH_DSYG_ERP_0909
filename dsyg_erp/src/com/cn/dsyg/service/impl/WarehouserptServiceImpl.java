@@ -318,7 +318,7 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 		}
 		if(listAll != null && listAll.size() > 0) {
 			for(WarehouserptDto rpt : listAll) {
-				list.add(queryWarehouserptInterByID("" + rpt.getId()));
+				list.add(queryWarehouserptInterByID2("" + rpt.getId()));
 			}
 		}
 		return list;
@@ -875,6 +875,162 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 		return rpt;
 	}
 
+	
+	@Override
+	public WarehouserptDto queryWarehouserptInterByID2(String id) {
+		WarehouserptDto rpt = warehouserptDao.queryWarehouserptByID(id);
+		if(rpt != null) {
+			//TODO
+			WarehouseDto warehouseDto = null;
+			//查询对应的库存记录列表
+			if(StringUtil.isNotBlank(rpt.getProductinfo()) && StringUtil.isNotBlank(rpt.getParentid())
+					&& (rpt.getParentid().split(",").length == rpt.getProductinfo().split("#").length)) {
+				List<ProductDto> list = new ArrayList<ProductDto>();
+				String[] infos = rpt.getProductinfo().split("#");
+				String[] parentids = rpt.getParentid().split(",");;
+				for(int i = 0; i < infos.length; i++) {
+					if(StringUtil.isNotBlank(infos[i])) {
+						String[] ll = infos[i].split(",");
+						ProductDto product = productDao.queryProductByID(ll[0]);
+						if(product != null) {
+							//库存表含税单价
+							if(parentids.length > i) {
+								//根据父ID查询库存记录
+								warehouseDto = warehouseDao.queryWarehouseByWarehouseno(parentids[i]);
+								product.setWarehousetaxprice(warehouseDto.getRes02());
+								//非含税单价
+								product.setUnitprice(warehouseDto.getUnitprice().toString());
+								//含税金额
+								product.setRes06(warehouseDto.getTaxamount().toString());
+								//RES10 订单号
+								product.setRes10(StringUtil.getStr(warehouseDto.getTheme2()));
+							}
+							
+							boolean isInlist = false;
+							int index = 0;
+							for (int j = 0; j < list.size(); j++) { 
+								if(list.get(j).getId() == Long.parseLong(ll[0])&&
+										list.get(j).getUnitprice().equals(product.getUnitprice())&&
+										list.get(j).getRes10().equals(product.getRes10())){
+									isInlist = true;
+									index = j;
+								}
+							}
+							if(isInlist){
+								//货物数量
+								BigDecimal num = new BigDecimal(list.get(index).getNum());
+								BigDecimal num_new = new BigDecimal(ll[1]);
+								list.get(index).setNum(num.add(num_new).toString());
+								//list.get(index).setNum(String.valueOf(Integer.parseInt(list.get(index).getNum()) + Integer.parseInt(ll[1])));
+								//货物金额
+								list.get(index).setAmount(String.valueOf(Double.parseDouble(list.get(index).getAmount()) + Double.parseDouble(ll[2])));
+								//RES09 特殊订单号
+								if (ll.length > 3){	
+									if (StringUtil.isNotBlank(ll[3]))
+										list.get(index).setRes09(ll[3]);
+								}
+								//税后单价
+//								if (ll.length > 4){	
+//									if (StringUtil.isNotBlank(ll[4]))
+//										product.setRes09(ll[4]);
+//								}
+							} else {
+								//货物数量
+								product.setNum(ll[1]);
+								//货物金额
+								product.setAmount(ll[2]);
+								//RES09 特殊订单号
+								if (ll.length > 3){	
+									if (StringUtil.isNotBlank(ll[3]))
+										product.setRes09(ll[3]);
+								}
+								//税后单价
+//								if (ll.length > 4){	
+//									if (StringUtil.isNotBlank(ll[4]))
+//										product.setRes09(ll[4]);
+//								}
+								product.setHasbroken("0");
+								product.setBrokennum("0");
+								list.add(product);
+							}
+						}
+					}
+				}
+				Collections.sort(list, new Comparator<ProductDto>(){
+					public int compare(ProductDto a, ProductDto b){
+						return a.getTradename().compareTo(b.getTradename());
+					}
+				});
+				rpt.setListProduct(list);
+			} else {
+				//根据父单号查询
+				List<ProductDto> list = new ArrayList<ProductDto>();
+				String[] parents = rpt.getParentid().split(",");
+				WarehouseDto ww = null;
+				for(int i = 0; i < parents.length; i++) {
+					if(StringUtil.isNotBlank(parents[i])) {
+						ww = warehouseDao.queryWarehouseByWarehouseno(parents[i]);
+						if(ww != null) {
+							ProductDto product = productDao.queryProductByID(ww.getProductid());
+							if(product != null) {
+								boolean isInlist = false;
+								//库存表含税单价
+								product.setWarehousetaxprice(ww.getRes02());
+								//非含税单价
+								product.setUnitprice(ww.getUnitprice().toString());
+								//含税金额
+								product.setRes06(ww.getTaxamount().toString());
+								//RES10 订单号
+								product.setRes10(StringUtil.getStr(ww.getTheme2()));
+								int index = 0;
+								for (int j = 0; j < list.size(); j++) { 
+									if(list.get(j).getId() == Long.parseLong(ww.getProductid())&&
+											list.get(j).getUnitprice().equals(product.getUnitprice())&&
+											list.get(j).getRes10().equals(product.getRes10())){
+										isInlist = true;
+										index = j;
+									}
+								}
+								if(isInlist) {
+									//货物数量
+									BigDecimal num = new BigDecimal(list.get(index).getNum());
+									BigDecimal num_new = ww.getQuantity();
+									list.get(index).setNum(num.add(num_new).toString());
+									//list.get(index).setNum(String.valueOf(Integer.parseInt(list.get(index).getNum()) + Integer.parseInt(ll[1])));
+									//货物金额
+									list.get(index).setAmount(String.valueOf(Double.parseDouble(list.get(index).getAmount()) + Double.parseDouble("" + ww.getTaxamount())));
+									//RES09 特殊订单号
+									list.get(index).setRes09(StringUtil.getStr(ww.getRes09()));
+								} else {
+									//货物数量
+									product.setNum("" + ww.getQuantity());
+									//货物金额
+									product.setAmount("" + ww.getTaxamount());
+									//RES09 特殊订单号
+									product.setRes09(StringUtil.getStr(ww.getRes09()));
+									//税后单价
+									product.setHasbroken("0");
+									product.setBrokennum("0");
+									list.add(product);
+								}
+							}
+						} else {
+							//由于库存记录不存在（这里是因为双浏览器操作导致库存记录消失），这里就什么都不做。
+						}
+					}
+				}
+				Collections.sort(list, new Comparator<ProductDto>(){
+					public int compare(ProductDto a, ProductDto b){
+						return a.getTradename().compareTo(b.getTradename());
+					}
+				});
+				rpt.setListProduct(list);
+			}
+		}
+		return rpt;
+	}
+	
+	
 	@Override
 	public void insertWarehouserpt(WarehouserptDto warehouserpt) {
 		warehouserptDao.insertWarehouserpt(warehouserpt);
