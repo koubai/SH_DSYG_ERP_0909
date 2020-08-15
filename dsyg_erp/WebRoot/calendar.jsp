@@ -20,8 +20,8 @@
 .sub_btn{height:32px; line-height:32px; padding-top:6px; border-top:1px solid #f0f0f0; text-align:right; position:relative}
 .sub_btn .del{position:absolute; left:2px}
 </style>
-<script src='http://code.jquery.com/jquery-1.9.1.js'></script>
-<script src='http://code.jquery.com/ui/1.10.3/jquery-ui.js'></script>
+<script src='<%=request.getContextPath()%>/js/jquery-1.9.1.js'></script>
+<script src='<%=request.getContextPath()%>/js/jquery-ui.js'></script>
 <script src='<%=request.getContextPath()%>/js/fullcalendar.min.js'></script>
 <script src='<%=request.getContextPath()%>/js/jquery.fancybox-1.3.1.pack.js'></script>
 

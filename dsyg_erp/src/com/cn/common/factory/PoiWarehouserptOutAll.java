@@ -91,6 +91,12 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 	public void writeData(XSSFSheet sheet, XSSFWorkbook workbook) {
 		XSSFRow row = null;
 		WarehouserptDto warehouserpt = new WarehouserptDto();
+
+		//Head部分颜色字体
+		XSSFFont font = workbook.createFont();
+		//字体大小
+		font.setFontHeightInPoints((short)14);
+		
 		//式样
 		XSSFCellStyle style = workbook.createCellStyle();
 		//水平居中
@@ -100,6 +106,8 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 		style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
 		style.setBorderTop(HSSFCellStyle.BORDER_THIN);
 		style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+		style.setFont(font);
+
 
 		//添加数据
 		int num = 0;
@@ -252,29 +260,36 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 	public void writeHead(XSSFSheet sheet, XSSFWorkbook workbook) {
 		heads = new ArrayList<String>();
 		heads.add("编号");
-		sheet.setColumnWidth(0, 6 * 256);
+//		sheet.setColumnWidth(0, 6 * 256);
+		sheet.setColumnWidth(0, 7 * 256);
 		heads.add("出库单号");
-		sheet.setColumnWidth(1, 16 * 256);
+//		sheet.setColumnWidth(1, 16 * 256);
+		sheet.setColumnWidth(1, 18 * 256);
 //		heads.add("客户");
 		heads.add("订单号");
-		sheet.setColumnWidth(2, 30 * 256);
+//		sheet.setColumnWidth(2, 30 * 256);
+		sheet.setColumnWidth(2, 28 * 256);
 		heads.add("品名");
-		sheet.setColumnWidth(3, 25 * 256);
+//		sheet.setColumnWidth(3, 25 * 256);
+		sheet.setColumnWidth(3, 22 * 256);
 		heads.add("规格");
 		sheet.setColumnWidth(4, 35 * 256);
 		heads.add("颜色");
 		sheet.setColumnWidth(5, 12 * 256);
 //		heads.add("包装");
 		heads.add("备注");
-		sheet.setColumnWidth(6, 20 * 256);
+//		sheet.setColumnWidth(6, 20 * 256);
+		sheet.setColumnWidth(6, 18 * 256);
 		heads.add("数量");
 		sheet.setColumnWidth(7, 15 * 256);
 		heads.add("含税单价");
-		sheet.setColumnWidth(8, 15 * 256);
+//		sheet.setColumnWidth(8, 15 * 256);
+		sheet.setColumnWidth(8, 16 * 256);
 		heads.add("金额");
 		sheet.setColumnWidth(9, 15 * 256);
 		//heads.add("发货日期");
 		heads.add("创建日期");
+//		sheet.setColumnWidth(10, 16 * 256);
 		sheet.setColumnWidth(10, 16 * 256);
 		
 		//Head部分颜色字体
@@ -282,7 +297,8 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 		//加粗
 		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 		//字体大小
-		font.setFontHeightInPoints((short)12);
+	//	font.setFontHeightInPoints((short)12);
+		font.setFontHeightInPoints((short)14);
 		
 		//式样
 		XSSFCellStyle style = workbook.createCellStyle();
