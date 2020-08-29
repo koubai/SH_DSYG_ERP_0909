@@ -270,6 +270,7 @@
 								-->
 								<td width="120">快递公司</td>
 								<td width="80">快递费</td>
+								<td width="80">快递费比例</td>
 							</tr>
 							<s:iterator id="warehouserptList" value="warehouserptList" status="st1">
 								<s:if test="#st1.odd==true">
@@ -333,6 +334,16 @@
 									<s:else>
 										<td align="right">
 											<s:property value="expresstaxamount"/>
+										</td>
+									</s:else>
+									<s:if test="expresstaxrate != null">
+										<td align="right" >
+											<s:property value="expresstaxrate"/> % 
+										</td>
+									</s:if>
+									<s:else>
+										<td align="right">
+											<s:property value=""/>
 										</td>
 									</s:else>
 								</tr>

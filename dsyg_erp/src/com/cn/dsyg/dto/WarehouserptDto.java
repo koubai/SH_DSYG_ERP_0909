@@ -187,7 +187,13 @@ public class WarehouserptDto extends BaseAction {
 	 * 快递金额(含税)
 	 */
 	private BigDecimal expresstaxamount;
+	
+	/**
+	 * 快递费比例(含税)
+	 */
+	private BigDecimal expresstaxrate;
 
+	
 	/**
 	 * 快递备注
 	 */
@@ -820,4 +826,18 @@ public class WarehouserptDto extends BaseAction {
 	public void setRptlogCount(int rptlogCount) {
 		this.rptlogCount = rptlogCount;
 	}
+	
+	public BigDecimal getExpresstaxrate() {
+		if (getExpresstaxamount() != null && getTotaltaxamount()!=null && !getTotaltaxamount().equals(BigDecimal.ZERO))
+			expresstaxrate = getExpresstaxamount().multiply(new BigDecimal(100)).divide(getTotaltaxamount(),2, BigDecimal.ROUND_HALF_UP);
+		else 
+			expresstaxrate = null;
+		return expresstaxrate;
+	}
+
+	public void setExpresstaxrate(BigDecimal expresstaxrate) {
+		this.expresstaxrate = expresstaxrate;
+	}
+
+
 }

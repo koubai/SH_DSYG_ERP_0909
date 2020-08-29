@@ -29,6 +29,41 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void writeTitle(XSSFSheet sheet, XSSFWorkbook workbook) {
+		XSSFFont font1 = workbook.createFont();
+		//加粗
+		font1.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		//字体大小
+		font1.setFontHeightInPoints((short)20);
+				
+		XSSFRow row = sheet.createRow(0);
+		//合并单元格
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 4, 7));
+		XSSFCell cell = row.createCell(4);
+		cell.setCellValue("上海东升盈港对账明细");
+		//式样
+		XSSFCellStyle style = workbook.createCellStyle();
+		//水平居中
+		style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		style.setFont(font1);
+		cell.setCellStyle(style);
+		
+		writeTitle_sub(sheet, workbook);
+	}
+				
+	public void writeTitle_sub(XSSFSheet sheet, XSSFWorkbook workbook) {		
+		XSSFFont font = workbook.createFont();
+		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		font.setFontHeightInPoints((short)12);
+		XSSFRow row = sheet.createRow(1);
+		//合并单元格
+		sheet.addMergedRegion(new CellRangeAddress(1, 1, 4, 7));
+		XSSFCell cell = row.createCell(4);
+		cell.setCellValue("地址：上海市杨浦区控江路760号                                       联系电话：021-65388038");
+		XSSFCellStyle style = workbook.createCellStyle();
+		//水平居中
+		style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		style.setFont(font);
+		cell.setCellStyle(style);	
 	}
 	
 	/**
@@ -42,13 +77,17 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 		//加粗
 		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 		//字体大小
-		font.setFontHeightInPoints((short)18);
+// 20200829 用户要求修改 title Pei		
+//		font.setFontHeightInPoints((short)18);
+		font.setFontHeightInPoints((short)15);
 				
 		XSSFRow row = sheet.createRow(2);
 		//合并单元格
-		sheet.addMergedRegion(new CellRangeAddress(3, 3, 4, 5));
+		sheet.addMergedRegion(new CellRangeAddress(2, 2, 4, 7));
 		XSSFCell cell = row.createCell(4);
-		cell.setCellValue("东升盈港发货明细");
+// 20200829 用户要求修改 title Pei		
+//		cell.setCellValue("东升盈港发货明细");
+		cell.setCellValue("");
 		//式样
 		XSSFCellStyle style = workbook.createCellStyle();
 		//水平居中
@@ -68,13 +107,17 @@ public class PoiWarehouserptOutAll extends Poi2007Base {
 		//加粗
 		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 		//字体大小
-		font.setFontHeightInPoints((short)18);
+		// 20200829 用户要求修改 title Pei		
+//		font.setFontHeightInPoints((short)18);
+		font.setFontHeightInPoints((short)15);
 				
 		XSSFRow row = sheet.createRow(2);
 		//合并单元格
-		sheet.addMergedRegion(new CellRangeAddress(3, 3, 4, 5));
+		sheet.addMergedRegion(new CellRangeAddress(2, 2, 4, 7));
 		XSSFCell cell = row.createCell(4);
-		cell.setCellValue(title + "发货明细");
+// 20200829 用户要求修改 title Pei		
+//		cell.setCellValue(title + "发货明细");
+		cell.setCellValue(title + "");
 		//式样
 		XSSFCellStyle style = workbook.createCellStyle();
 		//水平居中

@@ -473,6 +473,9 @@
 									<s:textfield name="updWarehouserptDto.expresstaxamount" id="expresstaxamount" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
+								<s:if test='updWarehouserptDto.expresstaxrate != null'>
+									&nbsp;<s:property value="updWarehouserptDto.expresstaxrate" />&nbsp;%
+								</s:if>
 							</td>
 						</tr>
 						<tr>
