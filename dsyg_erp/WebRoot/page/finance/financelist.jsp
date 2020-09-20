@@ -724,9 +724,12 @@
 										<td align="right"><s:property value="amount"/></td>
 										<td align="right"><s:property value="preinvoiceAmount"/></td>
 										
-										<s:if test="amount > invoiceAmount">
+										<s:if test="amount > 0 && amount > invoiceAmount">
 											<td align="right" style="background-color: yellow;">
 										</s:if>
+										<s:elseif test="amount < 0 && invoiceAmount == null">
+											<td align="right" style="background-color: yellow;">
+										</s:elseif>
 										<s:elseif test="amount > 0 && amount < invoiceAmount">
 											<td align="right" style="background-color: red;">
 										</s:elseif>
