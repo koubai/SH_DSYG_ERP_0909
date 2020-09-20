@@ -113,7 +113,7 @@
 	</select>
 	
 	<select id="queryFinanceByPage" parameterClass="java.util.Map" resultMap="FinanceDto">
-		select T.* from etb_finance T where 1 = 1
+		select T.* , IF((ISNULL(T.res10) or (T.res10="") and not(T.amount = 0)),"0","1") kpflg from etb_finance T where 1 = 1
 		<isNotEmpty prepend="and" property="status">
 			T.status = #status#
 		</isNotEmpty>
@@ -150,7 +150,7 @@
 		<isNotEmpty prepend="and" property="nostatus">
 			T.status != #nostatus#
 		</isNotEmpty>
-		order by T.updatedate desc,T.id desc
+		order by kpflg asc, T.accountdate desc, T.id desc
 		LIMIT #start#, #end#
 	</select>
 	
