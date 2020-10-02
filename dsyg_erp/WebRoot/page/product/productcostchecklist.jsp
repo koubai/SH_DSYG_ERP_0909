@@ -206,7 +206,7 @@
 											</s:if>
 										</s:iterator>
 									</td>									
-									<td align="right"><fmt:formatNumber value="${productcost}" pattern="#0.000000" /></td>
+									<td align="right"><fmt:formatNumber value="${productcost}" pattern="#0.00000000" /></td>
 									<td>
 									</td>
 								</tr>

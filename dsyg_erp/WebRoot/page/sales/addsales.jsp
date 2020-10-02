@@ -257,12 +257,12 @@
 		if(type == "6") {
 			//计算未税单价
 			price = parseFloat(taxprices) / (1 + rate);
-			tds[16].getElementsByTagName("input")[0].value = price.toFixed(6);
+			tds[16].getElementsByTagName("input")[0].value = price.toFixed(8);
 		}
 		if(type == "4") {
 			//计算含税单价
 			taxprices = parseFloat(price) * (1 + rate);
-			tds[17].getElementsByTagName("input")[0].value = taxprices.toFixed(6);
+			tds[17].getElementsByTagName("input")[0].value = taxprices.toFixed(8);
 		}
 		
 		//已出库数量
@@ -1327,10 +1327,10 @@
 														</select>
 													</td>
 													<td align="right">
-														<input type="text" style="width: 80px;" id="tmpUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '4');" maxlength="17" value="<s:property value="unitprice"/>"/>
+														<input type="text" style="width: 80px;" id="tmpUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '4');" maxlength="20" value="<s:property value="unitprice"/>"/>
 													</td>
 													<td align="right">
-														<input type="text" style="width: 80px;" id="tmpTaxUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '6');" maxlength="17" value="<s:property value="taxunitprice"/>"/>
+														<input type="text" style="width: 80px;" id="tmpTaxUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '6');" maxlength="20" value="<s:property value="taxunitprice"/>"/>
 													</td>
 													<td align="right">
 														<input type="text" style="width: 80px;" id="tmpAmount_<s:property value="productid"/>" onblur="calcAmount(this, '1');" maxlength="13" value="<s:property value="amount"/>"/>
