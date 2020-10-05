@@ -328,7 +328,7 @@ public class FinanceServiceImpl implements FinanceService {
 							product.setNum("" + num);
 							
 							//平均价格（取绝对值）
-							BigDecimal averagePrice = amount.divide(num, 6, BigDecimal.ROUND_HALF_UP).abs();
+							BigDecimal averagePrice = amount.divide(num, 8, BigDecimal.ROUND_HALF_UP).abs();
 							product.setAveragePrice(averagePrice);
 							
 							//查询退票列表
