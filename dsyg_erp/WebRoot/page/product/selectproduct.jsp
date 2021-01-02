@@ -499,10 +499,10 @@
 						<td width="60">类型</td>
 						<td width="60">品名</td>
 						<td width="60">规格</td>
+						<td width="60">包装</td>
 						<td width="30">颜色</td>
 						<td width="30">形式</td>
 						<td width="60">住友编码</td>
-						<td width="60">包装</td>
 						<td width="60">产地</td>
 					</tr>
 					<s:iterator id="productList" value="productList" status="st1">
@@ -548,6 +548,9 @@
 							<td><a href="#" onclick="showUnit('<s:property value="id"/>');"><s:property value="tradename"/></a></td>
 							<td><s:property value="typeno"/></td>
 							<td>
+								<s:property value="item10"/>
+							</td>
+							<td>
 								<s:iterator id="colorList" value="colorList" status="st3">
 									<s:if test="%{colorList[#st3.index].code == productList[#st1.index].color}">
 										<s:property value="fieldname"/>
@@ -564,9 +567,6 @@
 							</td>
 							<td>
 								<s:property value="item11"/>
-							</td>
-							<td>
-								<s:property value="item10"/>
 							</td>
 							<td>
 								<s:iterator id="makeareaList" value="makeareaList" status="st3">

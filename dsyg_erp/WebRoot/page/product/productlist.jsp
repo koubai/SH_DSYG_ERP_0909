@@ -302,9 +302,9 @@
 								<td width="40">类型</td>
 								<td width="60">品名</td>
 								<td width="80">规格</td>
+								<td width="60">包装</td>
 								<td width="40">颜色</td>
 								<td width="40">形式</td>
-								<td width="60">包装</td>
 								<td width="40">产地</td>
 								<td width="60">住友编码</td>
 								<td width="40">显示与否</td>
@@ -332,6 +332,9 @@
 									<td><s:property value="tradename"/></td>
 									<td><s:property value="typeno"/></td>
 									<td>
+										<s:property value="item10"/>
+									</td>
+									<td>
 										<s:iterator id="colorList" value="colorList" status="st3">
 											<s:if test="%{colorList[#st3.index].code == productList[#st1.index].color}">
 												<s:property value="fieldname"/>
@@ -345,9 +348,6 @@
 										<s:else>
 											<s:property value="packaging"/>
 										</s:else>
-									</td>
-									<td>
-										<s:property value="item10"/>
 									</td>
 									<td>
 										<s:iterator id="makeareaList" value="makeareaList" status="st3">

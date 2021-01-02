@@ -25,6 +25,8 @@
 		var customername = $("#customername").val().trim();
 		//客户地址
 		var res01 = $("#res01").val().trim();
+		//用友账套
+		$("#updateCustomerDto.res03").attr("value", $("#tmpRes03").val());
 		var tmpnote = $("#tmpnote").val();
 		$("#note").attr("value", tmpnote);
 		if(customername == "") {
@@ -109,6 +111,7 @@
 		document.mainform.action = '<c:url value="/customer/queryEtbCustomerList.action"></c:url>';
 		document.mainform.submit();
 	};
+
 
 </script>
 </head>
@@ -524,6 +527,19 @@
 						<s:textfield name="updateCustomerDto.res02" id="res02" cssStyle="width:350px;" maxlength="40" theme="simple"></s:textfield>
 					</div>
 					<div class="box1_right"></div>
+				</td>
+			</tr>
+			<tr>
+				<td width="120"><font color="red"></font>用友账套编号</td>
+				<td>
+					<s:if test='updateCustomerDto.res03 == "2"'>
+						<input type="radio" id="tmpRes03" name="updateCustomerDto.res03" value='1' />贸易
+						<input type="radio" name="updateCustomerDto.res03" checked="checked" value='2'/>发展　
+					</s:if>
+					<s:else>
+						<input type="radio" id="tmpRes03" name="updateCustomerDto.res03" checked="checked" value='1' />贸易
+						<input type="radio" name="updateCustomerDto.res03" value='2'/>发展　
+					</s:else>
 				</td>
 			</tr>
 			<tr>

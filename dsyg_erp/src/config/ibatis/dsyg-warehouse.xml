@@ -1492,7 +1492,10 @@
 						(select P.unit from etb_product P where P.id = T.productid) as unit,
 						(select P.makearea from etb_product P where P.id = T.productid) as makearea
 					from etb_warehouse T left join etb_warehouserpt R 
-						on R.parentid like CONCAT("%",T.warehouseno,"%")
+						<!-- on R.parentid like CONCAT("%",T.warehouseno,"%") -->
+						<!-- on T.warehouseno in (R.parentid) -->
+						<!-- on locate(T.warehouseno,R.parentid)  -->
+						on find_in_set(T.warehouseno,R.parentid)
 					where 1 = 1 
 					<isNotEmpty prepend="and" property="productid">
 							T.productid = #productid#

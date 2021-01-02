@@ -80,7 +80,7 @@ public class ProductOkAction extends BaseAction {
 			//初期化字典数据
 			initDictList();
 			
-			strTheme = "";
+			strTheme = "01";
 			strTradename = "";
 			strTypeno = "";
 			strColor = "";
