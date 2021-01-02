@@ -11,7 +11,9 @@
 <title>线上客户信息修改</title>
 <script type="text/javascript">
 	function upd() {
-	
+		//用友账套
+		$("#updateCustomerOnlineDto.res03").attr("value", $("#tmpRes03").val());
+
 		var customeremail = $("#customeremail").val().trim();
 		if(customeremail == "") {
 			alert("客户邮件地址不能为空！");
@@ -791,12 +793,15 @@
 			</tr>
 			<tr>
 				<td width="120"><font color="red"></font>用友账套编号</td>
-				<td width="500">
-					<div class="box1_left"></div>
-					<div class="box1_center">
-						<s:textfield name="updateCustomerOnlineDto.res03" id="res02" cssStyle="width:350px;" maxlength="40" theme="simple"></s:textfield>
-					</div>
-					<div class="box1_right"></div>
+				<td>
+					<s:if test='updateCustomerDto.res03 == "2"'>
+						<input type="radio" id="tmpRes03" name="updateCustomerOnlineDto.res03" value='1' />贸易
+						<input type="radio" name="updateCustomerOnlineDto.res03" checked="checked" value='2'/>发展　
+					</s:if>
+					<s:else>
+						<input type="radio" id="tmpRes03" name="updateCustomerOnlineDto.res03" checked="checked" value='1' />贸易
+						<input type="radio" name="updateCustomerOnlineDto.res03" value='2'/>发展　
+					</s:else>
 				</td>
 			</tr>
 			<tr>

@@ -12,6 +12,8 @@
 <script type="text/javascript">
 	function add() {
 	
+		//用友账套
+		$("#addCustomerOnlineDto.res03").attr("value", $("#tmpRes03").val());
 		var customeremail = $("#customeremail").val().trim();
 		if(customeremail == "") {
 			alert("客户邮件地址不能为空！");
@@ -790,6 +792,19 @@
 						<s:textfield name="addCustomerOnlineDto.res02" id="res02" cssStyle="width:350px;" maxlength="40" theme="simple"></s:textfield>
 					</div>
 					<div class="box1_right"></div>
+				</td>
+			</tr>
+			<tr>
+				<td width="120"><font color="red"></font>用友账套编号</td>
+				<td>
+					<s:if test='updateCustomerDto.res03 == "2"'>
+						<input type="radio" id="tmpRes03" name="addCustomerOnlineDto.res03" value='1' />贸易
+						<input type="radio" name="addCustomerOnlineDto.res03" checked="checked" value='2'/>发展　
+					</s:if>
+					<s:else>
+						<input type="radio" id="tmpRes03" name="addCustomerOnlineDto.res03" checked="checked" value='1' />贸易
+						<input type="radio" name="addCustomerOnlineDto.res03" value='2'/>发展　
+					</s:else>
 				</td>
 			</tr>
 			<tr>
