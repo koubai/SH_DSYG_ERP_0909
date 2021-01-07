@@ -266,7 +266,7 @@ public class ProductDto extends BaseDto {
 	private String item15;
 
 	/**
-	 * 项目16   // 用友输出用产品编码
+	 * 项目16   // 用友输出用产品编码       发展
 	 */
 	private String item16;
 
@@ -276,7 +276,7 @@ public class ProductDto extends BaseDto {
 	private String item17;
 
 	/**
-	 * 项目18
+	 * 项目18   // 用友输出用产品编码     贸易
 	 */
 	private String item18;
 

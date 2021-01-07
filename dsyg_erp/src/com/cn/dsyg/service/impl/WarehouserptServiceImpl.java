@@ -17,20 +17,24 @@ import com.cn.common.util.DateUtil;
 import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
+import com.cn.dsyg.dao.CustomerDao;
 import com.cn.dsyg.dao.Dict01Dao;
 import com.cn.dsyg.dao.FinanceDao;
 import com.cn.dsyg.dao.ProductDao;
 import com.cn.dsyg.dao.PurchaseDao;
 import com.cn.dsyg.dao.PurchaseItemDao;
 import com.cn.dsyg.dao.SalesDao;
+import com.cn.dsyg.dao.SupplierDao;
 import com.cn.dsyg.dao.WarehouseDao;
 import com.cn.dsyg.dao.WarehouserptDao;
 import com.cn.dsyg.dao.WarehouserptHistDao;
+import com.cn.dsyg.dto.CustomerDto;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.FinanceDto;
 import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.dto.PurchaseDto;
 import com.cn.dsyg.dto.SalesDto;
+import com.cn.dsyg.dto.SupplierDto;
 import com.cn.dsyg.dto.WarehouseDto;
 import com.cn.dsyg.dto.WarehouserptDto;
 import com.cn.dsyg.dto.WarehouserptHistDto;
@@ -53,6 +57,8 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 	private SalesDao salesDao;
 	private Dict01Dao dict01Dao;
 	private FinanceDao financeDao;
+	private CustomerDao customerDao;
+	private SupplierDao supplierDao;
 	
 	@Override
 	public WarehouserptDto queryWarehouserptByNo(String warehouseno, Integer type) {
@@ -1508,6 +1514,127 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 		return code;
 	}
 
+	/**
+	 * 用友客户数据转换（产品号，客户号）
+	 * @param id
+	 * @return
+	 */
+	public WarehouserptDto exchangeYongYou(WarehouserptDto warehouserpt){
+		WarehouserptDto rpt = new WarehouserptDto();
+		String productid = "";
+		String yyproductid = "";
+		String buf_Productinfo = "";
+		String customid = "";
+		
+		rpt = warehouserpt;
+		//exchange customerid
+		customid = rpt.getSupplierid();
+		CustomerDto customer = null;
+		SupplierDto supplier = null;
+		String YYsupplierid = "";
+		// 用友区分 1：贸易   2：发展
+		String YYtype = "";
+		if (rpt.getWarehousetype()== 1){
+			//入库单
+			supplier = supplierDao.querySupplierByID(customid);
+			if (supplier != null){
+				YYtype = supplier.getRes03();	
+				if (YYtype.equals("2")){
+					//发展
+					if (supplier.getRes02() != null)
+						YYsupplierid = supplier.getRes02();
+				} 
+				if (YYtype.equals("1")){
+					//贸易
+					if (supplier.getRes04() != null)
+						YYsupplierid = supplier.getRes04();
+				}
+			}
+		} 
+		if (rpt.getWarehousetype()== 2){
+			//出库单
+			customer = customerDao.queryEtbCustomerByID(customid);
+			if (customer != null)
+				YYtype = customer.getRes03();
+				if (YYtype.equals("2")){
+					//发展
+					if (customer.getRes02() != null)
+						YYsupplierid = customer.getRes02();
+				} 
+				if (YYtype.equals("1")){
+					//贸易
+					if (customer.getRes04() != null)
+						YYsupplierid = customer.getRes04();
+				}
+		}
+		rpt.setSupplierid(YYsupplierid);
+		System.out.println("YYtype:" + YYtype);
+
+		//exchange productid
+		//入出库单对应的产品
+		List<ProductDto> listProduct = rpt.getListProduct();
+		List<ProductDto> new_listProduct = new ArrayList<ProductDto>();;
+		for(int i = 0; i < listProduct.size(); i++) {
+			ProductDto pd = listProduct.get(i);
+			System.out.println("productid:" + pd.getId());
+			ProductDto product = productDao.queryProductByID(String.valueOf(pd.getId()));
+			if (product != null){
+				if (YYtype.equals("2")){
+					// 发展
+					if (product.getItem16() != null)
+						yyproductid = product.getItem16();							
+				} 
+				if (YYtype.equals("1")){
+					// 贸易
+					if (product.getItem18() != null)
+						yyproductid = product.getItem18();							
+				}
+			}
+			if (yyproductid == null || yyproductid.equals(""))
+				pd.setId(null);
+			else
+				pd.setId(Long.valueOf(yyproductid));
+			new_listProduct.add(pd);
+		}
+		rpt.setListProduct(new_listProduct);
+		
+/*		String[] infos = rpt.getProductinfo().split("#");
+		System.out.println("rpt.getWarehouseno():" + rpt.getWarehouseno());
+		System.out.println("rpt.getProductinfo():" + rpt.getProductinfo());
+		for(int i = 0; i < infos.length; i++) {
+			String info = infos[i];
+			if(StringUtil.isNotBlank(info) && !"null".equalsIgnoreCase(info)) {
+				String[] ll = info.split(",");
+				if (ll[0] != null ){
+					productid = ll[0];
+					ProductDto product = productDao.queryProductByID(productid);
+					if (product != null){
+						if (YYtype.equals("2")){
+							// 发展
+							if (product.getItem16() != null)
+								yyproductid = product.getItem16();							
+						} else {
+							// 贸易
+							if (product.getItem18() != null)
+								yyproductid = product.getItem18();							
+						}
+					}
+						
+					ll[0] = yyproductid;
+				}
+				for (int j=0; j<ll.length; j++){
+					buf_Productinfo = buf_Productinfo + ll[j]+ ",";
+				}
+			}
+			buf_Productinfo = buf_Productinfo +  "#";
+		}
+		System.out.println("buf_Productinfo:" + buf_Productinfo);
+		rpt.setProductinfo(buf_Productinfo);
+*/		
+		return rpt;
+	}
+
+	
 	public WarehouserptDao getWarehouserptDao() {
 		return warehouserptDao;
 	}
@@ -1579,4 +1706,21 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 	public void setWarehouserptHistDao(WarehouserptHistDao warehouserptHistDao) {
 		this.warehouserptHistDao = warehouserptHistDao;
 	}
+	
+	public CustomerDao getCustomerDao() {
+		return customerDao;
+	}
+
+	public void setCustomerDao(CustomerDao customerDao) {
+		this.customerDao = customerDao;
+	}
+
+	public SupplierDao getSupplierDao() {
+		return supplierDao;
+	}
+
+	public void setSupplierDao(SupplierDao supplierDao) {
+		this.supplierDao = supplierDao;
+	}
+
 }

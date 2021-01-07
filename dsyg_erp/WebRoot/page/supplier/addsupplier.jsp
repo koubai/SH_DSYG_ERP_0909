@@ -514,6 +514,18 @@
 				</td>
 			</tr>
 			<tr>
+				<td width="120"><font color="red"></font>用友账套编号</td>
+				<td>
+					<s:if test='addCustomerDto.res03 == "2"'>
+						<input type="radio" id="tmpRes03" name="addSupplierDto.res03" value='1' />贸易
+						<input type="radio" name="addSupplierDto.res03" checked="checked" value='2'/>发展　
+					</s:if>
+					<s:else>
+						<input type="radio" id="tmpRes03" name="addSupplierDto.res03" checked="checked" value='1' />贸易
+						<input type="radio" name="addSupplierDto.res03" value='2'/>发展　
+					</s:else>
+			</tr>			
+			<tr>
 				<td>备注</td>
 				<td>
 					<textarea name="" id="tmpnote" cols="" rows="5" style="width:350px;"><s:property value="addSupplierDto.note"/></textarea>

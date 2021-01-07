@@ -237,12 +237,14 @@
 //		alert($("#strAccountFlg").val());
 		var id = ${updWarehouserptId};
 		var exportunitprice = $("#exportunitprice").val().trim();
-		var strAccountFlg = $("#strAccountFlg").val().trim();
-		var strAccountNo1 = $("#strAccountNo1").val().trim();
-		var strAccountNo2 = $("#strAccountNo2").val().trim();
+//		var strAccountFlg = $("#strAccountFlg").val().trim();
+//		var strAccountNo1 = $("#strAccountNo1").val().trim();
+//		var strAccountNo2 = $("#strAccountNo2").val().trim();
 //		alert(strAccountNo1);
+//		window.location.href = "../warehouserpt/exportCGDlistAction.action?strExportDetailId=" + id
+//				+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice +"&strAccountFlg=" + strAccountFlg +"&strAccountNo1=" + strAccountNo1 +"&strAccountNo2=" + strAccountNo2;		
 		window.location.href = "../warehouserpt/exportCGDlistAction.action?strExportDetailId=" + id
-				+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice +"&strAccountFlg=" + strAccountFlg +"&strAccountNo1=" + strAccountNo1 +"&strAccountNo2=" + strAccountNo2;		
+		+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice ;		
 	}
 	
 </script>
@@ -687,7 +689,8 @@
 										<div class="box1_right"></div>
 									</div>
 								</td>
-							<!-- Pei comment out 2020.05.09 <td>
+							<!-- Pei comment out 2020.05.09 -->
+							<td>
 								<div class="btn">
 									<div class="box1_left"></div>
 									<div class="box1_center">
@@ -695,7 +698,7 @@
 									</div>
 									<div class="box1_right"></div>
 								</div>
-							</td> -->
+							</td> <!-- -->
 							<td>
 								<div class="btn">
 									<div class="box1_left"></div>

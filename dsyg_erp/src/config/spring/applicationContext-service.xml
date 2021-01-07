@@ -496,6 +496,12 @@
 		<property name="salesDao">
 			<ref local="salesDao"/>
 		</property>
+		<property name="supplierDao">
+			<ref local="supplierDao"/>
+		</property>
+		<property name="customerDao">
+			<ref local="customerDao"/>
+		</property>
 	</bean>
 	
 	<bean id="warehouserptDao" class="com.cn.dsyg.dao.impl.WarehouserptDaoImpl">

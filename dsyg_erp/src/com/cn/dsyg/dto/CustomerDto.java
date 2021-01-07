@@ -423,7 +423,7 @@ public class CustomerDto extends BaseDto {
 	private String res01;
 
 	/**
-	 * 预备项目2 （用友客户编码）
+	 * 预备项目2 （用友客户编码  发展）
 	 */
 	private String res02;
 
@@ -433,7 +433,7 @@ public class CustomerDto extends BaseDto {
 	private String res03;
 
 	/**
-	 * 预备项目4
+	 * 预备项目4 （用友客户编码  贸易）
 	 */
 	private String res04;
 

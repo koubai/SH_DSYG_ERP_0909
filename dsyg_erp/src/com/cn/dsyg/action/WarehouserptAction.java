@@ -755,6 +755,7 @@ public class WarehouserptAction extends BaseAction {
 		}
 
 		WarehouserptDto rpt;
+		WarehouserptDto temp_rpt = null;
 		String exceltype = "";
 		if(("" + Constants.WAREHOUSE_TYPE_IN).equals(type)) {
 			if(strInter != null && strInter.equals("1")){
@@ -764,9 +765,11 @@ public class WarehouserptAction extends BaseAction {
 			} else {
 				if(strInter != null && strInter.equals("3")){
 					//入库单用友导出
-					exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_CGD_LIST;
-					rpt = warehouserptService.queryWarehouserptInterByID(strExportDetailId);
-				
+//					exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_CGD_LIST;
+//					temp_rpt = warehouserptService.queryWarehouserptInterByID(strExportDetailId);
+					exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_YY_IN_DETAIL_LIST;
+					temp_rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
+					rpt = warehouserptService.exchangeYongYou(temp_rpt);
 				}else {
 					
 					//入库单明细
@@ -812,7 +815,8 @@ public class WarehouserptAction extends BaseAction {
 		
 		String name ="";
 		if(strInter != null && strInter.equals("3")){
-			name = StringUtil.createFileName2(exceltype);
+//			name = StringUtil.createFileName2(exceltype);
+			name = StringUtil.createFileName(exceltype);
 		}else{
 			name = StringUtil.createFileName(exceltype);
 		}
@@ -834,12 +838,13 @@ public class WarehouserptAction extends BaseAction {
 		base.exportExcel(response.getOutputStream());
 		
 		// 导出成功后 账套序号增加
-		String code = "";
+/*		String code = "";
 		if(strInter != null && strInter.equals("3"))
 			if (strAccountFlg == null || strAccountFlg.equals("0"))
 				code = warehouserptService.updateAccountNo(strAccountFlg, strAccountNo1);
 			else
 				code = warehouserptService.updateAccountNo(strAccountFlg, strAccountNo2);
+*/				
 	}
 	
 	

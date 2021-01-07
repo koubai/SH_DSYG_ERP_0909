@@ -80,6 +80,8 @@ public class Constants {
 	public final static String EXCEL_TYPE_WAREHOUSERPT_OUT_LIST_ALL = "warehouserpt_out_all";
 	//入库单明细数据
 	public final static String EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_LIST = "warehouserpt_in_detail";
+	//入库单明细数据
+	public final static String EXCEL_TYPE_WAREHOUSERPT_YY_IN_DETAIL_LIST = "warehouserpt_yy_in_detail";
 	//出库单明细数据
 	public final static String EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST = "warehouserpt_out_detail";
 	//入库单明细数据

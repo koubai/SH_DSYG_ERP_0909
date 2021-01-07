@@ -138,6 +138,13 @@ public interface WarehouserptService {
 	public WarehouserptDto queryWarehouserptInterByID(String id);
 	
 	/**
+	 * 用友客户数据转换（产品号，客户号）
+	 * @param id
+	 * @return
+	 */
+	public WarehouserptDto exchangeYongYou(WarehouserptDto warehouserpt);
+	
+	/**
 	 * 根据ID查询数据
 	 * @param id
 	 * @return
