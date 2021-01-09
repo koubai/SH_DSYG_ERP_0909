@@ -209,6 +209,28 @@
 		$("#" + "overlay").hide();
 		$("#" + "scanBarcodeDiv").hide();
 	}
+	
+	function CGDlistOut(isInter){
+		var list = document.getElementsByName("tmp_strAccountFlg");
+		$("#strAccountFlg").val(0);
+		for(var i = 0; i < list.length; i++) {
+			if(list[i].checked) {
+				$("#strAccountFlg").val(i);
+			}
+		}
+//		alert($("#strAccountFlg").val());
+		var id = ${updWarehouserptId};
+		var exportunitprice = $("#exportunitprice").val().trim();
+//		var strAccountFlg = $("#strAccountFlg").val().trim();
+//		var strAccountNo1 = $("#strAccountNo1").val().trim();
+//		var strAccountNo2 = $("#strAccountNo2").val().trim();
+//		alert(strAccountNo1);
+//		window.location.href = "../warehouserpt/exportCGDlistAction.action?strExportDetailId=" + id
+//				+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice +"&strAccountFlg=" + strAccountFlg +"&strAccountNo1=" + strAccountNo1 +"&strAccountNo2=" + strAccountNo2;		
+		window.location.href = "../warehouserpt/exportCGDlistAction.action?strExportDetailId=" + id
+		+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice ;		
+	}
+
 </script>
 </head>
 <body>
@@ -594,6 +616,15 @@
 										<div class="box1_right"></div>
 									</div>
 								</td>
+							<td>
+								<div class="btn">
+									<div class="box1_left"></div>
+									<div class="box1_center">
+										<input class="input80" type="button" value="用友导出" onclick="CGDlistOut(3);"/>
+									</div>
+									<div class="box1_right"></div>
+								</div>
+							</td>
 							<td>
 								<div class="btn">
 									<div class="box1_left"></div>

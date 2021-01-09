@@ -698,7 +698,7 @@
 									</div>
 									<div class="box1_right"></div>
 								</div>
-							</td> <!-- -->
+							</td> 
 							<td>
 								<div class="btn">
 									<div class="box1_left"></div>

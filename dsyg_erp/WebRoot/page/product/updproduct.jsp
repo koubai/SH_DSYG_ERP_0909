@@ -1099,7 +1099,19 @@
 						</tr>
 						<tr>
 							<td align="right">
-								<label class="pdf10">用友产品编码</label>
+								<label class="pdf10">用友产品编码(贸易)</label>
+							</td>
+							<td align="right">
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updProductDto.item18" id="item18" maxlength="15" cssStyle="width:80px;" theme="simple" ></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+							</td>
+						</tr>						
+						<tr>
+							<td align="right">
+								<label class="pdf10">用友产品编码(发展)</label>
 							</td>
 							<td align="right">
 								<div class="box1_left"></div>

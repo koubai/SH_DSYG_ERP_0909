@@ -43,6 +43,10 @@ public class PoiFactory {
 			//出库单明细数据
 			return new PoiWarehouserptOutDetail();
 		}
+		if(Constants.EXCEL_TYPE_WAREHOUSERPT_YY_OUT_DETAIL_LIST.equals(type)) {
+			//出库单明细数据(用友)
+			return new PoiWarehouserptYYOutDetail();
+		}
 		if(Constants.EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_INTER_LIST.equals(type)) {
 			//入库单明细数据
 			return new PoiWarehouserptInDetailInter();

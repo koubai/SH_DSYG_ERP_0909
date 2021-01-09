@@ -523,16 +523,6 @@
 				</td>
 			</tr>
 			<tr>
-				<td width="120"><font color="red"></font>用友客户编号</td>
-				<td width="500">
-					<div class="box1_left"></div>
-					<div class="box1_center">
-						<s:textfield name="addCustomerDto.res02" id="res02" cssStyle="width:350px;" maxlength="40" theme="simple"></s:textfield>
-					</div>
-					<div class="box1_right"></div>
-				</td>
-			</tr>
-			<tr>
 				<td width="120"><font color="red"></font>用友账套编号</td>
 				<td>
 					<s:if test='addCustomerDto.res03 == "2"'>
@@ -544,6 +534,26 @@
 						<input type="radio" name="addCustomerDto.res03" value='2'/>发展　
 					</s:else>
 			</tr>			
+			<tr>
+				<td width="120"><font color="red"></font>用友编号（贸易）</td>
+				<td width="500">
+					<div class="box1_left"></div>
+					<div class="box1_center">
+						<s:textfield name="addCustomerDto.res04" id="res04" cssStyle="width:350px;" maxlength="40" theme="simple"></s:textfield>
+					</div>
+					<div class="box1_right"></div>
+				</td>
+			</tr>
+			<tr>
+				<td width="120"><font color="red"></font>用友编号（发展）</td>
+				<td width="500">
+					<div class="box1_left"></div>
+					<div class="box1_center">
+						<s:textfield name="addCustomerDto.res02" id="res02" cssStyle="width:350px;" maxlength="40" theme="simple"></s:textfield>
+					</div>
+					<div class="box1_right"></div>
+				</td>
+			</tr>
 			<tr>
 				<td>备注</td>
 				<td>

@@ -714,6 +714,25 @@ public class WarehouserptAction extends BaseAction {
 	}
 	
 	/**
+	 * 导出用友出库明细数据
+	 * @return
+	 */
+	public String exportOGDlistAction() {
+		try {
+			this.clearMessages();
+			updWarehouserptDto = warehouserptService.queryWarehouserptByID(updWarehouserptId, null);
+			//初期化字典数据
+			initDictList();
+
+			exportDetail("" + Constants.WAREHOUSE_TYPE_OUT, strExportDetailId);
+		} catch(Exception e) {
+			log.error("exportWarehouserptOutDetailAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	
+	/**
 	 * 导出明细数据
 	 * @param type
 	 * @param id
@@ -755,7 +774,7 @@ public class WarehouserptAction extends BaseAction {
 		}
 
 		WarehouserptDto rpt;
-		WarehouserptDto temp_rpt = null;
+//		WarehouserptDto temp_rpt = null;
 		String exceltype = "";
 		if(("" + Constants.WAREHOUSE_TYPE_IN).equals(type)) {
 			if(strInter != null && strInter.equals("1")){
@@ -768,8 +787,9 @@ public class WarehouserptAction extends BaseAction {
 //					exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_CGD_LIST;
 //					temp_rpt = warehouserptService.queryWarehouserptInterByID(strExportDetailId);
 					exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_YY_IN_DETAIL_LIST;
-					temp_rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
-					rpt = warehouserptService.exchangeYongYou(temp_rpt);
+//					temp_rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
+//					rpt = warehouserptService.exchangeYongYou(temp_rpt);
+					rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
 				}else {
 					
 					//入库单明细
@@ -787,13 +807,19 @@ public class WarehouserptAction extends BaseAction {
 				exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_INTER_LIST;
 				rpt = warehouserptService.queryWarehouserptInterByID(strExportDetailId);
 			} else {
-				//出库单明细
-				if(exportunitprice != null && exportunitprice.equals("1")){
-					exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST;
-				} else {
-					exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST_NOPRICE;
+				if(strInter != null && strInter.equals("3")){
+					//出库单用友导出
+					exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_YY_OUT_DETAIL_LIST;
+					rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
+				}else{
+					//出库单明细
+					if(exportunitprice != null && exportunitprice.equals("1")){
+						exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST;
+					} else {
+						exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST_NOPRICE;
+					}					
+					rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
 				}
-				rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
 			}
 		}
 		String jpgname = StringUtil.createImageFileName(exceltype);

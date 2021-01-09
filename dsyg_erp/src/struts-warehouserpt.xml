@@ -82,6 +82,10 @@
 			<result name="success">/page/download.jsp</result>
 		</action>
 		
+		<action name="exportOGDlistAction" class="warehouserptAction" method="exportOGDlistAction">
+			<result name="success">/page/download.jsp</result>
+		</action>
+		
 		<action name="showDeliveryListAction" class="warehouserptAction" method="showDeliveryListAction">
 			<result name="*">/page/warehouserpt/warehouserptloglist.jsp</result>
 		</action>
