@@ -79,7 +79,10 @@ public class PoiWarehouserptYYInDetail extends Poi2007Base {
 		style_yy.setFont(font_cus);
 		XSSFRow row_YY = sheet.createRow(4);
 		XSSFCell cell_yy = row_YY.createCell(1);
-		cell_yy.setCellValue("用友供应商编码：" + warehouserpt.getRes04());
+		if (warehouserpt.getRes04()== null )
+			cell_yy.setCellValue("用友供应商编码：" + "");
+		else 
+			cell_yy.setCellValue("用友供应商编码：" + warehouserpt.getRes04());
 		cell_yy.setCellStyle(style_yy);
 
 		
@@ -275,17 +278,15 @@ public class PoiWarehouserptYYInDetail extends Poi2007Base {
 		cell33.setCellStyle(style);
 		cell34.setCellValue("");
 		cell34.setCellStyle(style);
-//		cell35.setCellValue("");
-//		cell35.setCellStyle(style);
-		cell35.setCellValue("总计:");
+		cell35.setCellValue("");
 		cell35.setCellStyle(style);
-		cell36.setCellValue(StringUtil.BigDecimal2Str(warehouserpt.getTotalnum(), 2));
+		cell36.setCellValue("总计:");
 		cell36.setCellStyle(style);
-		cell37.setCellValue("");
+		cell37.setCellValue(StringUtil.BigDecimal2Str(warehouserpt.getTotalnum(), 2));
 		cell37.setCellStyle(style);
-		cell38.setCellValue(warehouserpt.getTotaltaxamount().toString());
+		cell38.setCellValue("");
 		cell38.setCellStyle(style);
-		cell39.setCellValue("");
+		cell39.setCellValue(warehouserpt.getTotaltaxamount().toString());
 		cell39.setCellStyle(style);
 		cell40.setCellValue("");
 		cell40.setCellStyle(style);

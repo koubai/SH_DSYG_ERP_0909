@@ -1018,14 +1018,16 @@ public class WarehouseServiceImpl implements WarehouseService {
 				// 用友账套编码  1：贸易   2：发展
 				warehouserpt.setRes08(supplier.getRes03());
 				//获得采购单的供应商用友编码
-				//发展
-				if (supplier.getRes03().equals("2")){
-					warehouserpt.setRes04(supplier.getRes02());
+				if (supplier.getRes03() != null){
+					//发展
+					if (supplier.getRes03().equals("2")){
+						warehouserpt.setRes04(supplier.getRes02());
+					}
+					//贸易
+					if (supplier.getRes03().equals("1")){
+						warehouserpt.setRes04(supplier.getRes04());
+					} 								
 				}
-				//贸易
-				if (supplier.getRes03().equals("1")){
-					warehouserpt.setRes04(supplier.getRes04());
-				} 			
 			}
 			//快递公司ID==============================这里不做填充，等发货单时填充
 			
@@ -1389,14 +1391,16 @@ public class WarehouseServiceImpl implements WarehouseService {
 					// 用友账套编码  1：贸易   2：发展
 					warehouserpt.setRes08(customerOnline.getRes03());
 					//获得订单的客户用友编码
-					//发展
-					if (customerOnline.getRes03().equals("2")){
-						warehouserpt.setRes04(customerOnline.getRes02());
+					if (customerOnline.getRes03()!= null) {
+						//发展
+						if (customerOnline.getRes03().equals("2")){
+							warehouserpt.setRes04(customerOnline.getRes02());
+						}
+						//贸易
+						if (customerOnline.getRes03().equals("1")){
+							warehouserpt.setRes04(customerOnline.getRes04());
+						} 									
 					}
-					//贸易
-					if (customerOnline.getRes03().equals("1")){
-						warehouserpt.setRes04(customerOnline.getRes04());
-					} 			
 				}
 			} else {
 				//非online订单
@@ -1413,14 +1417,16 @@ public class WarehouseServiceImpl implements WarehouseService {
 					// 用友账套编码  1：贸易   2：发展
 					warehouserpt.setRes08(customer.getRes03());
 					//获得订单的客户用友编码
-					//发展
-					if (customer.getRes03().equals("2")){
-						warehouserpt.setRes04(customer.getRes02());
+					if (customer.getRes03() != null){
+						//发展
+						if (customer.getRes03().equals("2")){
+							warehouserpt.setRes04(customer.getRes02());
+						}
+						//贸易
+						if (customer.getRes03().equals("1")){
+							warehouserpt.setRes04(customer.getRes04());
+						} 									
 					}
-					//贸易
-					if (customer.getRes03().equals("1")){
-						warehouserpt.setRes04(customer.getRes04());
-					} 			
 				}
 			}
 			//快递公司ID==============================这里不做填充，等发货单时填充
