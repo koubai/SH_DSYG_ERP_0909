@@ -545,7 +545,11 @@
 									</s:if>
 								</s:iterator>
 							</td>
-							<td><a href="#" onclick="showUnit('<s:property value="id"/>');"><s:property value="tradename"/></a></td>
+							<td><a href="#" onclick="showUnit('<s:property value="id"/>');"><s:property value="tradename"/></a>
+									<s:if test="%{productList[#st1.index].item16 == null && productList[#st1.index].item18 == null}">
+										&nbsp;*&nbsp;
+									</s:if>
+							</td>
 							<td><s:property value="typeno"/></td>
 							<td>
 								<s:property value="item10"/>
