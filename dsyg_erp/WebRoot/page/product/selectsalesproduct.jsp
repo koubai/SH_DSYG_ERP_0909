@@ -544,8 +544,15 @@
 							</td>
 							<td><a href="#" onclick="showUnit('<s:property value="id"/>','<s:property value="supplierid"/>');"><s:property value="tradename"/></a>
 									<s:if test="%{productList[#st1.index].item16 == null && productList[#st1.index].item18 == null}">
-										&nbsp;*&nbsp;
+										&nbsp;***&nbsp;
 									</s:if>
+									<s:elseif test="%{productList[#st1.index].item16 == null && productList[#st1.index].item18 != null}">
+										&nbsp;**&nbsp;
+									</s:elseif>
+									<s:elseif test="%{productList[#st1.index].item16 != null && productList[#st1.index].item18 == null}">
+										&nbsp;*&nbsp;
+									</s:elseif>
+
 							</td>
 							<td><s:property value="typeno"/></td>
 							<td>

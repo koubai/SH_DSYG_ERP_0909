@@ -185,7 +185,7 @@
 								<td width="10%">联系人</td>
 								<td width="10%">电话</td>
 								<td width="10%">传真</td>
-								<td width="15%">邮箱</td>
+								<td width="15%">账套</td>
 								<td width="10%">备注</td>
 							</tr>
 							<s:iterator id="listSupplier" value="listSupplier" status="st1">
@@ -207,7 +207,11 @@
 									<td><s:property value="suppliermanager1"/></td>
 									<td><s:property value="suppliertel1"/></td>
 									<td><s:property value="supplierfax1"/></td>
-									<td><s:property value="suppliermail1"/></td>
+									<!-- <td><s:property value="suppliermail1"/></td> -->
+									<td>
+										<s:if test="%{res03 == 1}">贸易</s:if>
+										<s:elseif test="%{res03 == 2}">发展</s:elseif>
+									</td>									
 									<td>
 										<div noWrap style="width:150px;text-overflow:ellipsis;overflow:hidden">
 											<s:property value="note"/>
