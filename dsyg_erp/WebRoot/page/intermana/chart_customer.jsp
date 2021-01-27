@@ -38,10 +38,22 @@
 			var fDate= new Date();
 			var toDate= new Date();
 			$("#toDate").val(new Date().Format("yyyy-MM-dd"));
-			fDate.setMonth(toDate.getMonth()+1-3);
+			fDate.setMonth(toDate.getMonth()+1-1);
 			$("#fromDate").val(fDate.Format("yyyy-MM-dd"));
-			getCustomerData3M();
+			getCustomerData1M();
 		});	     	    
+		
+	    function getCustomerData1M() {
+		   	var rds = document.getElementsByName("mtype");
+	   		var fromDate = new Date();
+	   		var toDate = new Date();
+			fromDate.setMonth(toDate.getMonth()+1-1);
+		   	for(var i=0;i<rds.length;i++){
+	           	if(rds[i].checked){
+	   				ajaxRequestData("getCustomerData", fromDate.format("yyyy-MM-dd"), toDate.format("yyyy-MM-dd"), rds[i].value, "客户");
+	           	}
+		   	}
+		}
 
 	    function getCustomerData3M() {
 		   	var rds = document.getElementsByName("mtype");

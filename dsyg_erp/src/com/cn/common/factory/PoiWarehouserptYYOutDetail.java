@@ -227,13 +227,12 @@ public class PoiWarehouserptYYOutDetail extends Poi2007Base {
 					cell6.setCellStyle(style);
 					
 					if(product.getNum() != null && !"".equals(product.getNum())) {
-						//Float n = Float.valueOf(product.getNum());
 						BigDecimal d = new BigDecimal(product.getNum());
-						//if(n < 0) {
-							//cell8.setCellValue("" + (n * -1));
-						//} else {
+						if (warehouserpt.getTotaltaxamount().compareTo(new BigDecimal(0))< 0 ){
+							cell7.setCellValue("" + d.multiply(new BigDecimal(-1)));
+						} else {
 							cell7.setCellValue(StringUtil.BigDecimal2StrAbs(d, 2));
-						//}
+						}
 					} else {
 						cell7.setCellValue("");
 					}
@@ -345,7 +344,11 @@ public class PoiWarehouserptYYOutDetail extends Poi2007Base {
 		cell35.setCellStyle(style);
 		cell36.setCellValue("总计:");
 		cell36.setCellStyle(style);
-		cell37.setCellValue(StringUtil.BigDecimal2Str(warehouserpt.getTotalnum(), 2));
+		if (warehouserpt.getTotaltaxamount().compareTo(new BigDecimal(0))< 0 ){
+			cell37.setCellValue(StringUtil.BigDecimal2Str(warehouserpt.getTotalnum().multiply(new BigDecimal(-1)), 2));
+		}else{
+			cell37.setCellValue(StringUtil.BigDecimal2Str(warehouserpt.getTotalnum(), 2));			
+		}
 		cell37.setCellStyle(style);
 		cell38.setCellValue("");
 		cell38.setCellStyle(style);
