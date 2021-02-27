@@ -55,8 +55,8 @@
 			var supplierfax = $("#" + "supplierfax" + i).val();
 			all += suppliermanager;
 			if(suppliermanager.trim() != "") {
-				if(suppliermanager.length > 6) {
-					alert("联系人" + i + "姓名不能超过6个字！");
+				if(suppliermanager.length > 20) {
+					alert("联系人" + i + "姓名不能超过20个字！");
 					$("#" + "suppliermanager" + i).focus();
 					return;
 				}

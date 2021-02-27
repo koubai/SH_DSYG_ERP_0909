@@ -406,6 +406,9 @@
 									<td align="right"><s:property value="paidamount"/></td>
 									<td align="right"><s:property value="quantity"/></td>
 									<td>
+										<s:if test="%{rank == 55}">
+											(锁)
+										</s:if>
 										<s:if test='%{res02 == "1"}'>
 											<s:if test="%{status == 10}">
 												未发货
@@ -432,7 +435,7 @@
 											</s:elseif>
 											<s:else>
 												<s:property value="status"/>
-											</s:else>
+											</s:else>											
 										</s:else>
 									</td>
 									<td><s:property value="note"/></td>

@@ -33,6 +33,10 @@
 		<action name="updSalesAction" class="salesAction" method="updSalesAction">
 			<result name="*">/page/sales/updsales.jsp</result>
 		</action>
+
+		<action name="updSalesLockAction" class="salesAction" method="updSalesLockAction">
+			<result name="*">/page/sales/updsales.jsp</result>
+		</action>
 		
 		<action name="finishSalesAction" class="salesAction" method="finishSalesAction">
 			<result name="*">/page/sales/updsales.jsp</result>

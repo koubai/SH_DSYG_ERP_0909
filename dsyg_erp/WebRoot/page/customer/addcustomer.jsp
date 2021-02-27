@@ -64,8 +64,8 @@
 			var customerfax = $("#" + "customerfax" + i).val();
 			all += customermanager;
 			if(customermanager.trim() != "") {
-				if(customermanager.length > 6) {
-					alert("联系人" + i + "姓名不能超过6个字！");
+				if(customermanager.length > 20) {
+					alert("联系人" + i + "姓名不能超过20个字！");
 					$("#" + "customermanager" + i).focus();
 					return;
 				}

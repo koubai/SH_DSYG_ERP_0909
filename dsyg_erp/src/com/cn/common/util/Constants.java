@@ -363,6 +363,8 @@ public class Constants {
 	public final static int SALES_STATUS_WAREHOUSE_PART = 15;
 	//销售单 已发货
 	public final static int SALES_STATUS_WAREHOUSE_OK = 20;
+	//销售单 锁
+	public final static int SALES_STATUS_LOCK = 5;
 		
 	//入出库单状态
 	//未付款，未付款

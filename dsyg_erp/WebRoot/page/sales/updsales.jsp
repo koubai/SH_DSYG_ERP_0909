@@ -12,7 +12,24 @@
 <title>销售信息编辑</title>
 <script type="text/javascript">
 	var addflag = false;
-	
+
+	function updlock() {
+		if($("#status").val() == "20") {
+			if(!$("#tmpRefund").attr("checked")) {
+				alert("该数据不可以修改！");
+				return;
+			}
+		}
+		if(checkItem()) {
+			tmpCalcAmount();
+			addflag = true;
+			
+			if(confirm("确定提交吗？")) {
+				document.mainform.action = "../sales/updSalesLockAction.action";
+				document.mainform.submit();
+			}
+		}		
+	}
 	function upd() {
 		if($("#status").val() == "20") {
 			if(!$("#tmpRefund").attr("checked")) {
@@ -935,6 +952,7 @@
 			<s:form id="mainform" name="mainform" method="POST">
 				<s:hidden name="common_rate" id="common_rate"></s:hidden>
 				
+				<s:hidden name="userrank" id="userrank"></s:hidden>
 				
 				<s:hidden name="updSalesDto.customerid" id="customerid"></s:hidden>
 				<s:hidden name="updSalesDto.bookdate" id="bookdate"></s:hidden>
@@ -970,7 +988,7 @@
 								<div class="box1_left"></div>
 								<div class="box1_center">
 									<input type="hidden" id="productAmountInfo"/>
-									<s:if test='%{updSalesDto.res02 == "0" || updSalesDto.res02 == "" || updSalesDto.res02 == null}'>
+									<s:if test='%{(updSalesDto.res02 == "0" || updSalesDto.res02 == "" || updSalesDto.res02 == null)&& updSalesDto.rank <= 50}'>
 										<s:textfield name="updSalesDto.theme2" id="theme2" cssStyle="width:300px;" maxlength="32" theme="simple"></s:textfield>
 									</s:if>
 									<s:else>
@@ -983,10 +1001,16 @@
 								<label class="pdf10"><font color="red">*</font>销售日期</label>
 							</td>
 							<td>
+							
 								<div class="box1_left"></div>
 								<div class="box1_center date_input">
-									<input type="text" id="tmpBookdate" disabled="disabled" style="width:285px;" value="<s:property value="updSalesDto.showBookdate"/>" />
-									<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpBookdate'));"></a>
+									<s:if test='updSalesDto.rank > 50'>
+										<input type="text" id="tmpBookdate" disabled="disabled" style="width:285px;" value="<s:property value="updSalesDto.showBookdate"/>" />
+									</s:if>
+									<s:else>
+										<input type="text" id="tmpBookdate" disabled="disabled" style="width:285px;" value="<s:property value="updSalesDto.showBookdate"/>" />
+										<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpBookdate'));"></a>
+									</s:else>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1004,6 +1028,10 @@
 									<input type="radio" disabled="disabled" id="tmpRes02" name="salesType" checked="checked" value="0"/>订单　
 									<input type="radio" disabled="disabled" name="salesType" value="1"/>询价　
 								</s:else>
+								<s:if test='updSalesDto.rank > 50'>
+									<input type="radio" disabled="disabled" id="tmpRes02" name="salesType" checked="checked" value="0"/>订单　
+									<input type="radio" disabled="disabled" name="salesType" value="1"/>询价　
+								</s:if>
 							</td>
 							<td align="right">
 								<label class="pdf10"><font color="red">*</font>支付方式</label>
@@ -1011,12 +1039,22 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<select name="updSalesDto.res01" id="res01" style="width: 300px;">
-										<option value="" selected="selected">请选择</option>
-										<s:iterator value="payTypeList" id="payTypeList" status="st1">
-											<option value="<s:property value="code"/>" <s:if test="%{payTypeList[#st1.index].code == updSalesDto.res01}">selected</s:if>><s:property value="fieldname"/></option>
-										</s:iterator>
-									</select>
+									<s:if test='updSalesDto.rank > 50'>									
+										<select name="updSalesDto.res01" id="res01" disabled="disabled" style="width: 300px;">
+											<option value="" selected="selected">请选择</option>
+											<s:iterator value="payTypeList" id="payTypeList" status="st1">
+												<option value="<s:property value="code"/>" <s:if test="%{payTypeList[#st1.index].code == updSalesDto.res01}">selected</s:if>><s:property value="fieldname"/></option>
+											</s:iterator>
+										</select>
+									</s:if>
+									<s:else>
+										<select name="updSalesDto.res01" id="res01" style="width: 300px;">
+											<option value="" selected="selected">请选择</option>
+											<s:iterator value="payTypeList" id="payTypeList" status="st1">
+												<option value="<s:property value="code"/>" <s:if test="%{payTypeList[#st1.index].code == updSalesDto.res01}">selected</s:if>><s:property value="fieldname"/></option>
+											</s:iterator>
+										</select>
+									</s:else>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1075,18 +1113,35 @@
 								<label class="pdf10"><font color="red">*</font>客户</label>
 							</td>
 							<td>
-								<div class="box1_left"></div>
-								<div class="box1_center">
-									<s:textfield name="updSalesDto.customername" id="customername" maxlength="32" cssStyle="width:300px;" theme="simple"></s:textfield>
-								</div>
-								<div class="box1_right"></div>
-								<div class="btn">
+								<s:if test='updSalesDto.rank > 50'>									
 									<div class="box1_left"></div>
 									<div class="box1_center">
-										<input class="input40" type="button" value="检索" onclick="selectCustomer();" />
+										<s:textfield name="updSalesDto.customername" disabled="true" id="customername" maxlength="32" cssStyle="width:300px;" theme="simple"></s:textfield>
 									</div>
 									<div class="box1_right"></div>
-								</div>
+									<div class="btn">
+										<div class="box1_left"></div>
+										<div class="box1_center">
+											<input class="input40" type="button" value="检索" onclick="" />
+										</div>
+										<div class="box1_right"></div>
+									</div>
+								</s:if>
+								<s:else>
+									<div class="box1_left"></div>
+									<div class="box1_center">
+										<s:textfield name="updSalesDto.customername" id="customername" maxlength="32" cssStyle="width:300px;" theme="simple"></s:textfield>
+									</div>
+									<div class="box1_right"></div>
+									<div class="btn">
+										<div class="box1_left"></div>
+										<div class="box1_center">
+											<input class="input40" type="button" value="检索" onclick="selectCustomer();" />
+										</div>
+										<div class="box1_right"></div>
+									</div>
+								</s:else>
+								
 							</td>
 							<td align="right">
 								<label class="pdf10"><font color="red">*</font>联系人</label>
@@ -1094,7 +1149,12 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.customermanager" id="customermanager" maxlength="16" cssStyle="width:300px;" theme="simple"></s:textfield>
+									<s:if test='updSalesDto.rank > 50'>									
+										<s:textfield name="updSalesDto.customermanager" disabled="true" id="customermanager" maxlength="16" cssStyle="width:300px;" theme="simple"></s:textfield>
+									</s:if>
+									<s:else>
+										<s:textfield name="updSalesDto.customermanager" id="customermanager" maxlength="16" cssStyle="width:300px;" theme="simple"></s:textfield>
+									</s:else>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1120,7 +1180,12 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.customeraddress" id="customeraddress" maxlength="64" cssStyle="width:300px;" theme="simple"></s:textfield>
+									<s:if test='updSalesDto.rank > 50'>								
+										<s:textfield name="updSalesDto.customeraddress" disabled="true" id="customeraddress" maxlength="64" cssStyle="width:300px;" theme="simple"></s:textfield>
+									</s:if>
+									<s:else>
+										<s:textfield name="updSalesDto.customeraddress" id="customeraddress" maxlength="64" cssStyle="width:300px;" theme="simple"></s:textfield>
+									</s:else>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1130,7 +1195,12 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.customertel" id="customertel" maxlength="16" cssStyle="width:300px;" theme="simple"></s:textfield>
+									<s:if test='updSalesDto.rank > 50'>								
+										<s:textfield name="updSalesDto.customertel" disabled="true" id="customertel" maxlength="16" cssStyle="width:300px;" theme="simple"></s:textfield>
+									</s:if>
+									<s:else>
+										<s:textfield name="updSalesDto.customertel" id="customertel" maxlength="16" cssStyle="width:300px;" theme="simple"></s:textfield>
+									</s:else>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1142,7 +1212,12 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.customerfax" id="customerfax" maxlength="16" cssStyle="width:300px;" theme="simple"></s:textfield>
+									<s:if test='updSalesDto.rank > 50'>								
+										<s:textfield name="updSalesDto.customerfax" disabled="true" id="customerfax" maxlength="16" cssStyle="width:300px;" theme="simple"></s:textfield>
+									</s:if>
+									<s:else>
+										<s:textfield name="updSalesDto.customerfax" id="customerfax" maxlength="16" cssStyle="width:300px;" theme="simple"></s:textfield>
+									</s:else>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1152,7 +1227,12 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.customermail" id="customermail" maxlength="64" cssStyle="width:300px;" theme="simple"></s:textfield>
+									<s:if test='updSalesDto.rank > 50'>								
+										<s:textfield name="updSalesDto.customermail" disabled="true" id="customermail" maxlength="64" cssStyle="width:300px;" theme="simple"></s:textfield>
+									</s:if>
+									<s:else>
+										<s:textfield name="updSalesDto.customermail" id="customermail" maxlength="64" cssStyle="width:300px;" theme="simple"></s:textfield>
+									</s:else>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1164,7 +1244,12 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<input type="text" id="tmpAmount" maxlength="12" style="width:300px;" value="<s:property value="updSalesDto.amount"/>"/>
+									<s:if test='updSalesDto.rank > 50'>								
+										<input type="text" id="tmpAmount" disabled="true" maxlength="12" style="width:300px;" value="<s:property value="updSalesDto.amount"/>"/>
+									</s:if>
+									<s:else>
+										<input type="text" id="tmpAmount" maxlength="12" style="width:300px;" value="<s:property value="updSalesDto.amount"/>"/>
+									</s:else>
 								</div>
 								<div class="box1_right"></div>
 								<div style="margin-top: 9px;"><label>（不含税）</label></div>
@@ -1175,7 +1260,12 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<input type="text" id="tmpTaxamount" maxlength="12" style="width:300px;" value="<s:property value="updSalesDto.taxamount"/>"/>
+									<s:if test='updSalesDto.rank > 50'>								
+										<input type="text" id="tmpTaxamount" disabled="true" maxlength="12" style="width:300px;" value="<s:property value="updSalesDto.taxamount"/>"/>
+									</s:if>
+									<s:else>
+										<input type="text" id="tmpTaxamount" maxlength="12" style="width:300px;" value="<s:property value="updSalesDto.taxamount"/>"/>
+									</s:else>
 								</div>
 								<div class="box1_right"></div>
 								<div style="margin-top: 9px;"><label>（含税）</label></div>
@@ -1188,7 +1278,12 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<input type="text" id="tmpPaidamount" maxlength="12" style="width:300px;" value="<s:property value="updSalesDto.paidamount"/>"/>
+									<s:if test='updSalesDto.rank > 50'>								
+										<input type="text" id="tmpPaidamount" disabled="true" maxlength="12" style="width:300px;" value="<s:property value="updSalesDto.paidamount"/>"/>
+									</s:if>
+									<s:else>
+										<input type="text" id="tmpPaidamount" maxlength="12" style="width:300px;" value="<s:property value="updSalesDto.paidamount"/>"/>
+									</s:else>
 								</div>
 								<div class="box1_right"></div>
 								<div style="margin-top: 9px;"><label>（含税）</label></div>
@@ -1199,8 +1294,14 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center date_input">
-									<input type="text" id="tmpPlandate" disabled="disabled" style="width:285px;" value="<s:property value="updSalesDto.plandate"/>" />
-									<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpPlandate'));"></a>
+									<s:if test='updSalesDto.rank > 50'>								
+										<input type="text" id="tmpPlandate" disabled="disabled" style="width:285px;" value="<s:property value="updSalesDto.plandate"/>" />
+										<a class="date" href="javascript:;" onclick=""></a>
+									</s:if>
+									<s:else>
+										<input type="text" id="tmpPlandate" disabled="disabled" style="width:285px;" value="<s:property value="updSalesDto.plandate"/>" />
+										<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpPlandate'));"></a>
+									</s:else>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1213,7 +1314,12 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.res03" id="res03" maxlength="10" cssStyle="width:300px;" theme="simple"></s:textfield>
+									<s:if test='updSalesDto.rank > 50'>								
+										<s:textfield name="updSalesDto.res03" id="res03" disabled="true" maxlength="10" cssStyle="width:300px;" theme="simple"></s:textfield>
+									</s:if>
+									<s:else>
+										<s:textfield name="updSalesDto.res03" id="res03" maxlength="10" cssStyle="width:300px;" theme="simple"></s:textfield>
+									</s:else>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1223,7 +1329,12 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updSalesDto.res04" id="res04" maxlength="10" cssStyle="width:300px;" theme="simple"></s:textfield>
+									<s:if test='updSalesDto.rank > 50'>								
+										<s:textfield name="updSalesDto.res04" id="res04" disabled="true" maxlength="10" cssStyle="width:300px;" theme="simple"></s:textfield>
+									</s:if>
+									<s:else>
+										<s:textfield name="updSalesDto.res04" id="res04" maxlength="10" cssStyle="width:300px;" theme="simple"></s:textfield>
+									</s:else>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -1382,7 +1493,12 @@
 														</s:iterator>
 													</td>
 													<td align="right">
-														<input type="text" style="width: 80px;" id="tmpQuantity_<s:property value="productid"/>" onblur="calcquantity(this, '1');" maxlength="11" value="<s:property value="quantity"/>"/>
+														<s:if test='updSalesDto.rank > 50'>								
+															<input type="text" disabled="true" style="width: 80px;" id="tmpQuantity_<s:property value="productid"/>" onblur="calcquantity(this, '1');" maxlength="11" value="<s:property value="quantity"/>"/>
+														</s:if>
+														<s:else>
+															<input type="text" style="width: 80px;" id="tmpQuantity_<s:property value="productid"/>" onblur="calcquantity(this, '1');" maxlength="11" value="<s:property value="quantity"/>"/>
+														</s:else>
 													</td>
 													<td align="right">
 														<input type="text" style="width: 80px;" id="tmpBeforeQuantity_<s:property value="productid"/>" onblur="calcquantity(this, '2');" maxlength="11" value="<s:property value="beforequantity"/>"/>
@@ -1403,22 +1519,47 @@
 														</select>
 													</td>
 													<td align="right">
-														<input type="text" style="width: 80px;" id="tmpUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '4');" maxlength="20" value="<s:property value="unitprice"/>"/>
+														<s:if test='updSalesDto.rank > 50'>								
+															<input type="text" disabled="disabled" style="width: 80px;" id="tmpUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '4');" maxlength="20" value="<s:property value="unitprice"/>"/>
+														</s:if>
+														<s:else>
+															<input type="text" style="width: 80px;" id="tmpUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '4');" maxlength="20" value="<s:property value="unitprice"/>"/>
+														</s:else>
 													</td>
 													<td align="right">
-														<input type="text" style="width: 80px;" id="tmpTaxUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '6');" maxlength="20" value="<s:property value="taxunitprice"/>"/>
+														<s:if test='updSalesDto.rank > 50'>								
+															<input type="text" disabled="disabled" style="width: 80px;" id="tmpTaxUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '6');" maxlength="20" value="<s:property value="taxunitprice"/>"/>
+														</s:if>
+														<s:else>
+															<input type="text" style="width: 80px;" id="tmpTaxUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '6');" maxlength="20" value="<s:property value="taxunitprice"/>"/>
+														</s:else>
 													</td>
 													<td align="right">
-														<input type="text" style="width: 80px;" id="tmpAmount_<s:property value="productid"/>" onblur="calcAmount(this, '1');" maxlength="13" value="<s:property value="amount"/>"/>
+														<s:if test='updSalesDto.rank > 50'>								
+															<input type="text" disabled="disabled" style="width: 80px;" id="tmpAmount_<s:property value="productid"/>" onblur="calcAmount(this, '1');" maxlength="13" value="<s:property value="amount"/>"/>
+														</s:if>
+														<s:else>
+															<input type="text" style="width: 80px;" id="tmpAmount_<s:property value="productid"/>" onblur="calcAmount(this, '1');" maxlength="13" value="<s:property value="amount"/>"/>
+														</s:else>
 													</td>
 													<td align="right">
-														<input type="text" style="width: 80px;" id="tmpTaxamount_<s:property value="productid"/>" onblur="calcAmount(this, '2');" maxlength="13" value="<s:property value="taxamount"/>"/>
+														<s:if test='updSalesDto.rank > 50'>								
+															<input type="text" disabled="disabled" style="width: 80px;" id="tmpTaxamount_<s:property value="productid"/>" onblur="calcAmount(this, '2');" maxlength="13" value="<s:property value="taxamount"/>"/>
+														</s:if>
+														<s:else>
+															<input type="text" style="width: 80px;" id="tmpTaxamount_<s:property value="productid"/>" onblur="calcAmount(this, '2');" maxlength="13" value="<s:property value="taxamount"/>"/>
+														</s:else>
 													</td>
 													<td>
 														<s:property value="item01"/>
 													</td>
 													<td align="right">
-														<input type="text" style="width: 130px;" id="tmpRes09_<s:property value="productid"/>" onblur="calcquantity(this, '9');" maxlength="32" value="<s:property value="res09"/>"/>
+														<s:if test='updSalesDto.rank > 50'>								
+															<input type="text" disabled="disabled" style="width: 130px;" id="tmpRes09_<s:property value="productid"/>" onblur="calcquantity(this, '9');" maxlength="32" value="<s:property value="res09"/>"/>
+														</s:if>
+														<s:else>
+															<input type="text" style="width: 130px;" id="tmpRes09_<s:property value="productid"/>" onblur="calcquantity(this, '9');" maxlength="32" value="<s:property value="res09"/>"/>
+														</s:else>
 													</td>
 												</tr>
 											</s:iterator>
@@ -1427,6 +1568,7 @@
 								</div>
 								<table cellpadding="10" style="margin:0 auto;">
 									<tr>
+										<s:if test='updSalesDto.status != "77"'>	
 										<td>
 											<div class="btn1">
 												<div class="btn1_left"></div>
@@ -1456,6 +1598,7 @@
 												<div class="btn1_right"></div>
 											</div>
 										</td>
+										</s:if>
 									</tr>
 								</table>
 							</td>
@@ -1514,6 +1657,28 @@
 							</td>
 							-->
 							</s:if>
+							<td>
+								<div class="btn">
+									<s:if test='%{updSalesDto.rank > "50" && userrank > "50"}' >								
+										<div class="box1_left"></div>
+										<div class="box1_center">									
+											<input class="input80" type="button" value="解锁" onclick="updlock();"/>
+										</div>
+										<div class="box1_right"></div>
+									</s:if>
+									<s:else>								
+										<s:if test='%{updSalesDto.rank <= "50"}' >								
+											<div class="box1_left"></div>
+											<div class="box1_center">									
+												<input class="input80" type="button" value="加锁" onclick="updlock();"/>
+											</div>
+											<div class="box1_right"></div>
+										</s:if>
+									</s:else>
+								</div>
+							</td>
+							<td>
+							</td>
 							<td>
 								<div class="btn">
 									<div class="box1_left"></div>
