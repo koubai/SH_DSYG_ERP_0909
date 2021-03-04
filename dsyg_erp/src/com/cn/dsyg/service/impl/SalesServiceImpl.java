@@ -99,7 +99,8 @@ public class SalesServiceImpl implements SalesService {
 		//status
 		sales.setStatus(Constants.SALES_STATUS_NEW);
 		//rank
-		sales.setRank(Constants.ROLE_RANK_OPERATOR);
+//		sales.setRank(Constants.ROLE_RANK_OPERATOR);
+		sales.setRank(Constants.ROLE_RANK_OPERATOR_80);
 		
 		//经手人默认为当前用户
 		sales.setHandler(userid);

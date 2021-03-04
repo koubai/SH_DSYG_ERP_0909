@@ -352,6 +352,15 @@
 		if(onblurevent != "") {
 			input.setAttribute("onblur", onblurevent); 
 		}
+		
+		var rank = getOpener().document.getElementById("userrank");
+		if(rank != "") {
+			if (name == "tmpBeforeQuantity" && rank.value < 80){
+				input.setAttribute("disabled", "true"); 				
+				input.setAttribute("value", "0"); 				
+			}
+		}
+
 		td.appendChild(input);
 		return td;
 	}

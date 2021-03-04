@@ -804,6 +804,7 @@
 				
 				<s:hidden name="salesHistDetail.note" id="note"></s:hidden>
 				<s:hidden name="salesHistDetail.refundflag" id="refundflag"></s:hidden>
+				<s:hidden name="salesHistDetail.rank" id="rank"></s:hidden>
 				
 				<div class="searchbox update" style="height:0px;">
 					<table id="salesItemTable" style="display: none;">
@@ -1230,10 +1231,15 @@
 														</s:iterator>
 													</td>
 													<td align="right">
-														<input type="text" disabled="disabled" style="width: 80px;" id="tmpQuantity_<s:property value="productid"/>" onblur="calcquantity(this, '1');" maxlength="11" value="<s:property value="quantity"/>"/>
+														<input type="text" disabled="true" style="width: 80px;" id="tmpQuantity_<s:property value="productid"/>" onblur="calcquantity(this, '1');" maxlength="11" value="<s:property value="quantity"/>"/>
 													</td>
 													<td align="right">
-														<input type="text" style="width: 80px;" id="tmpBeforeQuantity_<s:property value="productid"/>" onblur="calcquantity(this, '2');" maxlength="11" value="<s:property value="beforequantity"/>"/>
+														<s:if test='salesHistDetail.rank > 80 && salesHistDetail.rank < 85' >																					
+															<input type="text" disabled="true" style="width: 80px;" id="tmpBeforeQuantity_<s:property value="productid"/>" onblur="calcquantity(this, '2');" maxlength="11" value="<s:property value="beforequantity"/>"/>
+														</s:if>
+														<s:else>
+															<input type="text"  style="width: 80px;" id="tmpBeforeQuantity_<s:property value="productid"/>" onblur="calcquantity(this, '2');" maxlength="11" value="<s:property value="beforequantity"/>"/>
+														</s:else>
 													</td>
 													<td align="right"><s:property value="outquantity"/></td>
 													<td align="right"><s:property value="remainquantity"/></td>

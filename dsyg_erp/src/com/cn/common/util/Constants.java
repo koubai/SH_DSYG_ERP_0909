@@ -286,6 +286,7 @@ public class Constants {
 	public final static int ROLE_RANK_NORMAL = 70;
 	//普通浏览用户（非公司用户50=操作员）只能输入和更新产品和库存，不能删除产品和库存，可以看新闻
 	public final static int ROLE_RANK_OPERATOR = 50;
+	public final static int ROLE_RANK_OPERATOR_80 = 80;
 	
 	//角色code
 	public final static String ROLE_CODE_ADMIN = "admin";

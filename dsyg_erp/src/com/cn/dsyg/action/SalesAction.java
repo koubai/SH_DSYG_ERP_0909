@@ -505,6 +505,7 @@ public class SalesAction extends BaseAction {
 	public String showAddSalesAction() {
 		try {
 			this.clearMessages();
+			userrank = (Integer) ActionContext.getContext().getSession().get(Constants.SESSION_ROLE_RANK);			
 			addSalesDto = new SalesDto();
 			//默认为当天
 			addSalesDto.setBookdate(DateUtil.dateToShortStr(new Date()));
@@ -514,6 +515,8 @@ public class SalesAction extends BaseAction {
 			addSalesItemList = new ArrayList<SalesItemDto>();
 			//初期化字典数据
 			initDictList();
+			addSalesDto.setRank(Constants.ROLE_RANK_OPERATOR_80);
+
 		} catch(Exception e) {
 			log.error("showAddSalesAction error:" + e);
 			return ERROR;
