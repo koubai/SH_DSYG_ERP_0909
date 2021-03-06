@@ -136,6 +136,9 @@ public class SalesAction extends BaseAction {
 	//操作者RANK
 	private Integer userrank; 
 	
+	//检索RANK
+	private String searchRank; 
+	
 	/**
 	 * 显示更新一览
 	 * @return
@@ -905,7 +908,13 @@ public class SalesAction extends BaseAction {
 		//翻页查询所有委托公司
 		this.page.setStartIndex(startIndex);
 
-		page = salesService.querySalesExtByPage(productinfo, strSalesdateLow, strSalesdateHigh, strTheme2, strType, strCustomername, productid, strStatus, page);
+		int i_rank;
+		if (searchRank == null || searchRank.equals(""))
+			i_rank = 0;
+		else
+			i_rank = Integer.valueOf(searchRank);
+//		System.out.println("i_rank:"+i_rank);
+		page = salesService.querySalesExtByPage(productinfo, strSalesdateLow, strSalesdateHigh, strTheme2, strType, strCustomername, productid, strStatus, i_rank, page);
 		salesList = (List<SalesExtDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
 	}
@@ -1316,4 +1325,13 @@ public class SalesAction extends BaseAction {
 	public void setUserrank(Integer userrank) {
 		this.userrank = userrank;
 	}
+
+	public String getSearchRank() {
+		return searchRank;
+	}
+
+	public void setSearchRank(String searchRank) {
+		this.searchRank = searchRank;
+	}
+
 }

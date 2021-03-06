@@ -60,7 +60,7 @@ public interface SalesService {
 	 * @param page
 	 * @return
 	 */
-	public Page querySalesExtByPage(String productinfo, String bookdateLow, String bookdateHigh, String theme2, String type, String customername, String productid, String status, Page page);
+	public Page querySalesExtByPage(String productinfo, String bookdateLow, String bookdateHigh, String theme2, String type, String customername, String productid, String status, Integer rank, Page page);
 
 	/**
 	 * 根据ID查询销售单数据

@@ -179,6 +179,7 @@
 				<s:hidden name="intPageSize" id="intPageSize"/>
 				<s:hidden name="strType" id="strType"/>
 				<s:hidden name="productid" id="productid"/>
+				<s:hidden name="userrank" id="userrank"></s:hidden>
 				<div class="searchbox">
 					<div class="box1">
 						<label class="pdf10">销售订单号</label>
@@ -232,6 +233,32 @@
 									<option value="10">未发货</option>
 									<option value="15">部分发货</option>
 									<option value="20">发货完成 / 询价作废</option>
+								</s:else>
+							</select>
+						</div>
+						<div class="box1_right"></div>
+						<div class="box1_left"></div>
+						<div class="box1_center date_input">
+							<select id="searchRank" name="searchRank" style="width: 160px;">
+								<s:if test='searchRank == ""'>
+									<option value=""  selected="selected">请选择</option>
+									<option value="80">未审核</option>
+									<option value="85">审核毕</option>
+								</s:if>
+								<s:elseif test='searchRank == "80"'>
+									<option value="">请选择</option>
+									<option value="80" selected="selected">未审核</option>
+									<option value="85">审核毕</option>
+								</s:elseif>
+								<s:elseif test='searchRank == "85"'>
+									<option value="">请选择</option>
+									<option value="80">未审核</option>
+									<option value="85" selected="selected">审核毕</option>
+								</s:elseif>
+								<s:else>
+									<option value="" selected="selected">请选择</option>
+									<option value="80">未审核</option>
+									<option value="85">审核毕</option>
 								</s:else>
 							</select>
 						</div>
@@ -406,8 +433,8 @@
 									<td align="right"><s:property value="paidamount"/></td>
 									<td align="right"><s:property value="quantity"/></td>
 									<td>
-										<s:if test="%{rank == 55}">
-											(锁)
+										<s:if test="%{rank == 85}">
+											(审核)
 										</s:if>
 										<s:if test='%{res02 == "1"}'>
 											<s:if test="%{status == 10}">

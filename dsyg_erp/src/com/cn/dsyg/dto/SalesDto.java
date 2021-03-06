@@ -156,7 +156,7 @@ public class SalesDto extends BaseAction {
 	private String note;
 
 	/**
-	 * 级别(0-99)
+	 * 级别(0-99) 初期创建未审核：80, 审核毕：85   
 	 */
 	private Integer rank;
 

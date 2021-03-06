@@ -43,12 +43,14 @@ public class SalesDaoImpl extends BaseDao implements SalesDao {
 	}
 
 	@Override
-	public int querySalesCountByPage(String bookdateLow, String bookdateHigh, String theme2, String res02, String customername, String status) {
+	public int querySalesCountByPage(String bookdateLow, String bookdateHigh, String theme2, String res02, String customername, String status, int rank) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("bookdateLow", bookdateLow);
 		paramMap.put("bookdateHigh", bookdateHigh);
 		paramMap.put("theme2", theme2);
 		paramMap.put("status", status);
+		if (rank != 0)
+			paramMap.put("rank", rank);
 		
 		paramMap.put("customername", customername);
 		paramMap.put("res02", res02);
@@ -57,12 +59,14 @@ public class SalesDaoImpl extends BaseDao implements SalesDao {
 
 	@Override
 	public List<SalesExtDto> querySalesByPage(String bookdateLow,
-			String bookdateHigh, String theme2, String res02, String customername, String status, int start, int end) {
+			String bookdateHigh, String theme2, String res02, String customername, String status, int rank, int start, int end) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("bookdateLow", bookdateLow);
 		paramMap.put("bookdateHigh", bookdateHigh);
 		paramMap.put("theme2", theme2);
 		paramMap.put("status", status);
+		if (rank != 0)
+			paramMap.put("rank", rank);
 		
 		paramMap.put("customername", customername);
 		paramMap.put("res02", res02);
@@ -123,12 +127,14 @@ public class SalesDaoImpl extends BaseDao implements SalesDao {
 	}	
 	
 	@Override
-	public int querySalesExtCountByPage(String productinfo, String bookdateLow, String bookdateHigh, String theme2, String res02, String customername, String productid, String status) {
+	public int querySalesExtCountByPage(String productinfo, String bookdateLow, String bookdateHigh, String theme2, String res02, String customername, String productid, String status, int rank) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("bookdateLow", bookdateLow);
 		paramMap.put("bookdateHigh", bookdateHigh);
 		paramMap.put("theme2", theme2);
 		paramMap.put("status", status);
+		if (rank != 0)
+			paramMap.put("rank", rank);
 		
 		paramMap.put("productinfo", productinfo);
 		
@@ -140,12 +146,14 @@ public class SalesDaoImpl extends BaseDao implements SalesDao {
 
 	@Override
 	public List<SalesExtDto> querySalesExtByPage(String productinfo, String bookdateLow,
-			String bookdateHigh, String theme2, String res02, String customername, String productid, String status, int start, int end) {
+			String bookdateHigh, String theme2, String res02, String customername, String productid, String status, int rank, int start, int end) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("bookdateLow", bookdateLow);
 		paramMap.put("bookdateHigh", bookdateHigh);
 		paramMap.put("theme2", theme2);
 		paramMap.put("status", status);
+		if (rank != 0)
+			paramMap.put("rank", rank);
 		
 		paramMap.put("customername", customername);
 		paramMap.put("res02", res02);

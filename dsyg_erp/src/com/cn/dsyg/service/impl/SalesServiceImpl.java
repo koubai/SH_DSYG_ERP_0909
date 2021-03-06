@@ -162,7 +162,7 @@ public class SalesServiceImpl implements SalesService {
 		customername = StringUtil.replaceDatabaseKeyword_mysql(customername);
 		
 		//查询总记录数
-		int totalCount = salesDao.querySalesCountByPage(bookdateLow, bookdateHigh, theme2, type, customername, status);
+		int totalCount = salesDao.querySalesCountByPage(bookdateLow, bookdateHigh, theme2, type, customername, status, 0);
 		page.setTotalCount(totalCount);
 		if(totalCount % page.getPageSize() > 0) {
 			page.setTotalPage(totalCount / page.getPageSize() + 1);
@@ -170,7 +170,7 @@ public class SalesServiceImpl implements SalesService {
 			page.setTotalPage(totalCount / page.getPageSize());
 		}
 		//翻页查询记录
-		List<SalesExtDto> list = salesDao.querySalesByPage(bookdateLow, bookdateHigh, theme2, type, customername, status,
+		List<SalesExtDto> list = salesDao.querySalesByPage(bookdateLow, bookdateHigh, theme2, type, customername, status, 0,
 				page.getStartIndex() * page.getPageSize(), page.getPageSize());
 		if(list != null && list.size() > 0) {
 			for(SalesDto sales : list) {
@@ -203,7 +203,7 @@ public class SalesServiceImpl implements SalesService {
 
 	@Override
 	public Page querySalesExtByPage(String productinfo, String bookdateLow, String bookdateHigh, String theme2,
-			String type, String customername, String productid, String status, Page page) {
+			String type, String customername, String productid, String status, Integer rank, Page page) {
 		customername = StringUtil.replaceDatabaseKeyword_mysql(customername);
 		productinfo = StringUtil.replaceDatabaseKeyword_mysql(productinfo);
 		
@@ -214,9 +214,9 @@ public class SalesServiceImpl implements SalesService {
 			totalCount = salesDao.querySalesExtCountByPage1(bookdateLow, bookdateHigh, theme2, type, customername, productid, status);
 		} else {
 			if (StringUtil.isNotBlank(productinfo)){
-				totalCount = salesDao.querySalesExtCountByPage(productinfo, bookdateLow, bookdateHigh, theme2, type, customername, productid, status);
+				totalCount = salesDao.querySalesExtCountByPage(productinfo, bookdateLow, bookdateHigh, theme2, type, customername, productid, status, rank);
 			} else {
-				totalCount = salesDao.querySalesCountByPage(bookdateLow, bookdateHigh, theme2, type, customername, status);
+				totalCount = salesDao.querySalesCountByPage(bookdateLow, bookdateHigh, theme2, type, customername, status, rank);
 			}			
 		}
 		page.setTotalCount(totalCount);
@@ -232,10 +232,10 @@ public class SalesServiceImpl implements SalesService {
 				page.getStartIndex() * page.getPageSize(), page.getPageSize());
 		}else {
 			if (StringUtil.isNotBlank(productinfo)){
-				list = salesDao.querySalesExtByPage(productinfo, bookdateLow, bookdateHigh, theme2, type, customername, productid, status,
+				list = salesDao.querySalesExtByPage(productinfo, bookdateLow, bookdateHigh, theme2, type, customername, productid, status, rank,
 					page.getStartIndex() * page.getPageSize(), page.getPageSize());
 			} else {
-				list = salesDao.querySalesByPage(bookdateLow, bookdateHigh, theme2, type, customername, status,
+				list = salesDao.querySalesByPage(bookdateLow, bookdateHigh, theme2, type, customername, status, rank,
 						page.getStartIndex() * page.getPageSize(), page.getPageSize());
 			}			
 		}

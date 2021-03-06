@@ -1234,7 +1234,7 @@
 														<input type="text" disabled="true" style="width: 80px;" id="tmpQuantity_<s:property value="productid"/>" onblur="calcquantity(this, '1');" maxlength="11" value="<s:property value="quantity"/>"/>
 													</td>
 													<td align="right">
-														<s:if test='salesHistDetail.rank > 80 && salesHistDetail.rank < 85' >																					
+														<s:if test='salesHistDetail.rank >= 80 && salesHistDetail.rank < 85 && userrank < 80' >																					
 															<input type="text" disabled="true" style="width: 80px;" id="tmpBeforeQuantity_<s:property value="productid"/>" onblur="calcquantity(this, '2');" maxlength="11" value="<s:property value="beforequantity"/>"/>
 														</s:if>
 														<s:else>

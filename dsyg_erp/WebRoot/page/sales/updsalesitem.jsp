@@ -813,6 +813,7 @@
 				<s:hidden name="updSalesDto.note" id="note"></s:hidden>
 				<s:hidden name="updSalesDto.refundflag" id="refundflag"></s:hidden>
 				<s:hidden name="updSalesDto.rank" id="rank"></s:hidden>
+				<s:hidden name="userrank" id="userrank"></s:hidden>
 				
 				<div class="searchbox update" style="height:0px;">
 					<table id="salesItemTable" style="display: none;">
@@ -1222,7 +1223,7 @@
 														<input type="text" disabled="true" style="width: 80px;" id="tmpQuantity_<s:property value="productid"/>" onblur="calcquantity(this, '1');" maxlength="11" value="<s:property value="quantity"/>"/>
 													</td>
 													<td align="right">
-														<s:if test='updSalesDto.rank > 80 && updSalesDto.rank < 85' >								
+														<s:if test='updSalesDto.rank >= 80 && updSalesDto.rank < 85 && userrank < 80' >								
 															<input type="text" disabled="true" style="width: 80px;" id="tmpBeforeQuantity_<s:property value="productid"/>" onblur="calcquantity(this, '2');" maxlength="11" value="<s:property value="beforequantity"/>"/>
 														</s:if>
 														<s:else>

@@ -251,6 +251,9 @@
 		<isNotEmpty prepend="and" property="status">
 			T.status = #status#
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="rank">
+			T.rank = #rank#
+		</isNotEmpty>
 	</select>
 	
 	<select id="querySalesByPage" parameterClass="java.util.Map" resultMap="SalesExtDto">
@@ -272,6 +275,9 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="status">
 			T.status = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="rank">
+			T.rank = #rank#
 		</isNotEmpty>
 		order by T.bookdate desc
 		LIMIT #start#, #end#
@@ -304,6 +310,9 @@
 		<isNotEmpty prepend="and" property="status">
 			T.status = #status#
 		</isNotEmpty>
+		<isNotEmpty prepend="and" property="rank">
+			T.rank = #rank#
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="productinfo">
 			T.productnames like '%$productinfo$%' ESCAPE '/'
 		</isNotEmpty>
@@ -335,6 +344,9 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="status">
 			T.status = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="rank">
+			T.rank = #rank# 
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="productinfo">
 			T.productnames like '%$productinfo$%' ESCAPE '/'

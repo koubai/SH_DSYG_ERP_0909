@@ -46,7 +46,7 @@ public interface SalesDao {
 	 * @param status
 	 * @return
 	 */
-	public int querySalesCountByPage(String bookdateLow, String bookdateHigh, String theme2, String type, String customername,  String status);
+	public int querySalesCountByPage(String bookdateLow, String bookdateHigh, String theme2, String type, String customername,  String status, int rank);
 	
 	/**
 	 * 翻页查询满足条件的销售数据
@@ -60,7 +60,7 @@ public interface SalesDao {
 	 * @param end
 	 * @return
 	 */
-	public List<SalesExtDto> querySalesByPage(String bookdateLow, String bookdateHigh, String theme2, String type, String customername, String status, int start, int end);
+	public List<SalesExtDto> querySalesByPage(String bookdateLow, String bookdateHigh, String theme2, String type, String customername, String status, int rank, int start, int end);
 
 	
 	/**
@@ -100,7 +100,7 @@ public interface SalesDao {
 	 * @param status
 	 * @return
 	 */
-	public int querySalesExtCountByPage(String productinfo, String bookdateLow, String bookdateHigh, String theme2, String type, String customername, String productid, String status);
+	public int querySalesExtCountByPage(String productinfo, String bookdateLow, String bookdateHigh, String theme2, String type, String customername, String productid, String status, int rank);
 	
 	/**
 	 * 翻页查询满足条件的销售数据
@@ -115,7 +115,7 @@ public interface SalesDao {
 	 * @param end
 	 * @return
 	 */
-	public List<SalesExtDto> querySalesExtByPage(String productinfo, String bookdateLow, String bookdateHigh, String theme2, String type, String customername, String productid, String status, int start, int end);
+	public List<SalesExtDto> querySalesExtByPage(String productinfo, String bookdateLow, String bookdateHigh, String theme2, String type, String customername, String productid, String status, int rank, int start, int end);
 
 	/**
 	 * 根据条件查询满足条件的销售单数量合计
