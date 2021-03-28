@@ -1,5 +1,6 @@
 package com.cn.dsyg.action;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +66,9 @@ public class WarehouseDetailAction extends BaseAction {
 	//显示空 (0: 空数据不显示, 1: 显示)
 	private String zeroDisplay;
 
+	private String totalQtyDisplay;
+	private String totalQty;
+	
 	//POPUT START
 	//订单、采购单新增和修改页面，产品对照
 	/**
@@ -85,6 +89,7 @@ public class WarehouseDetailAction extends BaseAction {
 			//初期化字典数据
 			initDictList();
 			
+			totalQty = "";
 			queryData();
 		} catch(Exception e) {
 			log.error("showWarehouseDetailPopupAction error:" + e);
@@ -107,6 +112,7 @@ public class WarehouseDetailAction extends BaseAction {
 				intPageSize = 10;
 			}
 			page = new Page(intPageSize);
+			totalQty = "";
 			queryData();
 		} catch(Exception e) {
 			log.error("queryWarehouseDetailPopupAction error:" + e);
@@ -122,6 +128,7 @@ public class WarehouseDetailAction extends BaseAction {
 	public String turnWarehouseDetailPopupAction() {
 		try {
 			this.clearMessages();
+			totalQty = "";
 			queryData();
 		} catch(Exception e) {
 			log.error("turnWarehouseDetailPopupAction error:" + e);
@@ -149,6 +156,8 @@ public class WarehouseDetailAction extends BaseAction {
 			warehouseDetailList = new ArrayList<WarehouseDetailDto>();
 			//初期化字典数据
 			initDictList();
+			totalQtyDisplay = "0";
+			totalQty = "";
 
 // Pei 2018.07.22 as user requirement, initial needn't to display data 			
 //			queryData();
@@ -173,6 +182,7 @@ public class WarehouseDetailAction extends BaseAction {
 				intPageSize = 10;
 			}
 			page = new Page(intPageSize);
+			totalQty = "";
 			queryData();
 		} catch(Exception e) {
 			log.error("queryWarehouseDetailAction error:" + e);
@@ -188,6 +198,7 @@ public class WarehouseDetailAction extends BaseAction {
 	public String turnWarehouseDetailAction() {
 		try {
 			this.clearMessages();
+			totalQty = "";
 			queryData();
 		} catch(Exception e) {
 			log.error("turnWarehouseDetailAction error:" + e);
@@ -245,9 +256,15 @@ public class WarehouseDetailAction extends BaseAction {
 		initDictList();
 		//翻页查询所有入库汇总记录
 		this.page.setStartIndex(startIndex); 
+		totalQty="";
+		warehouseService.setTotalQty(new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP));
 		page = warehouseService.queryWarehouseDetailByPage("", strKeyword,
-				"", "", strTheme, "", "", "", "", "", zeroDisplay, page);
+				"", "", strTheme, "", "", "", "", "", zeroDisplay, totalQtyDisplay, page);
 		warehouseDetailList = (List<WarehouseDetailDto>) page.getItems();
+		
+		if (totalQtyDisplay != null && totalQtyDisplay.equals("1")){
+			totalQty = warehouseService.getTotalQty().toString();
+		}
 		this.setStartIndex(page.getStartIndex());
 	}
 	
@@ -411,5 +428,21 @@ public class WarehouseDetailAction extends BaseAction {
 
 	public void setZeroDisplay(String zeroDisplay) {
 		this.zeroDisplay = zeroDisplay;
+	}
+
+	public String getTotalQtyDisplay() {
+		return totalQtyDisplay;
+	}
+
+	public void setTotalQtyDisplay(String totalQtyDisplay) {
+		this.totalQtyDisplay = totalQtyDisplay;
+	}
+
+	public String getTotalQty() {
+		return totalQty;
+	}
+
+	public void setTotalQty(String totalQty) {
+		this.totalQty = totalQty;
 	}
 }

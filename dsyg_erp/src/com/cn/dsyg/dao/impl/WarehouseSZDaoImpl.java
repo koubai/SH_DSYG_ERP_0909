@@ -54,7 +54,7 @@ public class WarehouseSZDaoImpl extends BaseDao implements WarehouseSZDao {
 		paramMap.put("typeno", typeno);
 		paramMap.put("color", color);
 		paramMap.put("warehousename", warehousename);
-		System.out.println("zerodisplay:" + zerodisplay);
+//		System.out.println("zerodisplay:" + zerodisplay);
 		if (zerodisplay == null)
 			zerodisplay="";
 		if (zerodisplay.equals("0"))

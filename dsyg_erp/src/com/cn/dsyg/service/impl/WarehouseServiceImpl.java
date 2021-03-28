@@ -91,6 +91,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	private BarcodeInfoDao barcodeInfoDao;
 	private ProductBarcodeDao productBarcodeDao;
 	private ProductService productService;
+	private BigDecimal totalQty;
 	
 	//SZ数据
 	private WarehouseSZDao warehouseSZDao;
@@ -1827,11 +1828,12 @@ public class WarehouseServiceImpl implements WarehouseService {
 	public Page queryWarehouseDetailByPage(String parentid, String keyword,
 			String warehousetype, String warehouseno, String theme1,
 			String productid, String tradename, String typeno, String color,
-			String warehousename, String zerodisplay, Page page) {
+			String warehousename, String zerodisplay, String totalQtyDisplay, Page page) {
 		keyword = StringUtil.replaceDatabaseKeyword_mysql(keyword);
 		tradename = StringUtil.replaceDatabaseKeyword_mysql(tradename);
 		typeno = StringUtil.replaceDatabaseKeyword_mysql(typeno);
 		warehousename = StringUtil.replaceDatabaseKeyword_mysql(warehousename);
+
 		//查询总记录数
 		int totalCount = warehouseDao.queryWarehouseDetailCountByPage(parentid, keyword, 
 				warehousetype, warehouseno, theme1, productid, tradename, typeno, color, warehousename, zerodisplay);
@@ -1877,7 +1879,19 @@ public class WarehouseServiceImpl implements WarehouseService {
 				}
 			}
 		}
-		
+		//翻页查询记录
+		if (totalQtyDisplay!= null && totalQtyDisplay.equals("1")){
+			List<WarehouseDetailDto> list2 = warehouseDao.queryWarehouseDetail(parentid, keyword,
+					warehousetype, warehouseno, theme1, productid, tradename, typeno, color, warehousename, zerodisplay);			
+			if(list2 != null && list2.size() > 0) {
+				for(WarehouseDetailDto warehouseDetailDto2 : list2) {
+					//默认为0
+					if (warehouseDetailDto2.getQuantity()!=null){
+						totalQty = totalQty.add(warehouseDetailDto2.getQuantity());											
+					}
+				}	
+			}
+		}
 		page.setItems(list);
 		return page;
 	}
@@ -1998,5 +2012,11 @@ public class WarehouseServiceImpl implements WarehouseService {
 		this.salesItemHisDao = salesItemHisDao;
 	}
 
+	public BigDecimal getTotalQty() {
+		return totalQty;
+	}
 
+	public void setTotalQty(BigDecimal totalQty) {
+		this.totalQty = totalQty;
+	}
 }

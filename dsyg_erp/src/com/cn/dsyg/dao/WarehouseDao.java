@@ -478,6 +478,26 @@ public interface WarehouseDao {
 			String warehousetype, String warehouseno, String theme1, String productid, String tradename,
 			String typeno, String color, String warehousename, String zerodisplay, int start, int end);
 	
+	//产品对比(合计计算用)
+	/**
+	 * 翻页查询产品对比
+	 * @param parentid
+	 * @param keyword
+	 * @param warehousetype
+	 * @param warehouseno
+	 * @param theme1
+	 * @param productid
+	 * @param tradename
+	 * @param typeno
+	 * @param color
+	 * @param warehousename
+	 * @param zerodisplay
+	 * @return
+	 */
+	public List<WarehouseDetailDto> queryWarehouseDetail(String parentid, String keyword,
+			String warehousetype, String warehouseno, String theme1, String productid, String tradename,
+			String typeno, String color, String warehousename, String zerodisplay);
+	
 	/**
 	 * 查询库存产品记录数
 	 * @param parentid

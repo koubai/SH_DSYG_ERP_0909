@@ -217,7 +217,8 @@ public class FinanceDto extends BaseDto {
 	private String res08;
 
 	/**
-	 * 发票金额+发票日期
+	 * 发票金额+发票日期   
+	 * (该发票金额不准确，因为同一张发票不同产品的金额没有累加。2021.3.23 Pei)
 	 */
 	private String res09;
 

@@ -697,7 +697,6 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		paramMap.put("typeno", typeno);
 		paramMap.put("color", color);
 		paramMap.put("warehousename", warehousename);
-		System.out.println("zerodisplay:" + zerodisplay);
 		if (zerodisplay == null)
 			zerodisplay="";
 		if (zerodisplay.equals("0"))
@@ -709,6 +708,31 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		return list;
 	}
 
+	@Override
+	public List<WarehouseDetailDto> queryWarehouseDetail(String parentid,
+			String keyword, String warehousetype, String warehouseno,
+			String theme1, String productid, String tradename, String typeno,
+			String color, String warehousename, String zerodisplay) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("parentid", parentid);
+		paramMap.put("keyword", keyword);
+		paramMap.put("warehousetype", warehousetype);
+		paramMap.put("warehouseno", warehouseno);
+		paramMap.put("theme1", theme1);
+		paramMap.put("productid", productid);
+		paramMap.put("tradename", tradename);
+		paramMap.put("typeno", typeno);
+		paramMap.put("color", color);
+		paramMap.put("warehousename", warehousename);
+		if (zerodisplay == null)
+			zerodisplay="";
+		if (zerodisplay.equals("0"))
+			paramMap.put("zerodisplay", zerodisplay);
+		@SuppressWarnings("unchecked")
+		List<WarehouseDetailDto> list = getSqlMapClientTemplate().queryForList("queryWarehouseDetail", paramMap);
+		return list;
+	}
+	
 	@Override
 	public int queryWarehouseDetailCountByPage(String parentid, String keyword,
 			String warehousetype, String warehouseno, String theme1,

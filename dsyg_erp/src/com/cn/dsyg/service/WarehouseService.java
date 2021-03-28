@@ -1,5 +1,6 @@
 package com.cn.dsyg.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.cn.common.util.Page;
@@ -310,7 +311,7 @@ public interface WarehouseService {
 	 */
 	public Page queryWarehouseDetailByPage(String parentid, String keyword, String warehousetype,
 			String warehouseno, String theme1, String productid, String tradename,
-			String typeno, String color, String warehousename, String zeroDisplay, Page page);
+			String typeno, String color, String warehousename, String zeroDisplay, String totalQtyDisplay, Page page);
 	
 	/**
 	 * 根据ID查询数据
@@ -395,5 +396,8 @@ public interface WarehouseService {
 	 * @return
 	 */
 	public boolean checkProductQuantity(WarehouseCheckDto chkdto, String userid);
+	
+	public BigDecimal getTotalQty();
+	public void setTotalQty(BigDecimal totalQty);
 
 }

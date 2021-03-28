@@ -37,6 +37,13 @@
 		}
 	}
 	
+	function changeTotalQtyDisp(obj){
+		if(obj.checked) {
+			$("#totalQtyDisplay").attr("value", "1");
+		}else{
+			$("#totalQtyDisplay").attr("value", "0");
+		}
+	}
 	
 	function showSales(id){
 		var url = '<%=request.getContextPath()%>/warehouse/showProductSalesPage.action';
@@ -108,6 +115,7 @@
 				<s:hidden name="startIndex" id="startIndex"/>
 				<s:hidden name="intPageSize" id="intPageSize"/>
 				<s:hidden name="zeroDisplay" id="zeroDisplay"/>
+				<s:hidden name="totalQtyDisplay" id="totalQtyDisplay"/>
 				<div class="searchbox">
 					<div class="box1">
 						<label class="pdf10">类型</label>
@@ -125,7 +133,7 @@
 						<label class="pdf10">关键字</label>
 						<div class="box1_left"></div>
 						<div class="box1_center">
-							<s:textfield name="strKeyword" id="strKeyword" cssClass="input80" maxlength="16" theme="simple"></s:textfield>
+							<s:textfield name="strKeyword" id="strKeyword" cssClass="input180" maxlength="30" theme="simple"></s:textfield>
 						</div>
 						<div class="box1_right"></div>
 					</div>
@@ -139,6 +147,15 @@
 						</s:else>
 					</div>
 					
+					<div class="box1">
+						<label class="pdf10">显示库存合计</label>
+						<s:if test='totalQtyDisplay == "1"'>
+							<input id="temptotalQtyDisplay" type="checkbox" onclick="changeTotalQtyDisp(this);" checked="checked" value="1"/>
+						</s:if>
+						<s:else>
+							<input id="temptotalQtyDisplay" type="checkbox" onclick="changeTotalQtyDisp(this);" value="0"/>
+						</s:else>
+					</div>
 					
 					<div class="btn" style="margin-left: 60px;">
 						<div class="box1_left"></div>
@@ -261,6 +278,12 @@
 					</div>
 					<div class="pages">
 						<ul>
+							<li style="width: 180px;">
+								<s:if test="%{totalQtyDisplay == 1}">
+									库存合计：<s:property value="totalQty"/>
+								</s:if>		
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</li>
 							<li style="width: 180px;">
 								<s:if test="intPageSize != null && intPageSize == 20">
 									显示：<input name="tmpPagesize" type="radio" value="10" onclick="changepagesize('10')"/>10 
