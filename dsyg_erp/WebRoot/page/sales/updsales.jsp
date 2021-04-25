@@ -249,7 +249,7 @@
 		var paidamount = $("#tmpPaidamount").val();
 		
 		//备注
-		var res09 = tds[21].getElementsByTagName("input")[0].value.trim();
+		var res09 = tds[22].getElementsByTagName("input")[0].value.trim();
 		
 		if(salesQuantity == "") {
 			salesQuantity = 0;
@@ -288,6 +288,15 @@
 			//计算已税单价
 			taxprices = parseFloat(price) * (1 + rate);
 			tds[17].getElementsByTagName("input")[0].value = taxprices.toFixed(8);
+		}
+		
+		//计算利润率
+		//成本单价
+		var primecost = inputs[19].value;
+		if(primecost != "") {
+			primecost = parseFloat(primecost)
+			var profitrate = (taxprices - primecost) * 100 / primecost;
+			tds[20].innerHTML = profitrate.toFixed(2) + "%";
 		}
 		
 		//已出库数量
@@ -652,11 +661,15 @@
 			var taxunitprice = childs[17].value;
 			//产地
 			var makearea = childs[18].value;
+			
+			//成本单价
+			var primecost = childs[19].value;
+			
 			var createuid;
-			if(typeof(childs[19]) == "undefined"){
+			if(typeof(childs[20]) == "undefined"){
 				createuid = "";
 			} else {
-				createuid = childs[19].value;
+				createuid = childs[20].value;
 			}
 			
 			var tr = document.createElement("tr");
@@ -707,6 +720,7 @@
 			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].taxamount", taxamount));
 			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].res09", res09));
 			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].makearea", makearea));
+			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].primecost", primecost));
 			td.appendChild(createInput("tmpUpdSalesItemList[" + i + "].createuid", createuid));
 			
 			tr.appendChild(td);
@@ -1418,6 +1432,7 @@
 											</td>
 											<td width="110">销售金额（未税）</td>
 											<td width="110" style="background:#86e657;">销售金额（含税）</td>
+											<td width="90">利润率</td>
 											<td width="110">包装</td>
 											<td width="150">备注</td>
 										</tr>
@@ -1450,6 +1465,7 @@
 														<input type="hidden" value="<s:property value="res09"/>" />
 														<input type="hidden" value="<s:property value="taxunitprice"/>" />
 														<input type="hidden" value="<s:property value="makearea"/>" />
+														<input type="hidden" value="<s:property value="primecost"/>" />
 														<input type="hidden" value="<s:property value="createuid"/>" />
 													</td>
 													<td><input name="itemRadio" type="radio" onclick="chgBackColor()" /></td>
@@ -1555,6 +1571,11 @@
 														<s:else>
 															<input type="text" style="width: 80px;" id="tmpTaxamount_<s:property value="productid"/>" onblur="calcAmount(this, '2');" maxlength="13" value="<s:property value="taxamount"/>"/>
 														</s:else>
+													</td>
+													<td align="right">
+														<s:if test="profitrate != null">
+															<s:property value="profitrate"/>%
+														</s:if>
 													</td>
 													<td>
 														<s:property value="item01"/>

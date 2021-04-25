@@ -1,5 +1,6 @@
 package com.cn.dsyg.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -99,6 +100,14 @@ public class ProductServiceImpl implements ProductService {
 				} else {
 					//什么都不做
 				}
+				
+				//成本单价
+				//TODO
+//				if(product.getTaxcuprice() == null) {
+//					product.setPrimecost(new BigDecimal(1.2).setScale(6, BigDecimal.ROUND_HALF_UP));
+//				} else {
+//					product.setPrimecost((product.getTaxcuprice().multiply(new BigDecimal(0.94))).setScale(6, BigDecimal.ROUND_HALF_UP));
+//				}
 			}
 			//productBarcodeDao
 		}

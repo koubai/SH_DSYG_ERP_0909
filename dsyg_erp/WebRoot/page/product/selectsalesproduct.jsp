@@ -149,6 +149,9 @@
 		//住友编码
 		var item11 = inputs[17].value;
 		
+		//成本单价
+		var primecost = inputs[20].value;
+		
 		//销售单货物表ID，这里ID为空
 		var input = createHidden("");
 		td0.appendChild(input);
@@ -230,6 +233,9 @@
 		//产地
 		var input = createHidden(makearea);
 		td0.appendChild(input);
+		//成本单价
+		var input = createHidden(primecost);
+		td0.appendChild(input);
 		//==============================
 		
 		var wid = 80;
@@ -270,6 +276,10 @@
 		//销售金额含税
 		td = createTdInput("tmpTaxamount", wid, 13, "calcAmount(this, '2');", id);
 		//td = createTdInput("tmpTaxamount", wid, 13, "calcquantity(this, '3');", id);
+		tr.appendChild(td);
+		
+		//成本单价
+		td = createTd("");
 		tr.appendChild(td);
 		
 		//包装
@@ -546,6 +556,7 @@
 								
 								<input type="hidden" value="<s:property value="cuprice"/>"/>
 								<input type="hidden" value="<s:property value="taxcuprice"/>"/>
+								<input type="hidden" value="<s:property value="primecost"/>"/>
 							</td>
 							<!-- <td><input name="radioKey" type="radio" value="<s:property value="id"/>"/></td> -->
 							<td><input name="radioKey" type="checkbox" value="<s:property value="id"/>"/></td>

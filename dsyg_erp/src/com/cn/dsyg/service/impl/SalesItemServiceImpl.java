@@ -72,6 +72,13 @@ public class SalesItemServiceImpl implements SalesItemService {
 					//计算税后价格，保留6位有效数字
 					item.setTaxunitprice(item.getUnitprice().multiply(rate).setScale(6, BigDecimal.ROUND_HALF_UP));
 				}
+				//计算成本单价
+				//TODO
+//				if(item.getTaxunitprice() == null) {
+//					item.setPrimecost(new BigDecimal(1.2).setScale(6, BigDecimal.ROUND_HALF_UP));
+//				} else {
+//					item.setPrimecost((item.getTaxunitprice().multiply(new BigDecimal(0.94))).setScale(6, BigDecimal.ROUND_HALF_UP));
+//				}
 			}
 		}
 		return list;

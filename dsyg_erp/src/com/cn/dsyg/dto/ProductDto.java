@@ -117,6 +117,9 @@ public class ProductDto extends BaseDto {
 	//（税后）
 	private BigDecimal taxcuprice;
 	
+	//成本单价
+	private BigDecimal primecost;
+	
 	//是否被选中，1为选中
 	private String checked;
 	//退票数量
@@ -1599,5 +1602,13 @@ public class ProductDto extends BaseDto {
 
 	public void setShownum(String shownum) {
 		this.shownum = shownum;
+	}
+
+	public BigDecimal getPrimecost() {
+		return primecost;
+	}
+
+	public void setPrimecost(BigDecimal primecost) {
+		this.primecost = primecost;
 	}
 }

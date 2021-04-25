@@ -140,6 +140,16 @@ public class SalesItemDto extends BaseAction {
 	private BigDecimal taxamount;
 	
 	/**
+	 * 成本（需要单独计算）
+	 */
+	private BigDecimal primecost;
+	
+	/**
+	 * 利润率=单价/成本
+	 */
+	private BigDecimal profitrate;
+	
+	/**
 	 * 预出库时间
 	 */
 	private String plandate;
@@ -620,5 +630,31 @@ public class SalesItemDto extends BaseAction {
 
 	public void setRemainquantity(BigDecimal remainquantity) {
 		this.remainquantity = remainquantity;
+	}
+
+	public BigDecimal getPrimecost() {
+		return primecost;
+	}
+
+	public void setPrimecost(BigDecimal primecost) {
+		this.primecost = primecost;
+	}
+
+	public BigDecimal getProfitrate() {
+		if(this.primecost != null) {
+			if(taxunitprice != null) {
+				//计算利润率
+				profitrate = ((taxunitprice.subtract(primecost)).multiply(new BigDecimal(100))).divide(primecost, 2, BigDecimal.ROUND_HALF_UP);
+			} else {
+				profitrate = null;
+			}
+		} else {
+			profitrate = null;
+		}
+		return profitrate;
+	}
+
+	public void setProfitrate(BigDecimal profitrate) {
+		this.profitrate = profitrate;
 	}	
 }
