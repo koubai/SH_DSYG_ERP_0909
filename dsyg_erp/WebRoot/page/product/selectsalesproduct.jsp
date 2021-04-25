@@ -57,11 +57,17 @@
 		//验证该产品是否在产品列表中
 		var productlist = getOpener().document.getElementById("productlist").value;
 		var products = "," + productlist;
-		if(products.indexOf("," + id + ",") >= 0) {
-			//alert("该产品已存在！");
-			return;
+		// 询价时允许相同产品存在
+		var salestype_items = getOpener().document.getElementsByName("salesType");
+		if (salestype_items != null && salestype_items[1] != null){
+			if (!salestype_items[1].checked){
+				if(products.indexOf("," + id + ",") >= 0) {
+					//alert("该产品已存在！");
+					return;
+				}				
+			}			
 		}
-		
+				
 		var rate = $("#common_rate").val();
 		
 		//添加产品信息

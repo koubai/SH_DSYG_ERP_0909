@@ -1888,9 +1888,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 					//默认为0
 					if (warehouseDetailDto2.getQuantity()!=null){
 						totalQty = totalQty.add(warehouseDetailDto2.getQuantity());	
-						if (warehouseDetailDto2.getQuantityw()!=null){
-							totalQty = totalQty.add(warehouseDetailDto2.getQuantityw());	
-						}						
 					}
 				}	
 			}

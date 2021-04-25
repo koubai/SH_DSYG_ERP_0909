@@ -237,7 +237,7 @@
 									</td>
 									<td align="right"><a href="#" onclick="showSales('<s:property value="id"/>');"><u><s:property value="quantitys"/></u></a></td>
 									<td align="right">
-										<s:if test="%{quantity < res01}">
+										<s:if test="%{quantity + quantityw < res01}">
 											<span style="background-color: yellow"><s:property value="quantity"/></span>
 										</s:if>
 										<s:else>
