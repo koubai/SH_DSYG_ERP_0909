@@ -375,6 +375,9 @@
 		<property name="productDao">
 			<ref local="productDao"/>
 		</property>
+		<property name="warehouseDao">
+			<ref local="warehouseDao"/>
+		</property>
 	</bean>
 	<bean id="salesItemHisService" class="com.cn.dsyg.service.impl.SalesItemHisServiceImpl" >
 		<property name="salesItemHisDao">
@@ -545,6 +548,9 @@
 		</property>
 		<property name="purchaseItemDao">
 			<ref local="purchaseItemDao"/>
+		</property>
+		<property name="warehouseDao">
+			<ref local="warehouseDao"/>
 		</property>
 	</bean>
 	

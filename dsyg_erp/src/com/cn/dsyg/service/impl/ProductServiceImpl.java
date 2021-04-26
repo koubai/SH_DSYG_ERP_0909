@@ -9,18 +9,21 @@ import com.cn.common.util.DateUtil;
 import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
+import com.cn.common.util.WarehouseUtil;
 import com.cn.dsyg.dao.CuPriceDao;
 import com.cn.dsyg.dao.Dict01Dao;
 import com.cn.dsyg.dao.ProductBarcodeDao;
 import com.cn.dsyg.dao.ProductDao;
 import com.cn.dsyg.dao.PurchaseItemDao;
 import com.cn.dsyg.dao.SalesItemDao;
+import com.cn.dsyg.dao.WarehouseDao;
 import com.cn.dsyg.dto.CuPriceDto;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.ProductBarcodeDto;
 import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.dto.PurchaseItemDto;
 import com.cn.dsyg.dto.SalesItemDto;
+import com.cn.dsyg.dto.WarehouseDto;
 import com.cn.dsyg.service.ProductService;
 
 /**
@@ -37,6 +40,7 @@ public class ProductServiceImpl implements ProductService {
 	private SalesItemDao salesItemDao;
 	private PurchaseItemDao purchaseItemDao;
 	private CuPriceDao cuPriceDao;
+	private WarehouseDao warehouseDao;
 	
 	@Override
 	public ProductDto queryProductByLogicId(String tradename, String typeno,
@@ -73,6 +77,15 @@ public class ProductServiceImpl implements ProductService {
 		List<ProductDto> list = productDao.queryProductByPage(fieldno, item01, keyword, packaging, tradename, typeno, color, supplierId, status,
 				page.getStartIndex() * page.getPageSize(), page.getPageSize());
 		if(list != null && list.size() > 0) {
+			WarehouseDto warehouseDto = null;
+			
+			BigDecimal rate = new BigDecimal(1);
+			//税率
+			List<Dict01Dto> listRate = dict01Dao.queryDict01ByFieldcode(Constants.DICT_RATE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			if(listRate != null && listRate.size() > 0) {
+				rate = rate.add(new BigDecimal(listRate.get(0).getCode()));
+			}
+			
 			//查询条形码码序列号信息
 			for(ProductDto product : list) {
 				ProductBarcodeDto productBarcode = productBarcodeDao.queryProductBarcodeByProductID("" + product.getId());
@@ -101,13 +114,10 @@ public class ProductServiceImpl implements ProductService {
 					//什么都不做
 				}
 				
-				//成本单价
-				//TODO
-//				if(product.getTaxcuprice() == null) {
-//					product.setPrimecost(new BigDecimal(1.2).setScale(6, BigDecimal.ROUND_HALF_UP));
-//				} else {
-//					product.setPrimecost((product.getTaxcuprice().multiply(new BigDecimal(0.94))).setScale(6, BigDecimal.ROUND_HALF_UP));
-//				}
+				//计算成本单价
+				warehouseDto = warehouseDao.queryPrimecostByProductId("" + product.getId());
+				BigDecimal primecost = WarehouseUtil.calcPrimecost(warehouseDto, rate);
+				product.setPrimecost(primecost);
 			}
 			//productBarcodeDao
 		}
@@ -432,5 +442,13 @@ public class ProductServiceImpl implements ProductService {
 
 	public void setPurchaseItemDao(PurchaseItemDao purchaseItemDao) {
 		this.purchaseItemDao = purchaseItemDao;
+	}
+
+	public WarehouseDao getWarehouseDao() {
+		return warehouseDao;
+	}
+
+	public void setWarehouseDao(WarehouseDao warehouseDao) {
+		this.warehouseDao = warehouseDao;
 	}
 }

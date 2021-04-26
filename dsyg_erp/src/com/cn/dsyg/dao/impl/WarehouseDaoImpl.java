@@ -28,6 +28,19 @@ import com.cn.dsyg.dto.WarehouseProductDto;
 public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 	
 	@Override
+	public WarehouseDto queryPrimecostByProductId(String productId) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("productid", productId);
+		paramMap.put("warehousetype", Constants.WAREHOUSE_TYPE_IN);
+		paramMap.put("status", Constants.WAREHOUSE_STATUS_OK);
+		List<WarehouseDto> list = getSqlMapClientTemplate().queryForList("queryPrimecostByProductId", paramMap);
+		if(list != null && list.size() > 0) {
+			return list.get(0);
+		}
+		return null;
+	}
+	
+	@Override
 	public List<InOutStockDto> queryInOutStockDetail(String productid, String warehousetype,
 			String startdate, String enddate) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();

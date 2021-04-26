@@ -4,6 +4,11 @@
         "http://www.ibatis.com/dtd/sql-map-2.dtd">
 <sqlMap namespace="com.cn.dsyg">
 
+	<resultMap id="PrimeWarehouseDto" class="com.cn.dsyg.dto.WarehouseDto">
+		<result property="quantity" column="quantity" />
+		<result property="amount" column="amount" />
+	</resultMap>
+	
 	<resultMap id="WarehouseDto" class="com.cn.dsyg.dto.WarehouseDto">
 		<result property="id" column="id" />
 		<result property="parentid" column="parentid" />
@@ -1905,6 +1910,21 @@
 	
 	<select id="queryWarehouseByWarehouseno" parameterClass="java.util.Map" resultMap="WarehouseDto">
 		select * from etb_warehouse where warehouseno = #warehouseno#
+	</select>
+	
+	<select id="queryPrimecostByProductId" parameterClass="java.util.Map" resultMap="PrimeWarehouseDto">
+		select A.* from (
+		SELECT sum(W.res07) as quantity,sum(W.res07 * W.unitprice) as amount from etb_warehouse W where 1 = 1 and W.res07 != 0
+		<isNotEmpty prepend="and" property="warehousetype">
+			W.warehousetype = #warehousetype#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="status">
+			W.status in ($status$)
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehousetype">
+			W.productid = #productid#
+		</isNotEmpty>
+		) A
 	</select>
 	
 	<insert id="insertWarehouse" parameterClass="com.cn.dsyg.dto.WarehouseDto">

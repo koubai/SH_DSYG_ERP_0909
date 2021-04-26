@@ -21,6 +21,13 @@ import com.cn.dsyg.dto.WarehouseOkDto;
 public interface WarehouseService {
 	
 	/**
+	 * 根据产品ID查询成本单价
+	 * @param productId
+	 * @return
+	 */
+	public WarehouseDto queryPrimecostByProductId(String productId);
+	
+	/**
 	 * 条形码入出库前验证
 	 * @param rptId
 	 * @param scanBarcodeInfo

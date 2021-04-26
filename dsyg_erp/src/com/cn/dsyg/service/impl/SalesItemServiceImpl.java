@@ -10,14 +10,17 @@ import com.cn.common.util.DateUtil;
 import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
+import com.cn.common.util.WarehouseUtil;
 import com.cn.dsyg.dao.CuPriceDao;
 import com.cn.dsyg.dao.Dict01Dao;
 import com.cn.dsyg.dao.ProductDao;
 import com.cn.dsyg.dao.SalesItemDao;
+import com.cn.dsyg.dao.WarehouseDao;
 import com.cn.dsyg.dto.CuPriceDto;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.dto.SalesItemDto;
+import com.cn.dsyg.dto.WarehouseDto;
 import com.cn.dsyg.service.SalesItemService;
 
 /**
@@ -32,6 +35,7 @@ public class SalesItemServiceImpl implements SalesItemService {
 	private Dict01Dao dict01Dao;
 	private CuPriceDao cuPriceDao;
 	private ProductDao productDao;
+	private WarehouseDao warehouseDao;
 
 	@Override
 	public SalesItemDto queryCuPriceByProduct(String productid, String customerid) {
@@ -61,24 +65,19 @@ public class SalesItemServiceImpl implements SalesItemService {
 	public List<SalesItemDto> querySalesItemBySalesno(String salesno) {
 		List<SalesItemDto> list = salesItemDao.querySalesItemBySalesno(salesno);
 		if(list != null && list.size() > 0) {
+			WarehouseDto warehouseDto = null;
+			BigDecimal rate = new BigDecimal(1);
+			//税率
+			List<Dict01Dto> listRate = dict01Dao.queryDict01ByFieldcode(Constants.DICT_RATE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			if(listRate != null && listRate.size() > 0) {
+				rate = rate.add(new BigDecimal(listRate.get(0).getCode()));
+			}
+			
 			for(SalesItemDto item : list) {
-				BigDecimal rate = new BigDecimal(1);
-				//税率
-				List<Dict01Dto> listRate = dict01Dao.queryDict01ByFieldcode(Constants.DICT_RATE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
-				if(listRate != null && listRate.size() > 0) {
-					rate = rate.add(new BigDecimal(listRate.get(0).getCode()));
-				}
-				if(item.getUnitprice() != null && item.getTaxunitprice() == null) {
-					//计算税后价格，保留6位有效数字
-					item.setTaxunitprice(item.getUnitprice().multiply(rate).setScale(6, BigDecimal.ROUND_HALF_UP));
-				}
 				//计算成本单价
-				//TODO
-//				if(item.getTaxunitprice() == null) {
-//					item.setPrimecost(new BigDecimal(1.2).setScale(6, BigDecimal.ROUND_HALF_UP));
-//				} else {
-//					item.setPrimecost((item.getTaxunitprice().multiply(new BigDecimal(0.94))).setScale(6, BigDecimal.ROUND_HALF_UP));
-//				}
+				warehouseDto = warehouseDao.queryPrimecostByProductId(item.getProductid());
+				BigDecimal primecost = WarehouseUtil.calcPrimecost(warehouseDto, rate);
+				item.setPrimecost(primecost);
 			}
 		}
 		return list;
@@ -174,5 +173,13 @@ public class SalesItemServiceImpl implements SalesItemService {
 
 	public void setProductDao(ProductDao productDao) {
 		this.productDao = productDao;
+	}
+
+	public WarehouseDao getWarehouseDao() {
+		return warehouseDao;
+	}
+
+	public void setWarehouseDao(WarehouseDao warehouseDao) {
+		this.warehouseDao = warehouseDao;
 	}
 }

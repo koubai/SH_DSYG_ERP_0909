@@ -22,6 +22,13 @@ import com.cn.dsyg.dto.WarehouseProductDto;
 public interface WarehouseDao {
 	
 	/**
+	 * 根据产品ID查询成本单价
+	 * @param productId
+	 * @return
+	 */
+	public WarehouseDto queryPrimecostByProductId(String productId);
+	
+	/**
 	 * 查询明细
 	 * @param productid
 	 * @param warehousetype

@@ -97,6 +97,11 @@ public class WarehouseServiceImpl implements WarehouseService {
 	private WarehouseSZDao warehouseSZDao;
 	
 	@Override
+	public WarehouseDto queryPrimecostByProductId(String productId) {
+		return warehouseDao.queryPrimecostByProductId(productId);
+	}
+	
+	@Override
 	public AjaxResultDto barcodeWarehouseInOutCheck(String rptId, String scanBarcodeInfo, Integer type, String userid, boolean checktype) {
 		AjaxResultDto ajaxResult = new AjaxResultDto();
 		//验证条形码是否为空
