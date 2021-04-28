@@ -932,6 +932,13 @@
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
+	//拷贝询价
+	function copyRecord(salesId) {
+		$("#copySalesId").val(salesId);
+		document.mainform.action = "../sales/showCopySalesAction.action";
+		document.mainform.submit();
+	}
+	
 	//根据未税单价计算
 	function calcByPrice() {
 		var rows = document.getElementById("productData").rows;
@@ -987,6 +994,8 @@
 				<s:hidden name="updSalesDto.note" id="note"></s:hidden>
 				<s:hidden name="updSalesDto.refundflag" id="refundflag"></s:hidden>
 				<s:hidden name="updSalesDto.rank" id="rank"></s:hidden>
+				
+				<s:hidden name="copySalesId" id="copySalesId"></s:hidden>
 				
 				<div class="searchbox update" style="height:0px;">
 					<table id="salesItemTable" style="display: none;">
@@ -1742,6 +1751,17 @@
 									<div class="box1_right"></div>
 								</div>
 							</td>
+							<s:if test='updSalesDto.res02 == "1"'>
+								<td>
+									<div class="btn">
+										<div class="box1_left"></div>
+										<div class="box1_center">
+											<input class="input80" type="button" value="拷贝询价单" onclick="copyRecord('<s:property value="updSalesId" />');"/>
+										</div>
+										<div class="box1_right"></div>
+									</div>
+								</td>
+							</s:if>
 						</tr>
 					</table>
 					<div style="height:225px;"></div>

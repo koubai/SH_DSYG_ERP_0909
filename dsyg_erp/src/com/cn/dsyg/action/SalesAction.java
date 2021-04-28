@@ -137,7 +137,56 @@ public class SalesAction extends BaseAction {
 	private Integer userrank; 
 	
 	//检索RANK
-	private String searchRank; 
+	private String searchRank;
+	
+	private String copySalesId;
+	
+	/**
+	 * 显示拷贝询价单
+	 * @return
+	 */
+	public String showCopySalesAction() {
+		try {
+			this.clearMessages();
+			
+			userrank = (Integer) ActionContext.getContext().getSession().get(Constants.SESSION_ROLE_RANK);
+			//初期化字典数据
+			initDictList();
+			
+			//查询询价单的数据，并将数据赋值到新的询价单DTO中
+			addSalesDto = salesService.querySalesByID(copySalesId);
+			addSalesItemList = new ArrayList<SalesItemDto>();
+			if(addSalesDto != null) {
+				//查询询价单的产品列表信息
+				addSalesItemList = salesItemService.querySalesItemBySalesno(addSalesDto.getSalesno());
+				if(addSalesItemList != null && addSalesItemList.size() > 0) {
+					for(SalesItemDto salesItemDto : addSalesItemList) {
+						salesItemDto.setId(null);
+						salesItemDto.setSalesno("");
+						salesItemDto.setTheme2("");
+					}
+				}
+			}
+			
+			//清空ID、订单号、客户信息等数据
+			addSalesDto.setId(null);
+			addSalesDto.setSalesno("");
+			addSalesDto.setTheme2("");
+			addSalesDto.setCustomerid(null);
+			addSalesDto.setCustomername("");
+			addSalesDto.setCustomeraddress("");
+			addSalesDto.setCustomerfax("");
+			addSalesDto.setCustomermail("");
+			addSalesDto.setCustomermanager("");
+			addSalesDto.setCustomertel("");
+			
+			addSalesDto.setRank(Constants.ROLE_RANK_OPERATOR_80);
+		} catch(Exception e) {
+			log.error("showCopySalesAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
 	
 	/**
 	 * 显示更新一览
@@ -1332,6 +1381,14 @@ public class SalesAction extends BaseAction {
 
 	public void setSearchRank(String searchRank) {
 		this.searchRank = searchRank;
+	}
+
+	public String getCopySalesId() {
+		return copySalesId;
+	}
+
+	public void setCopySalesId(String copySalesId) {
+		this.copySalesId = copySalesId;
 	}
 
 }

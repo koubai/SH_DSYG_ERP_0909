@@ -1338,7 +1338,7 @@
 														</s:else>														
 													</td>
 													<td align="right"><s:property value="outquantity"/></td>
-													<td><br /></td>
+													<td align="right"><s:property value="remainquantity"/></td>
 													<s:if test='addSalesDto.res02 == "1"'>
 													<td class="cupricetd">
 													</s:if>
