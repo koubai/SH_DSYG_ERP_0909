@@ -7,6 +7,9 @@
 		<property name="warehouseService">
 			<ref bean="warehouseService" />
 		</property>
+		<property name="warehouserptService">
+			<ref bean="warehouserptService" />
+		</property>
 		<property name="deliveryService">
 			<ref bean="deliveryService" />
 		</property>

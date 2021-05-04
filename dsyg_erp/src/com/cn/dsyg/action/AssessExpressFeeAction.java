@@ -3,9 +3,11 @@ package com.cn.dsyg.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,12 +23,16 @@ import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dto.AjaxResultDto;
 import com.cn.dsyg.dto.CalcDeliveryPriceDto;
 import com.cn.dsyg.dto.CustomerDto;
+import com.cn.dsyg.dto.DeliveryDto;
 import com.cn.dsyg.dto.DeliveryPriceDto;
+import com.cn.dsyg.dto.WarehouserptDto;
 import com.cn.dsyg.service.CustomerService;
 import com.cn.dsyg.service.DeliveryPriceService;
 import com.cn.dsyg.service.DeliveryService;
 import com.cn.dsyg.service.Dict01Service;
 import com.cn.dsyg.service.WarehouseService;
+import com.cn.dsyg.service.WarehouserptService;
+import com.cn.dsyg.service.impl.WarehouserptServiceImpl;
 
 import net.sf.json.JSONArray;
 
@@ -41,6 +47,7 @@ public class AssessExpressFeeAction extends BaseAction {
 	private static final Logger log = LogManager.getLogger(AssessExpressFeeAction.class);
 	
 	private WarehouseService warehouseService;
+	private WarehouserptService warehouserptService;
 	private DeliveryService deliveryService;
 	private DeliveryPriceService deliveryPriceService;
 	private Dict01Service dict01Service;
@@ -52,7 +59,17 @@ public class AssessExpressFeeAction extends BaseAction {
 	private CustomerDto showCustomerDto;
 	//起点所属
 	private String strBelongto;
-
+	//快递单号
+	private String expressno;
+	//单据日期
+	private Date receiptdate;
+	//快递ID
+	private String deliveryid;
+	//快递金额
+	private String deliveryprice;
+	//出库单号
+	private String updWarehouserptId;
+	
 	/**
 	 * 显示运费评估页面
 	 * @return
@@ -62,6 +79,8 @@ public class AssessExpressFeeAction extends BaseAction {
 			this.clearMessages();
 			strWeight = "";
 			strCube = "";
+			receiptdate = new Date();
+			System.out.println(receiptdate);
 			//起点
 			String belongto = PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_BELONG);
 			if("1".equals(belongto)) {
@@ -117,6 +136,7 @@ public class AssessExpressFeeAction extends BaseAction {
 						//根据重量计算
 						if(StringUtil.isNotBlank(strWeight)) {
 							CalcDeliveryPriceDto price = new CalcDeliveryPriceDto();
+							price.setDeliveryid(deliveryPrice.getDeliveryid());
 							price.setDeliveryname(deliveryPrice.getDeliveryname());
 							//费用
 							BigDecimal weightprice = calcPrice(strWeight, deliveryPrice.getPricekg());
@@ -135,6 +155,7 @@ public class AssessExpressFeeAction extends BaseAction {
 						//根据体积计算
 						if(StringUtil.isNotBlank(strCube)) {
 							CalcDeliveryPriceDto price1 = new CalcDeliveryPriceDto();
+							price1.setDeliveryid(deliveryPrice.getDeliveryid());
 							price1.setDeliveryname(deliveryPrice.getDeliveryname());
 							//费用
 							BigDecimal cubeprice = calcPrice(strCube, deliveryPrice.getPricem3());
@@ -202,6 +223,66 @@ public class AssessExpressFeeAction extends BaseAction {
 		out.write(result);
 		out.flush();
 		return null;
+	}
+	
+	/**
+	 * 快递费用保持到发货单中
+	 * @return
+	 * @throws IOException 
+	 */
+	public String saveAssessExpressFeeAction() throws IOException {
+		try {
+			this.clearMessages();
+			//根据客户ID查询客户信息
+			DeliveryDto deliveryDto = deliveryService.queryEtbDeliveryByID(deliveryid);
+			//快递单号
+			System.out.println("快递单号:" + expressno);
+			//单据日期
+			System.out.println("单据日期:" + receiptdate);
+			//快递ID
+			System.out.println("快递ID:" + deliveryid);
+			//快递金额
+			System.out.println("快递金额:" + deliveryprice);
+
+			//快递费用保持到发货单中
+			WarehouserptDto warehouserpt = warehouserptService.queryWarehouserptByID(updWarehouserptId);
+
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			// 快递单号
+			warehouserpt.setExpressid(deliveryid);
+			// 快递公司名
+			warehouserpt.setExpressname(deliveryDto.getDeliveryname());
+			// 快递公司快递地址
+			warehouserpt.setExpressaddress(deliveryDto.getDeliveryaddress1());
+			// 快递公司快递联系人
+			warehouserpt.setExpressmanager(deliveryDto.getDeliverymanager1());
+			// 快递公司快递电话
+			warehouserpt.setExpresstel(deliveryDto.getDeliverytel1());
+			// 快递公司快递传真
+			warehouserpt.setExpressfax(deliveryDto.getDeliveryfax1());
+			// 快递公司快递信箱
+			warehouserpt.setExpressmail(deliveryDto.getDeliverymail1());
+			
+			
+			// 快递单号
+			warehouserpt.setExpressno(expressno);
+			// 快递包裹重量Kg
+			warehouserpt.setRes03(strWeight);
+			// 快递金额(含税)
+			warehouserpt.setExpresstaxamount(new BigDecimal(deliveryprice));
+			// 快递单据日期
+			warehouserpt.setRes01(sf.format(receiptdate));
+			
+			warehouserptService.updateWarehouserpt(warehouserpt);
+			this.addActionMessage("出库单:"+warehouserpt.getWarehouseno()+"添加快递成功！");
+
+		} catch(Exception e) {
+			this.addActionMessage("系统异常，出库单添加快递失败！");
+			log.error("saveAssessExpressFeeAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+
 	}
 	
 	/**
@@ -297,4 +378,53 @@ public class AssessExpressFeeAction extends BaseAction {
 	public void setStrBelongto(String strBelongto) {
 		this.strBelongto = strBelongto;
 	}
+	
+	public String getExpressno() {
+		return expressno;
+	}
+
+	public void setExpressno(String expressno) {
+		this.expressno = expressno;
+	}
+
+	public Date getReceiptdate() {
+		return receiptdate;
+	}
+
+	public void setReceiptdate(Date receiptdate) {
+		this.receiptdate = receiptdate;
+	}
+
+	public String getDeliveryid() {
+		return deliveryid;
+	}
+
+	public void setDeliveryid(String deliveryid) {
+		this.deliveryid = deliveryid;
+	}
+
+	public String getDeliveryprice() {
+		return deliveryprice;
+	}
+
+	public void setDeliveryprice(String deliveryprice) {
+		this.deliveryprice = deliveryprice;
+	}
+	
+	public WarehouserptService getWarehouserptService() {
+		return warehouserptService;
+	}
+
+	public void setWarehouserptService(WarehouserptService warehouserptService) {
+		this.warehouserptService = warehouserptService;
+	}
+
+	public String getUpdWarehouserptId() {
+		return updWarehouserptId;
+	}
+
+	public void setUpdWarehouserptId(String updWarehouserptId) {
+		this.updWarehouserptId = updWarehouserptId;
+	}
+
 }

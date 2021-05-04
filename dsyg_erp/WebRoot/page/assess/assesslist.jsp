@@ -9,6 +9,8 @@
 <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/common.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.5.1.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/Calendar3.js"></script>
+
 <title>运费信息确认</title>
 <script type="text/javascript">
 function changeStyle(obj, flag) {
@@ -71,7 +73,7 @@ function calcPrice() {
 			$.each(items, function(i, n) {
 				var html = '';
 				html += '<tr>';
-				html += '	<td><input type="radio"/></td>';
+				html += '	<td><input name="radioKey" type="radio" value='+ n.deliveryid + "@@" + n.deliveryprice + '></input></td>';
 				html += '	<td>' + (i + 1) + '</td>';
 				html += '	<td>' + n.deliveryname + '</td>';
 				html += '	<td>' + n.unitprice + '</td>';
@@ -91,7 +93,7 @@ function calcPrice() {
 			$.each(items1, function(i, n) {
 				var html = '';
 				html += '<tr>';
-				html += '	<td><input type="radio"/></td>';
+				html += '	<td><input name="radioKey" type="radio" value='+ n.deliveryid + "@@" + n.deliveryprice + '></input></td>';
 				html += '	<td>' + (i + 1) + '</td>';
 				html += '	<td>' + n.deliveryname + '</td>';
 				html += '	<td>' + n.unitprice + '</td>';
@@ -110,18 +112,57 @@ function calcPrice() {
 		}
 	});
 }
+
+function savePrice() {
+	
+	var expressno = $("#expressno").val();
+	var receiptdate = $("#receiptdate").val();
+	var delivery = getSelectedDelivery();
+	var id, deliveryprice;
+	if(delivery == "") {
+		alert("请选择一条记录！");
+		return;
+	} else {
+		var idx = delivery.indexOf("@@");
+		if (idx >= 1){
+			id = delivery.substring(0, idx);
+			deliveryprice = delivery.substring(idx + 2, delivery.length);
+//			alert(id + ": " +  expressno + ": " + receiptdate  + ": " + deliveryprice);
+			document.mainform.action = "<%=request.getContextPath()%>/assess/saveAssessExpressFeeAction.action?deliveryid="+id+"&&expressno="+expressno+"&&receiptdate=" +receiptdate+"&&deliveryprice="+deliveryprice;
+			document.mainform.submit();
+		}
+	}
+}
+
+function getSelectedDelivery() {
+	var id = "";
+	var list = document.getElementsByName("radioKey");
+	for(var i = 0; i < list.length; i++) {
+		if(list[i].checked) {
+			id = list[i].value;
+			break;
+		}
+	}
+	return id;
+}
+
+
 </script>
 </head>
 <body style="background: url(''); overflow-x:hidden;overflow-y:hidden;">
 <s:form id="mainform" name="mainform" method="POST">
 	<s:hidden name="strCustomerId" id="strCustomerId"></s:hidden>
+	<s:hidden name="expresscost" id="expresscost"></s:hidden>
+	<div style="position:absolute; margin-left: 150px; margin-top: 1px; text-align: center; color: red;">
+		<s:actionmessage />
+	</div>	
 	<div id="container" style="width: 100%; height: 100%;">
 		<table class="info_tab" width="100%" border="0" cellpadding="5" cellspacing="0">
 			<tr>
-				<td width="100">　 </td>
-				<td width="250">　 </td>
-				<td width="100">　 </td>
-				<td>　 </td>
+				<td width="150">　 </td>
+				<td width="150">　 </td>
+				<td width="150">　 </td>
+				<td >　 </td>
 			</tr>
 			<tr>
 				<td align="right">客户名称：</td>
@@ -148,7 +189,7 @@ function calcPrice() {
 				<td>
 					<div class="box1_left"></div>
 					<div class="box1_center">
-						<s:textfield name="strBelongto" id="strBelongto" disabled="true" cssStyle="width:120px;" maxlength="32" theme="simple"></s:textfield>
+						<s:textfield name="strBelongto" id="strBelongto" disabled="true" cssStyle="width:60px;" maxlength="32" theme="simple"></s:textfield>
 					</div>
 					<div class="box1_right"></div>
 				</td>
@@ -156,9 +197,18 @@ function calcPrice() {
 				<td>
 					<div class="box1_left"></div>
 					<div class="box1_center">
-						<s:textfield name="showCustomerDto.res01" id="res01" disabled="true" cssStyle="width:120px;" maxlength="32" theme="simple"></s:textfield>
+						<s:textfield name="showCustomerDto.res01" id="res01" disabled="true" cssStyle="width:60px;" maxlength="32" theme="simple"></s:textfield>
 					</div>
 					<div class="box1_right"></div>
+				</td>
+				<td>
+					<div class="btn">
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							<input type="button" class="input40" value="关闭" onclick="window.close();"/>
+						</div>
+						<div class="box1_right"></div>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -166,7 +216,7 @@ function calcPrice() {
 				<td>
 					<div class="box1_left"></div>
 					<div class="box1_center">
-						<input type="text" id="productWeight" style="width:120px;" maxlength="32"/>
+						<input type="text" id="productWeight" style="width:60px;" maxlength="32"/>
 					</div>
 					<div class="box1_right"></div>
 					<label style="line-height: 35px;">Kg</label>
@@ -175,18 +225,44 @@ function calcPrice() {
 				<td>
 					<div class="box1_left"></div>
 					<div class="box1_center">
-						<input type="text" id="productVolume" style="width:120px;" maxlength="32"/>
+						<input type="text" id="productVolume" style="width:60px;" maxlength="32"/>
 					</div>
 					<div class="box1_right"></div>
 					<label style="line-height: 35px;">m³</label>
 				</td>
-			</tr>
-			<tr>
 				<td colspan="4">
 					<div class="btn" style="margin-left: 0px;">
 						<div class="box1_left"></div>
 						<div class="box1_center">
 							<input type="button" class="input40" value="评估" onclick="calcPrice();"/>
+						</div>
+						<div class="box1_right"></div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">快递单号：</td>
+				<td>
+					<div class="box1_left"></div>
+					<div class="box1_center">
+						<input type="text" id="expressno" style="width:120px;" maxlength="50"/>
+					</div>
+					<div class="box1_right"></div>
+				</td>
+				<td align="right">单据日期：</td>
+				<td>
+					<div class="box1_left"></div>
+					<div class="box1_center date_input">
+						<input type="text" id="receiptdate" disabled="disabled" style="width:105px;" value="<s:date format="yyyy-MM-dd" name="receiptdate"/>" />
+						<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('receiptdate'));"></a>
+					</div>
+					<div class="box1_right"></div>
+				</td>
+				<td colspan="4">
+					<div class="btn" style="margin-left: 0px;">
+						<div class="box1_left"></div>
+						<div class="box1_center">
+							<input type="button" class="input40" value="提交" onclick="savePrice();"/>
 						</div>
 						<div class="box1_right"></div>
 					</div>
@@ -249,7 +325,7 @@ function calcPrice() {
 				</table>
 			</div>
 		</div>
-		<div class="btns" style="margin-top:40px; margin-left: 0px;">
+<!-- 		<div class="btns" style="margin-top:40px; margin-left: 0px;">
 			<table border="0" style="margin:0 auto;">
 				<tr>
 					<td>
@@ -263,7 +339,7 @@ function calcPrice() {
 					</td>
 				</tr>
 			</table>
-		</div>
+		</div> -->
 	</div>
 </s:form>
 </body>

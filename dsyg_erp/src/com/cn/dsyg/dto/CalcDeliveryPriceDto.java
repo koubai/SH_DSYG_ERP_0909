@@ -7,6 +7,8 @@ import com.cn.common.dto.BaseDto;
 public class CalcDeliveryPriceDto extends BaseDto {
 
 	private static final long serialVersionUID = -8628173959058128877L;
+	
+	private int deliveryid;
 
 	private String deliveryname;
 	
@@ -37,4 +39,13 @@ public class CalcDeliveryPriceDto extends BaseDto {
 	public void setDeliveryprice(BigDecimal deliveryprice) {
 		this.deliveryprice = deliveryprice;
 	}
+
+	public int getDeliveryid() {
+		return deliveryid;
+	}
+
+	public void setDeliveryid(int deliveryid) {
+		this.deliveryid = deliveryid;
+	}
+
 }

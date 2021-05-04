@@ -141,7 +141,7 @@
 					break;
 				}
 			}
-			var url = '<%=request.getContextPath()%>/assess/showAssessExpressFeeAction.action?strCustomerId=' + customerId;
+			var url = '<%=request.getContextPath()%>/assess/showAssessExpressFeeAction.action?strCustomerId=' + customerId + '&&updWarehouserptId=' + id;
 			window.showModalDialog(url, window, "dialogheight:600px;dialogwidth:900px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 			//window.open(url);
 		}

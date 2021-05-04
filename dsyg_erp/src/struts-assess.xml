@@ -13,6 +13,10 @@
 		<action name="calcAssessExpressFeeAction" class="assessExpressFeeAction" method="calcAssessExpressFeeAction">
 			<result type="json"></result>
 		</action>
+
+		<action name="saveAssessExpressFeeAction" class="assessExpressFeeAction" method="saveAssessExpressFeeAction">
+			<result name="*">/page/assess/assesslist.jsp</result>
+		</action>
 		
 	</package>
 
