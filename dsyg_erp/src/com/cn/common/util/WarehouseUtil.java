@@ -15,7 +15,7 @@ public class WarehouseUtil {
 	public static BigDecimal calcPrimecost(WarehouseDto primecostWarehouseDto, BigDecimal rate) {
 		BigDecimal primecost = null;
 		if(primecostWarehouseDto != null) {
-			if(primecostWarehouseDto.getAmount() != null && primecostWarehouseDto.getQuantity() != null) {
+			if(primecostWarehouseDto.getAmount() != null && primecostWarehouseDto.getQuantity() != null && !primecostWarehouseDto.getQuantity().equals(BigDecimal.ZERO)) {
 				//计算成本价
 				//税后总金额
 				BigDecimal taxamount = primecostWarehouseDto.getAmount().multiply(rate).setScale(6, BigDecimal.ROUND_HALF_UP);

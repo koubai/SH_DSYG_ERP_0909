@@ -641,7 +641,7 @@ public class SalesItemDto extends BaseAction {
 	}
 
 	public BigDecimal getProfitrate() {
-		if(this.primecost != null) {
+		if(this.primecost != null && !this.primecost.equals(BigDecimal.ZERO)) {
 			if(taxunitprice != null) {
 				//计算利润率
 				profitrate = ((taxunitprice.subtract(primecost)).multiply(new BigDecimal(100))).divide(primecost, 2, BigDecimal.ROUND_HALF_UP);
