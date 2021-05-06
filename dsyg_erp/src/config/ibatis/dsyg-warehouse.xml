@@ -1921,7 +1921,7 @@
 		<isNotEmpty prepend="and" property="status">
 			W.status in ($status$)
 		</isNotEmpty>
-		<isNotEmpty prepend="and" property="warehousetype">
+		<isNotEmpty prepend="and" property="productid">
 			W.productid = #productid#
 		</isNotEmpty>
 		) A
