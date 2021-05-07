@@ -32,7 +32,7 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("productid", productId);
 		paramMap.put("warehousetype", Constants.WAREHOUSE_TYPE_IN);
-		paramMap.put("status", Constants.WAREHOUSE_STATUS_OK);
+		paramMap.put("status", Constants.WAREHOUSE_STATUS_OK + "," +Constants.WAREHOUSE_STATUS_SEND + "," +Constants.WAREHOUSE_STATUS_REFUND + "," +Constants.WAREHOUSE_STATUS_FINISHED );
 		List<WarehouseDto> list = getSqlMapClientTemplate().queryForList("queryPrimecostByProductId", paramMap);
 		if(list != null && list.size() > 0) {
 			return list.get(0);
