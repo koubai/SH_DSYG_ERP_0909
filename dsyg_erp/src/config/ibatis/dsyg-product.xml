@@ -358,6 +358,7 @@
 				from (
 					SELECT W.productid,W.warehousename, if(SUM(ifnull(W.res07,0))=0, 0,SUM(ifnull(W.res04,ifnull(W.unitprice,0)) * ifnull(W.res07,0) * if(W.amount=0, 1.13, W.taxamount/W.amount))/SUM(ifnull(W.res07,0))) AS productcost FROM etb_warehouse W WHERE 1 = 1
 					and W.quantity > 0
+					and W.warehousetype = '1'
 					<isNotEmpty prepend="and" property="belongto">
 						W.belongto = #belongto#
 					</isNotEmpty>
