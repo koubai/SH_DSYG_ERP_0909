@@ -5,6 +5,20 @@ import java.math.BigDecimal;
 import com.cn.dsyg.dto.WarehouseDto;
 
 public class WarehouseUtil {
+	
+	/**
+	 * 计算利润率
+	 * @param totalprimeamount 税后成本金额
+	 * @param totaltaxamount 销售税后金额
+	 * @return
+	 */
+	public static String calcProfitRate(BigDecimal totalprimeamount, BigDecimal totaltaxamount) {
+		if(totalprimeamount != null && !totalprimeamount.equals(BigDecimal.ZERO)) {
+			BigDecimal profitrate = totaltaxamount.subtract(totalprimeamount).multiply(new BigDecimal(100)).divide(totalprimeamount, 2, BigDecimal.ROUND_HALF_UP);
+			return profitrate + "%";
+		}
+		return "";
+	}
 
 	/**
 	 * 计算成本价

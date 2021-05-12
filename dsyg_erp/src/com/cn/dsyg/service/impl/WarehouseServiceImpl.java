@@ -15,6 +15,7 @@ import com.cn.common.util.DateUtil;
 import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
+import com.cn.common.util.WarehouseUtil;
 import com.cn.dsyg.dao.BarcodeInfoDao;
 import com.cn.dsyg.dao.CustomerDao;
 import com.cn.dsyg.dao.CustomerOnlineDao;
@@ -1167,6 +1168,19 @@ public class WarehouseServiceImpl implements WarehouseService {
 			//含税金额合计
 			BigDecimal totaltaxamount = new BigDecimal(0);
 			
+			//计算出库单利润率-----update by frank
+			//成本金额合计
+			BigDecimal totalprimeamount = new BigDecimal(0);
+			//税率=（1+税率）
+			List<Dict01Dto> listRate = dict01Dao.queryDict01ByFieldcode(Constants.DICT_RATE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+			//默认为0
+			BigDecimal rate = new BigDecimal(0);
+			if(listRate != null && listRate.size() > 0) {
+				rate = new BigDecimal(listRate.get(0).getCode());
+				rate = rate.add(new BigDecimal(1));
+			}
+			
+			
 			for(int i = 0; i < idList.length; i++) {
 				String id = idList[i];
 				if(StringUtil.isNotBlank(id)) {
@@ -1206,6 +1220,12 @@ public class WarehouseServiceImpl implements WarehouseService {
 						
 						//计算含税金额
 						totaltaxamount = totaltaxamount.add(warehouse.getTaxamount());
+						
+						//成本价合计
+						if(warehouse.getRes04() != null) {
+							BigDecimal primeamount = warehouse.getQuantity().multiply(new BigDecimal(warehouse.getRes04())).multiply(rate);
+							totalprimeamount = totalprimeamount.add(primeamount.abs());
+						}
 						
 						warehouseDao.updateWarehouse(warehouse);
 						
@@ -1435,6 +1455,10 @@ public class WarehouseServiceImpl implements WarehouseService {
 					}
 				}
 			}
+			
+			//订单利润率
+			warehouserpt.setRes09(WarehouseUtil.calcProfitRate(totalprimeamount, totaltaxamount));
+			
 			//快递公司ID==============================这里不做填充，等发货单时填充
 			
 			warehouserpt.setRank(Constants.ROLE_RANK_OPERATOR);

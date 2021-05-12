@@ -265,6 +265,7 @@
 								<!-- <td width="80">联系人</td> -->
 								<td width="80">制单人</td>
 								<td width="80">含税金额</td>
+								<td width="80">利润率</td>
 								<!--
 								<td width="120">快递单号</td>
 								-->
@@ -313,6 +314,7 @@
 									<!--<td><s:property value="suppliermanager"/></td>-->
 									<td><s:property value="createuid"/></td>
 									<td align="right"><s:property value="totaltaxamount"/></td>
+									<td align="right"><s:property value="res09"/></td>
 									<!--
 									<td><s:property value="expressno"/></td>
 									-->
