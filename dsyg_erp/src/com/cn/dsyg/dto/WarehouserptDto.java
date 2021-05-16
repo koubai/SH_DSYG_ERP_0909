@@ -279,7 +279,7 @@ public class WarehouserptDto extends BaseAction {
 	private String res08;
 
 	/**
-	 * 预备项目9
+	 * 预备项目9（出库单利润率）
 	 */
 	private String res09;
 

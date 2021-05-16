@@ -189,6 +189,14 @@
 			<result type="json"></result>
 		</action>
 		
+		<action name="showRefreshRptPrimeRateAction" class="warehouseOutOkAction" method="showRefreshRptPrimeRateAction">
+			<result name="*">/page/warehouse/refreshprimerate.jsp</result>
+		</action>
+		
+		<action name="refreshRptPrimeRateAction" class="warehouseOutOkAction" method="refreshRptPrimeRateAction">
+			<result name="*">/page/warehouse/refreshprimerate.jsp</result>
+		</action>
+		
 	</package>
 
 </struts>

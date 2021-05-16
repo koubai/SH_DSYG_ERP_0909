@@ -7,6 +7,22 @@ import com.cn.dsyg.dto.WarehouseDto;
 public class WarehouseUtil {
 	
 	/**
+	 * 库存的税后成本价格
+	 * @param warehouse
+	 * @param rate
+	 * @return
+	 */
+	public static BigDecimal calcPrimeAmount(WarehouseDto warehouse, BigDecimal rate) {
+		if(warehouse != null) {
+			if(StringUtil.isNotBlank(warehouse.getRes04())) {
+				BigDecimal primeamount = warehouse.getQuantity().multiply(new BigDecimal(warehouse.getRes04())).multiply(rate);
+				return primeamount.abs();
+			}
+		}
+		return new BigDecimal(0);
+	}
+	
+	/**
 	 * 计算利润率
 	 * @param totalprimeamount 税后成本金额
 	 * @param totaltaxamount 销售税后金额

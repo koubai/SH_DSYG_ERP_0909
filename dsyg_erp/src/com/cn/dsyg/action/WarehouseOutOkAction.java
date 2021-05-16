@@ -72,6 +72,35 @@ public class WarehouseOutOkAction extends BaseAction {
 	private String strScanBarcodeInfo;
 	
 	/**
+	 * 显示刷新出库单利润率页面
+	 * @return
+	 */
+	public String showRefreshRptPrimeRateAction() {
+		try {
+			this.clearMessages();
+		} catch(Exception e) {
+			log.error("showRefreshRptPrimeRateAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	
+	/**
+	 * 刷新出库单利润率
+	 * @return
+	 */
+	public String refreshRptPrimeRateAction() {
+		try {
+			this.clearMessages();
+			warehouserptService.calcRptPrimeRate();
+		} catch(Exception e) {
+			log.error("refreshRptPrimeRateAction error:" + e);
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	
+	/**
 	 * 条形码出库前验证
 	 * @return
 	 */

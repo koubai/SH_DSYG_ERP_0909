@@ -1222,10 +1222,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 						totaltaxamount = totaltaxamount.add(warehouse.getTaxamount());
 						
 						//成本价合计
-						if(warehouse.getRes04() != null) {
-							BigDecimal primeamount = warehouse.getQuantity().multiply(new BigDecimal(warehouse.getRes04())).multiply(rate);
-							totalprimeamount = totalprimeamount.add(primeamount.abs());
-						}
+						totalprimeamount = totalprimeamount.add(WarehouseUtil.calcPrimeAmount(warehouse, rate));
 						
 						warehouseDao.updateWarehouse(warehouse);
 						

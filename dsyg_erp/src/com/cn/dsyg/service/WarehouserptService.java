@@ -15,6 +15,11 @@ import com.cn.dsyg.dto.WarehouserptDto;
 public interface WarehouserptService {
 	
 	/**
+	 * 发货单利润率计算
+	 */
+	public void calcRptPrimeRate();
+	
+	/**
 	 * 根据入出库单查询数据
 	 * @param warehouseno
 	 * @param type 1为预开票查询，预开票按产品ID+平均价格进行聚合。非预开票按产品ID+订单ID+产品价格聚合

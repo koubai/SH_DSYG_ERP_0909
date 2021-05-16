@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -12,11 +13,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import com.cn.common.util.Constants;
 import com.cn.common.util.DateUtil;
 import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
+import com.cn.common.util.WarehouseUtil;
+import com.cn.dsyg.action.ChartAction;
 import com.cn.dsyg.dao.CustomerDao;
 import com.cn.dsyg.dao.Dict01Dao;
 import com.cn.dsyg.dao.FinanceDao;
@@ -48,6 +54,8 @@ import com.cn.dsyg.service.WarehouserptService;
  */
 public class WarehouserptServiceImpl implements WarehouserptService {
 	
+	private static final Logger log = LogManager.getLogger(WarehouserptServiceImpl.class);
+	
 	private WarehouserptDao warehouserptDao;
 	private WarehouserptHistDao warehouserptHistDao;
 	private ProductDao productDao;
@@ -59,6 +67,59 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 	private FinanceDao financeDao;
 	private CustomerDao customerDao;
 	private SupplierDao supplierDao;
+	
+	@Override
+	public void calcRptPrimeRate() {
+		List<WarehouserptDto> rptlist = null;
+		Calendar calendar = Calendar.getInstance();
+		int year = calendar.get(Calendar.YEAR);
+		String createdateLow = "";
+		String createdateHigh = "";
+		
+		//税率=（1+税率）
+		List<Dict01Dto> listRate = dict01Dao.queryDict01ByFieldcode(Constants.DICT_RATE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+		//默认为0
+		BigDecimal rate = new BigDecimal(0);
+		if(listRate != null && listRate.size() > 0) {
+			rate = new BigDecimal(listRate.get(0).getCode());
+			rate = rate.add(new BigDecimal(1));
+		}
+		
+		for(int i = 2012; i <= year; i++) {
+			//按年份分批查询出库单RPT记录
+			createdateLow = i + "-01-01";
+			createdateHigh = i + "-12-31";
+			rptlist = warehouserptDao.queryWarehouserptByWarehouse("" + Constants.WAREHOUSE_TYPE_OUT,
+					"", "", "", createdateLow, createdateHigh);
+			if(rptlist != null && rptlist.size() > 0) {
+				//计算出库单的利润率
+				//含税金额合计
+				BigDecimal totaltaxamount = null;
+				//成本金额合计
+				BigDecimal totalprimeamount = null;
+				
+				log.info("time:" + createdateLow + "~" + createdateHigh + ",rptlist count:" + rptlist.size());
+				for(WarehouserptDto rpt : rptlist) {
+					totalprimeamount = new BigDecimal(0);
+					totaltaxamount = rpt.getTotaltaxamount();
+					if(StringUtil.isNotBlank(rpt.getParentid())) {
+						String warehousenos[] = rpt.getParentid().split(",");
+						for(String warehouseno : warehousenos) {
+							//计算库存税后成本金额
+							WarehouseDto warehouse = warehouseDao.queryWarehouseByWarehouseno(warehouseno);
+							totalprimeamount = totalprimeamount.add(WarehouseUtil.calcPrimeAmount(warehouse, rate));
+						}
+					}
+					//更新订单利润率
+					rpt.setRes09(WarehouseUtil.calcProfitRate(totalprimeamount, totaltaxamount));
+					log.info(rpt.getWarehouseno() + ":totalprimeamount=" + totalprimeamount + ",totaltaxamount=" + totaltaxamount + ",ProfitRate=" + rpt.getRes09());
+					warehouserptDao.updateWarehouserpt(rpt);
+				}
+			} else {
+				log.info("time:" + createdateLow + "~" + createdateHigh + ",rptlist count:0");
+			}
+		}
+	}
 	
 	@Override
 	public WarehouserptDto queryWarehouserptByNo(String warehouseno, Integer type) {
