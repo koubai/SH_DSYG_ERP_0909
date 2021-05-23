@@ -407,6 +407,7 @@
 								<td width="100">出库单日期</td>
 								<td width="110">金额（含税）</td>
 								<!-- <td width="150">状态</td> -->
+								<td width="80">利润率</td>
 								<td width="80"></td>
 							</tr>
 							<s:iterator id="warehouserptList" value="warehouserptList" status="st1">
@@ -489,6 +490,11 @@
 											</s:elseif>
 										</select>
 									</td>-->
+									<td align="right">
+										<s:if test="%{res09 != null && res09 != ''}">
+											<s:property value="res09"/>%
+										</s:if>
+									</td>
 									<td>
 										<input id="okbtn_<s:property value="id"/>" style="display: none;" type="button" value="确认" onclick="auditor('<s:property value="id"/>', '<s:property value="warehousetype"/>', '<s:property value="financeBillno"/>')"/>
 									</td>

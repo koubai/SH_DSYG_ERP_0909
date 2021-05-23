@@ -314,7 +314,11 @@
 									<!--<td><s:property value="suppliermanager"/></td>-->
 									<td><s:property value="createuid"/></td>
 									<td align="right"><s:property value="totaltaxamount"/></td>
-									<td align="right"><s:property value="res09"/></td>
+									<td align="right">
+										<s:if test="%{res09 != null && res09 != ''}">
+											<s:property value="res09"/>%
+										</s:if>
+									</td>
 									<!--
 									<td><s:property value="expressno"/></td>
 									-->
