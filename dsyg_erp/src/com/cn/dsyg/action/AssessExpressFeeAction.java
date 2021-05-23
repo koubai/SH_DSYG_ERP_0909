@@ -69,6 +69,10 @@ public class AssessExpressFeeAction extends BaseAction {
 	private String deliveryprice;
 	//出库单号
 	private String updWarehouserptId;
+	//保价金额
+	private String strIncamount;
+	//物流保价金额
+	private String expressincamount;
 	
 	/**
 	 * 显示运费评估页面
@@ -90,6 +94,8 @@ public class AssessExpressFeeAction extends BaseAction {
 			}
 			//根据客户ID查询客户信息
 			showCustomerDto = customerService.queryEtbCustomerByID(strCustomerId);
+			WarehouserptDto warehouserptDto = warehouserptService.queryWarehouserptByID(updWarehouserptId,null);
+			strIncamount = warehouserptDto.getIncamount();
 		} catch(Exception e) {
 			log.error("showAssessExpressFeeAction error:" + e);
 			return ERROR;
@@ -133,6 +139,7 @@ public class AssessExpressFeeAction extends BaseAction {
 				//根据快递公司的费用列表来匹配出每个快递公司最优解快递费用
 				if(deliveryPriceList != null && deliveryPriceList.size() > 0) {
 					for(DeliveryPriceDto deliveryPrice : deliveryPriceList) {
+						DeliveryDto deliveryDto = deliveryService.queryEtbDeliveryByID(""+deliveryPrice.getDeliveryid());
 						//根据重量计算
 						if(StringUtil.isNotBlank(strWeight)) {
 							CalcDeliveryPriceDto price = new CalcDeliveryPriceDto();
@@ -140,7 +147,10 @@ public class AssessExpressFeeAction extends BaseAction {
 							price.setDeliveryname(deliveryPrice.getDeliveryname());
 							//费用
 							BigDecimal weightprice = calcPrice(strWeight, deliveryPrice.getPricekg());
-							price.setDeliveryprice(weightprice);
+							//物流保价金额计算
+							BigDecimal expressincamount = calcIncPrice(strIncamount, deliveryDto.getRes03());
+							price.setExpressincamount(expressincamount);
+							price.setDeliveryprice(weightprice.add(expressincamount));
 							price.setUnitprice("" + deliveryPrice.getPricekg());
 							data.add(price);
 							if(minWeight.compareTo(new BigDecimal(0)) == 0) {
@@ -159,7 +169,10 @@ public class AssessExpressFeeAction extends BaseAction {
 							price1.setDeliveryname(deliveryPrice.getDeliveryname());
 							//费用
 							BigDecimal cubeprice = calcPrice(strCube, deliveryPrice.getPricem3());
-							price1.setDeliveryprice(cubeprice);
+							//物流保价金额计算
+							BigDecimal expressincamount = calcIncPrice(strIncamount, deliveryDto.getRes03());
+							price1.setExpressincamount(expressincamount);
+							price1.setDeliveryprice(cubeprice.add(expressincamount));
 							price1.setUnitprice("" + deliveryPrice.getPricem3());
 							data1.add(price1);
 							if(minCube.compareTo(new BigDecimal(0)) == 0) {
@@ -241,6 +254,10 @@ public class AssessExpressFeeAction extends BaseAction {
 			System.out.println("单据日期:" + receiptdate);
 			//快递ID
 			System.out.println("快递ID:" + deliveryid);
+			//保价金额
+			System.out.println("保价金额:" + strIncamount);
+			//物流保价金额
+			System.out.println("物流保价金额:" + expressincamount);
 			//快递金额
 			System.out.println("快递金额:" + deliveryprice);
 
@@ -272,6 +289,13 @@ public class AssessExpressFeeAction extends BaseAction {
 			warehouserpt.setExpresstaxamount(new BigDecimal(deliveryprice));
 			// 快递单据日期
 			warehouserpt.setRes01(sf.format(receiptdate));
+
+			//新增保价金额和物流保价金额 add by liu 202105
+			StringBuffer temInc = new StringBuffer();
+			temInc.append(strIncamount);
+			temInc.append(",");
+			temInc.append(expressincamount);
+			warehouserpt.setRes10(temInc.toString());
 			
 			warehouserptService.updateWarehouserpt(warehouserpt);
 			this.addActionMessage("出库单:"+warehouserpt.getWarehouseno()+"添加快递成功！");
@@ -297,6 +321,24 @@ public class AssessExpressFeeAction extends BaseAction {
 		BigDecimal result = bb.multiply(unitprice).setScale(2, BigDecimal.ROUND_HALF_UP);
 		return result;
 				
+	}
+
+	/**
+	 * 计算物流保价金额
+	 * @param strIncamount
+	 * @param incRate
+	 * @return
+	 */
+	private BigDecimal calcIncPrice(String strIncamount, String incRate) {
+		BigDecimal result = null;
+		if(StringUtil.isNotBlank(strIncamount) && StringUtil.isNotBlank(incRate)){
+			BigDecimal bb = new BigDecimal(strIncamount);
+			BigDecimal rr = new BigDecimal(incRate);
+			//四舍五入
+			result = bb.multiply(rr).setScale(2, BigDecimal.ROUND_HALF_UP);
+		}
+		return result;
+
 	}
 
 	public DeliveryPriceService getDeliveryPriceService() {
@@ -427,4 +469,19 @@ public class AssessExpressFeeAction extends BaseAction {
 		this.updWarehouserptId = updWarehouserptId;
 	}
 
+	public String getStrIncamount() {
+		return strIncamount;
+	}
+
+	public void setStrIncamount(String strIncamount) {
+		this.strIncamount = strIncamount;
+	}
+
+	public String getExpressincamount() {
+		return expressincamount;
+	}
+
+	public void setExpressincamount(String expressincamount) {
+		this.expressincamount = expressincamount;
+	}
 }

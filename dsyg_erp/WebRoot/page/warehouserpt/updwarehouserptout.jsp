@@ -473,17 +473,14 @@
 								<div class="box1_right"></div>
 							</td>
 							<td align="right">
-								<label class="pdf10">转运费用合计</label>
+								<label class="pdf10">保价金额</label>
 							</td>
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updWarehouserptDto.expresstaxamount" id="expresstaxamount" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
+									<s:textfield name="updWarehouserptDto.incamount" id="incamount" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
-								<s:if test='updWarehouserptDto.expresstaxrate != null'>
-									&nbsp;<s:property value="updWarehouserptDto.expresstaxrate" />&nbsp;%
-								</s:if>
 							</td>
 						</tr>
 						<tr>
@@ -508,16 +505,15 @@
 								<div class="box1_right"></div>
 							</td>
 							<td align="right">
-								<label class="pdf10"><font color="red"></font>单据日期</label>
+								<label class="pdf10">物流保价金额</label>
 							</td>
 							<td>
 								<div class="box1_left"></div>
-								<div class="box1_center date_input">
-									<input type="text" id="tmpReceiptdate" disabled="disabled" style="width:105px;" value="<s:property value="updWarehouserptDto.res01"/>" />
-									<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpReceiptdate'));"></a>
+								<div class="box1_center">
+									<s:textfield name="updWarehouserptDto.expressincamount" id="expressincamount" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
-							</td>							
+							</td>
 						</tr>
 						<tr>
 							<td align="right">
@@ -541,6 +537,32 @@
 								<div class="box1_right"></div>
 							</td>
 							<td align="right">
+								<label class="pdf10">转运费用合计</label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<s:textfield name="updWarehouserptDto.expresstaxamount" id="expresstaxamount" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
+								</div>
+								<div class="box1_right"></div>
+								<s:if test='updWarehouserptDto.expresstaxrate != null'>
+									&nbsp;<s:property value="updWarehouserptDto.expresstaxrate" />&nbsp;%
+								</s:if>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								<label class="pdf10"><font color="red"></font>单据日期</label>
+							</td>
+							<td>
+								<div class="box1_left"></div>
+								<div class="box1_center date_input">
+									<input type="text" id="tmpReceiptdate" disabled="disabled" style="width:105px;" value="<s:property value="updWarehouserptDto.res01"/>" />
+									<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpReceiptdate'));"></a>
+								</div>
+								<div class="box1_right"></div>
+							</td>
+							<td align="right">
 								<label class="pdf10">发货日期</label>
 							</td>
 							<td>
@@ -550,6 +572,8 @@
 									<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpWarehousedate'));"></a>
 								</div>
 								<div class="box1_right"></div>
+							</td>
+							<td>
 							</td>
 						</tr>
 						<tr>

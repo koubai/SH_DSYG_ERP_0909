@@ -13,6 +13,8 @@ public class CalcDeliveryPriceDto extends BaseDto {
 	private String deliveryname;
 	
 	private String unitprice;
+
+	private BigDecimal expressincamount;
 	
 	private BigDecimal deliveryprice;
 
@@ -48,4 +50,11 @@ public class CalcDeliveryPriceDto extends BaseDto {
 		this.deliveryid = deliveryid;
 	}
 
+	public BigDecimal getExpressincamount() {
+		return expressincamount;
+	}
+
+	public void setExpressincamount(BigDecimal expressincamount) {
+		this.expressincamount = expressincamount;
+	}
 }

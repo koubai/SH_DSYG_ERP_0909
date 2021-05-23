@@ -422,7 +422,7 @@ public class DeliveryDto extends BaseDto {
 	private String res02;
 
 	/**
-	 * 预备项目3
+	 * 预备项目3（保价比例）
 	 */
 	private String res03;
 

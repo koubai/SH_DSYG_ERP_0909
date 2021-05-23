@@ -284,9 +284,19 @@ public class WarehouserptDto extends BaseAction {
 	private String res09;
 
 	/**
-	 * 预备项目10
+	 * 预备项目10（保价金额，物流保价金额）
 	 */
 	private String res10;
+
+	/**
+	 * 保价金额
+	 */
+	private String incamount;
+
+	/**
+	 * 物流保价金额
+	 */
+	private String expressincamount;
 
 	/**
 	 * 作成者
@@ -840,4 +850,19 @@ public class WarehouserptDto extends BaseAction {
 	}
 
 
+	public String getIncamount() {
+		return incamount;
+	}
+
+	public void setIncamount(String incamount) {
+		this.incamount = incamount;
+	}
+
+	public String getExpressincamount() {
+		return expressincamount;
+	}
+
+	public void setExpressincamount(String expressincamount) {
+		this.expressincamount = expressincamount;
+	}
 }

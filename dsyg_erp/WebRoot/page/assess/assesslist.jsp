@@ -40,6 +40,7 @@ function calcPrice() {
 	var res01 = $("#res01").val();
 	var productWeight = $("#productWeight").val();
 	var productVolume = $("#productVolume").val();
+	var strIncamount = $("#strIncamount").val();
 	if(res01 == "") {
 		alert("终点信息为空，不能计算快递费用！");
 		$("#res01").focus();
@@ -64,6 +65,7 @@ function calcPrice() {
 	var param = new Object();
 	param.strWeight = productWeight;
 	param.strCube = productVolume;
+	param.strIncamount = strIncamount;
 	$("#weightprice_body").empty();
 	$("#cubeprice_body").empty();
 	$.getJSON('<%=request.getContextPath()%>/assess/calcAssessExpressFeeAction.action', param, function(data) {
@@ -73,10 +75,11 @@ function calcPrice() {
 			$.each(items, function(i, n) {
 				var html = '';
 				html += '<tr>';
-				html += '	<td><input name="radioKey" type="radio" value='+ n.deliveryid + "@@" + n.deliveryprice + '></input></td>';
+				html += '	<td><input name="radioKey" type="radio" value='+ n.deliveryid + "@@" + n.deliveryprice + "@@" + n.expressincamount + '></input></td>';
 				html += '	<td>' + (i + 1) + '</td>';
 				html += '	<td>' + n.deliveryname + '</td>';
 				html += '	<td>' + n.unitprice + '</td>';
+				html += '	<td>' + n.expressincamount + '</td>';
 				html += '	<td>' + n.deliveryprice + '</td>';
 				html += '	<td>' + '</td>';
 				html += '</tr>';
@@ -93,10 +96,11 @@ function calcPrice() {
 			$.each(items1, function(i, n) {
 				var html = '';
 				html += '<tr>';
-				html += '	<td><input name="radioKey" type="radio" value='+ n.deliveryid + "@@" + n.deliveryprice + '></input></td>';
+				html += '	<td><input name="radioKey" type="radio" value='+ n.deliveryid + "@@" + n.deliveryprice + ' "@@" + n.expressincamount + ></input></td>';
 				html += '	<td>' + (i + 1) + '</td>';
 				html += '	<td>' + n.deliveryname + '</td>';
 				html += '	<td>' + n.unitprice + '</td>';
+				html += '	<td>' + n.expressincamount + '</td>';
 				html += '	<td>' + n.deliveryprice + '</td>';
 				html += '	<td>' + '</td>';
 				html += '</tr>';
@@ -118,17 +122,21 @@ function savePrice() {
 	var expressno = $("#expressno").val();
 	var receiptdate = $("#receiptdate").val();
 	var delivery = getSelectedDelivery();
-	var id, deliveryprice;
+	var id, deliveryprice, expressincamount;
 	if(delivery == "") {
 		alert("请选择一条记录！");
 		return;
 	} else {
-		var idx = delivery.indexOf("@@");
-		if (idx >= 1){
-			id = delivery.substring(0, idx);
-			deliveryprice = delivery.substring(idx + 2, delivery.length);
-//			alert(id + ": " +  expressno + ": " + receiptdate  + ": " + deliveryprice);
-			document.mainform.action = "<%=request.getContextPath()%>/assess/saveAssessExpressFeeAction.action?deliveryid="+id+"&&expressno="+expressno+"&&receiptdate=" +receiptdate+"&&deliveryprice="+deliveryprice;
+		//var idx = delivery.indexOf("@@");
+		var idx = data.split("@@");
+		if (idx.length >= 3){
+			//id = delivery.substring(0, idx);
+			//deliveryprice = delivery.substring(idx + 2, delivery.length);
+			id = idx[0];
+			deliveryprice = idx[1];
+			expressincamount = idx[2];
+			alert(id + ": " +  expressno + ": " + receiptdate  + ": " + deliveryprice + ": " + expressincamount);
+			document.mainform.action = "<%=request.getContextPath()%>/assess/saveAssessExpressFeeAction.action?deliveryid="+id+"&&expressno="+expressno+"&&receiptdate=" +receiptdate+"&&deliveryprice="+deliveryprice+"&&expressincamount="+expressincamount;
 			document.mainform.submit();
 		}
 	}
@@ -268,6 +276,16 @@ function getSelectedDelivery() {
 					</div>
 				</td>
 			</tr>
+			<tr>
+				<td align="right">保价金额：</td>
+				<td colspan="4">
+					<div class="box1_left"></div>
+					<div class="box1_center">
+						<s:textfield name="strIncamount" id="strIncamount" disabled="true" cssStyle="width:60px;" maxlength="40" theme="simple"></s:textfield>
+					</div>
+					<div class="box1_right"></div>
+				</td>
+			</tr>
 		</table>
 		<div class="tittle" style="width: 600px;">
 			<table width="100%" border="1" cellpadding="5" cellspacing="0" style="height: 100%;">
@@ -302,6 +320,7 @@ function getSelectedDelivery() {
 							<td width="80">#</td>
 							<td width="200">快递公司</td>
 							<td width="120">单价</td>
+							<td width="120">保价比例</td>
 							<td width="120">合计（元）</td>
 							<td width="180">备考</td>
 						</tr>
@@ -316,6 +335,7 @@ function getSelectedDelivery() {
 							<td width="80">#</td>
 							<td width="200">快递公司</td>
 							<td width="120">单价</td>
+							<td width="120">保价比例</td>
 							<td width="120">合计（元）</td>
 							<td width="180">备考</td>
 						</tr>

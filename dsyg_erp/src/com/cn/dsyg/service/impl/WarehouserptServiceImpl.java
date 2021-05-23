@@ -573,6 +573,11 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 	@Override
 	public WarehouserptDto queryWarehouserptByID(String id, Integer type) {
 		WarehouserptDto rpt = warehouserptDao.queryWarehouserptByID(id);
+		if(StringUtil.isNotBlank(rpt.getRes10()) && rpt.getRes10().indexOf(",") > 0){
+			String[] incs = rpt.getRes10().split(",");
+			rpt.setIncamount(incs[0]);
+			rpt.setExpressincamount(incs[1]);
+		}
 		//TODO
 		if(rpt != null) {
 			//查询对应的库存记录列表
@@ -1292,6 +1297,14 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 		}
 		
 		warehouserpt.setRes01(warehouserpt.getReceiptdate());
+
+		//新增保价金额和物流保价金额 add by liu 202105
+		StringBuffer temInc = new StringBuffer();
+		temInc.append(warehouserpt.getIncamount());
+		temInc.append(",");
+		temInc.append(warehouserpt.getExpressincamount());
+		warehouserpt.setRes10(temInc.toString());
+
 		warehouserptDao.updateWarehouserpt(warehouserpt);
 		
 		//快递信息

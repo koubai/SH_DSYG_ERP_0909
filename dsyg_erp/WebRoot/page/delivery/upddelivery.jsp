@@ -31,6 +31,11 @@
 		} else {
 			$("#res02").attr("value", "0");
 		}
+		//保价比例
+		var res03 = $("#res03").val().trim();
+		if(res03 == "") {
+			$("#res03").attr("value", "0");
+		}
 		
 		if(deliveryname == "") {
 			alert("快递名称不能为空！");
@@ -773,6 +778,16 @@
 					</div>
 				</td>
 			</tr> --%>
+			<tr>
+				<td><font color="red">*</font>保价比例</td>
+				<td>
+					<div class="box1_left"></div>
+					<div class="box1_center">
+						<s:textfield name="updateDeliveryDto.res03" id="res03" cssStyle="width:350px;" maxlength="40" theme="simple"></s:textfield>
+					</div>
+					<div class="box1_right"></div>
+				</td>
+			</tr>
 			<tr>
 				<td colspan="2">
 					<div class="tab_content" style="height: 205px;">
