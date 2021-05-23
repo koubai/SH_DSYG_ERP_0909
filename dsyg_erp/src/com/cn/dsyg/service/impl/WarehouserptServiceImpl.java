@@ -575,8 +575,12 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 		WarehouserptDto rpt = warehouserptDao.queryWarehouserptByID(id);
 		if(StringUtil.isNotBlank(rpt.getRes10()) && rpt.getRes10().indexOf(",") > 0){
 			String[] incs = rpt.getRes10().split(",");
-			rpt.setIncamount(incs[0]);
-			rpt.setExpressincamount(incs[1]);
+			if(incs.length == 1) {
+				rpt.setIncamount(incs[0]);
+			} else if(incs.length == 2){
+				rpt.setIncamount(incs[0]);
+				rpt.setExpressincamount(incs[1]);
+			}
 		}
 		//TODO
 		if(rpt != null) {
