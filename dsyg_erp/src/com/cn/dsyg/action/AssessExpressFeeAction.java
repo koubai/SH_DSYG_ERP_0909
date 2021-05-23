@@ -330,7 +330,7 @@ public class AssessExpressFeeAction extends BaseAction {
 	 * @return
 	 */
 	private BigDecimal calcIncPrice(String strIncamount, String incRate) {
-		BigDecimal result = null;
+		BigDecimal result = new BigDecimal(0);
 		if(StringUtil.isNotBlank(strIncamount) && StringUtil.isNotBlank(incRate)){
 			BigDecimal bb = new BigDecimal(strIncamount);
 			BigDecimal rr = new BigDecimal(incRate);

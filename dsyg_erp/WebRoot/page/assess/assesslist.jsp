@@ -96,7 +96,7 @@ function calcPrice() {
 			$.each(items1, function(i, n) {
 				var html = '';
 				html += '<tr>';
-				html += '	<td><input name="radioKey" type="radio" value='+ n.deliveryid + "@@" + n.deliveryprice + ' "@@" + n.expressincamount + ></input></td>';
+				html += '	<td><input name="radioKey" type="radio" value='+ n.deliveryid + "@@" + n.deliveryprice + "@@" + n.expressincamount + '></input></td>';
 				html += '	<td>' + (i + 1) + '</td>';
 				html += '	<td>' + n.deliveryname + '</td>';
 				html += '	<td>' + n.unitprice + '</td>';
@@ -122,13 +122,14 @@ function savePrice() {
 	var expressno = $("#expressno").val();
 	var receiptdate = $("#receiptdate").val();
 	var delivery = getSelectedDelivery();
-	var id, deliveryprice, expressincamount;
+	var id, deliveryprice;
+	var expressincamount;
 	if(delivery == "") {
 		alert("请选择一条记录！");
 		return;
 	} else {
 		//var idx = delivery.indexOf("@@");
-		var idx = data.split("@@");
+		var idx = delivery.split("@@");
 		if (idx.length >= 3){
 			//id = delivery.substring(0, idx);
 			//deliveryprice = delivery.substring(idx + 2, delivery.length);
@@ -281,7 +282,7 @@ function getSelectedDelivery() {
 				<td colspan="4">
 					<div class="box1_left"></div>
 					<div class="box1_center">
-						<s:textfield name="strIncamount" id="strIncamount" disabled="true" cssStyle="width:60px;" maxlength="40" theme="simple"></s:textfield>
+						<s:textfield name="strIncamount" id="strIncamount" cssStyle="width:60px;" maxlength="40" theme="simple"></s:textfield>
 					</div>
 					<div class="box1_right"></div>
 				</td>

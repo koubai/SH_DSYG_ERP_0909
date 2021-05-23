@@ -779,7 +779,7 @@
 				</td>
 			</tr> --%>
 			<tr>
-				<td><font color="red">*</font>保价比例</td>
+				<td>保价比例</td>
 				<td>
 					<div class="box1_left"></div>
 					<div class="box1_center">

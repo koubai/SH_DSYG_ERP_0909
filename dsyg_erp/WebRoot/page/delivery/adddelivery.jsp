@@ -727,7 +727,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td width="60"><font color="red">*</font>保价金额</td>
+				<td width="60">保价比例</td>
 				<td width="500">
 					<div class="box1_left"></div>
 					<div class="box1_center">
