@@ -102,6 +102,7 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 				for(WarehouserptDto rpt : rptlist) {
 					totalprimeamount = new BigDecimal(0);
 					totaltaxamount = rpt.getTotaltaxamount();
+					log.info("---" + rpt.getWarehouseno() + ":totalprimeamount=" + totalprimeamount + ",totaltaxamount=" + totaltaxamount + ",ProfitRate=" + rpt.getRes09());
 					if(StringUtil.isNotBlank(rpt.getParentid())) {
 						String warehousenos[] = rpt.getParentid().split(",");
 						for(String warehouseno : warehousenos) {

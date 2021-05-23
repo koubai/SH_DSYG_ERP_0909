@@ -29,7 +29,9 @@ public class WarehouseUtil {
 	 * @return
 	 */
 	public static String calcProfitRate(BigDecimal totalprimeamount, BigDecimal totaltaxamount) {
-		if(totalprimeamount != null && !totalprimeamount.equals(BigDecimal.ZERO)) {
+		if(totalprimeamount != null && totaltaxamount != null) {
+			if (totalprimeamount.compareTo(new BigDecimal(0))==0)
+				return "";				
 			BigDecimal profitrate = totaltaxamount.subtract(totalprimeamount).multiply(new BigDecimal(100)).divide(totalprimeamount, 2, BigDecimal.ROUND_HALF_UP);
 			return "" + profitrate;
 		}

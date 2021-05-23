@@ -321,7 +321,7 @@ function getSelectedDelivery() {
 							<td width="80">#</td>
 							<td width="200">快递公司</td>
 							<td width="120">单价</td>
-							<td width="120">保价比例</td>
+							<td width="120">保费</td>
 							<td width="120">合计（元）</td>
 							<td width="180">备考</td>
 						</tr>
@@ -336,7 +336,7 @@ function getSelectedDelivery() {
 							<td width="80">#</td>
 							<td width="200">快递公司</td>
 							<td width="120">单价</td>
-							<td width="120">保价比例</td>
+							<td width="120">保费</td>
 							<td width="120">合计（元）</td>
 							<td width="180">备考</td>
 						</tr>

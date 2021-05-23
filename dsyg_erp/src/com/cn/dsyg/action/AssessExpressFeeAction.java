@@ -140,48 +140,50 @@ public class AssessExpressFeeAction extends BaseAction {
 				if(deliveryPriceList != null && deliveryPriceList.size() > 0) {
 					for(DeliveryPriceDto deliveryPrice : deliveryPriceList) {
 						DeliveryDto deliveryDto = deliveryService.queryEtbDeliveryByID(""+deliveryPrice.getDeliveryid());
-						//根据重量计算
-						if(StringUtil.isNotBlank(strWeight)) {
-							CalcDeliveryPriceDto price = new CalcDeliveryPriceDto();
-							price.setDeliveryid(deliveryPrice.getDeliveryid());
-							price.setDeliveryname(deliveryPrice.getDeliveryname());
-							//费用
-							BigDecimal weightprice = calcPrice(strWeight, deliveryPrice.getPricekg());
-							//物流保价金额计算
-							BigDecimal expressincamount = calcIncPrice(strIncamount, deliveryDto.getRes03());
-							price.setExpressincamount(expressincamount);
-							price.setDeliveryprice(weightprice.add(expressincamount));
-							price.setUnitprice("" + deliveryPrice.getPricekg());
-							data.add(price);
-							if(minWeight.compareTo(new BigDecimal(0)) == 0) {
-								minWeight = weightprice;
-							} else {
-								if(minWeight.compareTo(weightprice) > 0) {
+						if (deliveryDto!=null){
+							//根据重量计算
+							if(StringUtil.isNotBlank(strWeight)) {
+								CalcDeliveryPriceDto price = new CalcDeliveryPriceDto();
+								price.setDeliveryid(deliveryPrice.getDeliveryid());
+								price.setDeliveryname(deliveryPrice.getDeliveryname());
+								//费用
+								BigDecimal weightprice = calcPrice(strWeight, deliveryPrice.getPricekg());
+								//物流保价金额计算
+								BigDecimal expressincamount = calcIncPrice(strIncamount, deliveryDto.getRes03());
+								price.setExpressincamount(expressincamount);
+								price.setDeliveryprice(weightprice.add(expressincamount));
+								price.setUnitprice("" + deliveryPrice.getPricekg());
+								data.add(price);
+								if(minWeight.compareTo(new BigDecimal(0)) == 0) {
 									minWeight = weightprice;
+								} else {
+									if(minWeight.compareTo(weightprice) > 0) {
+										minWeight = weightprice;
+									}
 								}
 							}
-						}
-						
-						//根据体积计算
-						if(StringUtil.isNotBlank(strCube)) {
-							CalcDeliveryPriceDto price1 = new CalcDeliveryPriceDto();
-							price1.setDeliveryid(deliveryPrice.getDeliveryid());
-							price1.setDeliveryname(deliveryPrice.getDeliveryname());
-							//费用
-							BigDecimal cubeprice = calcPrice(strCube, deliveryPrice.getPricem3());
-							//物流保价金额计算
-							BigDecimal expressincamount = calcIncPrice(strIncamount, deliveryDto.getRes03());
-							price1.setExpressincamount(expressincamount);
-							price1.setDeliveryprice(cubeprice.add(expressincamount));
-							price1.setUnitprice("" + deliveryPrice.getPricem3());
-							data1.add(price1);
-							if(minCube.compareTo(new BigDecimal(0)) == 0) {
-								minCube = cubeprice;
-							} else {
-								if(minCube.compareTo(cubeprice) > 0) {
+							
+							//根据体积计算
+							if(StringUtil.isNotBlank(strCube)) {
+								CalcDeliveryPriceDto price1 = new CalcDeliveryPriceDto();
+								price1.setDeliveryid(deliveryPrice.getDeliveryid());
+								price1.setDeliveryname(deliveryPrice.getDeliveryname());
+								//费用
+								BigDecimal cubeprice = calcPrice(strCube, deliveryPrice.getPricem3());
+								//物流保价金额计算
+								BigDecimal expressincamount = calcIncPrice(strIncamount, deliveryDto.getRes03());
+								price1.setExpressincamount(expressincamount);
+								price1.setDeliveryprice(cubeprice.add(expressincamount));
+								price1.setUnitprice("" + deliveryPrice.getPricem3());
+								data1.add(price1);
+								if(minCube.compareTo(new BigDecimal(0)) == 0) {
 									minCube = cubeprice;
+								} else {
+									if(minCube.compareTo(cubeprice) > 0) {
+										minCube = cubeprice;
+									}
 								}
-							}
+							}							
 						}
 					}
 				}
