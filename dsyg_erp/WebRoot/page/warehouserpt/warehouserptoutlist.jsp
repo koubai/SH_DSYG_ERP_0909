@@ -265,8 +265,7 @@
 								<!-- <td width="80">联系人</td> -->
 								<td width="80">制单人</td>
 								<td width="80">含税金额</td>
-								<td width="80">利润率</td>
-								<!--
+								<!--<td width="80">利润率</td>
 								<td width="120">快递单号</td>
 								-->
 								<td width="120">快递公司</td>
@@ -314,12 +313,12 @@
 									<!--<td><s:property value="suppliermanager"/></td>-->
 									<td><s:property value="createuid"/></td>
 									<td align="right"><s:property value="totaltaxamount"/></td>
+									<!--
 									<td align="right">
 										<s:if test="%{res09 != null && res09 != ''}">
 											<s:property value="res09"/>%
 										</s:if>
 									</td>
-									<!--
 									<td><s:property value="expressno"/></td>
 									-->
 									<s:if test="rptlogCount > 1">

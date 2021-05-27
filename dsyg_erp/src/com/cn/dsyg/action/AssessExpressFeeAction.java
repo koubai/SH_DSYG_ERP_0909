@@ -155,10 +155,10 @@ public class AssessExpressFeeAction extends BaseAction {
 								price.setUnitprice("" + deliveryPrice.getPricekg());
 								data.add(price);
 								if(minWeight.compareTo(new BigDecimal(0)) == 0) {
-									minWeight = weightprice;
+									minWeight = price.getDeliveryprice();
 								} else {
-									if(minWeight.compareTo(weightprice) > 0) {
-										minWeight = weightprice;
+									if(minWeight.compareTo(price.getDeliveryprice()) > 0) {
+										minWeight = price.getDeliveryprice();
 									}
 								}
 							}
@@ -177,10 +177,10 @@ public class AssessExpressFeeAction extends BaseAction {
 								price1.setUnitprice("" + deliveryPrice.getPricem3());
 								data1.add(price1);
 								if(minCube.compareTo(new BigDecimal(0)) == 0) {
-									minCube = cubeprice;
+									minCube = price1.getDeliveryprice();
 								} else {
-									if(minCube.compareTo(cubeprice) > 0) {
-										minCube = cubeprice;
+									if(minCube.compareTo(price1.getDeliveryprice()) > 0) {
+										minCube = price1.getDeliveryprice();
 									}
 								}
 							}							
@@ -300,6 +300,7 @@ public class AssessExpressFeeAction extends BaseAction {
 			warehouserpt.setRes10(temInc.toString());
 			
 			warehouserptService.updateWarehouserpt(warehouserpt);
+			warehouserptService.updateWarehouserpt(warehouserpt, Constants.WAREHOUSE_TYPE_OUT);
 			this.addActionMessage("出库单:"+warehouserpt.getWarehouseno()+"添加快递成功！");
 
 		} catch(Exception e) {
@@ -320,7 +321,7 @@ public class AssessExpressFeeAction extends BaseAction {
 	private BigDecimal calcPrice(String amount, BigDecimal unitprice) {
 		BigDecimal bb = new BigDecimal(amount);
 		//四舍五入
-		BigDecimal result = bb.multiply(unitprice).setScale(2, BigDecimal.ROUND_HALF_UP);
+		BigDecimal result = bb.multiply(unitprice).setScale(0, BigDecimal.ROUND_HALF_UP);
 		return result;
 				
 	}
@@ -337,7 +338,7 @@ public class AssessExpressFeeAction extends BaseAction {
 			BigDecimal bb = new BigDecimal(strIncamount);
 			BigDecimal rr = new BigDecimal(incRate);
 			//四舍五入
-			result = bb.multiply(rr).setScale(2, BigDecimal.ROUND_HALF_UP);
+			result = bb.multiply(rr).setScale(0, BigDecimal.ROUND_HALF_UP);
 		}
 		return result;
 

@@ -1267,6 +1267,9 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 					newwarehouserpt.setSupplierfax(warehouserpt.getSupplierfax());
 					// 供应商信息 （用友编号）
 					newwarehouserpt.setRes04(warehouserpt.getRes04());
+					
+					// 保价金额，物流保价金额
+					newwarehouserpt.setRes10(warehouserpt.getRes10());
 
 					newwarehouserpt.setNote(warehouserpt.getNote());
 					//快递公司ID==============================这里不需要快递信息
@@ -1301,14 +1304,17 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 			insertDeliveryLog(warehouserpt);
 		}
 		
-		warehouserpt.setRes01(warehouserpt.getReceiptdate());
+		if (warehouserpt.getReceiptdate() != null)
+			warehouserpt.setRes01(warehouserpt.getReceiptdate());
 
 		//新增保价金额和物流保价金额 add by liu 202105
-		StringBuffer temInc = new StringBuffer();
-		temInc.append(warehouserpt.getIncamount());
-		temInc.append(",");
-		temInc.append(warehouserpt.getExpressincamount());
-		warehouserpt.setRes10(temInc.toString());
+		if (warehouserpt.getIncamount()!=null){
+			StringBuffer temInc = new StringBuffer();
+			temInc.append(warehouserpt.getIncamount());
+			temInc.append(",");
+			temInc.append(warehouserpt.getExpressincamount());
+			warehouserpt.setRes10(temInc.toString());			
+		}
 
 		warehouserptDao.updateWarehouserpt(warehouserpt);
 		
@@ -1333,8 +1339,9 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 			//发票号
 			String receiptid = Constants.FINANCE_NO_PRE + belongto + sdf.format(date);
 			finance.setReceiptid(receiptid);
-			//开票日期=当天
-			//finance.setReceiptdate(DateUtil.dateToShortStr(date));
+			//开票日期
+			if (warehouserpt.getRes01()!= null)
+				finance.setReceiptdate(warehouserpt.getRes01());
 			//结算日期=当天
 			finance.setAccountdate(DateUtil.dateToShortStr(date));
 			//金额=快递金额含税
@@ -1363,6 +1370,8 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 			financeDao.insertFinance(finance);
 		} else {
 			//修改财务记录
+			if (warehouserpt.getRes01()!= null)
+				ff.setReceiptdate(warehouserpt.getRes01());
 			//结算日期=当天
 			ff.setAccountdate(DateUtil.dateToShortStr(date));
 			//金额=快递金额含税
@@ -1504,6 +1513,10 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 		}
 		//发货日期
 		if(!compareStringObject(oldWarehouserptDto.getShowWarehousedate(), warehouserpt.getWarehousedate())) {
+			return true;
+		}
+		//保价金额，物流保价金额
+		if(!compareStringObject(oldWarehouserptDto.getRes10(), warehouserpt.getRes10())) {
 			return true;
 		}
 		return false;
