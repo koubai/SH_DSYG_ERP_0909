@@ -1353,10 +1353,20 @@
 														</select>
 													</td>
 													<td align="right">
-														<input type="text" style="width: 80px;" id="tmpUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '4');" maxlength="20" value="<s:property value="unitprice"/>"/>
+														<s:if test='userrank > 80' >
+															<input type="text" style="width: 80px;" id="tmpUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '4');" maxlength="20" value="<s:property value="unitprice"/>"/>
+														</s:if>
+														<s:else>
+															<input type="text" disabled="true" style="width: 80px;" id="tmpUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '4');" maxlength="20" value="<s:property value="unitprice"/>"/>
+														</s:else>
 													</td>
 													<td align="right">
-														<input type="text" style="width: 80px;" id="tmpTaxUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '6');" maxlength="20" value="<s:property value="taxunitprice"/>"/>
+														<s:if test='userrank > 80' >
+															<input type="text" style="width: 80px;" id="tmpTaxUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '6');" maxlength="20" value="<s:property value="taxunitprice"/>"/>
+														</s:if>
+														<s:else>
+															<input type="text" disabled="true" style="width: 80px;" id="tmpTaxUnitprice_<s:property value="productid"/>" onblur="calcquantity(this, '6');" maxlength="20" value="<s:property value="taxunitprice"/>"/>
+														</s:else>
 													</td>
 													<td align="right">
 														<input type="text" style="width: 80px;" id="tmpAmount_<s:property value="productid"/>" onblur="calcAmount(this, '1');" maxlength="13" value="<s:property value="amount"/>"/>

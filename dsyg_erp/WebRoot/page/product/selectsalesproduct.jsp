@@ -331,6 +331,19 @@
 		if(onblurevent != "") {
 			input.setAttribute("onblur", onblurevent); 
 		}
+		var rank = getOpener().document.getElementById("userrank");
+		var strSalesType = $("#strSalesType").val();
+		if(strSalesType == "0") {
+			if(rank != "") {
+				if (name == "tmpUnitprice" && rank.value < 80){
+					input.setAttribute("disabled", "true"); 				
+				}
+				if (name == "tmpTaxUnitprice" && rank.value < 80){
+					input.setAttribute("disabled", "true"); 				
+				}
+			}			
+		}
+
 		td.appendChild(input);
 		return td;
 	}
