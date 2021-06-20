@@ -136,7 +136,7 @@ function savePrice() {
 			id = idx[0];
 			deliveryprice = idx[1];
 			expressincamount = idx[2];
-			alert(id + ": " +  expressno + ": " + receiptdate  + ": " + deliveryprice + ": " + expressincamount);
+			alert("\n快递公司号：" + id + "\n快递单号: " +  expressno + "\n单据日期: " + receiptdate  + "\n合计金额: " + deliveryprice + "\n保费金额: " + expressincamount);
 			document.mainform.action = "<%=request.getContextPath()%>/assess/saveAssessExpressFeeAction.action?deliveryid="+id+"&&expressno="+expressno+"&&receiptdate=" +receiptdate+"&&deliveryprice="+deliveryprice+"&&expressincamount="+expressincamount;
 			document.mainform.submit();
 		}

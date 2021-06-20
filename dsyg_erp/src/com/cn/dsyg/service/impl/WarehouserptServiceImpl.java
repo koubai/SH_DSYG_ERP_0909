@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.mail.Session;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -45,6 +47,7 @@ import com.cn.dsyg.dto.WarehouseDto;
 import com.cn.dsyg.dto.WarehouserptDto;
 import com.cn.dsyg.dto.WarehouserptHistDto;
 import com.cn.dsyg.service.WarehouserptService;
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  * @name WarehouserptServiceImpl.java
@@ -1304,7 +1307,7 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 			insertDeliveryLog(warehouserpt);
 		}
 		
-		if (warehouserpt.getReceiptdate() != null)
+		if (warehouserpt.getRes01() == null && warehouserpt.getReceiptdate() != null)
 			warehouserpt.setRes01(warehouserpt.getReceiptdate());
 
 		//新增保价金额和物流保价金额 add by liu 202105
@@ -1347,14 +1350,18 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 			//金额=快递金额含税
 			finance.setAmount(warehouserpt.getExpresstaxamount());
 			//负责人
-			finance.setHandler(warehouserpt.getUpdateuid());
-			finance.setApproverid(warehouserpt.getUpdateuid());
+//			finance.setHandler(warehouserpt.getUpdateuid());
+//			finance.setApproverid(warehouserpt.getUpdateuid());
+			//当前操作用户ID
+			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
+			finance.setHandler(username);
+			finance.setApproverid(username);
 			
 			//快递信息需要显示对应的客户/供应商的ID和名称
 			finance.setRes01(warehouserpt.getSupplierid());
 			finance.setRes02(warehouserpt.getSuppliername());
-			
-			finance.setReceiptdate(warehouserpt.getReceiptdate());
+			if (finance.getReceiptdate()== null && warehouserpt.getReceiptdate()!=null) 
+				finance.setReceiptdate(warehouserpt.getReceiptdate());
 			finance.setRes08(warehouserpt.getExpressno());
 			finance.setCustomerid(Long.valueOf(warehouserpt.getExpressid()));
 			finance.setCustomername(warehouserpt.getExpressname());
@@ -1365,8 +1372,10 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 			finance.setRank(Constants.ROLE_RANK_OPERATOR);
 			//状态=新增
 			finance.setStatus(Constants.FINANCE_STATUS_NEW);
-			finance.setCreateuid(warehouserpt.getUpdateuid());
-			finance.setUpdateuid(warehouserpt.getUpdateuid());
+//			finance.setCreateuid(warehouserpt.getUpdateuid());
+//			finance.setUpdateuid(warehouserpt.getUpdateuid());
+			finance.setCreateuid(username);
+			finance.setUpdateuid(username);
 			financeDao.insertFinance(finance);
 		} else {
 			//修改财务记录
@@ -1377,11 +1386,17 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 			//金额=快递金额含税
 			ff.setAmount(warehouserpt.getExpresstaxamount());
 			//负责人
-			ff.setHandler(warehouserpt.getUpdateuid());
+			//当前操作用户ID
+//			ff.setHandler(warehouserpt.getUpdateuid());
+			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
+			ff.setHandler(username);
+			ff.setApproverid(username);
 			//快递信息
 			ff.setRes01(warehouserpt.getSupplierid());
 			ff.setRes02(warehouserpt.getSuppliername());
-			ff.setReceiptdate(warehouserpt.getReceiptdate());
+//			ff.setReceiptdate(warehouserpt.getReceiptdate());
+			if (warehouserpt.getRes01()!= null)
+				ff.setReceiptdate(warehouserpt.getRes01());
 			ff.setRes08(warehouserpt.getExpressno());
 			ff.setCustomerid(Long.valueOf(warehouserpt.getExpressid()));
 			ff.setCustomername(warehouserpt.getExpressname());
@@ -1389,7 +1404,8 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 			ff.setCustomermanager(warehouserpt.getExpressmanager());
 			ff.setCustomeraddress(warehouserpt.getExpressaddress());
 			ff.setCustomermail(warehouserpt.getExpressmail());
-			ff.setUpdateuid(warehouserpt.getUpdateuid());
+//			ff.setUpdateuid(warehouserpt.getUpdateuid());
+			ff.setUpdateuid(username);
 			financeDao.updateFinance(ff);
 		}
 	}
