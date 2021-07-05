@@ -59,14 +59,14 @@
 		var products = "," + productlist;
 		// 询价时允许相同产品存在
 		var salestype_items = getOpener().document.getElementsByName("salesType");
-		if (salestype_items != null && salestype_items[1] != null){
-			if (!salestype_items[1].checked){
-				if(products.indexOf("," + id + ",") >= 0) {
-					//alert("该产品已存在！");
-					return;
-				}				
-			}			
-		}
+//		if (salestype_items != null && salestype_items[1] != null){
+//			if (!salestype_items[1].checked){
+//				if(products.indexOf("," + id + ",") >= 0) {
+//					//alert("该产品已存在！");
+//					return;
+//				}				
+//			}			
+//		}
 				
 		var rate = $("#common_rate").val();
 		
