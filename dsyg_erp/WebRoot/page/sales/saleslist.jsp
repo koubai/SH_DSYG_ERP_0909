@@ -63,6 +63,13 @@
 			alert("请选择一条记录！");
 			return;
 		} else {
+			var selectObj=$('input[name="radioKey"]:checked');
+			var rank = selectObj.parents("tr").find("td").eq(13).text();
+			if (rank.indexOf("审核")>=0){
+				alert("已经审核,无法删除！");
+				return;				
+			}
+			
 			if(confirm("确定删除吗？")) {
 				document.mainform.action = "../sales/delSalesAction.action?delSalesId=" + id;
 				document.mainform.submit();
@@ -374,7 +381,7 @@
 								<td width="60">状态</td>
 								<td width="80">备注</td>
 							</tr>
-							<s:iterator id="salesList" value="salesList" status="st1">
+							<s:iterator var="salesList" id="salesList" value="salesList" status="st1">
 								<s:if test="#st1.odd==true">
 									<tr class="tr_bg" onclick="checkRadioTr(this, event);">
 								</s:if>
@@ -465,7 +472,8 @@
 											</s:else>											
 										</s:else>
 									</td>
-									<td><s:property value="note"/></td>
+									<td><s:property value="note"/>
+									</td>
 								</tr>
 							</s:iterator>
 						</table>
