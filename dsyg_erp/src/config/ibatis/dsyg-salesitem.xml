@@ -328,7 +328,27 @@
 		order by A.customername asc, A.theme2 asc, A.productid asc
 		LIMIT #start#, #end#
 	</select>
-	
+
+	<select id="query3MUnSndItemsByProductId" parameterClass="java.util.Map" resultMap="SalesItemDto">
+		select * ,
+			"" as customername,
+			"" as tradename,
+			"" as typeno,
+			"" as color,
+			"" as packaging,
+			"" as unit,
+			"" as makearea,
+			"" as item01,
+			"" as bookdate
+		from etb_salesitem T 
+		where 1 = 1 and T.res02=0 and T.status = 1 and T.remainquantity > 0
+		and DATEDIFF(ADDDATE(NOW(),INTERVAL -3 MONTH),createdate) > 0
+		<isNotEmpty prepend="and" property="productid">
+			T.productid = #productid#
+		</isNotEmpty>
+		order by createdate asc
+	</select>
+		
 	<select id="querySalesItemByID" parameterClass="java.util.Map" resultMap="SalesItemDto">
 		select * from etb_salesitem where id = #id#
 	</select>

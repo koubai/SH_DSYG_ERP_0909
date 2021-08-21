@@ -52,6 +52,11 @@ public class WarehouseDetailDto extends BaseDto {
 	 */
 	private BigDecimal quantitys;
 	/**
+	 * 逾期3M天订单数量
+	 */
+	private BigDecimal exp3M_quantitys;
+	
+	/**
 	 * 差额数量
 	 */
 	private BigDecimal diffquantity;
@@ -1097,5 +1102,12 @@ public class WarehouseDetailDto extends BaseDto {
 		this.productid = productid;
 	}
 
+	public BigDecimal getExp3M_quantitys() {
+		return exp3M_quantitys;
+	}
+
+	public void setExp3M_quantitys(BigDecimal exp3m_quantitys) {
+		exp3M_quantitys = exp3m_quantitys;
+	}
 
 }

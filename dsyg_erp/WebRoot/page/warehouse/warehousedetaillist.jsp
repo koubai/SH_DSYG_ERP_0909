@@ -37,6 +37,14 @@
 		}
 	}
 	
+	function changeExpiredDisplay(obj){
+		if(obj.checked) {
+			$("#expiredDisplay").attr("value", "1");
+		}else{
+			$("#expiredDisplay").attr("value", "0");
+		}
+	}
+	
 	function changeTotalQtyDisp(obj){
 		if(obj.checked) {
 			$("#totalQtyDisplay").attr("value", "1");
@@ -115,6 +123,7 @@
 				<s:hidden name="startIndex" id="startIndex"/>
 				<s:hidden name="intPageSize" id="intPageSize"/>
 				<s:hidden name="zeroDisplay" id="zeroDisplay"/>
+				<s:hidden name="expiredDisplay" id="expiredDisplay"/>
 				<s:hidden name="totalQtyDisplay" id="totalQtyDisplay"/>
 				<div class="searchbox">
 					<div class="box1">
@@ -157,6 +166,16 @@
 						</s:else>
 					</div>
 					
+					<div class="box1">
+						<label class="pdf10">显示逾期</label>
+						<s:if test='expiredDisplay == "1"'>
+							<input id="tempExpiredDisplay" type="checkbox" onclick="changeExpiredDisplay(this);" checked="checked" value="1"/>
+						</s:if>
+						<s:else>
+							<input id="tempExpiredDisplay" type="checkbox" onclick="changeExpiredDisplay(this);" value="0"/>
+						</s:else>
+					</div>
+					
 					<div class="btn" style="margin-left: 60px;">
 						<div class="box1_left"></div>
 						<div class="box1_center">
@@ -187,6 +206,9 @@
 								<td width="60">形式</td>
 								<td width="60">产地</td>
 								<td width="80">订单数量</td>
+								<s:if test='expiredDisplay == "1"'>
+									<td width="80">逾期数量</td>
+								</s:if>
 								<td width="80">库存数量</td>
 								<td width="60">差数</td>
 								<td width="60">深圳差数</td>
@@ -236,6 +258,10 @@
 										</s:iterator>
 									</td>
 									<td align="right"><a href="#" onclick="showSales('<s:property value="id"/>');"><u><s:property value="quantitys"/></u></a></td>
+									<s:if test='expiredDisplay == "1"'>
+										<td align="right"><s:property value="exp3M_quantitys"/></td>
+									</s:if>
+									
 									<td align="right">
 										<s:if test="%{quantity + quantityw < res01}">
 											<span style="background-color: yellow"><s:property value="quantity"/></span>

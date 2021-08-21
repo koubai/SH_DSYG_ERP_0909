@@ -12,6 +12,12 @@
 <title>产品销售信息</title>
 <script type="text/javascript">
 	$(function() {
+		var date = new Date();
+		var str = date.getFullYear()
+		    + '-' + ('0' + (date.getMonth() + 1 - 3)).slice(-2)
+		    + '-' + ('0' + date.getDate()).slice(-2);
+		var target = document.getElementById("prev3Mdate");
+		target.value= str;
 	});
 	
 	function showSaleNoDetail(salesno) {
@@ -54,15 +60,24 @@
 							<td><s:property value="#st1.index + 1"/></td>
 							<td><s:property value="customername"/></td>
 							<td><a href="#" onclick="showSaleNoDetail('<s:property value="salesno"/>');"><s:property value="theme2"/></a></td>
-							<td><s:property value="remainquantity"/></td>
-							<td><s:property value="showBookdate"/></td>
+							
+							<s:if test="%{showBookdate < prev3Mdate}">
+								<td style='background-color: yellow' ><s:property value="remainquantity"/></td>
+								<td style='background-color: yellow' ><s:property value="showBookdate"/></td>
+							</s:if>
+							<s:else>
+								<td><s:property value="remainquantity"/></td>
+								<td><s:property value="showBookdate"/></td>
+							</s:else>
 						</tr>
 					</s:iterator>
 				</table>
+				
 			</div>
 		</div>
 		<div class="btns" style="margin-top:40px; margin-left: 0px;">
-			<table border="0" style="margin:0 auto;">
+				逾期3个月合计数量：<s:property value="total3MQuantity"/>
+				<table border="0" style="margin:0 auto;">
 				<tr>
 					<td>
 						<div class="btn">

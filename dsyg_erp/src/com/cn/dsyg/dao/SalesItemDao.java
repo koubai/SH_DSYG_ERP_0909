@@ -68,6 +68,13 @@ public interface SalesItemDao {
 	public SalesItemDto querySalesItemByID(String id);
 	
 	/**
+	 * 根据ProductId查询销售单逾期3M未发货物
+	 * @param productid
+	 * @return
+	 */
+	public List<SalesItemDto> query3MUnSndItemsByProductId(String productid);
+	
+	/**
 	 * 根据销售单ID逻辑删除销售单货物
 	 * @param salesno
 	 * @param updateuid

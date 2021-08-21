@@ -711,7 +711,7 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		paramMap.put("color", color);
 		paramMap.put("warehousename", warehousename);
 		if (zerodisplay == null)
-			zerodisplay="";
+			paramMap.put("zerodisplay", "");
 		if (zerodisplay.equals("0"))
 			paramMap.put("zerodisplay", zerodisplay);
 		paramMap.put("start", start);

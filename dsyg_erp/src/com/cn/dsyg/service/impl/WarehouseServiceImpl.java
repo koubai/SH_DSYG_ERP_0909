@@ -1854,7 +1854,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	public Page queryWarehouseDetailByPage(String parentid, String keyword,
 			String warehousetype, String warehouseno, String theme1,
 			String productid, String tradename, String typeno, String color,
-			String warehousename, String zerodisplay, String totalQtyDisplay, Page page) {
+			String warehousename, String zerodisplay, String totalQtyDisplay, String expiredDisplay, Page page) {
 		keyword = StringUtil.replaceDatabaseKeyword_mysql(keyword);
 		tradename = StringUtil.replaceDatabaseKeyword_mysql(tradename);
 		typeno = StringUtil.replaceDatabaseKeyword_mysql(typeno);
@@ -1878,7 +1878,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 			for(WarehouseDetailDto warehouseDetailDto : list) {
 				//默认为0
 				warehouseDetailDto.setDiffquantity_sz(new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP));
-				//查询深圳数据
+				warehouseDetailDto.setExp3M_quantitys(new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP));
+				//查询深圳数据， 以及根据需要查逾期3个月订单未发货数据
 				if(StringUtil.isNotBlank(warehouseDetailDto.getProductid())) {
 					//先根据产品ID查询上海这边的产品数据
 					ProductDto productDto = productDao.queryProductByID(warehouseDetailDto.getProductid());
@@ -1898,6 +1899,21 @@ public class WarehouseServiceImpl implements WarehouseService {
 							}
 						} else {
 							//System.out.println("sz product is null....Shang hai productid=" + warehouseDetailDto.getProductid());
+						}
+						// 需要显示逾期3个月的未发货订单数量
+						if (expiredDisplay.equals("1")){
+							System.out.println("XXX 3M productid=" + warehouseDetailDto.getProductid());
+							List<SalesItemDto> explist = salesItemDao.query3MUnSndItemsByProductId(productDto.getId().toString());
+							BigDecimal expiredRemainQuantity = new BigDecimal(0);
+							if(explist != null && explist.size() > 0) {
+							//	System.out.println("XXX 3M explist.size()=" + explist.size());
+								for(SalesItemDto item : explist){
+									expiredRemainQuantity = expiredRemainQuantity.add(item.getRemainquantity());
+							//		System.out.println("XXX 3M item.getRemainquantity()=" + item.getRemainquantity());
+								} 
+								warehouseDetailDto.setExp3M_quantitys(expiredRemainQuantity);								
+							//	System.out.println("XXX 3M expiredRemainQuantity=" + expiredRemainQuantity);
+							}
 						}
 					} else {
 						//没有产品记录，则数据问题，不做任何操作

@@ -1,7 +1,10 @@
 package com.cn.dsyg.action;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.LogManager;
@@ -65,7 +68,12 @@ public class WarehouseDetailAction extends BaseAction {
 	
 	//显示空 (0: 空数据不显示, 1: 显示)
 	private String zeroDisplay;
-
+	
+	//显示预期90天以上数量 (0: 不显示, 1: 显示)
+	private String expiredDisplay;
+	private String prev3Mdate;
+	private String total3MQuantity;
+	
 	private String totalQtyDisplay;
 	private String totalQty;
 	
@@ -234,8 +242,24 @@ public class WarehouseDetailAction extends BaseAction {
 		try {
 			this.clearMessages();
 //			System.out.println("strProdoctid is: " + strProdoctid);
+			Date date = new Date();
+			Calendar calendar = Calendar.getInstance();
+	        calendar.setTime(date);
+	        calendar.add(Calendar.MONTH,  -3 );
+	        date = calendar.getTime();
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			prev3Mdate = sdf.format(date);
+			
 			setSalesItemList(salesItemService.querySalesItemByProductidForCompare(strProdoctid, ""));
 			//setSalesItemList(salesItemService.querySalesItemByProductid(strProdoctid, "", 0, 100));
+			BigDecimal tot3mq = new BigDecimal(0);
+			for (SalesItemDto item: salesItemList){
+				if (item.getBookdate().compareTo(prev3Mdate) < 0){
+					if (item.getRemainquantity()!=null)
+						tot3mq=tot3mq.add(new BigDecimal(item.getRemainquantity().toString())); 
+				}
+			}
+			total3MQuantity = tot3mq.toString();
 			
 		} catch(Exception e) {
 			log.error("querySalesItemByProductid error:" + e);
@@ -259,7 +283,7 @@ public class WarehouseDetailAction extends BaseAction {
 		totalQty="";
 		warehouseService.setTotalQty(new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP));
 		page = warehouseService.queryWarehouseDetailByPage("", strKeyword,
-				"", "", strTheme, "", "", "", "", "", zeroDisplay, totalQtyDisplay, page);
+				"", "", strTheme, "", "", "", "", "", zeroDisplay, totalQtyDisplay, expiredDisplay, page);
 		warehouseDetailList = (List<WarehouseDetailDto>) page.getItems();
 		
 		if (totalQtyDisplay != null && totalQtyDisplay.equals("1")){
@@ -445,4 +469,29 @@ public class WarehouseDetailAction extends BaseAction {
 	public void setTotalQty(String totalQty) {
 		this.totalQty = totalQty;
 	}
+	
+	public String getExpiredDisplay() {
+		return expiredDisplay;
+	}
+
+	public void setExpiredDisplay(String expiredDisplay) {
+		this.expiredDisplay = expiredDisplay;
+	}
+	
+	public String getPrev3Mdate() {
+		return prev3Mdate;
+	}
+
+	public void setPrev3Mdate(String prev3Mdate) {
+		this.prev3Mdate = prev3Mdate;
+	}
+
+	public String getTotal3MQuantity() {
+		return total3MQuantity;
+	}
+
+	public void setTotal3MQuantity(String total3mQuantity) {
+		total3MQuantity = total3mQuantity;
+	}
+
 }
