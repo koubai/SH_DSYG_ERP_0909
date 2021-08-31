@@ -1636,7 +1636,8 @@
 					
 					(SELECT * FROM 
 					(SELECT S.productid as productids,SUM(S.outquantity) AS outquantitys,SUM(S.beforequantity) AS beforequantitys,SUM(S.remainquantity) AS remainquantitys 
-					FROM etb_salesitem S WHERE 1 = 1
+					FROM etb_salesitem S 
+					inner join etb_sales S02 on S.salesno=S02.salesno and S02.rank>=85
 					and S.remainquantity >= 0
 					group by S.productid) S2) S3
 					ON S1.productid = S3.productids
@@ -1658,7 +1659,8 @@
 					RIGHT JOIN
 					(SELECT * FROM 
 					(SELECT S.productid as productids,SUM(S.outquantity) AS outquantitys,SUM(S.beforequantity) AS beforequantitys,SUM(S.remainquantity) AS remainquantitys 
-					FROM etb_salesitem S WHERE 1 = 1
+					FROM etb_salesitem S 
+					inner join etb_sales S02 on S.salesno=S02.salesno and S02.rank>=85
 					and S.remainquantity >= 0
 					group by S.productid) S2) S3
 					ON S1.productid = S3.productids
