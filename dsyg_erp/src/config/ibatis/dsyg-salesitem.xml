@@ -259,7 +259,9 @@
 			(select S.res01 from etb_sales S where S.salesno = T.salesno) as baozhuang,
 			(select S.theme2 from etb_sales S where S.salesno = T.salesno) as bookno,
 			(select S.status from etb_sales S where S.salesno = T.salesno) as status1
-			from etb_salesitem T where 1 = 1 and T.res02 != '1'
+			from etb_salesitem T inner join etb_sales SA
+			on T.salesno = SA.salesno and SA.rank >= 85
+			and T.res02 != '1'
 			<isNotEmpty prepend="and" property="productid">
 				T.productid = #productid#
 			</isNotEmpty>
