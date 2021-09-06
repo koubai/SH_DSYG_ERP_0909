@@ -1052,10 +1052,11 @@
 									<input type="radio" disabled="disabled" id="tmpRes02" name="salesType" checked="checked" value="0"/>订单　
 									<input type="radio" disabled="disabled" name="salesType" value="1"/>询价　
 								</s:else>
+								<!-- 
 								<s:if test='updSalesDto.rank > 80'>
 									<input type="radio" disabled="disabled" id="tmpRes02" name="salesType" checked="checked" value="0"/>订单　
 									<input type="radio" disabled="disabled" name="salesType" value="1"/>询价　
-								</s:if>
+								</s:if> -->
 							</td>
 							<td align="right">
 								<label class="pdf10"><font color="red">*</font>支付方式</label>
