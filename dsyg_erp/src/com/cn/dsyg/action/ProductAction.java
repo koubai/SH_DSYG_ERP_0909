@@ -1383,4 +1383,5 @@ public class ProductAction extends BaseAction {
 	public void setStrPurchaseType(String strPurchaseType) {
 		this.strPurchaseType = strPurchaseType;
 	}
+	
 }

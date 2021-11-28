@@ -543,8 +543,14 @@
 		<property name="cuPriceDao">
 			<ref local="cuPriceDao"/>
 		</property>
+		<property name="salesDao">
+			<ref local="salesDao"/>
+		</property>
 		<property name="salesItemDao">
 			<ref local="salesItemDao"/>
+		</property>
+		<property name="purchaseDao">
+			<ref local="purchaseDao"/>
 		</property>
 		<property name="purchaseItemDao">
 			<ref local="purchaseItemDao"/>

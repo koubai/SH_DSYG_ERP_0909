@@ -14,14 +14,18 @@ import com.cn.dsyg.dao.CuPriceDao;
 import com.cn.dsyg.dao.Dict01Dao;
 import com.cn.dsyg.dao.ProductBarcodeDao;
 import com.cn.dsyg.dao.ProductDao;
+import com.cn.dsyg.dao.PurchaseDao;
 import com.cn.dsyg.dao.PurchaseItemDao;
+import com.cn.dsyg.dao.SalesDao;
 import com.cn.dsyg.dao.SalesItemDao;
 import com.cn.dsyg.dao.WarehouseDao;
 import com.cn.dsyg.dto.CuPriceDto;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.ProductBarcodeDto;
 import com.cn.dsyg.dto.ProductDto;
+import com.cn.dsyg.dto.PurchaseDto;
 import com.cn.dsyg.dto.PurchaseItemDto;
+import com.cn.dsyg.dto.SalesDto;
 import com.cn.dsyg.dto.SalesItemDto;
 import com.cn.dsyg.dto.WarehouseDto;
 import com.cn.dsyg.service.ProductService;
@@ -37,7 +41,9 @@ public class ProductServiceImpl implements ProductService {
 	private ProductDao productDao;
 	private Dict01Dao dict01Dao;
 	private ProductBarcodeDao productBarcodeDao;
+	private SalesDao salesDao;
 	private SalesItemDao salesItemDao;
+	private PurchaseDao purchaseDao;
 	private PurchaseItemDao purchaseItemDao;
 	private CuPriceDao cuPriceDao;
 	private WarehouseDao warehouseDao;
@@ -100,15 +106,21 @@ public class ProductServiceImpl implements ProductService {
 					//销售单铜价
 					SalesItemDto salesItemDto = getSalesCuPriceByProduct("" + product.getId(), customerid, product.getFieldno());
 					if(salesItemDto != null) {
-						product.setCuprice(salesItemDto.getUnitprice());
-						product.setTaxcuprice(salesItemDto.getTaxunitprice());
+						SalesDto salesDto = salesDao.querySalesByNo(salesItemDto.getSalesno());
+						if (salesDto.getRank()!=null && !salesDto.getRank().equals("") && salesDto.getRank()>=85){
+							product.setCuprice(salesItemDto.getUnitprice());
+							product.setTaxcuprice(salesItemDto.getTaxunitprice());							
+						}
 					}
 				} else if("1".equals(flag)) {
 					//采购单铜价
 					PurchaseItemDto purchaseItemDto = getPurchaseCuPriceByProduct("" + product.getId(), customerid, product.getFieldno());
 					if(purchaseItemDto != null) {
-						product.setCuprice(purchaseItemDto.getUnitprice());
-						product.setTaxcuprice(purchaseItemDto.getTaxunitprice());
+//						PurchaseDto purchaseDto = purchaseDao.queryPurchaseByNo(purchaseItemDto.getPurchaseno());
+//						if (purchaseDto.getRank()!=null && !purchaseDto.getRank().equals("") && purchaseDto.getRank()>=85){
+							product.setCuprice(purchaseItemDto.getUnitprice());
+							product.setTaxcuprice(purchaseItemDto.getTaxunitprice());
+//						}
 					}
 				} else {
 					//什么都不做
@@ -451,4 +463,21 @@ public class ProductServiceImpl implements ProductService {
 	public void setWarehouseDao(WarehouseDao warehouseDao) {
 		this.warehouseDao = warehouseDao;
 	}
+
+	public SalesDao getSalesDao() {
+		return salesDao;
+	}
+
+	public void setSalesDao(SalesDao salesDao) {
+		this.salesDao = salesDao;
+	}
+
+	public PurchaseDao getPurchaseDao() {
+		return purchaseDao;
+	}
+
+	public void setPurchaseDao(PurchaseDao purchaseDao) {
+		this.purchaseDao = purchaseDao;
+	}
+
 }
