@@ -52,16 +52,25 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 		//合并单元格
 		sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 9));
 		XSSFCell cell = row.createCell(0);
+		String strTitle = "";
 		if (warehouserpt.getTotaltaxamount().compareTo(new BigDecimal(0))< 0 )
-			cell.setCellValue("仓库配货单(退货)");
+			strTitle = "仓库配货单(退货)";
 		else
-			cell.setCellValue("仓库配货单");
+			strTitle = "仓库配货单";
+		
+		if (!warehouserpt.getWarehouseno().substring(12).isEmpty()){
+			if (warehouserpt.getWarehouseno().substring(12).equals("A"))
+				strTitle = strTitle.concat("      （深圳仓库A）");
+		}
+		cell.setCellValue(strTitle);
+
 		//式样
 		XSSFCellStyle style = workbook.createCellStyle();
 		//水平居中
 		style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 		style.setFont(font);
 		cell.setCellStyle(style);
+		
 	}
 	
 	/**

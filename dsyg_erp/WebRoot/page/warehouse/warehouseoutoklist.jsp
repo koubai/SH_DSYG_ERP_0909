@@ -391,6 +391,17 @@
 									<div class="box1_right"></div>
 								</div>
 							</td> -->
+							<td style="width: 150px;">
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<select name="strWarehouseNo" id="strWarehouseNo" style="width: 100px;">
+										<option value="" selected="selected">请选择</option>
+										<option value="A">深圳仓库A</option>
+										<option value="A">深圳仓库B</option>
+									</select>
+								</div>
+								<div class="box1_right"></div>
+							</td>
 							<td>
 								<div class="btn">
 									<div class="box1_left"></div>

@@ -1086,7 +1086,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	}
 	
 	@Override
-	public void warehouseOutOk(String ids, String userid) throws RuntimeException {
+	public void warehouseOutOk(String ids, String userid, String strWarehouseNo) throws RuntimeException {
 
 		if(StringUtil.isNotBlank(ids)) {
 			String belongto = PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_BELONG);
@@ -1211,6 +1211,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 						
 						warehouse.setUpdateuid(userid);
 						warehouse.setApproverid(userid);
+						warehouse.setRes08(strWarehouseNo);
 						warehouse.setStatus(Constants.WAREHOUSE_STATUS_OK);
 						
 						//计算当前集集的库存数量
@@ -1350,7 +1351,12 @@ public class WarehouseServiceImpl implements WarehouseService {
 			}
 			String warehouseno = Constants.WAREHOUSERPT_OUT_NO_PRE + belongto + year.substring(2, 4)+ StringUtil.replenishStr("" + newVal, 6);
 			
+			// 特殊发货场合 加上仓库编号 A为深圳A
+			if (!strWarehouseNo.isEmpty() && !strWarehouseNo.equals(""))
+				warehouseno = warehouseno.concat(strWarehouseNo);
 			warehouserpt.setWarehouseno(warehouseno);
+			
+			
 			//仓库名
 			warehouserpt.setWarehousename(warehousename);
 			//主题

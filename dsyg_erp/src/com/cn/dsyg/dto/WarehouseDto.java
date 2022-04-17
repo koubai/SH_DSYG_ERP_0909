@@ -203,7 +203,7 @@ public class WarehouseDto extends BaseAction {
 	private String res07;
 
 	/**
-	 * 预备项目8
+	 * 发货仓库号  （基本仓库如上海深圳本地不写， A：深圳A  B：深圳B）
 	 */
 	private String res08;
 

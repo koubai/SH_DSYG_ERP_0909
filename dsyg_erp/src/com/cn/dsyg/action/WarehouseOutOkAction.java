@@ -71,6 +71,9 @@ public class WarehouseOutOkAction extends BaseAction {
 	//条形码扫码入库
 	private String strScanBarcodeInfo;
 	
+	//仓库编号  上海深圳基本仓库不标注， 特殊才标注 如 A：深圳A   B：深圳B
+	private String strWarehouseNo;
+	
 	/**
 	 * 显示刷新出库单利润率页面
 	 * @return
@@ -251,7 +254,7 @@ public class WarehouseOutOkAction extends BaseAction {
 			this.clearMessages();
 			//当前操作用户ID
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
-			warehouseService.warehouseOutOk(strOkIds, username);
+			warehouseService.warehouseOutOk(strOkIds, username, strWarehouseNo);
 			
 			this.addActionMessage("出库单生成成功！");
 			//刷新页面数据
@@ -433,4 +436,13 @@ public class WarehouseOutOkAction extends BaseAction {
 	public void setWarehouserptService(WarehouserptService warehouserptService) {
 		this.warehouserptService = warehouserptService;
 	}
+	
+	public String getStrWarehouseNo() {
+		return strWarehouseNo;
+	}
+
+	public void setStrWarehouseNo(String strWarehouseNo) {
+		this.strWarehouseNo = strWarehouseNo;
+	}
+
 }

@@ -217,7 +217,7 @@ public interface WarehouseService {
 	 * @param userid
 	 * @throws Exception
 	 */
-	public void warehouseOutOk(String ids, String userid) throws RuntimeException;
+	public void warehouseOutOk(String ids, String userid, String strWarehouseNo) throws RuntimeException;
 	
 	/**
 	 * 库存汇总数据

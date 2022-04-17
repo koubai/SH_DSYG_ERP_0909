@@ -239,7 +239,7 @@ public class WarehouserptDto extends BaseAction {
 	private String showReceiptdate;
 
 	/**
-	 * 预备项目1
+	 *  开票日期
 	 */
 	private String res01;
 
