@@ -269,6 +269,9 @@
 										<s:else>
 											<s:property value="quantity"/>
 										</s:else>				
+										<s:if test="%{qtyOtherSend != 0}">
+											(<s:property value="qtyOtherSend"/>)
+										</s:if>				
 									</td>
 									<td align="right">
 										<s:if test="%{warehouseDetailList[#st1.index].diffquantity <= 0}">

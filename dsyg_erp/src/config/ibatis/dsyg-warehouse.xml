@@ -748,6 +748,19 @@
 		) T
 	</select>
 	
+	<select id="queryWarehouseSendQty" resultClass="int" parameterClass="java.util.Map">
+		SELECT IFNULL(sum(quantity),0) quantity FROM etb_warehouse T WHERE 1 = 1
+		<isNotEmpty prepend="and" property="warehousetype">
+			T.warehousetype = #warehousetype#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="productid">
+			T.productid = #productid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehouseno">
+			T.res08 <![CDATA[<>]]> ""
+		</isNotEmpty>
+	</select>
+	
 	<select id="queryInOutStockCountByPage" resultClass="int" parameterClass="java.util.Map">
 		SELECT COUNT(*) FROM (
 			SELECT

@@ -91,13 +91,26 @@
 		</property>
 	</bean>
 
-	<!-- SZ sart -->
+	<!-- SZ start -->
 	<bean id="warehouseSZDao" class="com.cn.dsyg.dao.impl.WarehouseSZDaoImpl">
 		<property name="sqlMapClient">
 			<ref bean="sqlMapClientSZ"/>
 		</property>
 	</bean>
 	<!-- SZ end -->
+
+	<!-- SZA start -->
+	<bean id="warehouseSZADao" class="com.cn.dsyg.dao.impl.WarehouseSZADaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClientSZA"/>
+		</property>
+	</bean>
+	<bean id="warehouserptSZADao" class="com.cn.dsyg.dao.impl.WarehouserptSZADaoImpl">	                                     
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClientSZA"/>
+		</property>
+	</bean>
+	<!-- SZA end -->
 
 	<!-- orderDetail -->
 	<bean id="orderDetailService" class="com.cn.dsyg.service.impl.OrderDetailServiceImpl" >
@@ -455,6 +468,12 @@
 		</property>
 		<property name="warehouseSZDao">
 			<ref local="warehouseSZDao"/>
+		</property>
+		<property name="warehouseSZADao">
+			<ref local="warehouseSZADao"/>
+		</property>
+		<property name="warehouserptSZADao">
+			<ref local="warehouserptSZADao"/>
 		</property>
 		<property name="barcodeInfoDao">
 			<ref local="barcodeInfoDao"/>

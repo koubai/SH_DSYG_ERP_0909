@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.cn.dsyg.dto.InOutStockDto;
+import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.dto.ProductQuantityDto;
 import com.cn.dsyg.dto.SalesStatisticsDto;
 import com.cn.dsyg.dto.WarehouseCheckDto;
@@ -588,5 +589,20 @@ public interface WarehouseDao {
 	 * @return
 	 */
 	public void loadWarehouseCheck(List<WarehouseCheckDto> lst);
+	
+	/**
+	 * 查询特殊仓库发货记录数
+	 * @param warehousetype
+	 * @param productid
+	 * @param warehouseno
+	 * @return
+	 */
+	public int queryWarehouseSendQty(String warehousetype,
+			String productid, String warehouseno);
+
+	ProductDto queryProductByLogicId(String fieldno, String tradename,
+			String typeno, String color, String item10, String packaging,
+			String unit, String makearea);
+
 	
 }

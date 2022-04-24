@@ -10,6 +10,7 @@ import com.cn.common.util.Constants;
 import com.cn.dsyg.dao.WarehouseDao;
 import com.cn.dsyg.dto.InOutStockDto;
 import com.cn.dsyg.dto.PositionDto;
+import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.dto.ProductQuantityDto;
 import com.cn.dsyg.dto.SalesStatisticsDto;
 import com.cn.dsyg.dto.WarehouseCheckDto;
@@ -460,8 +461,7 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		paramMap.put("status", status);
 		return (Integer) getSqlMapClientTemplate().queryForObject("queryWarehouseOutOkCountByPage", paramMap);
 	}
-	
-	
+		
 	@Override
 	public int queryWarehouseOutOk1CountByPage(String warehouseType, String suppliername, String theme,
 			String tradename, String typeno, String color,
@@ -815,4 +815,23 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		}
 	}
 	
+	@Override
+	public int queryWarehouseSendQty(String warehousetype,
+			String productid, String warehouseno){
+		System.out.println("productid: " + productid);
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("warehousetype", warehousetype);
+		paramMap.put("productid", productid);
+		paramMap.put("warehouseno", warehouseno);
+		return (Integer) getSqlMapClientTemplate().queryForObject("queryWarehouseSendQty", paramMap);
+	}
+
+	@Override
+	public ProductDto queryProductByLogicId(String fieldno, String tradename,
+			String typeno, String color, String item10, String packaging,
+			String unit, String makearea) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

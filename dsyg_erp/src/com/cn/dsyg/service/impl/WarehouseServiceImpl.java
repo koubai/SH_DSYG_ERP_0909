@@ -34,8 +34,10 @@ import com.cn.dsyg.dao.SalesItemHisDao;
 import com.cn.dsyg.dao.SupplierDao;
 import com.cn.dsyg.dao.UserDao;
 import com.cn.dsyg.dao.WarehouseDao;
+import com.cn.dsyg.dao.WarehouseSZADao;
 import com.cn.dsyg.dao.WarehouseSZDao;
 import com.cn.dsyg.dao.WarehouserptDao;
+import com.cn.dsyg.dao.WarehouserptSZADao;
 import com.cn.dsyg.dto.AjaxResultDto;
 import com.cn.dsyg.dto.BarcodeInfoDto;
 import com.cn.dsyg.dto.CustomerDto;
@@ -80,6 +82,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 	private SalesItemHisDao salesItemHisDao;
 	private WarehouseDao warehouseDao;
 	private WarehouserptDao warehouserptDao;
+	private WarehouseSZADao warehouseSZADao;
+	private WarehouserptSZADao warehouserptSZADao;
 	private SupplierDao supplierDao;
 	private CustomerDao customerDao;
 	private CustomerOnlineDao customerOnlineDao;
@@ -1227,6 +1231,16 @@ public class WarehouseServiceImpl implements WarehouseService {
 						
 						warehouseDao.updateWarehouse(warehouse);
 						
+						// SZA 仓库追加
+						// 特殊发货场合 加上仓库编号 A为深圳A
+						if (!strWarehouseNo.isEmpty() && !strWarehouseNo.equals("")){
+							WarehouseDto warehouse_sza = warehouseSZADao.queryWarehouseByWarehouseno(warehouse.getWarehouseno());
+							if (warehouse_sza!= null){
+								warehouseSZADao.updateWarehouse(warehouse);
+							}else {
+								warehouseSZADao.insertWarehouse(warehouse);							
+							}	
+						}						
 						List<SalesItemDto> itemList = salesItemDao.querySalesItemBySalesno(warehouse.getParentid());
 						if(itemList != null && itemList.size() > 0) {
 							boolean b = true;
@@ -1472,6 +1486,11 @@ public class WarehouseServiceImpl implements WarehouseService {
 			warehouserpt.setUpdateuid(userid);
 			
 			warehouserptDao.insertWarehouserpt(warehouserpt);
+
+			// 深圳仓库A追加
+			// 特殊发货场合 加上仓库编号 A为深圳A
+			if (!strWarehouseNo.isEmpty() && !strWarehouseNo.equals(""))
+				warehouserptSZADao.insertWarehouserpt(warehouserpt);
 			
 			//新增一条财务记录（这里财务记录和出库单关联）
 			FinanceDto finance = new FinanceDto();
@@ -1882,6 +1901,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 		
 		if(list != null && list.size() > 0) {
 			for(WarehouseDetailDto warehouseDetailDto : list) {
+				
+				int sentQty = warehouseDao.queryWarehouseSendQty(warehousetype, warehouseDetailDto.getProductid(), "A" );
+				BigDecimal qtyOtherSend = new BigDecimal(0);
+				if (sentQty != 0)
+					qtyOtherSend = (new BigDecimal(sentQty)).multiply(new BigDecimal(-1));
+				warehouseDetailDto.setQtyOtherSend(qtyOtherSend);
+				
 				//默认为0
 				warehouseDetailDto.setDiffquantity_sz(new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP));
 				warehouseDetailDto.setExp3M_quantitys(new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP));
@@ -2067,4 +2093,21 @@ public class WarehouseServiceImpl implements WarehouseService {
 	public void setTotalQty(BigDecimal totalQty) {
 		this.totalQty = totalQty;
 	}
+
+	public WarehouseSZADao getWarehouseSZADao() {
+		return warehouseSZADao;
+	}
+
+	public void setWarehouseSZADao(WarehouseSZADao warehouseSZADao) {
+		this.warehouseSZADao = warehouseSZADao;
+	}
+
+	public WarehouserptSZADao getWarehouserptSZADao() {
+		return warehouserptSZADao;
+	}
+
+	public void setWarehouserptSZADao(WarehouserptSZADao warehouserptSZADao) {
+		this.warehouserptSZADao = warehouserptSZADao;
+	}
+	
 }
