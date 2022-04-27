@@ -53,6 +53,11 @@ public class WarehouseDetailDto extends BaseDto {
 	private BigDecimal qtyOtherSend;
 	
 	/**
+	 * 其它仓库库存数量
+	 */
+	private BigDecimal qtySZAWarehouse;
+	
+	/**
 	 * 订单数量
 	 */
 	private BigDecimal quantitys;
@@ -1121,6 +1126,14 @@ public class WarehouseDetailDto extends BaseDto {
 
 	public void setQtyOtherSend(BigDecimal qtyOtherSend) {
 		this.qtyOtherSend = qtyOtherSend;
+	}
+
+	public BigDecimal getQtySZAWarehouse() {
+		return qtySZAWarehouse;
+	}
+
+	public void setQtySZAWarehouse(BigDecimal qtySZAWarehouse) {
+		this.qtySZAWarehouse = qtySZAWarehouse;
 	}
 
 }

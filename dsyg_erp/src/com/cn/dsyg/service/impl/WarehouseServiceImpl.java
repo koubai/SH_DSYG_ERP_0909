@@ -1902,11 +1902,20 @@ public class WarehouseServiceImpl implements WarehouseService {
 		if(list != null && list.size() > 0) {
 			for(WarehouseDetailDto warehouseDetailDto : list) {
 				
-				int sentQty = warehouseDao.queryWarehouseSendQty(warehousetype, warehouseDetailDto.getProductid(), "A" );
-				BigDecimal qtyOtherSend = new BigDecimal(0);
-				if (sentQty != 0)
-					qtyOtherSend = (new BigDecimal(sentQty)).multiply(new BigDecimal(-1));
-				warehouseDetailDto.setQtyOtherSend(qtyOtherSend);
+				// 20220422 Pei for SZA start --->
+//				int sentQty = warehouseDao.queryWarehouseSendQty(warehousetype, warehouseDetailDto.getProductid(), "A" );
+//				BigDecimal qtyOtherSend = new BigDecimal(0);
+//				if (sentQty != 0)
+//					qtyOtherSend = (new BigDecimal(sentQty)).multiply(new BigDecimal(-1));
+//				warehouseDetailDto.setQtyOtherSend(qtyOtherSend);
+
+				Double szaWarehouseQty = warehouseSZADao.queryAmountByProductId(warehouseDetailDto.getProductid());
+				BigDecimal qtySZAWarehouse = new BigDecimal(0);
+				if (szaWarehouseQty != 0)
+					qtySZAWarehouse = new BigDecimal(szaWarehouseQty);
+				warehouseDetailDto.setQtySZAWarehouse(qtySZAWarehouse.setScale(2));
+
+				// 20220422 Pei for SZA  <--- end
 				
 				//默认为0
 				warehouseDetailDto.setDiffquantity_sz(new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP));

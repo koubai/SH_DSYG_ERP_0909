@@ -396,8 +396,8 @@
 								<div class="box1_center">
 									<select name="strWarehouseNo" id="strWarehouseNo" style="width: 100px;">
 										<option value="" selected="selected">请选择</option>
-										<option value="A">深圳仓库A</option>
-										<option value="B">深圳仓库B</option>
+										<option value="SZ">深圳仓库</option>
+										<!-- <option value="B">深圳仓库B</option> -->
 									</select>
 								</div>
 								<div class="box1_right"></div>

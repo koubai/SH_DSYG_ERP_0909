@@ -59,8 +59,8 @@ public class PoiWarehouserptOutDetailInter extends Poi2007Base {
 			strTitle = "仓库配货单";
 		
 		if (!warehouserpt.getWarehouseno().substring(12).isEmpty()){
-			if (warehouserpt.getWarehouseno().substring(12).equals("A"))
-				strTitle = strTitle.concat("      （深圳仓库A）");
+			if (warehouserpt.getWarehouseno().substring(12).equals("SZ"))
+				strTitle = strTitle.concat("      （深圳仓库）");
 		}
 		cell.setCellValue(strTitle);
 

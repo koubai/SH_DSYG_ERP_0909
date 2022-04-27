@@ -269,8 +269,8 @@
 										<s:else>
 											<s:property value="quantity"/>
 										</s:else>				
-										<s:if test="%{qtyOtherSend != 0}">
-											(<s:property value="qtyOtherSend"/>)
+										<s:if test="%{qtySZAWarehouse != 0}">
+											(<s:property value="qtySZAWarehouse"/>)
 										</s:if>				
 									</td>
 									<td align="right">
