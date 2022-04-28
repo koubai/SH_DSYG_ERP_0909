@@ -1911,7 +1911,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 				Double szaWarehouseQty = warehouseSZADao.queryAmountByProductId(warehouseDetailDto.getProductid());
 				BigDecimal qtySZAWarehouse = new BigDecimal(0);
-				if (szaWarehouseQty != 0)
+				if (szaWarehouseQty != null)
 					qtySZAWarehouse = new BigDecimal(szaWarehouseQty);
 				warehouseDetailDto.setQtySZAWarehouse(qtySZAWarehouse.setScale(2));
 
