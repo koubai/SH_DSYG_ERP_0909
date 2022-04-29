@@ -270,6 +270,19 @@
 				<div class="btns" style="margin-top:40px; margin-left:-90px;">
 					<table border="0" style="margin:0 auto;">
 						<tr>
+							<td style="width: 150px;">
+								<div class="box1_left"></div>
+								<div class="box1_center">
+									<select name="strWarehouseNo" id="strWarehouseNo" style="width: 100px;">
+										<option value="" selected="selected">请选择</option>
+										<option value="SZ">深圳仓库</option>
+										<!-- <option value="B">深圳仓库B</option> -->
+									</select>
+								</div>
+								<div class="box1_right"></div>
+							</td>
+							<td>
+							</td>
 							<td>
 								<div class="btn">
 									<div class="box1_left"></div>

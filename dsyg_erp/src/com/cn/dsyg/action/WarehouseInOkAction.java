@@ -68,6 +68,9 @@ public class WarehouseInOkAction extends BaseAction {
 	//条形码扫码入库
 	private String strScanBarcodeInfo;
 	
+	//仓库编号  上海深圳基本仓库不标注， 特殊才标注 如 SZ：深圳SZ   B：深圳B
+	private String strWarehouseNo;
+
 	/**
 	 * 条形码入库前验证
 	 * @return
@@ -218,7 +221,7 @@ public class WarehouseInOkAction extends BaseAction {
 			this.clearMessages();
 			//当前操作用户ID
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
-			warehouseService.warehouseInOk(strOkIds, username);
+			warehouseService.warehouseInOk(strOkIds, username, strWarehouseNo);
 			
 			this.addActionMessage("入库单生成成功！");
 			//刷新页面数据
@@ -381,4 +384,14 @@ public class WarehouseInOkAction extends BaseAction {
 	public void setWarehouserptService(WarehouserptService warehouserptService) {
 		this.warehouserptService = warehouserptService;
 	}
+
+	public String getStrWarehouseNo() {
+		return strWarehouseNo;
+	}
+
+	public void setStrWarehouseNo(String strWarehouseNo) {
+		this.strWarehouseNo = strWarehouseNo;
+	}
+	
+	
 }

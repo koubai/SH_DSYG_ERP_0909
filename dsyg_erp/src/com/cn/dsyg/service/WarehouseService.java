@@ -209,7 +209,7 @@ public interface WarehouseService {
 	 * @param userid
 	 * @throws Exception
 	 */
-	public void warehouseInOk(String ids, String userid) throws RuntimeException;
+	public void warehouseInOk(String ids, String userid, String strWarehouseNo) throws RuntimeException;
 	
 	/**
 	 * 预出库确认

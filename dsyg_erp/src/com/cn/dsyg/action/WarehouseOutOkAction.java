@@ -71,7 +71,7 @@ public class WarehouseOutOkAction extends BaseAction {
 	//条形码扫码入库
 	private String strScanBarcodeInfo;
 	
-	//仓库编号  上海深圳基本仓库不标注， 特殊才标注 如 A：深圳A   B：深圳B
+	//仓库编号  上海深圳基本仓库不标注， 特殊才标注 如 SZ：深圳SZ   B：深圳B
 	private String strWarehouseNo;
 	
 	/**

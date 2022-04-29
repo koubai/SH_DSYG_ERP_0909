@@ -822,7 +822,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	}
 	
 	@Override
-	public void warehouseInOk(String ids, String userid) throws RuntimeException {
+	public void warehouseInOk(String ids, String userid, String strWarehouseNo) throws RuntimeException {
 		if(StringUtil.isNotBlank(ids)) {
 			String belongto = PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_BELONG);
 			Date date = new Date();
@@ -913,6 +913,18 @@ public class WarehouseServiceImpl implements WarehouseService {
 						
 						warehouseDao.updateWarehouse(warehouse);
 						
+						// SZA 仓库追加
+						// 特殊发货场合 加上仓库编号 SZ为深圳SZ
+						if (!strWarehouseNo.isEmpty() && !strWarehouseNo.equals("")){
+							WarehouseDto warehouse_sza = warehouseSZADao.queryWarehouseByWarehouseno(warehouse.getWarehouseno());
+							if (warehouse_sza!= null){
+								warehouseSZADao.updateWarehouse(warehouse);
+							}else {
+								warehouseSZADao.insertWarehouse(warehouse);							
+							}	
+						}						
+
+						
 						List<PurchaseItemDto> purchaseItemList = purchaseItemDao.queryPurchaseItemByPurchaseno(warehouse.getParentid());
 						if(purchaseItemList != null && purchaseItemList.size() > 0) {
 							boolean b = true;
@@ -987,6 +999,10 @@ public class WarehouseServiceImpl implements WarehouseService {
 			}
 			String warehouseno = Constants.WAREHOUSERPT_IN_NO_PRE + belongto + year.substring(2, 4) + StringUtil.replenishStr("" + newVal, 6);
 			
+			// 特殊发货场合 加上仓库编号 SZ为深圳SZ
+			if (!strWarehouseNo.isEmpty() && !strWarehouseNo.equals(""))
+				warehouseno = warehouseno.concat(strWarehouseNo);
+
 			warehouserpt.setWarehouseno(warehouseno);
 			//仓库名
 			warehouserpt.setWarehousename(warehousename);
@@ -1051,6 +1067,11 @@ public class WarehouseServiceImpl implements WarehouseService {
 			warehouserpt.setUpdateuid(userid);
 			
 			warehouserptDao.insertWarehouserpt(warehouserpt);
+			
+			// 深圳仓库SZ追加
+			// 特殊发货场合 加上仓库编号 SZ为深圳SZ
+			if (!strWarehouseNo.isEmpty() && !strWarehouseNo.equals(""))
+				warehouserptSZADao.insertWarehouserpt(warehouserpt);			
 			
 			//新增一条财务记录（这里财务记录和入库单关联）
 			FinanceDto finance = new FinanceDto();
@@ -1232,7 +1253,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 						warehouseDao.updateWarehouse(warehouse);
 						
 						// SZA 仓库追加
-						// 特殊发货场合 加上仓库编号 A为深圳A
+						// 特殊发货场合 加上仓库编号 SZ为深圳SZ
 						if (!strWarehouseNo.isEmpty() && !strWarehouseNo.equals("")){
 							WarehouseDto warehouse_sza = warehouseSZADao.queryWarehouseByWarehouseno(warehouse.getWarehouseno());
 							if (warehouse_sza!= null){
@@ -1365,7 +1386,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 			}
 			String warehouseno = Constants.WAREHOUSERPT_OUT_NO_PRE + belongto + year.substring(2, 4)+ StringUtil.replenishStr("" + newVal, 6);
 			
-			// 特殊发货场合 加上仓库编号 A为深圳A
+			// 特殊发货场合 加上仓库编号 SZ为深圳SZ
 			if (!strWarehouseNo.isEmpty() && !strWarehouseNo.equals(""))
 				warehouseno = warehouseno.concat(strWarehouseNo);
 			warehouserpt.setWarehouseno(warehouseno);
@@ -1487,8 +1508,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 			
 			warehouserptDao.insertWarehouserpt(warehouserpt);
 
-			// 深圳仓库A追加
-			// 特殊发货场合 加上仓库编号 A为深圳A
+			// 深圳仓库SZ追加
+			// 特殊发货场合 加上仓库编号 SZ为深圳SZ
 			if (!strWarehouseNo.isEmpty() && !strWarehouseNo.equals(""))
 				warehouserptSZADao.insertWarehouserpt(warehouserpt);
 			
