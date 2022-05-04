@@ -722,6 +722,33 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 	}
 
 	@Override
+	public List<WarehouseDetailDto> queryWarehouseDetailByPageWH(String parentid,
+			String keyword, String warehousetype, String warehouseno,
+			String theme1, String productid, String tradename, String typeno,
+			String color, String warehousename, String zerodisplay, int start, int end) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("parentid", parentid);
+		paramMap.put("keyword", keyword);
+		paramMap.put("warehousetype", warehousetype);
+		paramMap.put("warehouseno", warehouseno);
+		paramMap.put("theme1", theme1);
+		paramMap.put("productid", productid);
+		paramMap.put("tradename", tradename);
+		paramMap.put("typeno", typeno);
+		paramMap.put("color", color);
+		paramMap.put("warehousename", warehousename);
+		if (zerodisplay == null)
+			paramMap.put("zerodisplay", "");
+		if (zerodisplay.equals("0"))
+			paramMap.put("zerodisplay", zerodisplay);
+		paramMap.put("start", start);
+		paramMap.put("end", end);
+		@SuppressWarnings("unchecked")
+		List<WarehouseDetailDto> list = getSqlMapClientTemplate().queryForList("queryWarehouseDetailByPageWH", paramMap);
+		return list;
+	}
+	
+	@Override
 	public List<WarehouseDetailDto> queryWarehouseDetail(String parentid,
 			String keyword, String warehousetype, String warehouseno,
 			String theme1, String productid, String tradename, String typeno,
@@ -769,6 +796,29 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		return (Integer) getSqlMapClientTemplate().queryForObject("queryWarehouseDetailCountByPage", paramMap);
 	}
 
+	@Override
+	public int queryWarehouseDetailCountByPageWH(String parentid, String keyword,
+			String warehousetype, String warehouseno, String theme1,
+			String productid, String tradename, String typeno, String color,
+			String warehousename, String zerodisplay) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("parentid", parentid);
+		paramMap.put("keyword", keyword);
+		paramMap.put("warehousetype", warehousetype);
+		paramMap.put("warehouseno", warehouseno);
+		paramMap.put("theme1", theme1);
+		paramMap.put("productid", productid);
+		paramMap.put("tradename", tradename);
+		paramMap.put("typeno", typeno);
+		paramMap.put("color", color);
+		paramMap.put("warehousename", warehousename);
+		if (zerodisplay == null)
+			zerodisplay="";
+		if (zerodisplay.equals("0"))
+			paramMap.put("zerodisplay", zerodisplay);
+		return (Integer) getSqlMapClientTemplate().queryForObject("queryWarehouseDetailCountByPageWH", paramMap);
+	}
+	
 	@Override
 	public List<WarehouseCheckDto> queryWarehouseCheckToExcel(String parentid,
 			String warehousetype, String warehouseno, String theme1,

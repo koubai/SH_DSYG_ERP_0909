@@ -14,6 +14,7 @@ import com.cn.dsyg.dao.CuPriceDao;
 import com.cn.dsyg.dao.Dict01Dao;
 import com.cn.dsyg.dao.ProductBarcodeDao;
 import com.cn.dsyg.dao.ProductDao;
+import com.cn.dsyg.dao.ProductSZADao;
 import com.cn.dsyg.dao.PurchaseDao;
 import com.cn.dsyg.dao.PurchaseItemDao;
 import com.cn.dsyg.dao.SalesDao;
@@ -39,6 +40,7 @@ import com.cn.dsyg.service.ProductService;
 public class ProductServiceImpl implements ProductService {
 	
 	private ProductDao productDao;
+	private ProductSZADao productSZADao;
 	private Dict01Dao dict01Dao;
 	private ProductBarcodeDao productBarcodeDao;
 	private SalesDao salesDao;
@@ -279,6 +281,7 @@ public class ProductServiceImpl implements ProductService {
 		product.setProductname(productname);
 		
 		productDao.insertProduct(product);
+		productSZADao.insertProduct(product);
 	}
 	
 	@Override
@@ -316,6 +319,7 @@ public class ProductServiceImpl implements ProductService {
 		String productname = product.getBrand() + "-" + type + "-" + product.getTradename() + "-" + product.getTypeno() + "-" + color + "-" + packaging;
 		product.setProductname(productname);
 		productDao.updateProduct(product);
+		productSZADao.updateProduct(product);
 	}
 	
 	/**
@@ -392,6 +396,13 @@ public class ProductServiceImpl implements ProductService {
 			product.setStatus(Constants.STATUS_DEL);
 			product.setUpdateuid(userid);
 			productDao.updateProduct(product);
+		}
+		product = productSZADao.queryProductByID(productId);
+		if(product != null) {
+			//逻辑删除
+			product.setStatus(Constants.STATUS_DEL);
+			product.setUpdateuid(userid);
+			productSZADao.updateProduct(product);
 		}
 	}
 
@@ -478,6 +489,14 @@ public class ProductServiceImpl implements ProductService {
 
 	public void setPurchaseDao(PurchaseDao purchaseDao) {
 		this.purchaseDao = purchaseDao;
+	}
+
+	public ProductSZADao getProductSZADao() {
+		return productSZADao;
+	}
+
+	public void setProductSZADao(ProductSZADao productSZADao) {
+		this.productSZADao = productSZADao;
 	}
 
 }

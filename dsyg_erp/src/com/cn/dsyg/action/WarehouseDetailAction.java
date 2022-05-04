@@ -77,6 +77,9 @@ public class WarehouseDetailAction extends BaseAction {
 	private String totalQtyDisplay;
 	private String totalQty;
 	
+	//显示空 (0: 非深圳A, 1: 深圳A)
+	private String whFlg;
+	
 	//POPUT START
 	//订单、采购单新增和修改页面，产品对照
 	/**
@@ -283,7 +286,7 @@ public class WarehouseDetailAction extends BaseAction {
 		totalQty="";
 		warehouseService.setTotalQty(new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP));
 		page = warehouseService.queryWarehouseDetailByPage("", strKeyword,
-				"", "", strTheme, "", "", "", "", "", zeroDisplay, totalQtyDisplay, expiredDisplay, page);
+				"", "", strTheme, "", "", "", "", "", zeroDisplay, totalQtyDisplay, expiredDisplay, whFlg, page);
 		warehouseDetailList = (List<WarehouseDetailDto>) page.getItems();
 		
 		if (totalQtyDisplay != null && totalQtyDisplay.equals("1")){
@@ -492,6 +495,14 @@ public class WarehouseDetailAction extends BaseAction {
 
 	public void setTotal3MQuantity(String total3mQuantity) {
 		total3MQuantity = total3mQuantity;
+	}
+
+	public String getWhFlg() {
+		return whFlg;
+	}
+
+	public void setWhFlg(String whFlg) {
+		this.whFlg = whFlg;
 	}
 
 }

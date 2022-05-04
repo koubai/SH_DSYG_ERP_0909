@@ -58,7 +58,8 @@ public class PoiWarehouserptInDetailInter extends Poi2007Base {
 			if (warehouserpt.getWarehouseno().substring(12).equals("SZ"))
 				strTitle = strTitle.concat("      （深圳仓库）");
 		}
-
+		cell.setCellValue(strTitle);
+		
 		//式样
 		XSSFCellStyle style = workbook.createCellStyle();
 		//水平居中

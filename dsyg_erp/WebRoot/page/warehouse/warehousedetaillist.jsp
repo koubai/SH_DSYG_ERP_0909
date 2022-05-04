@@ -125,6 +125,7 @@
 				<s:hidden name="zeroDisplay" id="zeroDisplay"/>
 				<s:hidden name="expiredDisplay" id="expiredDisplay"/>
 				<s:hidden name="totalQtyDisplay" id="totalQtyDisplay"/>
+				<s:hidden name="whFlg" id="whFlg" value=""/>
 				<div class="searchbox">
 					<div class="box1">
 						<label class="pdf10">类型</label>
@@ -263,15 +264,20 @@
 									</s:if>
 									
 									<td align="right">
-										<s:if test="%{quantity + quantityw < res01}">
-											<span style="background-color: yellow"><s:property value="quantity"/></span>
+									    <s:if test='whFlg == ""'>
+											<s:if test="%{quantity + quantityw < res01}">
+												<span style="background-color: yellow"><s:property value="quantity"/></span>
+											</s:if>
+											<s:else>
+												<s:property value="quantity"/>
+											</s:else>				
+											<s:if test="%{qtySZAWarehouse != 0}">
+												(<s:property value="qtySZAWarehouse"/>)
+											</s:if>				
 										</s:if>
 										<s:else>
-											<s:property value="quantity"/>
+											<s:property value="qtySZAWarehouse"/>
 										</s:else>				
-										<s:if test="%{qtySZAWarehouse != 0}">
-											(<s:property value="qtySZAWarehouse"/>)
-										</s:if>				
 									</td>
 									<td align="right">
 										<s:if test="%{warehouseDetailList[#st1.index].diffquantity <= 0}">

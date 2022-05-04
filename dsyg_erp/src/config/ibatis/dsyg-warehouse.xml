@@ -1780,6 +1780,70 @@
 		) B
 	</select>
 	
+		<!-- warehousedetail WH begin -->
+	<select id="queryWarehouseDetailByPageWH" parameterClass="java.util.Map" resultMap="WarehouseDetailDto">
+		select * from (
+			SELECT productid,0 AS quantityp,0 AS inquantity,0 AS outquantity,0 AS quantitys,ifnull(quantityw,0) AS quantityw,null as plandate,T.id,T.belongto,T.fieldno,T.brand,T.item1,T.item2,T.item3,T.tradename,T.typeno,T.color,T.packaging,T.unit,T.sampleflag,T.productname,T.makearea,T.supplierid,T.salesprice,T.purchaseprice,T.note,T.item01,T.item02,T.item03,T.item04,T.item05,T.item06,T.item07,T.item08,T.item09,T.item10,T.item11,T.item12,T.item13,T.item14,T.item15,T.item16,T.item17,T.item18,T.item19,T.item20,T.item21,T.item22,T.item23,T.item24,T.item25,T.item26,T.item27,T.item28,T.item29,T.item30,T.pic01,T.pic02,T.pic03,T.pic04,T.pic05,T.pdfpath,T.rank,T.status,T.res01,T.res02,T.res03,T.res04,T.res05,T.res06,T.res07,T.res08,T.res09,T.res10,T.keyword,T.createuid,T.createdate,T.updateuid,T.updatedate
+				from (
+					SELECT W.productid as productid,SUM(W.quantity) AS quantityw
+					FROM etb_warehouse W WHERE 1 = 1
+					group by W.productid
+				) S, etb_product T WHERE T.id = S.productid
+			) A where 1 = 1
+			<isNotEmpty prepend="and" property="tradename">
+				A.tradename like '%$tradename$%' ESCAPE '/'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="typeno">
+				A.typeno like '%$typeno$%' ESCAPE '/'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="color">
+				A.color = #color#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="theme1">
+				A.fieldno = #theme1#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="keyword">
+				A.keyword like '%$keyword$%' ESCAPE '/'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="zerodisplay">
+				(A.quantityp <![CDATA[>]]> 0 or A.inquantity <![CDATA[<]]><![CDATA[>]]> A.outquantity or A.quantitys <![CDATA[>]]> 0 or A.quantityw <![CDATA[>]]> 0)
+			</isNotEmpty>
+			ORDER BY A.fieldno, A.tradename, A.typeno, A.color, A.item10, A.packaging, A.makearea	
+		LIMIT #start#, #end#
+	</select>
+	
+	<select id="queryWarehouseDetailCountByPageWH" resultClass="int" parameterClass="java.util.Map">
+		select count(*) from (
+		select * from (
+			SELECT productid,0 AS quantityp,0 AS inquantity,0 AS outquantity,0 AS quantitys,ifnull(quantityw,0) AS quantityw,null as plandate,T.id,T.belongto,T.fieldno,T.brand,T.item1,T.item2,T.item3,T.tradename,T.typeno,T.color,T.packaging,T.unit,T.sampleflag,T.productname,T.makearea,T.supplierid,T.salesprice,T.purchaseprice,T.note,T.item01,T.item02,T.item03,T.item04,T.item05,T.item06,T.item07,T.item08,T.item09,T.item10,T.item11,T.item12,T.item13,T.item14,T.item15,T.item16,T.item17,T.item18,T.item19,T.item20,T.item21,T.item22,T.item23,T.item24,T.item25,T.item26,T.item27,T.item28,T.item29,T.item30,T.pic01,T.pic02,T.pic03,T.pic04,T.pic05,T.pdfpath,T.rank,T.status,T.res01,T.res02,T.res03,T.res04,T.res05,T.res06,T.res07,T.res08,T.res09,T.res10,T.keyword,T.createuid,T.createdate,T.updateuid,T.updatedate
+				from (
+					SELECT W.productid as productid,SUM(W.quantity) AS quantityw
+					FROM etb_warehouse W WHERE 1 = 1
+					group by W.productid
+				) S, etb_product T WHERE T.id = S.productid
+			) A where 1 = 1
+			<isNotEmpty prepend="and" property="tradename">
+				A.tradename like '%$tradename$%' ESCAPE '/'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="typeno">
+				A.typeno like '%$typeno$%' ESCAPE '/'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="color">
+				A.color = #color#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="theme1">
+				A.fieldno = #theme1#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="keyword">
+				A.keyword like '%$keyword$%' ESCAPE '/'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="zerodisplay">
+				(A.quantityp <![CDATA[>]]> 0 or A.inquantity <![CDATA[<]]><![CDATA[>]]> A.outquantity or A.quantitys <![CDATA[>]]> 0 or A.quantityw <![CDATA[>]]> 0)
+			</isNotEmpty>
+			
+		) B
+	</select>
+	
 	<select id="queryWarehouseDetail" parameterClass="java.util.Map" resultMap="WarehouseDetailDto">
 		select * from (
 			SELECT productid,ifnull(S.beforequantityp+S.remainquantityp,0) AS quantityp,ifnull(S.inquantityp,0) AS inquantity,ifnull(S.outquantitys,0) AS outquantity,ifnull(S.beforequantitys+S.remainquantitys,0) AS quantitys,ifnull(S.quantityw,0) AS quantityw,S.plandate,T.id,T.belongto,T.fieldno,T.brand,T.item1,T.item2,T.item3,T.tradename,T.typeno,T.color,T.packaging,T.unit,T.sampleflag,T.productname,T.makearea,T.supplierid,T.salesprice,T.purchaseprice,T.note,T.item01,T.item02,T.item03,T.item04,T.item05,T.item06,T.item07,T.item08,T.item09,T.item10,T.item11,T.item12,T.item13,T.item14,T.item15,T.item16,T.item17,T.item18,T.item19,T.item20,T.item21,T.item22,T.item23,T.item24,T.item25,T.item26,T.item27,T.item28,T.item29,T.item30,T.pic01,T.pic02,T.pic03,T.pic04,T.pic05,T.pdfpath,T.rank,T.status,T.res01,T.res02,T.res03,T.res04,T.res05,T.res06,T.res07,T.res08,T.res09,T.res10,T.keyword,T.createuid,T.createdate,T.updateuid,T.updatedate

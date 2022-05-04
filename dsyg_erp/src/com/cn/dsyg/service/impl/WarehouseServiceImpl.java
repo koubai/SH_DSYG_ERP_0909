@@ -1900,25 +1900,43 @@ public class WarehouseServiceImpl implements WarehouseService {
 	public Page queryWarehouseDetailByPage(String parentid, String keyword,
 			String warehousetype, String warehouseno, String theme1,
 			String productid, String tradename, String typeno, String color,
-			String warehousename, String zerodisplay, String totalQtyDisplay, String expiredDisplay, Page page) {
+			String warehousename, String zerodisplay, String totalQtyDisplay, String expiredDisplay, String whFlg, Page page) {
 		keyword = StringUtil.replaceDatabaseKeyword_mysql(keyword);
 		tradename = StringUtil.replaceDatabaseKeyword_mysql(tradename);
 		typeno = StringUtil.replaceDatabaseKeyword_mysql(typeno);
 		warehousename = StringUtil.replaceDatabaseKeyword_mysql(warehousename);
-
-		//查询总记录数
-		int totalCount = warehouseDao.queryWarehouseDetailCountByPage(parentid, keyword, 
-				warehousetype, warehouseno, theme1, productid, tradename, typeno, color, warehousename, zerodisplay);
-		page.setTotalCount(totalCount);
-		if(totalCount % page.getPageSize() > 0) {
-			page.setTotalPage(totalCount / page.getPageSize() + 1);
-		} else {
-			page.setTotalPage(totalCount / page.getPageSize());
+		List<WarehouseDetailDto> list = null;
+		int totalCount=0;
+		
+		if (!whFlg.equals("1")){
+			//查询总记录数
+			totalCount = warehouseDao.queryWarehouseDetailCountByPage(parentid, keyword, 
+					warehousetype, warehouseno, theme1, productid, tradename, typeno, color, warehousename, zerodisplay);
+			page.setTotalCount(totalCount);
+			if(totalCount % page.getPageSize() > 0) {
+				page.setTotalPage(totalCount / page.getPageSize() + 1);
+			} else {
+				page.setTotalPage(totalCount / page.getPageSize());
+			}
+			//翻页查询记录
+			list = warehouseDao.queryWarehouseDetailByPage(parentid, keyword,
+					warehousetype, warehouseno, theme1, productid, tradename, typeno, color, warehousename, zerodisplay,
+					page.getStartIndex() * page.getPageSize(), page.getPageSize());			
+		}else {
+			//SZA 
+			totalCount = warehouseDao.queryWarehouseDetailCountByPageWH(parentid, keyword, 
+					warehousetype, warehouseno, theme1, productid, tradename, typeno, color, warehousename, zerodisplay);
+			page.setTotalCount(totalCount);
+			if(totalCount % page.getPageSize() > 0) {
+				page.setTotalPage(totalCount / page.getPageSize() + 1);
+			} else {
+				page.setTotalPage(totalCount / page.getPageSize());
+			}
+			//翻页查询记录
+			list = warehouseDao.queryWarehouseDetailByPageWH(parentid, keyword,
+					warehousetype, warehouseno, theme1, productid, tradename, typeno, color, warehousename, zerodisplay,
+					page.getStartIndex() * page.getPageSize(), page.getPageSize());			
 		}
-		//翻页查询记录
-		List<WarehouseDetailDto> list = warehouseDao.queryWarehouseDetailByPage(parentid, keyword,
-				warehousetype, warehouseno, theme1, productid, tradename, typeno, color, warehousename, zerodisplay,
-				page.getStartIndex() * page.getPageSize(), page.getPageSize());
 		
 		if(list != null && list.size() > 0) {
 			for(WarehouseDetailDto warehouseDetailDto : list) {

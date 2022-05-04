@@ -553,6 +553,9 @@
 		<property name="productDao">
 			<ref local="productDao"/>
 		</property>
+		<property name="productSZADao">
+			<ref local="productSZADao"/>
+		</property>
 		<property name="dict01Dao">
 			<ref local="dict01Dao"/>
 		</property>
@@ -582,6 +585,11 @@
 	<bean id="productDao" class="com.cn.dsyg.dao.impl.ProductDaoImpl">
 		<property name="sqlMapClient">
 			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	<bean id="productSZADao" class="com.cn.dsyg.dao.impl.ProductSZADaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClientSZA"/>
 		</property>
 	</bean>
 
