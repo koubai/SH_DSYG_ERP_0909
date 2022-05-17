@@ -96,42 +96,45 @@ public class ProductServiceImpl implements ProductService {
 			
 			//查询条形码码序列号信息
 			for(ProductDto product : list) {
-				ProductBarcodeDto productBarcode = productBarcodeDao.queryProductBarcodeByProductID("" + product.getId());
-				if(productBarcode != null) {
-					product.setBarcodeseq(productBarcode.getBarcodeseq() + 1);
-				} else {
-					//没有记录则默认1
-					product.setBarcodeseq(1);
-				}
-				//查询单价
-				if("2".equals(flag)) {
-					//销售单铜价
-					SalesItemDto salesItemDto = getSalesCuPriceByProduct("" + product.getId(), customerid, product.getFieldno());
-					if(salesItemDto != null) {
-						SalesDto salesDto = salesDao.querySalesByNo(salesItemDto.getSalesno());
-						if (salesDto.getRank()!=null && !salesDto.getRank().equals("") && salesDto.getRank()>=85){
-							product.setCuprice(salesItemDto.getUnitprice());
-							product.setTaxcuprice(salesItemDto.getTaxunitprice());							
+				if (product != null){
+					ProductBarcodeDto productBarcode = productBarcodeDao.queryProductBarcodeByProductID("" + product.getId());
+					if(productBarcode != null) {
+						product.setBarcodeseq(productBarcode.getBarcodeseq() + 1);
+					} else {
+						//没有记录则默认1
+						product.setBarcodeseq(1);
+					}
+					//查询单价
+					if("2".equals(flag)) {
+						//销售单铜价
+						SalesItemDto salesItemDto = getSalesCuPriceByProduct("" + product.getId(), customerid, product.getFieldno());
+						if(salesItemDto != null) {
+							SalesDto salesDto = salesDao.querySalesByNo(salesItemDto.getSalesno());
+							if (salesDto.getRank()!=null && !salesDto.getRank().equals("") && salesDto.getRank()>=85){
+								product.setCuprice(salesItemDto.getUnitprice());
+								product.setTaxcuprice(salesItemDto.getTaxunitprice());							
+							}
 						}
+					} else if("1".equals(flag)) {
+						//采购单铜价
+						PurchaseItemDto purchaseItemDto = getPurchaseCuPriceByProduct("" + product.getId(), customerid, product.getFieldno());
+						if(purchaseItemDto != null) {
+//							PurchaseDto purchaseDto = purchaseDao.queryPurchaseByNo(purchaseItemDto.getPurchaseno());
+//							if (purchaseDto.getRank()!=null && !purchaseDto.getRank().equals("") && purchaseDto.getRank()>=85){
+								product.setCuprice(purchaseItemDto.getUnitprice());
+								product.setTaxcuprice(purchaseItemDto.getTaxunitprice());
+//							}
+						}
+					} else {
+						//什么都不做
 					}
-				} else if("1".equals(flag)) {
-					//采购单铜价
-					PurchaseItemDto purchaseItemDto = getPurchaseCuPriceByProduct("" + product.getId(), customerid, product.getFieldno());
-					if(purchaseItemDto != null) {
-//						PurchaseDto purchaseDto = purchaseDao.queryPurchaseByNo(purchaseItemDto.getPurchaseno());
-//						if (purchaseDto.getRank()!=null && !purchaseDto.getRank().equals("") && purchaseDto.getRank()>=85){
-							product.setCuprice(purchaseItemDto.getUnitprice());
-							product.setTaxcuprice(purchaseItemDto.getTaxunitprice());
-//						}
-					}
-				} else {
-					//什么都不做
+					
+					//计算成本单价
+					warehouseDto = warehouseDao.queryPrimecostByProductId("" + product.getId());
+					BigDecimal primecost = WarehouseUtil.calcPrimecost(warehouseDto, rate);
+					if (primecost!= null)
+						product.setPrimecost(primecost);
 				}
-				
-				//计算成本单价
-				warehouseDto = warehouseDao.queryPrimecostByProductId("" + product.getId());
-				BigDecimal primecost = WarehouseUtil.calcPrimecost(warehouseDto, rate);
-				product.setPrimecost(primecost);
 			}
 			//productBarcodeDao
 		}

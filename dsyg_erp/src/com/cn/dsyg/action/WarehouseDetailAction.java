@@ -284,6 +284,12 @@ public class WarehouseDetailAction extends BaseAction {
 		//翻页查询所有入库汇总记录
 		this.page.setStartIndex(startIndex); 
 		totalQty="";
+		if (zeroDisplay== null) 
+			zeroDisplay="";
+		if (expiredDisplay== null) 
+			expiredDisplay="";
+		if (whFlg== null) 
+			whFlg="";
 		warehouseService.setTotalQty(new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP));
 		page = warehouseService.queryWarehouseDetailByPage("", strKeyword,
 				"", "", strTheme, "", "", "", "", "", zeroDisplay, totalQtyDisplay, expiredDisplay, whFlg, page);

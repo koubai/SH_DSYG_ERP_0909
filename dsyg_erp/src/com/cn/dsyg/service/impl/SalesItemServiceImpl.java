@@ -75,9 +75,12 @@ public class SalesItemServiceImpl implements SalesItemService {
 			
 			for(SalesItemDto item : list) {
 				//计算成本单价
-				warehouseDto = warehouseDao.queryPrimecostByProductId(item.getProductid());
-				BigDecimal primecost = WarehouseUtil.calcPrimecost(warehouseDto, rate);
-				item.setPrimecost(primecost);
+				if (item != null){
+					warehouseDto = warehouseDao.queryPrimecostByProductId(item.getProductid());
+					BigDecimal primecost = WarehouseUtil.calcPrimecost(warehouseDto, rate);
+					if (primecost != null)
+						item.setPrimecost(primecost);					
+				}
 			}
 		}
 		return list;

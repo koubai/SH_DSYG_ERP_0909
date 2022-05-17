@@ -293,7 +293,7 @@
 		//计算利润率
 		//成本单价
 		var primecost = inputs[19].value;
-		if(primecost != "") {
+		if(primecost != null && primecost != "") {
 			primecost = parseFloat(primecost)
 			var profitrate = (taxprices - primecost) * 100 / primecost;
 			tds[20].innerHTML = profitrate.toFixed(2) + "%";
