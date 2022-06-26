@@ -246,7 +246,7 @@ public class PersonalAction extends BaseAction {
 	public String showUpdEtbPersonalAction() {
 		try {
 			this.clearMessages();
-			System.out.println("userNo is: "+updateUserNo);
+//			System.out.println("userNo is: "+updateUserNo);
 			updatePersonalDto = personalService.queryEtbPersonalByID(updateUserNo);
 			if(updatePersonalDto == null) {
 				this.addActionMessage("该数据不存在！");
@@ -271,7 +271,7 @@ public class PersonalAction extends BaseAction {
 			if(!checkData(updatePersonalDto)) {
 				return "checkerror";
 			}
-			System.out.println("userNo is: "+updatePersonalDto.getUserno());
+//			System.out.println("userNo is: "+updatePersonalDto.getUserno());
 			//修改数据
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_NAME);
 			updatePersonalDto.setUpdateuid(username);

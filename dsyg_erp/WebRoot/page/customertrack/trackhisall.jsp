@@ -16,7 +16,7 @@
 			alert("请选择一条记录！");
 			return;
 		} else {
-			var url = '<c:url value="/customertrack/showTrackHistDetail.action"></c:url>' + "?detailTrackHisSeq=" + id + "&date=" + new Date();
+			var url = '<c:url value="/customertrack/showTrackHistDetail.action"></c:url>' + "?detailTrackHisSeq=" + id + "&date=" + encodeURI(new Date());
 			window.showModalDialog(url, window, "dialogheight:600px;dialogwidth:1024px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		}
 	}

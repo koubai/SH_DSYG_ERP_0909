@@ -147,16 +147,24 @@
 	}
 	
 	function exportData(isInter) {
-		var id = ${updWarehouserptId};
-		var exportunitprice = $("#exportunitprice").val().trim();
-		window.location.href = "../warehouserpt/exportWarehouserptInDetailAction.action?strExportDetailId=" + id
-				+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice;
+		var strname="";
+		if (isInter == 1)
+			strname="入库单导出!";
+		if (isInter == 2)
+			strname="入库单明细导出!";
+		
+		if (confirm(strname)){
+			var id = ${updWarehouserptId};
+			var exportunitprice = $("#exportunitprice").val().trim();
+			window.location.href = "../warehouserpt/exportWarehouserptInDetailAction.action?strExportDetailId=" + id
+					+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice;
+		}
 	}
 	
 	//快递
 	function selectDelivery() {
 		var url = "../delivery/showSelectDeliveryAction.action";
-		url += "?date=" + new Date();
+		url += "?date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
@@ -211,24 +219,26 @@
 	}
 	
 	function CGDlistOut(isInter){
-		var list = document.getElementsByName("tmp_strAccountFlg");
-		$("#strAccountFlg").val(0);
-		for(var i = 0; i < list.length; i++) {
-			if(list[i].checked) {
-				$("#strAccountFlg").val(i);
+		if (confirm("确认用友导出吗？")){
+			var list = document.getElementsByName("tmp_strAccountFlg");
+			$("#strAccountFlg").val(0);
+			for(var i = 0; i < list.length; i++) {
+				if(list[i].checked) {
+					$("#strAccountFlg").val(i);
+				}
 			}
+	//		alert($("#strAccountFlg").val());
+			var id = ${updWarehouserptId};
+			var exportunitprice = $("#exportunitprice").val().trim();
+	//		var strAccountFlg = $("#strAccountFlg").val().trim();
+	//		var strAccountNo1 = $("#strAccountNo1").val().trim();
+	//		var strAccountNo2 = $("#strAccountNo2").val().trim();
+	//		alert(strAccountNo1);
+	//		window.location.href = "../warehouserpt/exportCGDlistAction.action?strExportDetailId=" + id
+	//				+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice +"&strAccountFlg=" + strAccountFlg +"&strAccountNo1=" + strAccountNo1 +"&strAccountNo2=" + strAccountNo2;		
+			window.location.href = "../warehouserpt/exportCGDlistAction.action?strExportDetailId=" + id
+			+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice ;		
 		}
-//		alert($("#strAccountFlg").val());
-		var id = ${updWarehouserptId};
-		var exportunitprice = $("#exportunitprice").val().trim();
-//		var strAccountFlg = $("#strAccountFlg").val().trim();
-//		var strAccountNo1 = $("#strAccountNo1").val().trim();
-//		var strAccountNo2 = $("#strAccountNo2").val().trim();
-//		alert(strAccountNo1);
-//		window.location.href = "../warehouserpt/exportCGDlistAction.action?strExportDetailId=" + id
-//				+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice +"&strAccountFlg=" + strAccountFlg +"&strAccountNo1=" + strAccountNo1 +"&strAccountNo2=" + strAccountNo2;		
-		window.location.href = "../warehouserpt/exportCGDlistAction.action?strExportDetailId=" + id
-		+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice ;		
 	}
 
 </script>

@@ -88,12 +88,12 @@
 	
 	function showDetail(id) {
 		var url = '<%=request.getContextPath()%>/qa/showQaDetailAction.action';
-		url += "?detailQaId=" + id + "&date=" + new Date();
+		url += "?detailQaId=" + id + "&date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:370px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	function updStatus(id) {
 		var url = '<%=request.getContextPath()%>/qa/showUpdQaDetailAction.action';
-		url += "?detailQaId=" + id + "&date=" + new Date();
+		url += "?detailQaId=" + id + "&date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:370px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		alert("确认完毕！");
 	}

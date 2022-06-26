@@ -155,8 +155,8 @@ public class WarehouserptAction extends BaseAction {
 			if (strCustomerid == null || strCustomerid.equals(""))
 				return ERROR;
 			else{
-				System.out.println("strProductid:" + strProductid);
-				System.out.println("strCustomerid:" + strCustomerid);
+//				System.out.println("strProductid:" + strProductid);
+//				System.out.println("strCustomerid:" + strCustomerid);
 				
 				warehouserptList = warehouserptService.queryWarehouseInfoList("#"+strProductid+",", strCustomerid);				
 				productInfo = productService.queryProductByID(strProductid);				
@@ -739,9 +739,9 @@ public class WarehouserptAction extends BaseAction {
 	 * @throws IOException
 	 */
 	private void exportDetail(String type, String id) throws IOException {
-		System.out.println("strAccountFlg:" + strAccountFlg);
-		System.out.println("strAccountNo1:" + strAccountNo1);
-		System.out.println("strAccountNo2:" + strAccountNo2);
+//		System.out.println("strAccountFlg:" + strAccountFlg);
+//		System.out.println("strAccountNo1:" + strAccountNo1);
+//		System.out.println("strAccountNo2:" + strAccountNo2);
 		initDictList();
 		//字典数据组织个MAP
 		Map<String, String> dictMap = new HashMap<String, String>();
@@ -937,7 +937,7 @@ public class WarehouserptAction extends BaseAction {
 		initDictList();
 		//翻页查询所有预入库待确认数据
 		this.page.setStartIndex(startIndex);
-		System.out.println("queryData:start" + type);
+//		System.out.println("queryData:start" + type);
 
 		page = warehouserptService.queryWarehouserptByPage(strNo, "", type, "", "", "", "", "", "", "",
 				strSuppliername, strWarehouseno, strCreatedateLow, strCreatedateHigh, page);

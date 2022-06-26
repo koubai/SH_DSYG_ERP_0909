@@ -22,7 +22,7 @@
 			alert("请选择一条记录！");
 			return;
 		} else {
-			var url = "<%=request.getContextPath()%>/sales/showUpdSalesitemAction.action?updSalesId=" + id + "&date=" + new Date();
+			var url = "<%=request.getContextPath()%>/sales/showUpdSalesitemAction.action?updSalesId=" + id + "&date=" + encodeURI(new Date());
 			window.showModalDialog(url, window, "dialogheight:680px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no;scrollbars=yes;");
 			//document.mainform.action = "../sales/showUpdSalesitemAction.action?updSalesId=" + id;
 			//document.mainform.submit();
@@ -98,9 +98,9 @@
 		var theme1 = "";//$("#theme1").val().trim();
 		
 		//这里需要查询库存数据
-		//url += "?strFieldno=" + theme1 + "&strCustomerId=" + customerid + "&date=" + new Date();
+		//url += "?strFieldno=" + theme1 + "&strCustomerId=" + customerid + "&date=" + encodeURI(new Date());
 		var url = '<%=request.getContextPath()%>/product/showProductidSelectPage.action';
-		url += "?strFieldno=" + theme1 + "&date=" + new Date();
+		url += "?strFieldno=" + theme1 + "&date=" + encodeURI(new Date());
 		
 		//window.open(url);
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");

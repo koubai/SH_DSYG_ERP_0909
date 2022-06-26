@@ -86,6 +86,8 @@
 	<include file="struts-customeronline.xml"></include>
 	<!-- salesstatistics -->
 	<include file="struts-salesstatistics.xml"></include>
+	<!-- warehousereport -->
+	<include file="struts-warehousereport.xml"></include>
 		
 	<package name="index" extends="struts-default, json-default" namespace="/index">
 		

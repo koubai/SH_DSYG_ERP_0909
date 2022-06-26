@@ -551,5 +551,12 @@
 		<property name="maxUploadSize" value='10485760000'></property>
 		<property name="maxInMemorySize" value='10960'></property>
 	</bean>
+	
+	<!-- warehouseReport -->
+	<bean id="warehouseReportAction" class="com.cn.dsyg.action.WarehouseReportAction" scope="session">
+		<property name="warehouseReportService">
+			<ref bean="warehouseReportService"/>
+		</property>
+	</bean>
 
 </beans>

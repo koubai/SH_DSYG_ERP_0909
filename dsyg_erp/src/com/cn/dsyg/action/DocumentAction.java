@@ -246,7 +246,7 @@ public class DocumentAction extends BaseAction {
 	public String showUpdEtbDocumentAction() {
 		try {
 			this.clearMessages();
-			System.out.println("documentNo is: "+updateDocumentNo);
+//			System.out.println("documentNo is: "+updateDocumentNo);
 			updateDocumentDto = documentService.queryEtbDocumentByID(updateDocumentNo);
 			if(updateDocumentDto == null) {
 				this.addActionMessage("该数据不存在！");
@@ -271,7 +271,7 @@ public class DocumentAction extends BaseAction {
 			if(!checkData(updateDocumentDto)) {
 				return "checkerror";
 			}
-			System.out.println("documentNo is: "+updateDocumentDto.getDocumentno());
+//			System.out.println("documentNo is: "+updateDocumentDto.getDocumentno());
 			//修改数据
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_NAME);
 			updateDocumentDto.setUpdateuid(username);

@@ -27,7 +27,7 @@
 		var url = '<%=request.getContextPath()%>/purchase/showProductPricePage.action';
 		//strFlag=1采购单，strFlag=2销售单
 		strSupplierId = "";
-		url += "?strProdoctid=" + id + "&strSupplierid=" + strSupplierId + "&strFlag=1" + "&date=" + new Date();
+		url += "?strProdoctid=" + id + "&strSupplierid=" + strSupplierId + "&strFlag=1" + "&date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	

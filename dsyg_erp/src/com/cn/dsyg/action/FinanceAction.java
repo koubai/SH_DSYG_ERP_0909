@@ -776,7 +776,7 @@ public class FinanceAction extends BaseAction {
 		financeDictList = dict01Service.queryDict01ByFieldcode(Constants.FINANCE_THEME, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
 		//翻页查询所有委托公司
 		this.page.setStartIndex(startIndex);
-		System.out.println("strInvoiceddsp_flg:" + strInvoiceddsp_flg);
+//		System.out.println("strInvoiceddsp_flg:" + strInvoiceddsp_flg);
 		page = financeService.queryFinanceByPage("", "", strFinancetype, strInvoiceid,
 				"", "", strReceiptdateLow, strReceiptdateHigh, strBillno, "", strCustomername, strInvoiceddsp_flg, page);
 		financeList = (List<FinanceDto>) page.getItems();

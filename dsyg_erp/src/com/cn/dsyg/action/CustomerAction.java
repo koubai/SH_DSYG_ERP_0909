@@ -570,7 +570,7 @@ public class CustomerAction extends BaseAction {
 	*/
 	public String turnUserSelectPage() {
 		try {
-			System.out.println("turnUserSelectPage");
+//			System.out.println("turnUserSelectPage");
 			this.clearMessages();
 			queryUserData();
 		} catch(Exception e) {
@@ -590,8 +590,8 @@ public class CustomerAction extends BaseAction {
 		}
 		//翻页查询所有用户
 		this.page.setStartIndex(startIndex);
-		System.out.println("strUserIdFrom:" +strUserIdFrom);
-		System.out.println("strUserIdTo:" +strUserIdTo);
+//		System.out.println("strUserIdFrom:" +strUserIdFrom);
+//		System.out.println("strUserIdTo:" +strUserIdTo);
 		page = userService.queryUserByPage(strFieldno, strKeyword, strUserIdFrom, strUserIdTo, strUserName, "" + Constants.STATUS_NORMAL, page);
 
 		userList = (List<UserDto>) page.getItems();

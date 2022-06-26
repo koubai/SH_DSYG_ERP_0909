@@ -168,16 +168,24 @@
 	}
 	
 	function exportData(isInter) {
-		var id = ${updWarehouserptId};
-		var exportunitprice = $("#exportunitprice").val().trim();
-		window.location.href = "../warehouserpt/exportWarehouserptOutDetailAction.action?strExportDetailId=" + id 
-				+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice;
-	}
+		var strname="";
+		if (isInter == 1)
+			strname="出库配货单导出!";
+		if (isInter == 2)
+			strname="出货明细单导出!";
+			
+		if (confirm(strname)){
+			var id = ${updWarehouserptId};
+			var exportunitprice = $("#exportunitprice").val().trim();
+			window.location.href = "../warehouserpt/exportWarehouserptOutDetailAction.action?strExportDetailId=" + id 
+					+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice;
+			}
+		}
 	
 	//快递
 	function selectDelivery() {
 		var url = "../delivery/showSelectDeliveryAction.action";
-		url += "?date=" + new Date();
+		url += "?date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
@@ -273,10 +281,12 @@
 	}
 	
 	function OGDlistOut(isInter){
-		var id = ${updWarehouserptId};
-		var exportunitprice = $("#exportunitprice").val().trim();
-		window.location.href = "../warehouserpt/exportOGDlistAction.action?strExportDetailId=" + id
-		+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice ;		
+		if (confirm("确认用友导出吗？")){
+			var id = ${updWarehouserptId};
+			var exportunitprice = $("#exportunitprice").val().trim();
+			window.location.href = "../warehouserpt/exportOGDlistAction.action?strExportDetailId=" + id
+			+ "&strInter=" + isInter + "&exportunitprice=" + exportunitprice ;		
+		}
 	}
 	
 </script>

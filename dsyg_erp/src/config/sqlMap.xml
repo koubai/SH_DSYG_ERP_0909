@@ -56,5 +56,6 @@
 	<sqlMap resource="/config/ibatis/dsyg-cuprice.xml" />
 	
 	<sqlMap resource="/config/ibatis/dsyg-warehouserpthist.xml" />
+	<sqlMap resource="/config/ibatis/dsyg-warehousereport.xml" />
 	
 </sqlMapConfig>

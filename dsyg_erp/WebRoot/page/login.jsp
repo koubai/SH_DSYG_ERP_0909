@@ -142,6 +142,14 @@ a { color:#FFF}
 						</div>
 					</td>
 				</tr>
+				<tr>
+				</tr>
+				<tr>
+					<td align="right">&nbsp;</td>
+					<td align="right">
+						<a href="http://QuickConnect.cn/shdsyg" style="color:black">网络共享</a>
+					</td>				
+				</tr>
 			</table>
 			
 			<div class="yzk_bottom2">

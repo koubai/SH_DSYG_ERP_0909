@@ -25,8 +25,8 @@ public class UndeliProductDaoImpl extends BaseDao implements UndeliProductDao {
 		paramMap.put("fieldno", fieldno);
 		@SuppressWarnings("unchecked")
 		List<UndeliProductDto> list = getSqlMapClientTemplate().queryForList("queryUnDeliSaleProductByFieldno", paramMap);
-		System.out.println("queryUnDeliSaleProductByFieldno size:" + list.size());
-		System.out.println("paramMap" + paramMap);
+//		System.out.println("queryUnDeliSaleProductByFieldno size:" + list.size());
+//		System.out.println("paramMap" + paramMap);
 		return list;
 	}
 
@@ -38,8 +38,8 @@ public class UndeliProductDaoImpl extends BaseDao implements UndeliProductDao {
 		paramMap.put("fieldno", fieldno);
 		@SuppressWarnings("unchecked")
 		List<UndeliProductDto> list = getSqlMapClientTemplate().queryForList("queryUnDeliPurchaseProductByFieldno", paramMap);
-		System.out.println("queryUnDeliPurchaseProductByFieldno size:" + list.size());
-		System.out.println("paramMap" + paramMap);
+//		System.out.println("queryUnDeliPurchaseProductByFieldno size:" + list.size());
+//		System.out.println("paramMap" + paramMap);
 		return list;
 	}
 }

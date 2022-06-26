@@ -23,7 +23,7 @@
 			return;
 		} else {
 			var url = '<%=request.getContextPath()%>/warehouserpt/showUpdWarehouserptOutItemAction.action';
-			url += "?updWarehouserptId=" + id + "&date=" + new Date();
+			url += "?updWarehouserptId=" + id + "&date=" + encodeURI(new Date());
 			window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 			//document.mainform.action = "../warehouserpt/showUpdWarehouserptOutItemAction.action?updWarehouserptId=" + id;
 			//document.mainform.submit();
@@ -418,13 +418,13 @@
 								</div>
 							</td>
 							<td>
-								<div class="btn">
+								<!--  <div class="btn">
 									<div class="box1_left"></div>
 									<div class="box1_center">
 										<input class="input80" type="button" value="导出" onclick="exportData();" />
 									</div>
 									<div class="box1_right"></div>
-								</div>
+								</div> -->
 							</td>
 						</tr>
 					</table>

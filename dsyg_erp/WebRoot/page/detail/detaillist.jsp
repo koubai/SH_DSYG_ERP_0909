@@ -27,13 +27,13 @@
 	
 	function queryProduct() {
 		var url = '<%=request.getContextPath()%>/product/showDetailProductSelectPage.action';
-		url += "?date=" + new Date();
+		url += "?date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	function queryCustomer() {
 		var url = '<%=request.getContextPath()%>/customer/showDetailCustomerSelectPage.action';
-		url += "?date=" + new Date();
+		url += "?date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
@@ -149,7 +149,7 @@
 			strProductid = productid; 			
 		}
 		var url = '<%=request.getContextPath()%>/warehouserpt/showWarehouseInfoListAction.action';
-		url += "?strProductid=" + strProductid + "&strCustomerid=" + strCustomerid + "&date=" + new Date();
+		url += "?strProductid=" + strProductid + "&strCustomerid=" + strCustomerid + "&date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 

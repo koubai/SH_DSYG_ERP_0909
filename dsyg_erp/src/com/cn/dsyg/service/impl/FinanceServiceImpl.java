@@ -180,7 +180,7 @@ public class FinanceServiceImpl implements FinanceService {
 		if (invoiceddsp_flg.equals("0"))
 			nostatus = "99";
 		//查询总记录数
-		System.out.println("nostatus:" + nostatus);
+//		System.out.println("nostatus:" + nostatus);
 		int totalCount = financeDao.queryFinanceCountByPage(expressno, status, financetype,
 				invoiceid, receiptid, customerid, receiptdateLow, receiptdateHigh, billno, res02, expressName, nostatus);
 		page.setTotalCount(totalCount);
@@ -292,8 +292,8 @@ public class FinanceServiceImpl implements FinanceService {
 		if (dblTotalAmount == null)
 			dblTotalAmount = new Double(0);
 		BigDecimal bdamount = new BigDecimal(Double.toString(dblTotalAmount));  
-		System.out.println("dblTotalAmount:" +dblTotalAmount);
-		System.out.println("bdamount:" +bdamount);
+//		System.out.println("dblTotalAmount:" +dblTotalAmount);
+//		System.out.println("bdamount:" +bdamount);
 		return String.valueOf(bdamount);
 	}
 

@@ -64,7 +64,7 @@
 			alert("请选择一条记录！");
 			return;
 		} else {
-			var url = "<%=request.getContextPath()%>/product/showUpdProductitemAction.action?updProductId=" + id + "&date=" + new Date();
+			var url = "<%=request.getContextPath()%>/product/showUpdProductitemAction.action?updProductId=" + id + "&date=" + encodeURI(new Date());
 			window.showModalDialog(url, window, "dialogheight:680px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no;scrollbars=yes;");
 		}
 	}

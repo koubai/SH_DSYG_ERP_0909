@@ -18,14 +18,21 @@
 	
 	//查询数据
 	function queryList() {
-		document.mainform.action = '../warehouse/queryWarehouseDetailAction.action';
+		sTheme = document.getElementById("strTheme").value;
+		sKeyword = document.getElementById("strKeyword").value;
+		if (sTheme =="" && sKeyword ==""){
+			if(confirm("没有输入关键字，确认需要全件检索吗？")) {
+				document.mainform.action = '../warehouse/queryWarehouseDetailAction.action';
+			}
+		} else 
+			document.mainform.action = '../warehouse/queryWarehouseDetailAction.action';
 		document.mainform.submit();
 	}
 
 	function showPurchase(id){
 		var url = '<%=request.getContextPath()%>/warehouse/showProductPurchasePage.action';
 		//strFlag=1采购单，strFlag=2销售单
-		url += "?strProdoctid=" + id + "&strFlag=1" + "&date=" + new Date();
+		url += "?strProdoctid=" + id + "&strFlag=1" + "&date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
@@ -56,7 +63,7 @@
 	function showSales(id){
 		var url = '<%=request.getContextPath()%>/warehouse/showProductSalesPage.action';
 		//strFlag=1采购单，strFlag=2销售单
-		url += "?strProdoctid=" + id + "&strFlag=2" + "&date=" + new Date();
+		url += "?strProdoctid=" + id + "&strFlag=2" + "&date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	

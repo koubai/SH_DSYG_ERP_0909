@@ -29,16 +29,16 @@ public class UndeliProductServiceImpl implements UndeliProductService {
 
 	@Override
 	public List<UndeliProductDto> queryUnDeliProductByType(String fromDate, String toDate, String ioType, String fieldno) {
-		System.out.println("fromDate" + fromDate);
-		System.out.println("toDate" + toDate);
-		System.out.println("ioType" + ioType);
-		System.out.println("fieldno" + fieldno);
+//		System.out.println("fromDate" + fromDate);
+//		System.out.println("toDate" + toDate);
+//		System.out.println("ioType" + ioType);
+//		System.out.println("fieldno" + fieldno);
 		if (ioType.compareTo("2") == 0){
-			System.out.println("queryUnDeliProductByType sale");
+//			System.out.println("queryUnDeliProductByType sale");
 			return undeliproductDao.queryUnDeliSaleProductByFieldno(fromDate, toDate, fieldno);
 		}
 		else if (ioType.compareTo("1") == 0){
-			System.out.println("queryUnDeliProductByType purchase");
+//			System.out.println("queryUnDeliProductByType purchase");
 			return undeliproductDao.queryUnDeliPurchaseProductByFieldno(fromDate, toDate, fieldno);
 		} else 	
 			return undeliproductDao.queryUnDeliSaleProductByFieldno(fromDate, toDate, fieldno);

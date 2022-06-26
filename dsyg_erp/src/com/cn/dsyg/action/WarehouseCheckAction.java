@@ -325,7 +325,7 @@ public class WarehouseCheckAction extends BaseAction {
 				boolean b = warehouseService.checkProductQuantity(wdt, username);
 				if(!b) {
 					log.error(wdt.getProductid() + " position save error！");
-					System.out.println(wdt.getProductid() + " position save error！");
+//					System.out.println(wdt.getProductid() + " position save error！");
 				} 
 				
 				index++;
@@ -703,7 +703,7 @@ public class WarehouseCheckAction extends BaseAction {
     	if (w_data.length > 0){
     		for (int m = 0 ; m <w_data.length ; m++){
         		com.cn.dsyg.dto.PositionHistDto pp = new com.cn.dsyg.dto.PositionHistDto();
-        		System.out.println("w_data["+m+"]"+ w_data[m]);
+//        		System.out.println("w_data["+m+"]"+ w_data[m]);
         		int ix = w_data[m].toString().indexOf("，");
         		String[] w_dat;
         		if (ix > 0)
@@ -713,7 +713,7 @@ public class WarehouseCheckAction extends BaseAction {
         		if (w_dat.length > 0){
         			String in_wdate = w_dat[0].trim(); 
     				pp.setIn_wdate(in_wdate);
-	        		System.out.println("in_wdate:"+ in_wdate);	        		
+//	        		System.out.println("in_wdate:"+ in_wdate);	        		
         			if (w_dat.length > 1){
         				int idx= w_dat[1].indexOf(";");
         				String in_quantity ="";
@@ -722,10 +722,10 @@ public class WarehouseCheckAction extends BaseAction {
         				else
         					in_quantity = w_dat[1].trim(); 
         				pp.setIn_quantity(new BigDecimal(in_quantity));
-        				System.out.println("in_quantity:"+ in_quantity);
+//        				System.out.println("in_quantity:"+ in_quantity);
             			lst.add(pp.getIn_map());
         			}else{
-        				System.out.println( m + "row in_quantity error.");	        				        				
+//        				System.out.println( m + "row in_quantity error.");	        				        				
         			}
         		}
     		}    		
@@ -734,7 +734,7 @@ public class WarehouseCheckAction extends BaseAction {
     		return null;    		
     	}
 		JSONArray mapArray = JSONArray.fromObject(lst);
-		System.out.println("mapArray" + mapArray.toString());
+//		System.out.println("mapArray" + mapArray.toString());
 		return mapArray;
 	}
 

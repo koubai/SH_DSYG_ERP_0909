@@ -84,7 +84,7 @@ public class AssessExpressFeeAction extends BaseAction {
 			strWeight = "";
 			strCube = "";
 			receiptdate = new Date();
-			System.out.println(receiptdate);
+//			System.out.println(receiptdate);
 			//起点
 			String belongto = PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_BELONG);
 			if("1".equals(belongto)) {
@@ -251,17 +251,17 @@ public class AssessExpressFeeAction extends BaseAction {
 			//根据客户ID查询客户信息
 			DeliveryDto deliveryDto = deliveryService.queryEtbDeliveryByID(deliveryid);
 			//快递单号
-			System.out.println("快递单号:" + expressno);
+//			System.out.println("快递单号:" + expressno);
 			//单据日期
-			System.out.println("单据日期:" + receiptdate);
+//			System.out.println("单据日期:" + receiptdate);
 			//快递ID
-			System.out.println("快递ID:" + deliveryid);
+//			System.out.println("快递ID:" + deliveryid);
 			//保价金额
-			System.out.println("保价金额:" + strIncamount);
+//			System.out.println("保价金额:" + strIncamount);
 			//物流保价金额
-			System.out.println("物流保价金额:" + expressincamount);
+//			System.out.println("物流保价金额:" + expressincamount);
 			//快递金额
-			System.out.println("快递金额:" + deliveryprice);
+//			System.out.println("快递金额:" + deliveryprice);
 
 			//快递费用保持到发货单中
 			WarehouserptDto warehouserpt = warehouserptService.queryWarehouserptByID(updWarehouserptId);

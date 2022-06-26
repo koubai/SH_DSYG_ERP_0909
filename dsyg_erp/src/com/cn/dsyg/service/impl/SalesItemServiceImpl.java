@@ -74,12 +74,31 @@ public class SalesItemServiceImpl implements SalesItemService {
 			}
 			
 			for(SalesItemDto item : list) {
-				//计算成本单价
-				if (item != null){
-					warehouseDto = warehouseDao.queryPrimecostByProductId(item.getProductid());
-					BigDecimal primecost = WarehouseUtil.calcPrimecost(warehouseDto, rate);
-					if (primecost != null)
-						item.setPrimecost(primecost);					
+				if (item.getPrimecost()==null || item.getPrimecost().equals("")){
+					//计算成本单价
+					if (item != null){
+						warehouseDto = warehouseDao.queryPrimecostByProductId(item.getProductid());
+						BigDecimal primecost = WarehouseUtil.calcPrimecost(warehouseDto, rate);
+						if (primecost != null)
+							item.setPrimecost(primecost);
+						else {
+							//如果库存数为0时，无法计算成本价，从warehouse最早的该单出库寻找成本
+							List<WarehouseDto> list1 = warehouseDao.queryPrimecostByParentId(item.getSalesno(),item.getProductid());
+							if (list1 == null){
+								primecost = null;
+							} else {
+								for(WarehouseDto wdt: list1) {
+									primecost = new BigDecimal(wdt.getRes04());
+									break;
+								}			
+							}
+							if (primecost != null)
+								item.setPrimecost(primecost);
+							else
+								item.setPrimecost(item.getTaxunitprice());
+							
+						}
+					}					
 				}
 			}
 		}

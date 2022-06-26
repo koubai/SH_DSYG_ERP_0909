@@ -21,7 +21,7 @@
 			alert("请选择一条记录！");
 			return;
 		} else {
-			var url = "<%=request.getContextPath()%>/sales/showHistDetailAction.action?salesHistId=" + id + "&date=" + new Date();
+			var url = "<%=request.getContextPath()%>/sales/showHistDetailAction.action?salesHistId=" + id + "&date=" + encodeURI(new Date());
 			//window.showModalDialog(url, window, "dialogheight:680px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no;scrollbars=yes;");
 			window.open(url, "_blank", "height=680, width=1200, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
 			
@@ -50,14 +50,14 @@
 	function showPurchase(id){
 		var url = '<%=request.getContextPath()%>/warehouse/showProductPurchasePage.action';
 		//strFlag=1采购单，strFlag=2销售单
-		url += "?strProdoctid=" + id + "&strFlag=1" + "&date=" + new Date();
+		url += "?strProdoctid=" + id + "&strFlag=1" + "&date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	function showSales(id){
 		var url = '<%=request.getContextPath()%>/warehouse/showProductSalesPage.action';
 		//strFlag=1采购单，strFlag=2销售单
-		url += "?strProdoctid=" + id + "&strFlag=2" + "&date=" + new Date();
+		url += "?strProdoctid=" + id + "&strFlag=2" + "&date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 

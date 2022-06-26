@@ -279,7 +279,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 	 */
 	@Override
 	public List<InvoiceDto> queryInvoiceByReceptid(String receptid){
-		System.out.println("service:" + receptid);
+//		System.out.println("service:" + receptid);
 		return invoiceDao.queryInvoiceByReceptid(receptid);		
 	}
 	

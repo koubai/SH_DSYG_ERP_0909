@@ -126,6 +126,19 @@
 		<action name="turnWarehouseDetailAction" class="warehouseDetailAction" method="turnWarehouseDetailAction">
 			<result name="*">/page/warehouse/warehousedetaillist.jsp</result>
 		</action>
+
+
+		<action name="showWarehouseDetailWAction" class="warehouseDetailAction" method="showWarehouseDetailWAction">
+			<result name="*">/page/warehouse/warehousedetaillist_w.jsp</result>
+		</action>
+		
+		<action name="queryWarehouseDetailWAction" class="warehouseDetailAction" method="queryWarehouseDetailWAction">
+			<result name="*">/page/warehouse/warehousedetaillist_w.jsp</result>
+		</action>
+		
+		<action name="turnWarehouseDetailWAction" class="warehouseDetailAction" method="turnWarehouseDetailWAction">
+			<result name="*">/page/warehouse/warehousedetaillist_w.jsp</result>
+		</action>
 		
 		<!-- popup start -->
 		<action name="showWarehouseDetailPopupAction" class="warehouseDetailAction" method="showWarehouseDetailPopupAction">

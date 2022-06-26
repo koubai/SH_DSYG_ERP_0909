@@ -277,7 +277,7 @@ public class ChartAction extends BaseAction {
     
     public String showSaleTotalInfoMainChartAction(){  
     	try{
-            System.out.println("showSaleTotalInfoMainChartAction success"); 
+//            System.out.println("showSaleTotalInfoMainChartAction success"); 
 	        return SUCCESS;  
 		} catch(Exception e) {
 			log.error("showSaleTotalInfoMainChartAction error:" + e);
@@ -286,7 +286,7 @@ public class ChartAction extends BaseAction {
 	}
     public String showSaleInfoMainChartAction(){  
     	try{
-            System.out.println("showSaleInfoMainChartAction success"); 
+//            System.out.println("showSaleInfoMainChartAction success"); 
 	        return SUCCESS;  
 		} catch(Exception e) {
 			log.error("showSaleInfoMainChartAction error:" + e);
@@ -296,7 +296,7 @@ public class ChartAction extends BaseAction {
 
     public String showSaleDetailInfoMainChartAction(){  
     	try{
-            System.out.println("showSaleDetailInfoMainChartAction success"); 
+//            System.out.println("showSaleDetailInfoMainChartAction success"); 
 	        return SUCCESS;  
 		} catch(Exception e) {
 			log.error("showSaleDetailInfoMainChartAction error:" + e);
@@ -306,7 +306,7 @@ public class ChartAction extends BaseAction {
     
     public String showPurchaseInfoMainChartAction(){  
     	try{
-            System.out.println("showPurchaseInfoMainChartAction success"); 
+//            System.out.println("showPurchaseInfoMainChartAction success"); 
 	        return SUCCESS;  
 		} catch(Exception e) {
 			log.error("showPurchaseInfoMainChartAction error:" + e);
@@ -316,7 +316,7 @@ public class ChartAction extends BaseAction {
 
     public String showDeliveryInfoMainChartAction(){  
     	try{
-            System.out.println("showDeliveryInfoMainChartAction success"); 
+//            System.out.println("showDeliveryInfoMainChartAction success"); 
 	        return SUCCESS;  
 		} catch(Exception e) {
 			log.error("showDeliveryInfoMainChartAction error:" + e);
@@ -326,7 +326,7 @@ public class ChartAction extends BaseAction {
 
     public String showAccountInfoMainChartAction(){  
     	try{
-            System.out.println("showAccountInfoMainChartAction success"); 
+//            System.out.println("showAccountInfoMainChartAction success"); 
 	        return SUCCESS;  
 		} catch(Exception e) {
 			log.error("showAccountInfoMainChartAction error:" + e);
@@ -336,7 +336,7 @@ public class ChartAction extends BaseAction {
 
     public String showProfitInfoMainChartAction(){  
     	try{
-            System.out.println("showProfitInfoMainChartAction success"); 
+//            System.out.println("showProfitInfoMainChartAction success"); 
 	        return SUCCESS;  
 		} catch(Exception e) {
 			log.error("showProfitInfoMainChartAction error:" + e);
@@ -346,7 +346,7 @@ public class ChartAction extends BaseAction {
     
     public String showSupplierInfoMainChartAction(){  
     	try{
-            System.out.println("showSupplierInfoMainChartAction success"); 
+//            System.out.println("showSupplierInfoMainChartAction success"); 
 	        return SUCCESS;  
 		} catch(Exception e) {
 			log.error("showSupplierInfoMainChartAction error:" + e);
@@ -356,7 +356,7 @@ public class ChartAction extends BaseAction {
 
     public String showCustomerInfoMainChartAction(){  
     	try{
-            System.out.println("showCustomerInfoMainChartAction success"); 
+//            System.out.println("showCustomerInfoMainChartAction success"); 
 	        return SUCCESS;  
 		} catch(Exception e) {
 			log.error("showCustomerInfoMainChartAction error:" + e);
@@ -458,7 +458,7 @@ public class ChartAction extends BaseAction {
 	 */
 	public String turnUserSelectPage() {
 		try {
-			System.out.println("turnUserSelectPage");
+//			System.out.println("turnUserSelectPage");
 			this.clearMessages();
 			queryUserData();
 		} catch(Exception e) {
@@ -478,8 +478,8 @@ public class ChartAction extends BaseAction {
 		}
 		//翻页查询所有用户
 		this.page.setStartIndex(startIndex);
-		System.out.println("strUserIdFrom:" +strUserIdFrom);
-		System.out.println("strUserIdTo:" +strUserIdTo);
+//		System.out.println("strUserIdFrom:" +strUserIdFrom);
+//		System.out.println("strUserIdTo:" +strUserIdTo);
 		page = userService.queryUserByPage(strFieldno, strKeyword, strUserIdFrom, strUserIdTo, strUserName, "" + Constants.STATUS_NORMAL, page);
 		userList = (List<UserDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
@@ -534,7 +534,7 @@ public class ChartAction extends BaseAction {
 	 */
 	public String turnSupplierSelectPage() {
 		try {
-			System.out.println("turnUserSelectPage");
+//			System.out.println("turnUserSelectPage");
 			this.clearMessages();
 			querySupplierData();
 		} catch(Exception e) {
@@ -554,8 +554,8 @@ public class ChartAction extends BaseAction {
 		}
 		//翻页查询所有用户
 		this.page.setStartIndex(startIndex);
-		System.out.println("strUserIdFrom:" +strUserIdFrom);
-		System.out.println("strUserIdTo:" +strUserIdTo);
+//		System.out.println("strUserIdFrom:" +strUserIdFrom);
+//		System.out.println("strUserIdTo:" +strUserIdTo);
 		page = supplierService.querySupplierByPage(page,  strUserIdFrom, strUserIdTo, strUserName);
 		supplierList = (List<SupplierDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
@@ -610,7 +610,7 @@ public class ChartAction extends BaseAction {
 	 */
 	public String turnCustomerSelectPage() {
 		try {
-			System.out.println("turnCustomerSelectPage");
+//			System.out.println("turnCustomerSelectPage");
 			this.clearMessages();
 			queryCustomerData();
 		} catch(Exception e) {
@@ -630,8 +630,8 @@ public class ChartAction extends BaseAction {
 		}
 		//翻页查询所有用户
 		this.page.setStartIndex(startIndex);
-		System.out.println("strUserIdFrom:" +strUserIdFrom);
-		System.out.println("strUserIdTo:" +strUserIdTo);
+//		System.out.println("strUserIdFrom:" +strUserIdFrom);
+//		System.out.println("strUserIdTo:" +strUserIdTo);
 		page = customerService.queryEtbCustomerByPage(page,  strUserIdFrom, strUserIdTo, strUserName);
 		customerList = (List<CustomerDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
@@ -687,7 +687,7 @@ public class ChartAction extends BaseAction {
 	 */
 	public String turnDeliverySelectPage() {
 		try {
-			System.out.println("turnDeliverySelectPage");
+//			System.out.println("turnDeliverySelectPage");
 			this.clearMessages();
 			queryDeliveryData();
 		} catch(Exception e) {
@@ -707,8 +707,8 @@ public class ChartAction extends BaseAction {
 		}
 		//翻页查询所有用户
 		this.page.setStartIndex(startIndex);
-		System.out.println("strUserIdFrom:" +strUserIdFrom);
-		System.out.println("strUserIdTo:" +strUserIdTo);
+//		System.out.println("strUserIdFrom:" +strUserIdFrom);
+//		System.out.println("strUserIdTo:" +strUserIdTo);
 		page = deliveryService.queryEtbDeliveryByPage(page,  strUserIdFrom, strUserIdTo, strUserName);
 		deliveryList = (List<DeliveryDto>) page.getItems();
 		this.setStartIndex(page.getStartIndex());
@@ -741,15 +741,15 @@ public class ChartAction extends BaseAction {
 	private void initDictList() {
 		//采购主题
 		goodsList = dict01Service.queryDict01ByFieldcode(Constants.DICT_GOODS_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
-		System.out.println("goodsList.size" + goodsList.size());
+//		System.out.println("goodsList.size" + goodsList.size());
 		//产地
 		makeareaList = dict01Service.queryDict01ByFieldcode(Constants.DICT_MAKEAREA, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
-		System.out.println("makeareaList" + makeareaList.size());
+//		System.out.println("makeareaList" + makeareaList.size());
 		//颜色
 		colorList = dict01Service.queryDict01ByFieldcode(Constants.DICT_COLOR_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
-		System.out.println("colorList" + colorList.size());
+//		System.out.println("colorList" + colorList.size());
 		//单位
 		unitList = dict01Service.queryDict01ByFieldcode(Constants.DICT_UNIT_TYPE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
-		System.out.println("unitList" + unitList.size());
+//		System.out.println("unitList" + unitList.size());
 	}
 }

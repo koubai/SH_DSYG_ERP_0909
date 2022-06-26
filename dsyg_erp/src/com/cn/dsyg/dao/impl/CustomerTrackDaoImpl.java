@@ -114,7 +114,7 @@ public class CustomerTrackDaoImpl extends BaseDao implements CustomerTrackDao {
 	public List<CustomerTrackHistDto> queryAllTrackHist(String trackno) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("trackNo", trackno);
-		System.out.println("dto id is: " + trackno);
+//		System.out.println("dto id is: " + trackno);
 		@SuppressWarnings("unchecked")
 		List<CustomerTrackHistDto> list = getSqlMapClientTemplate().queryForList("queryAllTrackHist", paramMap);
 		return list;

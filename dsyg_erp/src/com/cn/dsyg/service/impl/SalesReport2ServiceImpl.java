@@ -31,12 +31,12 @@ public class SalesReport2ServiceImpl implements SalesReport2Service {
 	@Override
 	public Page querySalesReport2ByPage(Page page, String salesreportNoLow,
 			String salesreportNoHigh, String salesreportName, String customerName) {
-		System.out.println("querySalesReport2ByPage 01");
+//		System.out.println("querySalesReport2ByPage 01");
 		salesreportNoLow = StringUtil.replaceDatabaseKeyword_mysql(salesreportNoLow);
 		
 		//查询总记录数
 		int totalCount = salesreport2Dao.querySalesReport2CountByPage(salesreportNoLow, salesreportNoHigh, salesreportName, customerName);
-		System.out.println("querySalesReport2ByPage TotalCount:" + totalCount);
+//		System.out.println("querySalesReport2ByPage TotalCount:" + totalCount);
 		page.setTotalCount(totalCount);
 		if(totalCount % page.getPageSize() > 0) {
 			page.setTotalPage(totalCount / page.getPageSize() + 1);
@@ -46,7 +46,7 @@ public class SalesReport2ServiceImpl implements SalesReport2Service {
 		//翻页查询记录
 		List<SalesReport2Dto> list = salesreport2Dao.querySalesReport2ByPage(salesreportNoLow, salesreportNoHigh,
 				salesreportName, customerName, page.getStartIndex() * page.getPageSize(), page.getPageSize());
-		System.out.println("querySalesReport2ByPage listsize:" + list.size());
+//		System.out.println("querySalesReport2ByPage listsize:" + list.size());
 		for (SalesReport2Dto salesReport : list){
 			//文件显示地址
 			String pdfurl = PropertiesConfig.getPropertiesValueByKey(Constants.PROPERTIES_PDF_URL);

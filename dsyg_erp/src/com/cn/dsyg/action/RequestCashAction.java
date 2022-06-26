@@ -284,7 +284,7 @@ public class RequestCashAction extends BaseAction {
 			updReportFile02 = null;
 			updReportFile03 = null;
 			this.clearMessages();
-			System.out.println("requestCashNo is: "+updateRequestCashNo);
+//			System.out.println("requestCashNo is: "+updateRequestCashNo);
 			updateRequestCashDto = requestcashService.queryRequestCashByID(updateRequestCashNo);
 			if(updateRequestCashDto == null) {
 				this.addActionMessage("该数据不存在！");
@@ -309,7 +309,7 @@ public class RequestCashAction extends BaseAction {
 			if(!checkData(updateRequestCashDto)) {
 				return "checkerror";
 			}
-			System.out.println("requestCashNo is: "+updateRequestCashDto.getRequestcashno());
+//			System.out.println("requestCashNo is: "+updateRequestCashDto.getRequestcashno());
 			
 			//文件目录
 			String pdf_path = PropertiesConfig.getPropertiesValueByKey(Constants.PROPERTIES_PDF_PATH);

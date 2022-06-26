@@ -84,7 +84,7 @@
 	function showDetail(productid) {
 		var url = '<%=request.getContextPath()%>/inoutstock/showInOutStockDetailAction.action';
 		url += "?strStartdate=" + $("#strStartdate").val() + "&strEnddate=" + $("#strEnddate").val();
-		url += "&strProductid=" + productid + "&date=" + new Date();
+		url += "&strProductid=" + productid + "&date=" + encodeURI(new Date());
 		
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}

@@ -198,8 +198,8 @@ public class ProductAction extends BaseAction {
 	 */
 	public String updProductAction() {
 		try {
-			System.out.println("item114=" + updProductDto.getItem14());
-			System.out.println("item115=" + updProductDto.getItem15());
+//			System.out.println("item114=" + updProductDto.getItem14());
+//			System.out.println("item115=" + updProductDto.getItem15());
 			this.clearMessages();
 			//初期化字典数据
 			initDictList();
@@ -251,8 +251,8 @@ public class ProductAction extends BaseAction {
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
 			updProductDto.setUpdateuid(username);
 			productService.updateProduct(updProductDto);
-			System.out.println("item14=" + updProductDto.getItem14());
-			System.out.println("item15=" + updProductDto.getItem15());
+//			System.out.println("item14=" + updProductDto.getItem14());
+//			System.out.println("item15=" + updProductDto.getItem15());
 			//清空数据
 			updPicFile01 = null;
 			updPicFile02 = null;
@@ -374,7 +374,7 @@ public class ProductAction extends BaseAction {
 			//默认状态=有效
 			addProductDto.setStatus(Constants.STATUS_NORMAL);
 
-			System.out.println(addProductDto.getRank());
+//			System.out.println(addProductDto.getRank());
 			
 			addProductDto.setSampleflag("0");
 			productService.insertProduct(addProductDto);
@@ -916,7 +916,7 @@ public class ProductAction extends BaseAction {
 		}
 		if(StringUtil.isBlank(product.getColor())) {
 			if (product.getFieldno().compareTo("03")!= 0){
-				System.out.println("Fieldno="+product.getFieldno());
+//				System.out.println("Fieldno="+product.getFieldno());
 				this.addActionMessage("请选择颜色！");
 				return false;
 			}

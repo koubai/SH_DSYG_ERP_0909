@@ -77,7 +77,7 @@
 	
 	function showDetail(day, user) {
 		var url = '<%=request.getContextPath()%>/warehouse/showCollectDetailAction.action';
-		url += "?strDay=" + day + "&strUser=" + user + "&date=" + new Date();
+		url += "?strDay=" + day + "&strUser=" + user + "&date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	

@@ -76,7 +76,8 @@ public class WarehouseAction extends BaseAction {
 		}
 		out = response.getWriter();
 		result = "{\"msg\":\"" + msg + "\"}";
-		log.info("checkProductAmount result=" + result);
+		if (!msg.equals(""))
+			log.info("checkProductAmount result=" + result);
 		out.write(result);
 		out.flush();
 		return null;

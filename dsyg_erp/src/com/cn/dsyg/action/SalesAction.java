@@ -474,14 +474,14 @@ public class SalesAction extends BaseAction {
 			if(tmp_salesDto != null && tmp_salesDto.getStatus().intValue() != Constants.STATUS_DEL){
 				if (!tmp_salesDto.getId().equals(updSalesDto.getId())) {
 					this.addActionMessage("存在相同的销售订单号！");
-					System.out.println(tmp_salesDto.getId()+";"+updSalesDto.getId());
+//					System.out.println(tmp_salesDto.getId()+";"+updSalesDto.getId());
 					return "checkerror";
 				}
 			}
 
 			//当前操作用户ID
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
-			System.out.println("username: "+  username);
+//			System.out.println("username: "+  username);
 			//更新数据
 			updSalesDto.setUpdateuid(username);
 			salesService.updateSales(updSalesDto, tmpUpdSalesItemList, username);
@@ -513,26 +513,26 @@ public class SalesAction extends BaseAction {
 				this.addActionMessage("该数据不存在！");
 				return "checkerror";
 			}
-			System.out.println("before lock/unlock now rank:" + salesDto.getRank());
+//			System.out.println("before lock/unlock now rank:" + salesDto.getRank());
 			if(salesDto.getRank()-salesDto.getRank()/10*10 > 0) {
 				updSalesDto.setRank(salesDto.getRank() - Constants.SALES_STATUS_LOCK);
 			} else {
 				updSalesDto.setRank(salesDto.getRank() + Constants.SALES_STATUS_LOCK);					
 			}
-			System.out.println("now rank:" + salesDto.getRank());
+//			System.out.println("now rank:" + salesDto.getRank());
 			//数据验证(防止相同订单号)
 			SalesDto tmp_salesDto = salesService.querySalesByTheme2(updSalesDto.getTheme2(), "");
 			if(tmp_salesDto != null && tmp_salesDto.getStatus().intValue() != Constants.STATUS_DEL){
 				if (!tmp_salesDto.getId().equals(updSalesDto.getId())) {
 					this.addActionMessage("存在相同的销售订单号！");
-					System.out.println(tmp_salesDto.getId()+";"+updSalesDto.getId());
+//					System.out.println(tmp_salesDto.getId()+";"+updSalesDto.getId());
 					return "checkerror";
 				}
 			}
 
 			//当前操作用户ID
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
-			System.out.println("username: "+  username);
+//			System.out.println("username: "+  username);
 			//更新数据
 			updSalesDto.setUpdateuid(username);
 			salesService.updateSales(updSalesDto, tmpUpdSalesItemList, username);
@@ -836,7 +836,7 @@ public class SalesAction extends BaseAction {
 				updSalesItemList = salesItemService.querySalesItemBySalesno(updSalesDto.getSalesno());
 			}
 			
-			System.out.println("exporttype is: " + exporttype);
+//			System.out.println("exporttype is: " + exporttype);
 			if(exporttype != null && exporttype.equals("sumitube")){
 				String name = StringUtil.createXmlFileName(type);
 				response.setHeader("Content-Disposition","attachment;filename=" + name);//指定下载的文件名

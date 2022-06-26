@@ -91,7 +91,7 @@ public class WarehouseSZADaoImpl extends BaseDao implements WarehouseSZADao {
 	
 	@Override
 	public Double queryAmountByProductId(String productid){
-		System.out.println("productid: " + productid);
+//		System.out.println("productid: " + productid);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("productid", productid);
 		return (Double) getSqlMapClientTemplate().queryForObject("queryAmountByProductId", paramMap);		

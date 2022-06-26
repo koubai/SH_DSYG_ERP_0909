@@ -246,7 +246,7 @@ public class AssetsAction extends BaseAction {
 	public String showUpdEtbAssetsAction() {
 		try {
 			this.clearMessages();
-			System.out.println("assetsNo is: "+updateAssetsNo);
+//			System.out.println("assetsNo is: "+updateAssetsNo);
 			updateAssetsDto = assetsService.queryEtbAssetsByID(updateAssetsNo);
 			if(updateAssetsDto == null) {
 				this.addActionMessage("该数据不存在！");
@@ -271,7 +271,7 @@ public class AssetsAction extends BaseAction {
 			if(!checkData(updateAssetsDto)) {
 				return "checkerror";
 			}
-			System.out.println("assetsNo is: "+updateAssetsDto.getAssetsno());
+//			System.out.println("assetsNo is: "+updateAssetsDto.getAssetsno());
 			//修改数据
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_NAME);
 			updateAssetsDto.setUpdateuid(username);

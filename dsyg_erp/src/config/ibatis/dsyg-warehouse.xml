@@ -849,7 +849,8 @@
 	
 	<!-- chen ben jia start. added by gqchen -->
 	<select id="queryNoSaledWarehouseByProductid" parameterClass="java.util.Map" resultMap="WarehouseDto">
-		SELECT W.* FROM etb_warehouse W WHERE W.res07 <![CDATA[>]]> 0
+		SELECT W.* FROM etb_warehouse W WHERE 1=1
+		    AND ((W.res07 <![CDATA[>]]> 0 ) OR (W.res07 <![CDATA[<]]> 0 AND W.res05 = 1))
 			AND W.productid = #productid#  
 			ORDER BY W.warehousedate ASC, W.id ASC 
 	</select>
@@ -2057,5 +2058,18 @@
 			updatedate = NOW()
 		where id = #id#
 	</update>
+	
+	<select id="queryPrimecostByParentId" parameterClass="java.util.Map" resultMap="WarehouseDto">
+		SELECT * from etb_warehouse W where 1 = 1 
+		and W.warehousetype = '2'
+		<isNotEmpty prepend="and" property="warehousetype">
+			W.parentid = #parentid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="productid">
+			W.productid = #productid#
+		</isNotEmpty>
+		order by id
+	</select>
+	
 	
 </sqlMap>

@@ -356,7 +356,7 @@ public class InvoiceAction extends BaseAction {
 	 */
 	public void queryInvoiceRelData(String strReceptid){
 		try {
-			System.out.println("act:" + strReceptid);
+//			System.out.println("act:" + strReceptid);
 			this.clearMessages();
 			//刷新发票一览数据
 			listInvoiceOk = invoiceService.queryInvoiceByReceptid(strReceptid);			

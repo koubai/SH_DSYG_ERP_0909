@@ -238,9 +238,9 @@ public class SalesStatisticsAction extends BaseAction {
 				enddate = yearOnline + "-12-31";
 			}
 		}
-		System.out.println("startdate:" + startdate);
-		System.out.println("enddate:" + enddate);
-		System.out.println("yearOnline:" + yearOnline);
+//		System.out.println("startdate:" + startdate);
+//		System.out.println("enddate:" + enddate);
+//		System.out.println("yearOnline:" + yearOnline);
 		
 		//取得月份
 		monthArray = new ArrayList<String>();

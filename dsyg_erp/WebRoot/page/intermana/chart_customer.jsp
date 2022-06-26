@@ -114,7 +114,7 @@
 		function addUserList() {
 			var theme1 = "";
 			var url = '<%=request.getContextPath()%>/chart/showCustomerSelectPage.action';
-			url += "?strFieldno=" + theme1 + "&date=" + new Date();
+			url += "?strFieldno=" + theme1 + "&date=" + encodeURI(new Date());
 			
 			window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		};
@@ -283,7 +283,7 @@
 //			alert("customerid=" +id+"fromDate="+ fromDate+"toDate="+ toDate);
 			//弹出页面
 			var url = "../finance/showKaiPiaoCpAction.action";
-			url += "?strCustomerid=" + id + "&strReceiptdateLow=" + fromDate + "&strReceiptdateHigh=" + toDate + "&date=" + new Date();
+			url += "?strCustomerid=" + id + "&strReceiptdateLow=" + fromDate + "&strReceiptdateHigh=" + toDate + "&date=" + encodeURI(new Date());
 			window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		}
 		

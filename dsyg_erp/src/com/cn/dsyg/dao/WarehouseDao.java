@@ -641,9 +641,17 @@ public interface WarehouseDao {
 	public int queryWarehouseSendQty(String warehousetype,
 			String productid, String warehouseno);
 
-	ProductDto queryProductByLogicId(String fieldno, String tradename,
+	public ProductDto queryProductByLogicId(String fieldno, String tradename,
 			String typeno, String color, String item10, String packaging,
 			String unit, String makearea);
+
+	/**
+	 * 根据销售单号和产品ID查询成本单价
+	 * @param parentId
+	 * @param productId
+	 * @return
+	 */
+	public List<WarehouseDto> queryPrimecostByParentId(String parentId, String productId);
 
 	
 }

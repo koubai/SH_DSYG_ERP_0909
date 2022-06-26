@@ -239,9 +239,9 @@ public class SampleAction extends BaseAction {
 			this.clearMessages();
 			//初期化字典数据
 			initDictList();
-			System.out.println("strTradename:" + strTradename);
-			System.out.println("strTypeno:" + strTypeno);
-			System.out.println("strColor:" + strColor);
+//			System.out.println("strTradename:" + strTradename);
+//			System.out.println("strTypeno:" + strTypeno);
+//			System.out.println("strColor:" + strColor);
 			sampleTotleList = (List<SampleTotleDto>)sampleService.querySampleNumByKeys(strTradename, strTypeno, strColor);
 		} catch(Exception e) {
 			log.error("querySampleNumByKeys error:" + e);

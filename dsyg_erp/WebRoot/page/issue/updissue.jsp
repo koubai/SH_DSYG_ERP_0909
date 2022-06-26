@@ -54,7 +54,7 @@
 	//产品
 	function selectProduct() {
 		var url = "../product/showProductidSelectPage.action";
-		url += "?date=" + new Date();
+		url += "?date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
@@ -63,7 +63,7 @@
 		var type = $("#customertype").val().trim();
 		if(type == "1"){
 			var url = "../supplier/showSelectSupplierAction.action";
-			url += "?date=" + new Date();
+			url += "?date=" + encodeURI(new Date());
 			window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 			
 			var supplierid = $("#supplierid").val().trim();
@@ -73,7 +73,7 @@
 		}
 		else if(type == "2") {
 			var url = "../customer/showSelectCustomerAction.action";
-			url += "?date=" + new Date();
+			url += "?date=" + encodeURI(new Date());
 			window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		}
 		else {
@@ -87,7 +87,7 @@
 		var theme1 = "";
 		//strFlag=1采购单，strFlag=2销售单
 		var url = "../customer/showUserSelectPage.action";
-		url += "?strFieldno=" + theme1 + "&customerindex=" + id + "&date=" + new Date();
+		url += "?strFieldno=" + theme1 + "&customerindex=" + id + "&date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	

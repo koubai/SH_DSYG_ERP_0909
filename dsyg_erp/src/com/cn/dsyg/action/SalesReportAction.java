@@ -291,7 +291,7 @@ public class SalesReportAction extends BaseAction {
 			updReportFile02 = null;
 			updReportFile03 = null;
 			this.clearMessages();
-			System.out.println("salesreportNo is: "+updateSalesReportNo);
+//			System.out.println("salesreportNo is: "+updateSalesReportNo);
 			updateSalesReportDto = salesreportService.querySalesReportByID(updateSalesReportNo);
 			if(updateSalesReportDto == null) {
 				this.addActionMessage("该数据不存在！");
@@ -315,7 +315,7 @@ public class SalesReportAction extends BaseAction {
 			updReportFile02 = null;
 			updReportFile03 = null;
 			this.clearMessages();
-			System.out.println("salesreportNo is: "+updateSalesReportNo);
+//			System.out.println("salesreportNo is: "+updateSalesReportNo);
 			updateSalesReportDto = salesreportService.querySalesReportByID(updateSalesReportNo);
 			if(updateSalesReportDto == null) {
 				this.addActionMessage("该数据不存在！");
@@ -341,7 +341,7 @@ public class SalesReportAction extends BaseAction {
 			if(!checkData(updateSalesReportDto)) {
 				return "checkerror";
 			}
-			System.out.println("salesreportNo is: "+updateSalesReportDto.getSalesreportno());
+//			System.out.println("salesreportNo is: "+updateSalesReportDto.getSalesreportno());
 			
 			//文件目录
 			String pdf_path = PropertiesConfig.getPropertiesValueByKey(Constants.PROPERTIES_PDF_PATH);

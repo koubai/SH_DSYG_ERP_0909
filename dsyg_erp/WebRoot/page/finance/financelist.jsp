@@ -73,7 +73,7 @@
 				ids = ids.substring(0, ids.length - 1);
 				//物流开票动作
 				var url = "../finance/showNewKaiPiaoAction.action?strNewKaipiaoIds=" + ids;
-				url += "&date=" + new Date();
+				url += "&date=" + encodeURI(new Date());
 				window.showModalDialog(url, window, "dialogheight:320px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 				//window.open(url);
 			}
@@ -373,7 +373,7 @@
 	function kaipiao() {
 		//弹出开票页面
 		var url = "../finance/showKaiPiaoAction.action";
-		url += "?date=" + new Date();
+		url += "?date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
@@ -387,7 +387,7 @@
 		} else {
 			if(recid != "") {
 				var url = "../invoice/showInvoiceRelAction.action";
-				url += "?strReceptid="+recid + "&" + "date=" + new Date();
+				url += "?strReceptid="+recid + "&" + "date=" + encodeURI(new Date());
 				window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");		
 			}
 		}

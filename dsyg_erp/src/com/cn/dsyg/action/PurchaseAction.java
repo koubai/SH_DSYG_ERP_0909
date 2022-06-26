@@ -636,7 +636,7 @@ public class PurchaseAction extends BaseAction {
 				updPurchaseItemList = purchaseItemService.queryPurchaseItemByPurchaseno(updPurchaseDto.getPurchaseno());
 			}
 			
-			System.out.println("exporttype is: " + exporttype);
+//			System.out.println("exporttype is: " + exporttype);
 			if(exporttype != null && exporttype.equals("sumitube")){
 				//导出xml
 				PurchaseSumitubeXml salesXml = new PurchaseSumitubeXml();

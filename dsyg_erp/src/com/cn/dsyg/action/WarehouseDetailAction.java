@@ -14,10 +14,12 @@ import com.cn.common.action.BaseAction;
 import com.cn.common.util.Constants;
 import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
+import com.cn.common.util.WarehouseUtil;
 import com.cn.dsyg.dto.Dict01Dto;
 import com.cn.dsyg.dto.PurchaseItemDto;
 import com.cn.dsyg.dto.SalesItemDto;
 import com.cn.dsyg.dto.WarehouseDetailDto;
+import com.cn.dsyg.dto.WarehouseDto;
 import com.cn.dsyg.service.Dict01Service;
 import com.cn.dsyg.service.PurchaseItemService;
 import com.cn.dsyg.service.SalesItemService;
@@ -37,6 +39,7 @@ public class WarehouseDetailAction extends BaseAction {
 	
 	private Dict01Service dict01Service;
 	private WarehouseService warehouseService;
+	
 	
 	//页码
 	private int startIndex;
@@ -179,6 +182,11 @@ public class WarehouseDetailAction extends BaseAction {
 		return SUCCESS;
 	}
 	
+	// 库房专用显示
+	public String showWarehouseDetailWAction() {
+		return showWarehouseDetailAction();
+	}
+	
 	/**
 	 * 查询仓库盘点
 	 * @return
@@ -201,6 +209,11 @@ public class WarehouseDetailAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
+
+	// 库房专用查询
+	public String queryWarehouseDetailWAction() {
+		return queryWarehouseDetailAction();		
+	}
 	
 	/**
 	 * 翻页
@@ -216,6 +229,11 @@ public class WarehouseDetailAction extends BaseAction {
 			return ERROR;
 		}
 		return SUCCESS;
+	}
+
+	// 库房专用查询
+	public String turnWarehouseDetailWAction() {
+		return turnWarehouseDetailAction();		
 	}
 	
 	/**
@@ -257,6 +275,7 @@ public class WarehouseDetailAction extends BaseAction {
 			//setSalesItemList(salesItemService.querySalesItemByProductid(strProdoctid, "", 0, 100));
 			BigDecimal tot3mq = new BigDecimal(0);
 			for (SalesItemDto item: salesItemList){
+				warehouseService.getSalesItemPrimecost(item);
 				if (item.getBookdate().compareTo(prev3Mdate) < 0){
 					if (item.getRemainquantity()!=null)
 						tot3mq=tot3mq.add(new BigDecimal(item.getRemainquantity().toString())); 
@@ -270,7 +289,7 @@ public class WarehouseDetailAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
-	
+		
 	/**
 	 * 数据查询
 	 */

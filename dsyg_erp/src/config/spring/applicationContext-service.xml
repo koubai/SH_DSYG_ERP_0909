@@ -910,4 +910,17 @@
 			<ref local="undeliproductDao"/>
 		</property>
 	</bean>
+	
+	<!-- warehouseReportService -->
+	<bean id="warehouseReportService" class="com.cn.dsyg.service.impl.WarehouseReportServiceImpl" >
+		<property name="warehouseReportDao">
+			<ref local="warehouseReportDao"/>
+		</property>
+	</bean>
+	<bean id="warehouseReportDao" class="com.cn.dsyg.dao.impl.WarehouseReportDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient"/>
+		</property>
+	</bean>
+	
 </beans>

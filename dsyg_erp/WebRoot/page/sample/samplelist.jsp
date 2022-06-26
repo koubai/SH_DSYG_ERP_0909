@@ -60,14 +60,14 @@
 	//汇总
 	function showSum(id) {
 		var url = '<%=request.getContextPath()%>/sample/showSampleSumAction.action';
-		url += "?strProductid=" + id + "&date=" + new Date();
+		url += "?strProductid=" + id + "&date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:350px;dialogwidth:700px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 
 	//全产品汇总
 	function showAllSum() {
 		var url = '<%=request.getContextPath()%>/sample/showSampleSumAction.action';
-		url += "?strProductid=&date=" + new Date();
+		url += "?strProductid=&date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:350px;dialogwidth:700px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	

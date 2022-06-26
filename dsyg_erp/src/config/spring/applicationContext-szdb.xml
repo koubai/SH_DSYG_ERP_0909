@@ -14,9 +14,9 @@
 
   	<bean id="dataSourceSZ" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="${com.cn.dbcp.driverClass}" />
-        <property name="initialSize" value="10" />
-        <property name="maxActive" value="40" />
-        <property name="maxIdle" value="5" />
+        <property name="initialSize" value="200" />
+        <property name="maxActive" value="200" />
+        <property name="maxIdle" value="50" />
         <property name="password" value="${com.cn.dbcp.passwordSZ}" />
         <property name="username" value="${com.cn.dbcp.userSZ}" />
         <property name="url" value="${com.cn.dbcp.jdbcUrlSZ}" />

@@ -50,7 +50,7 @@
 			alert("请选择一条记录！");
 			return;
 		} else {
-			var url = "<%=request.getContextPath()%>/salesreport/showUpdSalesReportItemAction.action?updateSalesReportNo=" + id + "&date=" + new Date();
+			var url = "<%=request.getContextPath()%>/salesreport/showUpdSalesReportItemAction.action?updateSalesReportNo=" + id + "&date=" + encodeURI(new Date());
 			window.showModalDialog(url, window, "dialogheight:680px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no;scrollbars=yes;");
 			//document.mainform.action = "../sales/showUpdSalesReport2Action.action?updSalesId=" + id;
 			//document.mainform.submit();

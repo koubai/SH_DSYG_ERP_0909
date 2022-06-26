@@ -73,7 +73,7 @@
 	//汇总
 	function showSum(id) {
 		var url = '<%=request.getContextPath()%>/untaxinfo/showUntaxInfoSumAction.action';
-		url += "?strProductid=" + id + "&date=" + new Date();
+		url += "?strProductid=" + id + "&date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:350px;dialogwidth:700px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	

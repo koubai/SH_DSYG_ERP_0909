@@ -80,7 +80,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 	private SalesItemDao salesItemDao;
 	private SalesHisDao salesHisDao;
 	private SalesItemHisDao salesItemHisDao;
-	private WarehouseDao warehouseDao;
+	private static WarehouseDao warehouseDao;
 	private WarehouserptDao warehouserptDao;
 	private WarehouseSZADao warehouseSZADao;
 	private WarehouserptSZADao warehouserptSZADao;
@@ -424,8 +424,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 		for(String s : barcodeQuantityList) {
 			barcodeQuantity += s + ",";
 		}
-		System.out.println("barcodeQuantity=" + barcodeQuantity);
-		System.out.println("rptQuantity=" + rptQuantity);
+//		System.out.println("barcodeQuantity=" + barcodeQuantity);
+//		System.out.println("rptQuantity=" + rptQuantity);
 		if(rptQuantity.equals(barcodeQuantity)) {
 			ajaxResult.setCode(0);
 			ajaxResult.setMsg("");
@@ -918,7 +918,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 						if (!strWarehouseNo.isEmpty() && !strWarehouseNo.equals("")){
 							WarehouseDto warehouse_sza = warehouseSZADao.queryWarehouseByWarehouseno(warehouse.getWarehouseno());
 							if (warehouse_sza!= null){
-								warehouseSZADao.updateWarehouse(warehouse);
+//								warehouseSZADao.updateWarehouse(warehouse);
 							}else {
 								warehouseSZADao.insertWarehouse(warehouse);							
 							}	
@@ -1257,7 +1257,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 						if (!strWarehouseNo.isEmpty() && !strWarehouseNo.equals("")){
 							WarehouseDto warehouse_sza = warehouseSZADao.queryWarehouseByWarehouseno(warehouse.getWarehouseno());
 							if (warehouse_sza!= null){
-								warehouseSZADao.updateWarehouse(warehouse);
+//								warehouseSZADao.updateWarehouse(warehouse);
 							}else {
 								warehouseSZADao.insertWarehouse(warehouse);							
 							}	
@@ -1573,7 +1573,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 		int totalCount = warehouseDao.queryWarehouseInOutOkCountByPage("" + Constants.WAREHOUSE_TYPE_IN,
 				suppliername, theme, tradename, typeno, color, warehousename, status);
 		page.setTotalCount(totalCount);
-		System.out.println("totalCount: " + totalCount);
+//		System.out.println("totalCount: " + totalCount);
 		if(totalCount % page.getPageSize() > 0) {
 			page.setTotalPage(totalCount / page.getPageSize() + 1);
 		} else {
@@ -1599,7 +1599,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 		int totalCount = warehouseDao.queryWarehouseOutOkCountByPage("" + Constants.WAREHOUSE_TYPE_OUT,
 				suppliername, theme, tradename, typeno, color, warehousename, status);
 		page.setTotalCount(totalCount);
-		System.out.println("totalCount: " + totalCount);
+//		System.out.println("totalCount: " + totalCount);
 		if(totalCount % page.getPageSize() > 0) {
 			page.setTotalPage(totalCount / page.getPageSize() + 1);
 		} else {
@@ -1626,7 +1626,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 		int totalCount = warehouseDao.queryWarehouseOutOk1CountByPage("" + Constants.WAREHOUSE_TYPE_OUT,
 				suppliername, theme, tradename, typeno, color, warehousename, status);
 		page.setTotalCount(totalCount);
-		System.out.println("totalCount: " + totalCount);
+//		System.out.println("totalCount: " + totalCount);
 		if(totalCount % page.getPageSize() > 0) {
 			page.setTotalPage(totalCount / page.getPageSize() + 1);
 		} else {
@@ -1652,7 +1652,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 		int totalCount = warehouseDao.queryWarehouseOutOk2CountByPage("" + Constants.WAREHOUSE_TYPE_OUT,
 				suppliername, theme, tradename, typeno, color, warehousename, status);
 		page.setTotalCount(totalCount);
-		System.out.println("totalCount: " + totalCount);
+//		System.out.println("totalCount: " + totalCount);
 		if(totalCount % page.getPageSize() > 0) {
 			page.setTotalPage(totalCount / page.getPageSize() + 1);
 		} else {
@@ -1982,7 +1982,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 						}
 						// 需要显示逾期3个月的未发货订单数量
 						if (expiredDisplay.equals("1")){
-							System.out.println("XXX 3M productid=" + warehouseDetailDto.getProductid());
+//							System.out.println("XXX 3M productid=" + warehouseDetailDto.getProductid());
 							List<SalesItemDto> explist = salesItemDao.query3MUnSndItemsByProductId(productDto.getId().toString());
 							BigDecimal expiredRemainQuantity = new BigDecimal(0);
 							if(explist != null && explist.size() > 0) {
@@ -2036,6 +2036,24 @@ public class WarehouseServiceImpl implements WarehouseService {
 		return list;
 	}
 	
+	public void getSalesItemPrimecost(SalesItemDto item) {	
+		WarehouseDto warehouseDto = null;
+		BigDecimal rate = new BigDecimal(1);
+		BigDecimal primecost= new BigDecimal(0);
+		//税率
+		List<Dict01Dto> listRate = dict01Dao.queryDict01ByFieldcode(Constants.DICT_RATE, PropertiesConfig.getPropertiesValueByKey(Constants.SYSTEM_LANGUAGE));
+		if(listRate != null && listRate.size() > 0) {
+			rate = rate.add(new BigDecimal(listRate.get(0).getCode()));
+		}
+		
+		//计算成本单价
+		if (item != null){
+			warehouseDto = warehouseDao.queryPrimecostByProductId(item.getProductid());
+			primecost = WarehouseUtil.calcPrimecost(warehouseDto, rate);
+		}	
+		item.setPrimecost(primecost);					
+	}	
+		
 	@Override
 	public void loadWarehouseCheck(List<WarehouseCheckDto> list){
 		warehouseDao.loadWarehouseCheck(list);		

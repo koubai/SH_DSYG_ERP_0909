@@ -7,6 +7,7 @@ import com.cn.common.util.Page;
 import com.cn.dsyg.dto.AjaxResultDto;
 import com.cn.dsyg.dto.InOutStockDto;
 import com.cn.dsyg.dto.ProductQuantityDto;
+import com.cn.dsyg.dto.SalesItemDto;
 import com.cn.dsyg.dto.SalesStatisticsDto;
 import com.cn.dsyg.dto.WarehouseCheckDto;
 import com.cn.dsyg.dto.WarehouseDto;
@@ -406,5 +407,6 @@ public interface WarehouseService {
 	
 	public BigDecimal getTotalQty();
 	public void setTotalQty(BigDecimal totalQty);
+	public void getSalesItemPrimecost(SalesItemDto item);	
 
 }

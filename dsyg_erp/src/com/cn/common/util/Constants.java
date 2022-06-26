@@ -58,6 +58,8 @@ public class Constants {
 	public final static String REQUESTCASH_NO_PRE = "RC";
 	//客户跟踪编号前缀
 	public final static String CUSTOMER_TRACK_NO_PRE = "CTN";
+	//库存盘点报告编号前缀
+	public final static String WAREHOUSEREPORT_NO_PRE = "CCPD";
 	
 	//条形码前缀
 	public final static String BARCODE_NO_PRE = "BARCODE";

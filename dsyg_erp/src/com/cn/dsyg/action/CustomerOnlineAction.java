@@ -258,7 +258,7 @@ public class CustomerOnlineAction extends BaseAction {
 	public String showUpdCustomerOnlineAction() {
 		try {
 			this.clearMessages();
-			System.out.println("id is: " + updateCustomerId);
+//			System.out.println("id is: " + updateCustomerId);
 			updateCustomerOnlineDto = customerOnlineService.queryCustomerOnlineByID(updateCustomerId);
 			if(updateCustomerOnlineDto == null) {
 				this.addActionMessage("该数据不存在！");
@@ -283,7 +283,7 @@ public class CustomerOnlineAction extends BaseAction {
 			if(!checkData(updateCustomerOnlineDto)) {
 				return "checkerror";
 			}
-			System.out.println("id is: " + updateCustomerOnlineDto.getCustomerid());
+//			System.out.println("id is: " + updateCustomerOnlineDto.getCustomerid());
 			//修改数据
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_NAME);
 			updateCustomerOnlineDto.setUpdateuid(username);

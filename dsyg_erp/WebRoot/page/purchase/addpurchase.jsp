@@ -677,7 +677,7 @@
 		var url = '<%=request.getContextPath()%>/product/showProductSelectPage.action';
 		//strFlag=1采购单，strFlag=2销售单，这里用strCustomerid把供应商ID传到产品页面，strSupplierId是产品页面查询条件
 		url += "?strPurchaseType=" + getRadioValue("purchaseType") + "&strFieldno=" + theme1 + "&strSeq=" + seq
-				+ "&strSupplierId=" + "&strCustomerid=" + $("#supplierid").val() + "&strFlag=1" + "&date=" + new Date();
+				+ "&strSupplierId=" + "&strCustomerid=" + $("#supplierid").val() + "&strFlag=1" + "&date=" + encodeURI(new Date());
 		
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
@@ -737,14 +737,14 @@
 	//供应商
 	function selectSupplier() {
 		var url = "../supplier/showSelectSupplierAction.action";
-		url += "?date=" + new Date();
+		url += "?date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	//用户
 	function selectUser() {
 		var url = "../user/showSelectUserAction.action";
-		url += "?date=" + new Date();
+		url += "?date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
@@ -762,7 +762,7 @@
 	
 	function productCompare() {
 		var url = "../warehouse/showWarehouseDetailPopupAction.action";
-		url += "?date=" + new Date();
+		url += "?date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 </script>

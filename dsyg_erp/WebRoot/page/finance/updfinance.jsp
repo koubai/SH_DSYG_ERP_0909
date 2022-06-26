@@ -371,7 +371,7 @@
 	//用户
 	function selectUser() {
 		var url = "../user/showSelectUserAction.action";
-		url += "?date=" + new Date();
+		url += "?date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	

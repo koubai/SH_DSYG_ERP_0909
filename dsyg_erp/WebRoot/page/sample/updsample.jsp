@@ -122,7 +122,7 @@
 	
 	function selectProduct() {
 		var url = '<%=request.getContextPath()%>/product/showSampleProductSelectPage.action';
-		url += "?strFieldno=&date=" + new Date();
+		url += "?strFieldno=&date=" + encodeURI(new Date());
 		
 		//window.open(url);
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
@@ -131,14 +131,14 @@
 	//客户
 	function selectCustomer() {
 		var url = "../customer/showSelectCustomerAction.action";
-		url += "?date=" + new Date();
+		url += "?date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	//供应商
 	function selectSupplier() {
 		var url = "../supplier/showSelectSupplierAction.action";
-		url += "?date=" + new Date();
+		url += "?date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	

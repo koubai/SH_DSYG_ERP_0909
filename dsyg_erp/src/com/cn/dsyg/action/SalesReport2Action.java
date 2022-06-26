@@ -138,7 +138,7 @@ public class SalesReport2Action extends BaseAction {
 	public String showSalesReport2Action() {
 		try {
 			this.clearMessages();
-			System.out.println("showSalesReport2Action start");
+//			System.out.println("showSalesReport2Action start");
 			strSalesReportNoLow = "";
 			strSalesReportNoHigh = "";
 			strSalesReportName = "";
@@ -156,7 +156,7 @@ public class SalesReport2Action extends BaseAction {
 			listSalesReport = new ArrayList<SalesReport2Dto>();
 			
 			querySalesReport2();
-			System.out.println("showSalesReport2Action end");
+//			System.out.println("showSalesReport2Action end");
 		} catch(Exception e) {
 			return ERROR;
 		}
@@ -210,7 +210,7 @@ public class SalesReport2Action extends BaseAction {
 		}
 		//翻页查询所有SALES报告
 		this.page.setStartIndex(startIndex);
-		System.out.println("querySalesReport2 start");
+//		System.out.println("querySalesReport2 start");
 		page = salesreport2Service.querySalesReport2ByPage(page, strSalesReportNoLow, strSalesReportNoHigh, strSalesReportName, strCustomerName);
 		listSalesReport = (List<SalesReport2Dto>) page.getItems();
 		
@@ -293,7 +293,7 @@ public class SalesReport2Action extends BaseAction {
 			updReportFile02 = null;
 			updReportFile03 = null;
 			this.clearMessages();
-			System.out.println("salesreport2No is: "+updateSalesReportNo);
+//			System.out.println("salesreport2No is: "+updateSalesReportNo);
 			updateSalesReport2Dto = salesreport2Service.querySalesReport2ByID(updateSalesReportNo);
 			if(updateSalesReport2Dto == null) {
 				this.addActionMessage("该数据不存在！");
@@ -317,7 +317,7 @@ public class SalesReport2Action extends BaseAction {
 			updReportFile02 = null;
 			updReportFile03 = null;
 			this.clearMessages();
-			System.out.println("salesreport2No is: "+updateSalesReportNo);
+//			System.out.println("salesreport2No is: "+updateSalesReportNo);
 			updateSalesReport2Dto = salesreport2Service.querySalesReport2ByID(updateSalesReportNo);
 			if(updateSalesReport2Dto == null) {
 				this.addActionMessage("该数据不存在！");
@@ -342,7 +342,7 @@ public class SalesReport2Action extends BaseAction {
 			if(!checkData(updateSalesReport2Dto)) {
 				return "checkerror";
 			}
-			System.out.println("salesreport2No is: "+updateSalesReport2Dto.getSalesreportno());
+//			System.out.println("salesreport2No is: "+updateSalesReport2Dto.getSalesreportno());
 			
 			//文件目录
 			String pdf_path = PropertiesConfig.getPropertiesValueByKey(Constants.PROPERTIES_PDF_PATH);
@@ -392,7 +392,7 @@ public class SalesReport2Action extends BaseAction {
 	public String delSalesReport2Action() {
 		try {
 			this.clearMessages();
-			System.out.println("delSalesReport2Action");
+//			System.out.println("delSalesReport2Action");
 			if(StringUtil.isBlank(delSalesReportNo)) {
 				this.addActionMessage("SALES报告代码为空！");
 				return "checkerror";

@@ -116,11 +116,11 @@ public class InvoiceDaoImpl extends BaseDao implements InvoiceDao {
 	
 	public List<InvoiceDto> queryInvoiceByReceptid(String receptid){
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		System.out.println("dao:" + receptid);
+//		System.out.println("dao:" + receptid);
 		paramMap.put("financeno", receptid);
 		@SuppressWarnings("unchecked")
 		List<InvoiceDto> list = getSqlMapClientTemplate().queryForList("queryInvoiceByReceptid", paramMap);
-		System.out.println("list:" + list.size());
+//		System.out.println("list:" + list.size());
 		return list;
 	}
 	

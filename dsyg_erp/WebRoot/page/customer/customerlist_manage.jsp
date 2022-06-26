@@ -16,7 +16,7 @@
 	});
 
 	function add() {
-		var url = '<c:url value="/customer/showAddEtbCustomerAction.action"></c:url>' + "?date=" + new Date();
+		var url = '<c:url value="/customer/showAddEtbCustomerAction.action"></c:url>' + "?date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:750px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
@@ -59,7 +59,7 @@
 		var theme1 = "";
 		var url = '<%=request.getContextPath()%>/customer/showUserSelectPage.action';
 		//strFlag=1采购单，strFlag=2销售单
-		url += "?strFieldno=" + theme1 + "&customerindex=" + id + "&date=" + new Date();
+		url += "?strFieldno=" + theme1 + "&customerindex=" + id + "&date=" + encodeURI(new Date());
 		
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	};

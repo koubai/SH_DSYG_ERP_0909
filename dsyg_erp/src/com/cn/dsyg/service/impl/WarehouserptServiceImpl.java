@@ -324,14 +324,14 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 			String warehouseno, String theme1, String parentid, String supplierid,
 			String productid, String beginDate, String endDate, String strSuppliername,
 			String strWarehouseno, String createdateLow, String createdateHigh) {
-		System.out.println("queryWarehouserptByCondition: start" + warehousetype);
+//		System.out.println("queryWarehouserptByCondition: start" + warehousetype);
 
 		strSuppliername = StringUtil.replaceDatabaseKeyword_mysql(strSuppliername);
 		List<WarehouserptDto> listAll = new ArrayList<WarehouserptDto>();
 		List<WarehouserptDto> list = new ArrayList<WarehouserptDto>();
 		
 		if(StringUtil.isNotBlank(no)) {
-			System.out.println("queryWarehouserptByCondition: start1" + warehousetype);
+//			System.out.println("queryWarehouserptByCondition: start1" + warehousetype);
 			
 			List<WarehouserptDto> listTemp = new ArrayList<WarehouserptDto>();
 			
@@ -368,9 +368,9 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 					}
 				}
 			}
-			System.out.println("queryWarehouserptByCondition: start3" + warehousetype);
+//			System.out.println("queryWarehouserptByCondition: start3" + warehousetype);
 		} else {
-			System.out.println("queryWarehouserptByCondition: start2" + warehousetype);
+//			System.out.println("queryWarehouserptByCondition: start2" + warehousetype);
 			//翻页查询记录
 			listAll = warehouserptDao.queryWarehouserptByCondition(status, warehousetype,
 					warehouseno, theme1, parentid, supplierid, productid, beginDate, endDate, strSuppliername,
@@ -385,7 +385,7 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 					}
 				}
 			}
-			System.out.println("queryWarehouserptByCondition: start4" + warehousetype);
+//			System.out.println("queryWarehouserptByCondition: start4" + warehousetype);
 		}
 		if(listAll != null && listAll.size() > 0) {
 			for(WarehouserptDto rpt : listAll) {
@@ -400,11 +400,11 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 			String warehouseno, String theme1, String parentid, String supplierid,
 			String productid, String beginDate, String endDate, String strSuppliername,
 			String strWarehouseno, String createdateLow, String createdateHigh, Page page) {
-		System.out.println("queryWarehouserptByPage: start" + warehousetype);
+//		System.out.println("queryWarehouserptByPage: start" + warehousetype);
 
 		strSuppliername = StringUtil.replaceDatabaseKeyword_mysql(strSuppliername);
 		if(StringUtil.isNotBlank(no)) {
-			System.out.println("queryWarehouserptByPage: start1" + warehousetype);
+//			System.out.println("queryWarehouserptByPage: start1" + warehousetype);
 			List<WarehouserptDto> listAll = new ArrayList<WarehouserptDto>();
 			List<WarehouserptDto> listTemp = new ArrayList<WarehouserptDto>();
 			List<WarehouserptDto> list = new ArrayList<WarehouserptDto>();
@@ -460,10 +460,10 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 				}
 				page.setItems(list);
 			}
-			System.out.println("queryWarehouserptByPage: start3" + warehousetype);
+//			System.out.println("queryWarehouserptByPage: start3" + warehousetype);
 			return page;
 		} else {
-			System.out.println("queryWarehouserptByPage: start2" + warehousetype);
+//			System.out.println("queryWarehouserptByPage: start2" + warehousetype);
 			//查询总记录数
 			int totalCount = warehouserptDao.queryWarehouserptCountByPage(status, warehousetype,
 					warehouseno, theme1, parentid, supplierid, productid, beginDate, endDate, strSuppliername,
@@ -499,7 +499,7 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 				}
 			}
 			page.setItems(list);
-			System.out.println("queryWarehouserptByPage: start4" + warehousetype);
+//			System.out.println("queryWarehouserptByPage: start4" + warehousetype);
 			return page;
 		}
 	}
@@ -1416,7 +1416,7 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 	 * @param customerid
 	 */
 	public List<WarehouserptDto> queryWarehouseInfoList(String strProductid, String strCustomerid){
-		System.out.println("11strProductid:" + strProductid);
+//		System.out.println("11strProductid:" + strProductid);
 		List<WarehouserptDto> warehouserptlst = warehouserptDao.queryWarehouseInfoList(strProductid, strCustomerid);
 		return warehouserptlst;
 	}
@@ -1676,7 +1676,7 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 				}
 		}
 		rpt.setSupplierid(YYsupplierid);
-		System.out.println("YYtype:" + YYtype);
+//		System.out.println("YYtype:" + YYtype);
 
 		//exchange productid
 		//入出库单对应的产品
@@ -1684,7 +1684,7 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 		List<ProductDto> new_listProduct = new ArrayList<ProductDto>();;
 		for(int i = 0; i < listProduct.size(); i++) {
 			ProductDto pd = listProduct.get(i);
-			System.out.println("productid:" + pd.getId());
+//			System.out.println("productid:" + pd.getId());
 			ProductDto product = productDao.queryProductByID(String.valueOf(pd.getId()));
 			if (product != null){
 				if (YYtype.equals("2")){

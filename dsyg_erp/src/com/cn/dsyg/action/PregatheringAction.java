@@ -252,7 +252,7 @@ public class PregatheringAction extends BaseAction {
 	public String showUpdPregatheringAction() {
 		try {
 			this.clearMessages();
-			System.out.println("pregatheringNo is: "+updatePregatheringNo);
+//			System.out.println("pregatheringNo is: "+updatePregatheringNo);
 			updatePregatheringDto = pregatheringService.queryPregatheringByID(updatePregatheringNo);
 			if(updatePregatheringDto == null) {
 				this.addActionMessage("该数据不存在！");
@@ -277,7 +277,7 @@ public class PregatheringAction extends BaseAction {
 			if(!checkData(updatePregatheringDto)) {
 				return "checkerror";
 			}
-			System.out.println("pregatheringNo is: "+updatePregatheringDto.getPregatheringno());
+//			System.out.println("pregatheringNo is: "+updatePregatheringDto.getPregatheringno());
 			//修改数据
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_NAME);
 			updatePregatheringDto.setUpdateuid(username);

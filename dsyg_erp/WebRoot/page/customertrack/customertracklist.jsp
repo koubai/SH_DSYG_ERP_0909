@@ -67,7 +67,7 @@
 			alert("请选择一条记录！");
 			return;
 		} else {
-			var url = '<c:url value="/customertrack/showAllTrackHisAction.action"></c:url>' + "?strTrackNoHist=" + id + "&date=" + new Date();
+			var url = '<c:url value="/customertrack/showAllTrackHisAction.action"></c:url>' + "?strTrackNoHist=" + id + "&date=" + encodeURI(new Date());
 			window.showModalDialog(url, window, "dialogheight:500px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		}
 	}

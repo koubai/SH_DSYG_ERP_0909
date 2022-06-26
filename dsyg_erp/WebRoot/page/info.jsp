@@ -29,7 +29,7 @@
 	function queryQa() {
 		$.ajax({
 			type: "POST",
-	 		url:  '${pageContext.request.contextPath}/qa/queryQaCountAction.action?time=' + new Date(),
+	 		url:  '${pageContext.request.contextPath}/qa/queryQaCountAction.action?time=' + encodeURI(new Date()),
 	 		data: "",
 	   		dataType:"json",
 			success: function(data) {

@@ -83,7 +83,7 @@
 	function selectProduct() {
 		var strFieldno = $("#theme1").val();
 		var url = "../product/showProductSingleSelectPage.action?strFieldno=" + strFieldno;
-		url += "&date=" + new Date();
+		url += "&date=" + encodeURI(new Date());
 		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
