@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" 
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="warehousereport" extends="struts-erp" namespace="/warehousereport">
+	
+		<action name="showWarehouseReportAction" class="warehouseReportAction" method="showWarehouseReportAction">
+			<result name="*">/page/warehousereport/warehousereportlist.jsp</result>
+		</action>
+		
+		<action name="queryWarehouseReportList" class="warehouseReportAction" method="queryWarehouseReportList">
+			<result name="success">/page/warehousereport/warehousereportlist.jsp</result>
+		</action>
+		
+		<action name="turnWarehouseReportPage" class="warehouseReportAction" method="turnWarehouseReportPage">
+			<result name="success">/page/warehousereport/warehousereportlist.jsp</result>
+		</action>
+		
+		<action name="showAddWarehouseReportAction" class="warehouseReportAction" method="showAddWarehouseReportAction">
+			<result name="*">/page/warehousereport/addwarehousereport.jsp</result>
+		</action>
+		
+		<action name="addWarehouseReportAction" class="warehouseReportAction" method="addWarehouseReportAction">
+			<result name="success">/page/warehousereport/addwarehousereport.jsp</result>
+			<result name="checkerror">/page/warehousereport/addwarehousereport.jsp</result>
+		</action>
+		
+		<action name="showUpdWarehouseReportItemAction" class="warehouseReportAction" method="showUpdWarehouseReportItemAction">
+			<result name="success">/page/warehousereport/updwarehousereportitem.jsp</result>
+			<result name="checkerror">/page/warehousereport/updwarehousereportitem.jsp</result>
+		</action>
+		
+		<action name="showUpdWarehouseReportAction" class="warehouseReportAction" method="showUpdWarehouseReportAction">
+			<result name="success">/page/warehousereport/updwarehousereport.jsp</result>
+			<result name="checkerror">/page/warehousereport/updwarehousereport.jsp</result>
+		</action>
+		
+		<action name="updWarehouseReportAction" class="warehouseReportAction" method="updWarehouseReportAction">
+			<result name="success">/page/warehousereport/updwarehousereport.jsp</result>
+			<result name="checkerror">/page/warehousereport/updwarehousereport.jsp</result>
+		</action>
+		
+		<action name="delWarehouseReportAction" class="warehouseReportAction" method="delWarehouseReportAction">
+			<result name="success">/page/warehousereport/warehousereportlist.jsp</result>
+			<result name="checkerror">/page/warehousereport/warehousereportlist.jsp</result>
+		</action>
+		
+	</package>
+
+</struts>
