@@ -173,6 +173,8 @@
 			strname="出库配货单导出!";
 		if (isInter == 2)
 			strname="出货明细单导出!";
+		if (isInter == 3)
+			strname = "新出货明细导出！";
 			
 		if (confirm(strname)){
 			var id = ${updWarehouserptId};
@@ -738,6 +740,15 @@
 									<div class="box1_left"></div>
 									<div class="box1_center">
 										<input class="input120" type="button" style="width:120px" value="出货明细单导出" onclick="exportData(2);"/>
+									</div>
+									<div class="box1_right"></div>
+								</div>
+							</td>
+							<td>
+								<div class="btn">
+									<div class="box1_left"></div>
+									<div class="box1_center">
+										<input class="input120" type="button" style="width:120px" value="新出货明细单导出" onclick="exportData(20);"/>
 									</div>
 									<div class="box1_right"></div>
 								</div>

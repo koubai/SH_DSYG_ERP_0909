@@ -19,6 +19,14 @@ public class MatrixImageFactory {
 			//出库单明细数据(不含含税单价）
 			return new MatrixImageWarehouserptOutDetailNoprice();
 		}
+		if(Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST2.equals(type)) {
+			//出库单明细数据(不含含税单价）
+			return new MatrixImageWarehouserptOutDetailListNoprice2();
+		}
+		if(Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST_NOPRICE2.equals(type)) {
+			//出库单明细数据(不含含税单价）
+			return new MatrixImageWarehouserptOutDetailListNoprice2();
+		}
 		return null;
 	}
 }

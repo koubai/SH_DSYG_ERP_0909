@@ -1,19 +1,28 @@
 package com.cn.common.factory;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.BinaryBitmap;
 import com.google.zxing.EncodeHintType;
+import com.google.zxing.LuminanceSource;
+import com.google.zxing.MultiFormatReader;
 import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.Result;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+import com.google.zxing.common.HybridBinarizer;
 
 /**
  * MatrixImage操作类基类
@@ -59,7 +68,7 @@ public class MatrixImageBase {
 	/**
 	 * 数据信息
 	 */
-	protected String content;
+	protected static String content;
 	
 	/**
 	 * 创建MatrixImage
@@ -81,6 +90,32 @@ public class MatrixImageBase {
         } catch (IOException e) {  
             e.printStackTrace();  
         }  
+	}
+	
+	
+	/**
+	 * 创建条形码
+	 * 
+	 * @param contents
+	 * @param width
+	 * @param height
+	 * @param imgPath
+	 */
+	public void createEncodeBar() {
+		// 条形码的最小宽度
+//		int codeWidth = 98;
+		try {
+            Map hints = new HashMap();  
+            hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");  
+            MultiFormatWriter multiFormatWriter = new MultiFormatWriter();  
+			BitMatrix bitMatrix = multiFormatWriter.encode(content, BarcodeFormat.CODE_39, 800, 20, hints);
+
+            File file1 = new File(path, name);  
+            MatrixToImageWriter.writeToFile(bitMatrix, "jpg", file1);  
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

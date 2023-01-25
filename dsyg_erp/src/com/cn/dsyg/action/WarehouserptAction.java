@@ -791,7 +791,6 @@ public class WarehouserptAction extends BaseAction {
 //					rpt = warehouserptService.exchangeYongYou(temp_rpt);
 					rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
 				}else {
-					
 					//入库单明细
 					if(exportunitprice != null && exportunitprice.equals("1")){
 						exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_LIST;
@@ -812,12 +811,21 @@ public class WarehouserptAction extends BaseAction {
 					exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_YY_OUT_DETAIL_LIST;
 					rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
 				}else{
-					//出库单明细
-					if(exportunitprice != null && exportunitprice.equals("1")){
-						exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST;
-					} else {
-						exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST_NOPRICE;
-					}					
+					if(strInter != null && strInter.equals("20")){
+						// 新出库明细单
+						if(exportunitprice != null && exportunitprice.equals("1")){
+							exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST2;
+						} else {
+							exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST_NOPRICE2;
+						}											
+					}else {
+						//出库单明细
+						if(exportunitprice != null && exportunitprice.equals("1")){
+							exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST;
+						} else {
+							exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST_NOPRICE;
+						}											
+					}
 					rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
 				}
 			}
@@ -836,7 +844,15 @@ public class WarehouserptAction extends BaseAction {
 			imagebase.setName(PropertiesConfig.getPropertiesValueByKey(Constants.PROPERTIES_IMAGES_PATH) +"//"+jpgname);
 			imagebase.setDatas(list1);
 			imagebase.setDictMap(dictMap);
-			imagebase.createMatrixImage();			
+			if (exceltype.equals(Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST_NOPRICE2)){
+				if (rpt.getExpressno()!= null && !rpt.getExpressno().equals("")){
+//					System.out.println(rpt.getExpressno());
+					imagebase.setContent(rpt.getExpressno());
+					imagebase.createEncodeBar();									
+				}
+			}else{
+				imagebase.createMatrixImage();							
+			}
 		}
 		
 		String name ="";

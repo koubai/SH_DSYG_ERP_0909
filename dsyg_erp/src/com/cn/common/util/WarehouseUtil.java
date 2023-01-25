@@ -16,6 +16,10 @@ public class WarehouseUtil {
 		if(warehouse != null) {
 			if(StringUtil.isNotBlank(warehouse.getRes04())) {
 				BigDecimal primeamount = warehouse.getQuantity().multiply(new BigDecimal(warehouse.getRes04())).multiply(rate);
+				if (warehouse.getRes05()!= null){
+					if (warehouse.getRes05().equals("1"))
+						return primeamount.multiply(new BigDecimal(-1));					
+				}
 				return primeamount.abs();
 			}
 		}

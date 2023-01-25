@@ -31,6 +31,7 @@ public class PoiFactory {
 			//出库清单数据ALL
 			return new PoiWarehouserptOutAll();
 		}
+		
 		if(Constants.EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_LIST.equals(type)) {
 			//入库单明细数据
 			return new PoiWarehouserptInDetail();
@@ -42,6 +43,10 @@ public class PoiFactory {
 		if(Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST.equals(type)) {
 			//出库单明细数据
 			return new PoiWarehouserptOutDetail();
+		}
+		if(Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST2.equals(type)) {
+			//出库单明细数据(新)
+			return new PoiWarehouserptOutDetail2();
 		}
 		if(Constants.EXCEL_TYPE_WAREHOUSERPT_YY_OUT_DETAIL_LIST.equals(type)) {
 			//出库单明细数据(用友)
@@ -62,6 +67,11 @@ public class PoiFactory {
 		if(Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST_NOPRICE.equals(type)) {
 			//出库单明细数据(不含含税单价）
 			return new PoiWarehouserptOutDetailNoprice();
+		}
+		if(Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST_NOPRICE2.equals(type)) {
+			//出库单明细数据(不含含税单价）(新)
+			//return new PoiWarehouserptOutDetailNoprice2();
+			return new PoiWarehouserptOutDetail2();
 		}
 		if(Constants.EXCEL_TYPE_WAREHOUSCHECK.equals(type)) {
 			//库存盘点数据
