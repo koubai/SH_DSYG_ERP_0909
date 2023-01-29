@@ -60,6 +60,10 @@ public class PoiFactory {
 			//出库单明细数据
 			return new PoiWarehouserptOutDetailInter();
 		}
+		if(Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_INTER_LIST2.equals(type)) {
+			//（新）出库配货单明细数据
+			return new PoiWarehouserptOutDetailInter2();
+		}
 		if(Constants.EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_LIST_NOPRICE.equals(type)) {
 			//入库单明细数据(不含含税单价）
 			return new PoiWarehouserptInDetailNoprice();

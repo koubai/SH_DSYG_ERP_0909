@@ -100,6 +100,8 @@ public class Constants {
 	public final static String EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_INTER_LIST = "warehouserpt_in_detail_inter";
 	//出库单明细数据
 	public final static String EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_INTER_LIST = "warehouserpt_out_detail_inter";
+	//新出库配货单明细数据
+	public final static String EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_INTER_LIST2 = "warehouserpt_out_detail_inter2";
 	//入库单明细用友数据
 	public final static String EXCEL_TYPE_WAREHOUSERPT_IN_DETAIL_CGD_LIST = "warehouserpt_in_detail_cgdlist";
 	//库存盘点数据

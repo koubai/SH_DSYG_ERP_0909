@@ -2,6 +2,7 @@ package com.cn.common.factory;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -168,8 +169,9 @@ public class Poi2007Base {
 	/**
 	 * 输出数据部分
 	 * @param sheet
+	 * @throws ParseException 
 	 */
-	public void writeData(XSSFSheet sheet, XSSFWorkbook workbook) {
+	public void writeData(XSSFSheet sheet, XSSFWorkbook workbook) throws ParseException {
 		XSSFRow row = null;
 		for(int i = 0; i < datas.size(); i++) {
 			row = sheet.createRow(i + 3);

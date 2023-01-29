@@ -805,6 +805,10 @@ public class WarehouserptAction extends BaseAction {
 				//出库单
 				exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_INTER_LIST;
 				rpt = warehouserptService.queryWarehouserptInterByID(strExportDetailId);
+			} else if (strInter != null && strInter.equals("10")){
+				// 新配货明细单
+				exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_INTER_LIST2;
+				rpt = warehouserptService.queryWarehouserptInterByID(strExportDetailId);
 			} else {
 				if(strInter != null && strInter.equals("3")){
 					//出库单用友导出
@@ -812,21 +816,26 @@ public class WarehouserptAction extends BaseAction {
 					rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
 				}else{
 					if(strInter != null && strInter.equals("20")){
-						// 新出库明细单
-						if(exportunitprice != null && exportunitprice.equals("1")){
-							exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST2;
-						} else {
-							exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST_NOPRICE2;
-						}											
-					}else {
+						if (strInter.equals("20")){
+							// 新出库明细单
+							if(exportunitprice != null && exportunitprice.equals("1")){
+								exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST2;
+							} else {
+								exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST_NOPRICE2;
+							}																		
+						}
+						rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
+					} else {
 						//出库单明细
 						if(exportunitprice != null && exportunitprice.equals("1")){
 							exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST;
+							rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
 						} else {
 							exceltype = Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST_NOPRICE;
+							rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
 						}											
+						rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);						
 					}
-					rpt = warehouserptService.queryWarehouserptByID(strExportDetailId, null);
 				}
 			}
 		}
@@ -844,10 +853,10 @@ public class WarehouserptAction extends BaseAction {
 			imagebase.setName(PropertiesConfig.getPropertiesValueByKey(Constants.PROPERTIES_IMAGES_PATH) +"//"+jpgname);
 			imagebase.setDatas(list1);
 			imagebase.setDictMap(dictMap);
-			if (exceltype.equals(Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST_NOPRICE2)){
-				if (rpt.getExpressno()!= null && !rpt.getExpressno().equals("")){
-//					System.out.println(rpt.getExpressno());
-					imagebase.setContent(rpt.getExpressno());
+			if (exceltype.equals(Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST_NOPRICE2)||exceltype.equals(Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_LIST2) ||
+					exceltype.equals(Constants.EXCEL_TYPE_WAREHOUSERPT_OUT_DETAIL_INTER_LIST2 )){
+				if (rpt.getWarehouseno()!= null && !rpt.getWarehouseno().equals("")){
+					imagebase.setContent(rpt.getWarehouseno());
 					imagebase.createEncodeBar();									
 				}
 			}else{

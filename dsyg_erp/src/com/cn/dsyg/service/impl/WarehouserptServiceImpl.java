@@ -574,6 +574,8 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 		return warehouserptDao.queryWarehouserptByID(id);
 	}
 	
+	// 同一张出库单相同订单相同产品ID，相同单价合并
+	// 预开票时不考虑是否相同订单
 	@Override
 	public WarehouserptDto queryWarehouserptByID(String id, Integer type) {
 		WarehouserptDto rpt = warehouserptDao.queryWarehouserptByID(id);
@@ -805,6 +807,7 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 		return rpt;
 	}
 	
+	// 同一张出库单相同产品ID合并，不考虑是否相同订单
 	@Override
 	public WarehouserptDto queryWarehouserptInterByID(String id) {
 		WarehouserptDto rpt = warehouserptDao.queryWarehouserptByID(id);
@@ -955,7 +958,7 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 		return rpt;
 	}
 
-	
+	// 同一张出库单相同产品ID，相同单价合并，不考虑是否相同订单
 	@Override
 	public WarehouserptDto queryWarehouserptInterByID2(String id) {
 		WarehouserptDto rpt = warehouserptDao.queryWarehouserptByID(id);

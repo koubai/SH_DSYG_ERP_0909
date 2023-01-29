@@ -150,6 +150,8 @@
 		var strname = "";
 		if (isInter == 1)
 			strname = "出货单导出！";
+		if (isInter == 10)
+			strname = "新出货单导出！";
 		if (isInter == 2)
 			strname = "出货清单导出！";
 		if (isInter == 20)
@@ -671,7 +673,7 @@
 								<div class="btn">
 									<div class="box1_left"></div>
 									<div class="box1_center">
-										<input class="input80" type="button" value="出货单导出" onclick="exportData(1);"/>
+										<input class="input80" type="button" style="width:60px" value="出货单" onclick="exportData(1);"/>
 									</div>
 									<div class="box1_right"></div>
 								</div>
@@ -680,7 +682,7 @@
 								<div class="btn">
 									<div class="box1_left"></div>
 									<div class="box1_center">
-										<input class="input80" type="button" style="width:90px" value="出货清单导出" onclick="exportData(2);"/>
+										<input class="input80" type="button" style="width:60px" value="新出货单" onclick="exportData(10);"/>
 									</div>
 									<div class="box1_right"></div>
 								</div>
@@ -689,7 +691,16 @@
 								<div class="btn">
 									<div class="box1_left"></div>
 									<div class="box1_center">
-										<input class="input80" type="button" style="width:90px" value="出货清单导出（新）" onclick="exportData(20);"/>
+										<input class="input80" type="button" style="width:80px" value="出货清单" onclick="exportData(2);"/>
+									</div>
+									<div class="box1_right"></div>
+								</div>
+							</td>
+							<td>
+								<div class="btn">
+									<div class="box1_left"></div>
+									<div class="box1_center">
+										<input class="input80" type="button" style="width:80px" value="(新)出货清单" onclick="exportData(20);"/>
 									</div>
 									<div class="box1_right"></div>
 								</div>

@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 
@@ -16,19 +19,24 @@ import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.CellRangeAddress;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFDrawing;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.cn.common.util.Constants;
+import com.cn.common.util.DateUtil;
 import com.cn.common.util.StringUtil;
 import com.cn.dsyg.dto.ProductDto;
 import com.cn.dsyg.dto.WarehouserptDto;
@@ -60,7 +68,7 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 	    	        	
     	        	FileInputStream inputStream = new FileInputStream(source_file);
     	        	XSSFWorkbook workbook = (XSSFWorkbook) WorkbookFactory.create(inputStream);
-    	            XSSFSheet sheet = workbook.getSheet("sample");
+    	            XSSFSheet sheet = workbook.getSheet("form");
 
         			//输出title
         			//writeTitle(sheet, workbook);
@@ -92,14 +100,16 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 	/**
 	 * 输出数据部分
 	 * @param sheet
+	 * @throws ParseException 
 	 */
 	@Override
-	public void writeData(XSSFSheet sheet, XSSFWorkbook workbook) {
+	public void writeData(XSSFSheet sheet, XSSFWorkbook workbook){
 		XSSFRow row = null;
 		
 		WarehouserptDto warehouserpt = new WarehouserptDto();
 		//式样
 		XSSFCellStyle style = workbook.createCellStyle();
+		XSSFCellStyle style1 = workbook.createCellStyle();
 		XSSFCellStyle style2 = workbook.createCellStyle();
 		XSSFCellStyle style3 = workbook.createCellStyle();
 		XSSFCellStyle style4 = workbook.createCellStyle();
@@ -113,16 +123,29 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 		style.setBorderTop(XSSFCellStyle.BORDER_THIN);
 		style.setBorderRight(XSSFCellStyle.BORDER_THIN);
 
+		XSSFFont font9 = workbook.createFont();
+		XSSFFont font12 = workbook.createFont();
+		//字体大小
+		font9.setFontHeightInPoints((short)9);
+		font12.setFontHeightInPoints((short)12);
+		//式样
+		//水平居中
+		style1.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		style1.setFont(font12);
+		
 		//添加边框 (无左)
 		style2 = (XSSFCellStyle) style.clone();
 		style2.setBorderLeft(XSSFCellStyle.BORDER_NONE);
+		style2.setFont(font9);
 		//添加边框 (无左右)
 		style3 = (XSSFCellStyle) style.clone();
 		style3.setBorderLeft(XSSFCellStyle.BORDER_NONE);
 		style3.setBorderRight(XSSFCellStyle.BORDER_NONE);
+		style3.setFont(font9);
 		//添加边框 (无右)
 		style4 = (XSSFCellStyle) style.clone();
 		style4.setBorderRight(XSSFCellStyle.BORDER_NONE);
+		style4.setFont(font9);
 		//添加边框 (下线)
 		style5 = (XSSFCellStyle) style.clone();
 		style5.setBorderBottom(XSSFCellStyle.BORDER_THIN);
@@ -150,7 +173,7 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 			cell3.setCellValue(warehouserpt.getSuppliername());
 //			cell3.setCellStyle(style);
 			//送货单位
-			cell8.setCellValue("住电国际");
+			cell8.setCellValue("东升盈港");
 //			cell8.setCellStyle(style);
 			
 			row = sheet.getRow(4);
@@ -165,14 +188,26 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 			cell8.setCellValue(warehouserpt.getSuppliertel());
 //			cell8.setCellStyle(style);
 			//FAX
-			cell10.setCellValue(warehouserpt.getSupplierfax());
+//			cell10.setCellValue(warehouserpt.getSupplierfax());
 //			cell10.setCellStyle(style);
 			
 			row = sheet.getRow(5);
 			cell8 = row.getCell(8);
 
 			//送货日期
-			cell8.setCellValue(warehouserpt.getWarehousedate());
+			SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+			Date wd = new Date();
+			String str_wd = "";
+			try {
+				if (warehouserpt.getWarehousedate()!= null)
+					wd = sdf.parse(warehouserpt.getWarehousedate());
+					str_wd = sdf.format(wd);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			if (wd != null)
+				cell8.setCellValue(str_wd);
 //			cell8.setCellStyle(style);
 			
 			row = sheet.getRow(6);
@@ -215,7 +250,7 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 //				    XSSFClientAnchor anchor =
 //				    	new XSSFClientAnchor(0, 0, 0, 0,(short) 8, 0,(short)9, 4);
 				    XSSFClientAnchor anchor =
-				    	new XSSFClientAnchor(0, 0, 0, 0,(short) 8, 7,(short)12, 9);
+				    	new XSSFClientAnchor(5, 5, 5, 5,(short) 8, 7,(short)11, 9);
 				    patriarch.createPicture(anchor ,workbook.addPicture(byteArrayOut.toByteArray(),
 				    	HSSFWorkbook.PICTURE_TYPE_JPEG));
 				}
@@ -225,8 +260,8 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 			cell3 = row.getCell(3);
 			cell8 = row.getCell(8);
 			
-			//邮政编码
-			cell3.setCellValue(warehouserpt.getSuppliermail());
+			//邮政编码   不明
+			cell3.setCellValue("");
 //			cell3.setCellStyle(style);
 			
 			row = sheet.getRow(9);
@@ -236,7 +271,7 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 			cell3.setCellValue(warehouserpt.getExpressname());
 //			cell3.setCellStyle(style);
 			//业务员
-			cell8.setCellValue(warehouserpt.getExpressmanager());
+//			cell8.setCellValue(warehouserpt.getExpressmanager());
 //			cell8.setCellStyle(style);
 			
 			row = sheet.getRow(10);
@@ -268,9 +303,9 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 					XSSFCell cell9 = row.createCell(9);
 					XSSFCell cell10 = row.createCell(10);
 					XSSFCell cell11 = row.createCell(11);
-					XSSFCell cell12 = row.createCell(12);
-					XSSFCell cell13 = row.createCell(13);
-					XSSFCell cell14 = row.createCell(14);
+//					XSSFCell cell12 = row.createCell(12);
+//					XSSFCell cell13 = row.createCell(13);
+//					XSSFCell cell14 = row.createCell(14);
 					
 					//编号
 					cell0.setCellValue(num + 1);
@@ -282,14 +317,15 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 						cell1.setCellValue("SH");
 					cell1.setCellStyle(style);
 					//订单号
-					cell2.setCellValue(warehouserpt.getWarehouseno());
+//					cell2.setCellValue(warehouserpt.getWarehouseno());
+					cell2.setCellValue(product.getParentid());
 					cell2.setCellStyle(style4);
 
 //					cell3.setCellValue("");
 					cell3.setCellStyle(style2);
 					
 					//产品名称 品名					
-					cell4.setCellValue(product.getFieldno() + product.getTradename());
+					cell4.setCellValue(product.getTradename());
 					cell4.setCellStyle(style4);
 					
 //					cell5.setCellValue("");
@@ -325,6 +361,7 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 
 					//含税单价cell8
 //					cell12.setCellStyle(style);
+/*					
 					if(StringUtil.isNotBlank(product.getWarehousetaxprice())) {
 						cell12.setCellValue(product.getWarehousetaxprice());
 						//金额=数量*含税单价
@@ -344,6 +381,7 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 						//单价为空，所以金额也无法计算
 						cell14.setCellValue("");
 					}					
+*/					
 					num++;
 				}
 			}
@@ -395,6 +433,7 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 			row = sheet.createRow(num + 18);
 			cell8 = row.createCell(8);
 			cell8.setCellValue("签收");
+			cell8.setCellStyle(style1);			
 					
 			cell9 = row.createCell(9);
 			cell9.setCellValue("");
@@ -408,37 +447,6 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 		}
 	}
 	
-	public void copyExcel(String fromexcel, String newexcel) {
-		XSSFWorkbook wb = null;
-		FileInputStream fis =null;
-		FileOutputStream fos = null;
-		try {
-			fis = new FileInputStream(fromexcel);
-			fos = new FileOutputStream(newexcel);
-			wb = new XSSFWorkbook(fis);
-			XSSFSheet fromsheet = wb.getSheet("sample");
-			XSSFSheet tosheet = wb.createSheet("sample");
-			copySheet(fromsheet, tosheet);                                      
-			wb.write(fos);
-			fis.close();
-			fos.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally{
-			try {
-				if(fis != null)
-					fis.close();
-				if(fos != null)
-					fos.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-    public static void copySheet(XSSFSheet newSheet, XSSFSheet sheet) {  
-    }
-    
 	/**
 	 * 导出Excel2007
 	 * @param out
