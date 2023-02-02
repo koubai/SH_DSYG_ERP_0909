@@ -170,13 +170,13 @@
 	function exportData(isInter) {
 		var strname="";
 		if (isInter == 1)
-			strname="出库配货单导出!";
+			strname="配货单导出!";
 		if (isInter == 2)
-			strname="出货明细单导出!";
+			strname="送货单导出!";
 		if (isInter == 10)
-			strname="新配货单!";
+			strname="新配货单导出!";
 		if (isInter == 20)
-			strname = "新出货明细导出！";
+			strname = "新送货单导出！";
 			
 		if (confirm(strname)){
 			var id = ${updWarehouserptId};
@@ -750,7 +750,7 @@
 								<div class="btn">
 									<div class="box1_left"></div>
 									<div class="box1_center">
-										<input class="input120" type="button" style="width:60px" value="出货明细" onclick="exportData(2);"/>
+										<input class="input120" type="button" style="width:60px" value="送货单" onclick="exportData(2);"/>
 									</div>
 									<div class="box1_right"></div>
 								</div>
@@ -759,7 +759,7 @@
 								<div class="btn">
 									<div class="box1_left"></div>
 									<div class="box1_center">
-										<input class="input120" type="button" style="width:60px" value="新出货单" onclick="exportData(20);"/>
+										<input class="input120" type="button" style="width:60px" value="新送货单" onclick="exportData(20);"/>
 									</div>
 									<div class="box1_right"></div>
 								</div>

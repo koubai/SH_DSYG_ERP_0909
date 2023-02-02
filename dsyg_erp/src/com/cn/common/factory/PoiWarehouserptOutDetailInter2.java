@@ -167,10 +167,12 @@ public class PoiWarehouserptOutDetailInter2 extends Poi2007Base {
 		style.setBorderTop(XSSFCellStyle.BORDER_THIN);
 		style.setBorderRight(XSSFCellStyle.BORDER_THIN);
 
+		XSSFFont font8 = workbook.createFont();
 		XSSFFont font9 = workbook.createFont();
 		XSSFFont font10 = workbook.createFont();
 		XSSFFont font12 = workbook.createFont();
 		//字体大小
+		font8.setFontHeightInPoints((short)8);
 		font9.setFontHeightInPoints((short)9);
 		font10.setFontHeightInPoints((short)10);
 		font12.setFontHeightInPoints((short)12);
@@ -182,16 +184,16 @@ public class PoiWarehouserptOutDetailInter2 extends Poi2007Base {
 		//添加边框 (无左)
 		style2 = (XSSFCellStyle) style.clone();
 		style2.setBorderLeft(XSSFCellStyle.BORDER_NONE);
-		style2.setFont(font10);
+		style2.setFont(font9);
 		//添加边框 (无左右)
 		style3 = (XSSFCellStyle) style.clone();
 		style3.setBorderLeft(XSSFCellStyle.BORDER_NONE);
 		style3.setBorderRight(XSSFCellStyle.BORDER_NONE);
-		style3.setFont(font10);
+		style3.setFont(font9);
 		//添加边框 (无右)
 		style4 = (XSSFCellStyle) style.clone();
 		style4.setBorderRight(XSSFCellStyle.BORDER_NONE);
-		style4.setFont(font10);
+		style4.setFont(font9);
 		//添加边框 (下线)
 		style5 = (XSSFCellStyle) style.clone();
 		style5.setBorderBottom(XSSFCellStyle.BORDER_THIN);
@@ -201,9 +203,11 @@ public class PoiWarehouserptOutDetailInter2 extends Poi2007Base {
 		//添加边框 全 靠右
 		style6 =(XSSFCellStyle) style.clone();
 		style6.setAlignment(XSSFCellStyle.ALIGN_RIGHT);
+		style6.setFont(font8);
 		//添加边框 全 靠中
 		style7 =(XSSFCellStyle) style.clone();
 		style7.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+		style7.setFont(font8);
 
 		//添加数据
 		int num = 0;		
@@ -234,7 +238,7 @@ public class PoiWarehouserptOutDetailInter2 extends Poi2007Base {
 			cell3.setCellValue(warehouserpt.getSupplieraddress());
 //			cell3.setCellStyle(style);
 			//电话
-			cell8.setCellValue(warehouserpt.getSuppliertel());
+//			cell8.setCellValue(warehouserpt.getSuppliertel());
 //			cell8.setCellStyle(style);
 			//FAX
 //			cell10.setCellValue(warehouserpt.getSupplierfax());
@@ -365,7 +369,7 @@ public class PoiWarehouserptOutDetailInter2 extends Poi2007Base {
 
 					//住友编码
 					cell3.setCellValue(product.getItem11());
-					cell3.setCellStyle(style);
+					cell3.setCellStyle(style7);
 
 					//规格
 					cell4.setCellValue(product.getTypeno() + " (" + dictMap.get(Constants.DICT_COLOR_TYPE + "_" + product.getColor()) + ") ");

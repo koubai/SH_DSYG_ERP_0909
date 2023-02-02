@@ -62,13 +62,25 @@ public class PurchaseSumicardXml {
 	        Element area = (Element) doc.selectSingleNode("//my:AREA");
 	        area.setText(str_area);
 	        
+	        // Node des01 = doc.selectSingleNode("//my:group1/my:group2/my:DESCRIPTION-01"); 
+	        // if(StringUtil.isNotBlank(updPurchaseItemList.get(0).getTradename())){
+	        // 	des01.setText(updPurchaseItemList.get(0).getTradename() + "-" + updPurchaseItemList.get(0).getTypeno());
+	        // }
+	        
+	        ////Node des02 = doc.selectSingleNode("//my:group1/my:group2/my:DESCRIPTION-02"); 
+	        ////des02.setText(updPurchaseItemList.get(0).getTypeno());
+
+	        // change FFC setting 2023.02.02 start -->
 	        Node des01 = doc.selectSingleNode("//my:group1/my:group2/my:DESCRIPTION-01"); 
-	        if(StringUtil.isNotBlank(updPurchaseItemList.get(0).getTradename())){
-	        	des01.setText(updPurchaseItemList.get(0).getTradename() + "-" + updPurchaseItemList.get(0).getTypeno());
+	        if(StringUtil.isNotBlank(updPurchaseItemList.get(0).getRes01())){
+	        	des01.setText(updPurchaseItemList.get(0).getRes01());
 	        }
 	        
-	        //Node des02 = doc.selectSingleNode("//my:group1/my:group2/my:DESCRIPTION-02"); 
-	        //des02.setText(updPurchaseItemList.get(0).getTypeno());
+	        Node des02 = doc.selectSingleNode("//my:group1/my:group2/my:DESCRIPTION-02"); 
+	        if(StringUtil.isNotBlank(updPurchaseItemList.get(0).getTradename())){
+	        	des02.setText(updPurchaseItemList.get(0).getTradename() + "-" + updPurchaseItemList.get(0).getTypeno());
+	        }
+	        // change FFC setting 2023.02.02 end <--
 
 	        String color_index0 = "";
 	        if(StringUtil.isNotBlank(updPurchaseItemList.get(0).getColor())){
@@ -90,14 +102,18 @@ public class PurchaseSumicardXml {
 	        }
 
 	        String str_des01 = "";
+	        String str_des02 = "";
 	        String str_qty = "";
 	        String str_unitprice = "";
 	        String str_color = "";
 	        for (int i = 1; i < updPurchaseItemList.size(); i++) {  
 		        Element group1 = (Element) doc.selectSingleNode("//my:group1");
 		        
+		        if(StringUtil.isNotBlank(updPurchaseItemList.get(i).getRes01())){
+		        	str_des01 = updPurchaseItemList.get(i).getRes01();
+		        }
 		        if(StringUtil.isNotBlank(updPurchaseItemList.get(i).getTradename())){
-		        	str_des01 = updPurchaseItemList.get(i).getTradename() + "-" + updPurchaseItemList.get(i).getTypeno();
+		        	str_des02 = updPurchaseItemList.get(i).getTradename() + "-" + updPurchaseItemList.get(i).getTypeno();
 		        }
 		        if(updPurchaseItemList.get(i).getQuantity() != null){
 		        	str_qty = updPurchaseItemList.get(i).getQuantity().toString();
@@ -114,7 +130,7 @@ public class PurchaseSumicardXml {
 		        group1.addElement("my:group2").addElement("my:DESCRIPTION-01").addText(str_des01);
 		        
 		        Element group = (Element) doc.selectNodes("//my:group1/my:group2").get(i); 
-		        //group.addElement("my:DESCRIPTION-02").addText(updPurchaseItemList.get(i).getTypeno());
+		        group.addElement("my:DESCRIPTION-02").addText(str_des02);
 		        group.addElement("my:COLOR").addText(str_color);
 		        group.addElement("my:QTY").addText(str_qty);
 		        group.addElement("my:UNIT_PRICE").addText(str_unitprice);
