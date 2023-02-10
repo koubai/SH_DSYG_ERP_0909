@@ -1,7 +1,10 @@
 package com.cn.dsyg.action;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +18,7 @@ import com.cn.common.factory.MatrixImageFactory;
 import com.cn.common.factory.Poi2007Base;
 import com.cn.common.factory.PoiFactory;
 import com.cn.common.util.Constants;
+import com.cn.common.util.DateUtil;
 import com.cn.common.util.Page;
 import com.cn.common.util.PropertiesConfig;
 import com.cn.common.util.StringUtil;
@@ -124,6 +128,9 @@ public class WarehouserptAction extends BaseAction {
 	//用友单号的账套  发展公司
 	private String strAccountNo2;
 	
+	//更新是否需要检验  1:需要 0:不需要
+	private String updchk;
+		
 	//发货单
 	/**
 	 * 修改发货单页面
@@ -213,49 +220,77 @@ public class WarehouserptAction extends BaseAction {
 				this.addActionMessage("数据为空，请检查数据是否正确！");
 				return "checkerror";
 			}
-			if(StringUtil.isBlank(updWarehouserptDto.getExpressid())) {
-				this.addActionMessage("请选择快递！");
-				return "checkerror";
+			if (updchk != null && updchk.equals("1")){
+				if(StringUtil.isBlank(updWarehouserptDto.getExpressid())) {
+					this.addActionMessage("请选择快递！");
+					return "checkerror";
+				}
+				if(StringUtil.isBlank(updWarehouserptDto.getExpressno())) {
+					this.addActionMessage("快递单号不能为空！");
+					return "checkerror";
+				}
+				if(StringUtil.isBlank(updWarehouserptDto.getExpressname())) {
+					this.addActionMessage("快递名称不能为空！");
+					return "checkerror";
+				}
+	/*			if(StringUtil.isBlank(updWarehouserptDto.getExpressaddress())) {
+					this.addActionMessage("快递地址不能为空！");
+					return "checkerror";
+				}
+	*/			
+				if(updWarehouserptDto.getExpresstaxamount() == null) {
+					this.addActionMessage("转运费用合计不能为空！");
+					return "checkerror";
+				}
+				if(StringUtil.isBlank(updWarehouserptDto.getExpressmanager())) {
+					this.addActionMessage("快递联系人不能为空！");
+					return "checkerror";
+				}
+				if(StringUtil.isBlank(updWarehouserptDto.getExpresstel())) {
+					this.addActionMessage("快递联系人电话不能为空！");
+					return "checkerror";
+				}
+	/*			if(StringUtil.isBlank(updWarehouserptDto.getExpressfax())) {
+					this.addActionMessage("快递联系人传真不能为空！");
+					return "checkerror";
+				}
+	*/			
+				if(StringUtil.isBlank(updWarehouserptDto.getWarehousedate())) {
+					this.addActionMessage("发货日期不能为空！");
+					return "checkerror";
+				}
+	/*			if(StringUtil.isBlank(updWarehouserptDto.getExpressmail())) {
+					this.addActionMessage("信箱不能为空！");
+					return "checkerror";
+				}
+	*/							
+			}else{
+				if(StringUtil.isBlank(updWarehouserptDto.getExpressid())) {
+					updWarehouserptDto.setExpressid("");
+				}
+				if(StringUtil.isBlank(updWarehouserptDto.getExpressno())) {
+					updWarehouserptDto.setExpressno("");
+				}
+				if(StringUtil.isBlank(updWarehouserptDto.getExpressname())) {
+					updWarehouserptDto.setExpressname("");
+				}
+				if(StringUtil.isBlank(updWarehouserptDto.getExpressmanager())) {
+					updWarehouserptDto.setExpressmanager("");
+				}
+				if(StringUtil.isBlank(updWarehouserptDto.getExpresstel())) {
+					updWarehouserptDto.setExpresstel("");
+				}
+				if(StringUtil.isBlank(updWarehouserptDto.getWarehousedate())) {
+					Date td = new Date();
+					SimpleDateFormat sdf= new SimpleDateFormat("yyyMMdd"); 
+					updWarehouserptDto.setWarehousedate(sdf.format(td));
+				}
+				if(updWarehouserptDto.getExpresstaxamount() == null) {
+					BigDecimal zero = new BigDecimal(0);
+					updWarehouserptDto.setExpresstaxamount(zero);
+				}
 			}
-			if(StringUtil.isBlank(updWarehouserptDto.getExpressno())) {
-				this.addActionMessage("快递单号不能为空！");
-				return "checkerror";
-			}
-			if(StringUtil.isBlank(updWarehouserptDto.getExpressname())) {
-				this.addActionMessage("快递名称不能为空！");
-				return "checkerror";
-			}
-/*			if(StringUtil.isBlank(updWarehouserptDto.getExpressaddress())) {
-				this.addActionMessage("快递地址不能为空！");
-				return "checkerror";
-			}
-*/			
-			if(updWarehouserptDto.getExpresstaxamount() == null) {
-				this.addActionMessage("转运费用合计不能为空！");
-				return "checkerror";
-			}
-			if(StringUtil.isBlank(updWarehouserptDto.getExpressmanager())) {
-				this.addActionMessage("快递联系人不能为空！");
-				return "checkerror";
-			}
-			if(StringUtil.isBlank(updWarehouserptDto.getExpresstel())) {
-				this.addActionMessage("快递联系人电话不能为空！");
-				return "checkerror";
-			}
-/*			if(StringUtil.isBlank(updWarehouserptDto.getExpressfax())) {
-				this.addActionMessage("快递联系人传真不能为空！");
-				return "checkerror";
-			}
-*/			
-			if(StringUtil.isBlank(updWarehouserptDto.getWarehousedate())) {
-				this.addActionMessage("发货日期不能为空！");
-				return "checkerror";
-			}
-/*			if(StringUtil.isBlank(updWarehouserptDto.getExpressmail())) {
-				this.addActionMessage("信箱不能为空！");
-				return "checkerror";
-			}
-*/			
+			
 			//保存数据
 			//当前操作用户ID
 			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
@@ -1388,5 +1423,12 @@ public class WarehouserptAction extends BaseAction {
 		this.strAccountNo2 = strAccountNo2;
 	}
 	
-	
+	public String getUpdchk() {
+		return updchk;
+	}
+
+
+	public void setUpdchk(String updchk) {
+		this.updchk = updchk;
+	}
 }

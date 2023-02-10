@@ -162,6 +162,7 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 		style7.setAlignment(XSSFCellStyle.ALIGN_LEFT);
 		style7.setVerticalAlignment(XSSFCellStyle.VERTICAL_TOP);
 		style7.setWrapText(true);
+		style7.setFont(font9);
 
 		//添加数据
 		int num = 0;		
@@ -364,8 +365,13 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 					cell10.setCellValue(dictMap.get(Constants.DICT_UNIT_TYPE + "_" + product.getUnit()));
 					cell10.setCellStyle(style);
 					//备注
-					if (warehouserpt.getNote()!= null && !"".equals(warehouserpt.getNote())&& num==0)						
-						cell11.setCellValue(warehouserpt.getNote());
+//					if (warehouserpt.getNote()!= null && !"".equals(warehouserpt.getNote())&& num==0)						
+//						cell11.setCellValue(warehouserpt.getNote());
+//					cell11.setCellStyle(style7);
+					if (product.getRes09()== null || product.getRes09().equals("null"))
+						cell11.setCellValue("");
+					else
+						cell11.setCellValue(product.getRes09());
 					cell11.setCellStyle(style7);
 
 					//含税单价cell8
@@ -454,8 +460,8 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 			cell11.setCellValue("");
 			cell11.setCellStyle(style5);			
 		}
-		//合并备注单元格
-		sheet.addMergedRegion(new CellRangeAddress(14, num+16, 11, 11));
+//		//合并备注单元格
+//		sheet.addMergedRegion(new CellRangeAddress(14, num+16, 11, 11));
 
 	}
 	

@@ -12,11 +12,31 @@
 <title>发货单编辑</title>
 <script type="text/javascript">
 	function upd() {
-		if(checkItem()) {
-			if(confirm("确定提交吗？")) {
+		var updc = document.getElementById("updchk");
+		if (updc.checked){
+			document.getElementById("updchk").value = 1;
+//			alert($("#updchk").val());
+			if(checkItem()) {
+				if(confirm("确定提交吗？")) {
+					document.mainform.action = "../warehouserpt/updWarehouserptOutAction.action";
+					document.mainform.submit();
+				}
+			}
+		} else {
+			document.getElementById("updchk").value = 0;
+//			alert($("#updchk").val());
+			if(confirm("确定无检验提交吗？")) {
+				if ($("#tmpWarehousedate").val() != null && $("#tmpWarehousedate").val()!="")
+					$("#warehousedate").val($("#tmpWarehousedate").val());
+				else {
+					alert("发货日期不能为空！");
+					$("#tmpWarehousedate").focus();
+					return;
+				}
+				$("#updchk").val($("#updchk").val());
 				document.mainform.action = "../warehouserpt/updWarehouserptOutAction.action";
 				document.mainform.submit();
-			}
+			}			
 		}
 	}
 	
@@ -408,7 +428,8 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updWarehouserptDto.supplieraddress" disabled="true" id="supplieraddress" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
+									<!-- <s:textfield name="updWarehouserptDto.supplieraddress" disabled="true" id="supplieraddress" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield> -->
+									<s:textfield name="updWarehouserptDto.supplieraddress" id="supplieraddress" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -582,7 +603,8 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center date_input">
-									<input type="text" id="tmpWarehousedate" disabled="disabled" style="width:105px;" value="<s:property value="updWarehouserptDto.showWarehousedate"/>" />
+									<!-- <input type="text" id="tmpWarehousedate" disabled="disabled" style="width:105px;" value="<s:property value="updWarehouserptDto.showWarehousedate"/>" /> -->
+									<input type="text" id="tmpWarehousedate" style="width:105px;" value="<s:property value="updWarehouserptDto.showWarehousedate"/>" />
 									<a class="date" href="javascript:;" onclick="new Calendar().show(document.getElementById('tmpWarehousedate'));"></a>
 								</div>
 								<div class="box1_right"></div>
@@ -712,7 +734,8 @@
 								<div class="btn">
 									<div class="box1_left"></div>
 									<div class="box1_center">
-										<input class="input80" type="button" value="更新" onclick="upd();"/>
+										<input class="input60" type="button" value="更新" onclick="upd();"/>
+										<input type="checkbox" name="updchk" id="updchk" checked="checked" onclick="checkUpd(this);" />
 									</div>
 									<div class="box1_right"></div>
 								</div>

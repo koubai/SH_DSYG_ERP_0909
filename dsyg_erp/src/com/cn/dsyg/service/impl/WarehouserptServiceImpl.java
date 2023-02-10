@@ -1310,8 +1310,10 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 			insertDeliveryLog(warehouserpt);
 		}
 		
-		if (warehouserpt.getRes01() == null && warehouserpt.getReceiptdate() != null)
+		if ((warehouserpt.getRes01() == null || warehouserpt.getRes01().equals(""))&& warehouserpt.getReceiptdate() != null)
 			warehouserpt.setRes01(warehouserpt.getReceiptdate());
+		else 
+			warehouserpt.setRes01(null);
 
 		//新增保价金额和物流保价金额 add by liu 202105
 		if (warehouserpt.getIncamount()!=null){
@@ -1321,95 +1323,97 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 			temInc.append(warehouserpt.getExpressincamount());
 			warehouserpt.setRes10(temInc.toString());			
 		}
-
+		
 		warehouserptDao.updateWarehouserpt(warehouserpt);
 		
 		//快递信息
 		//判断是否有对应的财务记录
-		FinanceDto ff = financeDao.queryFinanceByInvoiceid(warehouserpt.getWarehouseno(), "" + Constants.FINANCE_TYPE_DELIVERY);
-		if(ff == null) {
-			//新增一条财务记录
-			FinanceDto finance = new FinanceDto();
-			//类型=快递
-			finance.setFinancetype(Constants.FINANCE_TYPE_DELIVERY);
-			if(type == Constants.WAREHOUSE_TYPE_IN) {
-				//入库单（付款）
-				finance.setMode("2");
+		if (!StringUtil.isBlank(warehouserpt.getExpressid())){
+			FinanceDto ff = financeDao.queryFinanceByInvoiceid(warehouserpt.getWarehouseno(), "" + Constants.FINANCE_TYPE_DELIVERY);
+			if(ff == null) {
+				//新增一条财务记录
+				FinanceDto finance = new FinanceDto();
+				//类型=快递
+				finance.setFinancetype(Constants.FINANCE_TYPE_DELIVERY);
+				if(type == Constants.WAREHOUSE_TYPE_IN) {
+					//入库单（付款）
+					finance.setMode("2");
+				} else {
+					//出库单（收款）
+					finance.setMode("1");
+				}
+				finance.setBelongto(belongto);
+				//单据号=入出库单号
+				finance.setInvoiceid(warehouserpt.getWarehouseno());
+				//发票号
+				String receiptid = Constants.FINANCE_NO_PRE + belongto + sdf.format(date);
+				finance.setReceiptid(receiptid);
+				//开票日期
+				if (warehouserpt.getRes01()!= null && warehouserpt.getRes01()!= "")
+					finance.setReceiptdate(warehouserpt.getRes01());
+				//结算日期=当天
+				finance.setAccountdate(DateUtil.dateToShortStr(date));
+				//金额=快递金额含税
+				finance.setAmount(warehouserpt.getExpresstaxamount());
+				//负责人
+//				finance.setHandler(warehouserpt.getUpdateuid());
+//				finance.setApproverid(warehouserpt.getUpdateuid());
+				//当前操作用户ID
+				String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
+				finance.setHandler(username);
+				finance.setApproverid(username);
+				
+				//快递信息需要显示对应的客户/供应商的ID和名称
+				finance.setRes01(warehouserpt.getSupplierid());
+				finance.setRes02(warehouserpt.getSuppliername());
+				if (finance.getReceiptdate()== null && warehouserpt.getReceiptdate()!=null) 
+					finance.setReceiptdate(warehouserpt.getReceiptdate());
+				finance.setRes08(warehouserpt.getExpressno());
+				finance.setCustomerid(Long.valueOf(warehouserpt.getExpressid()));
+				finance.setCustomername(warehouserpt.getExpressname());
+				finance.setCustomertel(warehouserpt.getExpresstel());
+				finance.setCustomermanager(warehouserpt.getExpressmanager());
+				finance.setCustomeraddress(warehouserpt.getExpressaddress());
+				finance.setCustomermail(warehouserpt.getExpressmail());
+				finance.setRank(Constants.ROLE_RANK_OPERATOR);
+				//状态=新增
+				finance.setStatus(Constants.FINANCE_STATUS_NEW);
+//				finance.setCreateuid(warehouserpt.getUpdateuid());
+//				finance.setUpdateuid(warehouserpt.getUpdateuid());
+				finance.setCreateuid(username);
+				finance.setUpdateuid(username);
+				financeDao.insertFinance(finance);
 			} else {
-				//出库单（收款）
-				finance.setMode("1");
-			}
-			finance.setBelongto(belongto);
-			//单据号=入出库单号
-			finance.setInvoiceid(warehouserpt.getWarehouseno());
-			//发票号
-			String receiptid = Constants.FINANCE_NO_PRE + belongto + sdf.format(date);
-			finance.setReceiptid(receiptid);
-			//开票日期
-			if (warehouserpt.getRes01()!= null)
-				finance.setReceiptdate(warehouserpt.getRes01());
-			//结算日期=当天
-			finance.setAccountdate(DateUtil.dateToShortStr(date));
-			//金额=快递金额含税
-			finance.setAmount(warehouserpt.getExpresstaxamount());
-			//负责人
-//			finance.setHandler(warehouserpt.getUpdateuid());
-//			finance.setApproverid(warehouserpt.getUpdateuid());
-			//当前操作用户ID
-			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
-			finance.setHandler(username);
-			finance.setApproverid(username);
-			
-			//快递信息需要显示对应的客户/供应商的ID和名称
-			finance.setRes01(warehouserpt.getSupplierid());
-			finance.setRes02(warehouserpt.getSuppliername());
-			if (finance.getReceiptdate()== null && warehouserpt.getReceiptdate()!=null) 
-				finance.setReceiptdate(warehouserpt.getReceiptdate());
-			finance.setRes08(warehouserpt.getExpressno());
-			finance.setCustomerid(Long.valueOf(warehouserpt.getExpressid()));
-			finance.setCustomername(warehouserpt.getExpressname());
-			finance.setCustomertel(warehouserpt.getExpresstel());
-			finance.setCustomermanager(warehouserpt.getExpressmanager());
-			finance.setCustomeraddress(warehouserpt.getExpressaddress());
-			finance.setCustomermail(warehouserpt.getExpressmail());
-			finance.setRank(Constants.ROLE_RANK_OPERATOR);
-			//状态=新增
-			finance.setStatus(Constants.FINANCE_STATUS_NEW);
-//			finance.setCreateuid(warehouserpt.getUpdateuid());
-//			finance.setUpdateuid(warehouserpt.getUpdateuid());
-			finance.setCreateuid(username);
-			finance.setUpdateuid(username);
-			financeDao.insertFinance(finance);
-		} else {
-			//修改财务记录
-			if (warehouserpt.getRes01()!= null)
-				ff.setReceiptdate(warehouserpt.getRes01());
-			//结算日期=当天
-			ff.setAccountdate(DateUtil.dateToShortStr(date));
-			//金额=快递金额含税
-			ff.setAmount(warehouserpt.getExpresstaxamount());
-			//负责人
-			//当前操作用户ID
-//			ff.setHandler(warehouserpt.getUpdateuid());
-			String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
-			ff.setHandler(username);
-			ff.setApproverid(username);
-			//快递信息
-			ff.setRes01(warehouserpt.getSupplierid());
-			ff.setRes02(warehouserpt.getSuppliername());
-//			ff.setReceiptdate(warehouserpt.getReceiptdate());
-			if (warehouserpt.getRes01()!= null)
-				ff.setReceiptdate(warehouserpt.getRes01());
-			ff.setRes08(warehouserpt.getExpressno());
-			ff.setCustomerid(Long.valueOf(warehouserpt.getExpressid()));
-			ff.setCustomername(warehouserpt.getExpressname());
-			ff.setCustomertel(warehouserpt.getExpresstel());
-			ff.setCustomermanager(warehouserpt.getExpressmanager());
-			ff.setCustomeraddress(warehouserpt.getExpressaddress());
-			ff.setCustomermail(warehouserpt.getExpressmail());
-//			ff.setUpdateuid(warehouserpt.getUpdateuid());
-			ff.setUpdateuid(username);
-			financeDao.updateFinance(ff);
+				//修改财务记录
+				if (warehouserpt.getRes01()!= null)
+					ff.setReceiptdate(warehouserpt.getRes01());
+				//结算日期=当天
+				ff.setAccountdate(DateUtil.dateToShortStr(date));
+				//金额=快递金额含税
+				ff.setAmount(warehouserpt.getExpresstaxamount());
+				//负责人
+				//当前操作用户ID
+//				ff.setHandler(warehouserpt.getUpdateuid());
+				String username = (String) ActionContext.getContext().getSession().get(Constants.SESSION_USER_ID);
+				ff.setHandler(username);
+				ff.setApproverid(username);
+				//快递信息
+				ff.setRes01(warehouserpt.getSupplierid());
+				ff.setRes02(warehouserpt.getSuppliername());
+//				ff.setReceiptdate(warehouserpt.getReceiptdate());
+				if (warehouserpt.getRes01()!= null)
+					ff.setReceiptdate(warehouserpt.getRes01());
+				ff.setRes08(warehouserpt.getExpressno());
+				ff.setCustomerid(Long.valueOf(warehouserpt.getExpressid()));
+				ff.setCustomername(warehouserpt.getExpressname());
+				ff.setCustomertel(warehouserpt.getExpresstel());
+				ff.setCustomermanager(warehouserpt.getExpressmanager());
+				ff.setCustomeraddress(warehouserpt.getExpressaddress());
+				ff.setCustomermail(warehouserpt.getExpressmail());
+//				ff.setUpdateuid(warehouserpt.getUpdateuid());
+				ff.setUpdateuid(username);
+				financeDao.updateFinance(ff);
+			}			
 		}
 	}
 	
