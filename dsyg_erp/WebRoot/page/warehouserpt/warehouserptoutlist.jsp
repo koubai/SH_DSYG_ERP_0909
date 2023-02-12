@@ -181,7 +181,28 @@
 						</div>
 						<div class="box1_right"></div>
 					</div>
-				
+					<!-- <div>
+						<div class="box1_left"></div>
+						<div class="box1_center date_input">
+							<select id="strLocation" name="strLocation" style="width: 120px;">
+								<s:if test='strLocation == "1"'>
+									<option value="">请选择</option>
+									<option value="1" selected="selected">上海</option>
+									<option value="2">深圳</option>
+								</s:if>
+								<s:elseif test='strLocation == "2"'>
+									<option value="">请选择</option>
+									<option value="1">上海</option>
+									<option value="2" selected="selected">深圳</option>
+								</s:elseif>
+								<s:else>
+									<option value="" selected="selected">请选择</option>
+									<option value="1">上海</option>
+									<option value="2">深圳</option>
+								</s:else>
+							</select>
+						<div class="box1_right"></div>
+					</div>  -->
 					<div class="box1">
 						<label class="pdf10">客户名</label>
 						<div class="box1_left"></div>

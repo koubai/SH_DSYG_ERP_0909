@@ -1478,6 +1478,22 @@ public class WarehouseServiceImpl implements WarehouseService {
 					warehouserpt.setSuppliermanager(customer.getCustomermanager1());
 					warehouserpt.setSuppliertel(customer.getCustomertel1());
 					warehouserpt.setSupplierfax(customer.getCustomerfax1());
+					
+					//订单的收货地址
+					if (customer.getCustomeraddress2()!= null)
+						warehouserpt.setSupplieraddress(customer.getCustomeraddress2());
+					if (customer.getCustomermanager2()!= null)
+						warehouserpt.setSuppliermanager(customer.getCustomermanager2());
+					if (customer.getCustomertel2()!= null)
+						warehouserpt.setSuppliertel(customer.getCustomertel2());
+					
+					if (customer.getCustomeraddress3()!= null)
+						warehouserpt.setSupplieraddress(customer.getCustomeraddress3());
+					if (customer.getCustomermanager3()!= null)
+						warehouserpt.setSuppliermanager(customer.getCustomermanager3());
+					if (customer.getCustomertel3()!= null)
+						warehouserpt.setSuppliertel(customer.getCustomertel3());
+
 					// 用友账套编码  1：贸易   2：发展
 					warehouserpt.setRes08(customer.getRes03());
 					//获得订单的客户用友编码

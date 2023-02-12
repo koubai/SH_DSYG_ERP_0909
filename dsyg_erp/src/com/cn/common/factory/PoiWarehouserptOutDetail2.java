@@ -446,6 +446,23 @@ public class PoiWarehouserptOutDetail2 extends Poi2007Base {
 		//		cell13.setCellStyle(style);
 			}		
 			row = sheet.createRow(num + 18);
+			cell2 = row.createCell(2);
+			cell2.setCellValue("备注");
+			cell2.setCellStyle(style1);			
+					
+			cell3 = row.createCell(3);
+			cell3.setCellValue("");
+			cell3.setCellStyle(style5);
+			cell4 = row.createCell(4);
+			cell4.setCellValue("");
+			cell4.setCellStyle(style5);
+			cell5 = row.createCell(5);
+			cell5.setCellValue("");
+			cell5.setCellStyle(style5);
+			cell6 = row.createCell(6);
+			cell6.setCellValue("");
+			cell6.setCellStyle(style5);
+			
 			cell8 = row.createCell(8);
 			cell8.setCellValue("签收");
 			cell8.setCellStyle(style1);			

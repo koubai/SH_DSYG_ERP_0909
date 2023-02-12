@@ -460,7 +460,8 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updWarehouserptDto.suppliermanager" disabled="true" id="suppliermanager" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
+									<!-- <s:textfield name="updWarehouserptDto.suppliermanager" disabled="true" id="suppliermanager" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield> -->
+									<s:textfield name="updWarehouserptDto.suppliermanager" id="suppliermanager" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
 							</td>
@@ -493,7 +494,8 @@
 							<td>
 								<div class="box1_left"></div>
 								<div class="box1_center">
-									<s:textfield name="updWarehouserptDto.suppliertel" disabled="true" id="suppliertel" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
+									<!-- <s:textfield name="updWarehouserptDto.suppliertel" disabled="true" id="suppliertel" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield> -->
+									<s:textfield name="updWarehouserptDto.suppliertel" id="suppliertel" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
 							</td>

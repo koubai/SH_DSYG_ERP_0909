@@ -131,6 +131,9 @@ public class WarehouserptAction extends BaseAction {
 	//更新是否需要检验  1:需要 0:不需要
 	private String updchk;
 		
+	// 发货单检索条件  空：全部， 1：上海   2：深圳
+	private String strLocation;
+	
 	//发货单
 	/**
 	 * 修改发货单页面
@@ -1431,4 +1434,14 @@ public class WarehouserptAction extends BaseAction {
 	public void setUpdchk(String updchk) {
 		this.updchk = updchk;
 	}
+	
+	public String getStrLocation() {
+		return strLocation;
+	}
+
+
+	public void setStrLocation(String strLocation) {
+		this.strLocation = strLocation;
+	}
+
 }
