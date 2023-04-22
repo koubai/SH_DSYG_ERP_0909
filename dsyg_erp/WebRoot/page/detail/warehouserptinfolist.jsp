@@ -33,9 +33,10 @@
 		} else {
 			var url = '<%=request.getContextPath()%>/warehouserpt/showUpdWarehouserptOutItemAction.action';
 			url += "?updWarehouserptId=" + id + "&date=" + encodeURI(new Date());
-			window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			////window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 			//document.mainform.action = "../warehouserpt/showUpdWarehouserptOutItemAction.action?updWarehouserptId=" + id;
 			//document.mainform.submit();
+			showModalDialogN(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		}
 	}
 

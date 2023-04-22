@@ -3,6 +3,7 @@
 #slide { width: 20px; height: 100px }
 
 body{ margin:0; padding:0; font-size:12px; font-family:"宋体"; background:url(../images/bg.png);}
+#body{ margin:0; padding:0; font-family:"宋体"; background:url(../images/bg.png);}
 ul,li{ list-style:none;}
 a{ text-decoration:none;}
 input,img,label{ vertical-align:middle;}

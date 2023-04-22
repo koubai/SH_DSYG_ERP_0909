@@ -24,7 +24,8 @@
 			var url = '<%=request.getContextPath()%>/purchase/showUpdPurchaseitemByPurchaseNoAction.action';
 			//strFlag=1采购单，strFlag=2销售单
 			url += "?theme2=" + theme2 + "&strSeq=" + seq + "&strSupplierId=" + supplierid + "&strFlag=1" + "&date=" + encodeURI(new Date());
-			window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			//window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			showModalDialogN(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		}
 	}
 

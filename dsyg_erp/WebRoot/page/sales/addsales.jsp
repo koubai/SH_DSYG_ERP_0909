@@ -743,7 +743,8 @@
 			+ "&strFlag=2" + "&strFieldno=" + theme1 + "&date=" + encodeURI(new Date());
 		
 		//window.open(url);
-		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		////window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	function updProduct() {
@@ -821,14 +822,16 @@
 	function selectUser() {
 		var url = "../user/showSelectUserAction.action";
 		url += "?date=" + encodeURI(new Date());
-		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	//客户
 	function selectCustomer() {
 		var url = "../customer/showSelectCustomerAction.action";
 		url += "?date=" + encodeURI(new Date());
-		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	function goList() {
@@ -849,7 +852,8 @@
 	function productCompare() {
 		var url = "../warehouse/showWarehouseDetailPopupAction.action";
 		url += "?date=" + encodeURI(new Date());
-		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:550px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	//根据未税单价计算

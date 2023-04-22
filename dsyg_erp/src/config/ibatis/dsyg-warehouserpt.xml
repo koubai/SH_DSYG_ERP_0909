@@ -138,6 +138,83 @@
 			T.createdate <![CDATA[<]]> #createdateHigh#
 		</isNotEmpty>
 	</select>
+
+	<select id="queryWarehouserptTotalAmountSH" parameterClass="java.util.Map" resultMap="WarehouserptDto">
+		select T.* from etb_warehouserpt T where 1 = 1
+		<isNotEmpty prepend="and" property="status">
+			T.status = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehousetype">
+			T.warehousetype = #warehousetype#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehouseno">
+			T.warehouseno = #warehouseno#
+		</isNotEmpty>
+		and Right(T.warehouseno,2) <![CDATA[<>]]> 'SZ'
+		<isNotEmpty prepend="and" property="theme1">
+			T.theme1 = #theme1#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="parentid">
+			T.parentid = #parentid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="supplierid">
+			T.supplierid = #supplierid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="beginDate">
+			T.warehousedate <![CDATA[>=]]> #beginDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			T.warehousedate <![CDATA[<]]> #endDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="suppliername">
+			T.suppliername like '%$suppliername$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createdateLow">
+			T.createdate <![CDATA[>=]]> #createdateLow#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createdateHigh">
+			T.createdate <![CDATA[<]]> #createdateHigh#
+		</isNotEmpty>
+	</select>
+
+	<select id="queryWarehouserptTotalAmountSZ" parameterClass="java.util.Map" resultMap="WarehouserptDto">
+		select T.* from etb_warehouserpt T where 1 = 1
+		<isNotEmpty prepend="and" property="status">
+			T.status = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehousetype">
+			T.warehousetype = #warehousetype#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehouseno">
+			T.warehouseno = #warehouseno#
+		</isNotEmpty>
+		and Right(T.warehouseno,2) = 'SZ'
+		<isNotEmpty prepend="and" property="theme1">
+			T.theme1 = #theme1#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="parentid">
+			T.parentid = #parentid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="supplierid">
+			T.supplierid = #supplierid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="beginDate">
+			T.warehousedate <![CDATA[>=]]> #beginDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			T.warehousedate <![CDATA[<]]> #endDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="suppliername">
+			T.suppliername like '%$suppliername$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createdateLow">
+			T.createdate <![CDATA[>=]]> #createdateLow#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createdateHigh">
+			T.createdate <![CDATA[<]]> #createdateHigh#
+		</isNotEmpty>
+	</select>
+
 	
 	<select id="queryWarehouserptByPage" parameterClass="java.util.Map" resultMap="WarehouserptDto">
 		select T.* from etb_warehouserpt T where 1 = 1
@@ -178,6 +255,90 @@
 		order by T.warehouseno desc
 		LIMIT #start#, #end#
 	</select>
+
+	<select id="queryWarehouserptByPageSH" parameterClass="java.util.Map" resultMap="WarehouserptDto">
+		select T.* from etb_warehouserpt T where 1 = 1
+		<isNotEmpty prepend="and" property="status">
+			T.status = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehousetype">
+			T.warehousetype = #warehousetype#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehouseno">
+			T.warehouseno = #warehouseno#
+		</isNotEmpty>
+		and Right(T.warehouseno,2) <![CDATA[<>]]> 'SZ'
+		<isNotEmpty prepend="and" property="theme1">
+			T.theme1 = #theme1#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="parentid">
+			T.parentid = #parentid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="supplierid">
+			T.supplierid = #supplierid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="beginDate">
+			T.warehousedate <![CDATA[>=]]> #beginDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			T.warehousedate <![CDATA[<]]> #endDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="suppliername">
+			T.suppliername like '%$suppliername$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createdateLow">
+			T.createdate <![CDATA[>=]]> #createdateLow#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createdateHigh">
+			T.createdate <![CDATA[<]]> #createdateHigh#
+		</isNotEmpty>
+		
+		order by T.warehouseno desc
+		LIMIT #start#, #end#
+	</select>
+
+	<select id="queryWarehouserptByPageSZ" parameterClass="java.util.Map" resultMap="WarehouserptDto">
+		select T.* from etb_warehouserpt T where 1 = 1
+		<isNotEmpty prepend="and" property="status">
+			T.status = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehousetype">
+			T.warehousetype = #warehousetype#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehouseno">
+			T.warehouseno = #warehouseno#
+		</isNotEmpty>
+		and Right(T.warehouseno,2) = 'SZ'
+		<isNotEmpty prepend="and" property="theme1">
+			T.theme1 = #theme1#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="parentid">
+			T.parentid = #parentid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="supplierid">
+			T.supplierid = #supplierid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="beginDate">
+			T.warehousedate <![CDATA[>=]]> #beginDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			T.warehousedate <![CDATA[<]]> #endDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="suppliername">
+			T.suppliername like '%$suppliername$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createdateLow">
+			T.createdate <![CDATA[>=]]> #createdateLow#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createdateHigh">
+			T.createdate <![CDATA[<]]> #createdateHigh#
+		</isNotEmpty>
+		
+		order by T.warehouseno desc
+		LIMIT #start#, #end#
+	</select>
+
+
 	
 	<select id="queryWarehouserptByCondition" parameterClass="java.util.Map" resultMap="WarehouserptDto">
 		select T.* from etb_warehouserpt T where 1 = 1
@@ -254,6 +415,83 @@
 			T.createdate <![CDATA[<]]> #createdateHigh#
 		</isNotEmpty>
 	</select>
+
+	<select id="queryWarehouserptCountByPageSH" resultClass="int" parameterClass="java.util.Map">
+		select count(*) from etb_warehouserpt T where 1 = 1
+		<isNotEmpty prepend="and" property="status">
+			T.status = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehousetype">
+			T.warehousetype = #warehousetype#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehouseno">
+			T.warehouseno = #warehouseno#
+		</isNotEmpty>
+		and Right(T.warehouseno,2) <![CDATA[<>]]> 'SZ'
+		<isNotEmpty prepend="and" property="theme1">
+			T.theme1 = #theme1#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="parentid">
+			T.parentid = #parentid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="supplierid">
+			T.supplierid = #supplierid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="beginDate">
+			T.warehousedate <![CDATA[>=]]> #beginDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			T.warehousedate <![CDATA[<]]> #endDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="suppliername">
+			T.suppliername like '%$suppliername$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createdateLow">
+			T.createdate <![CDATA[>=]]> #createdateLow#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createdateHigh">
+			T.createdate <![CDATA[<]]> #createdateHigh#
+		</isNotEmpty>
+	</select>
+
+	<select id="queryWarehouserptCountByPageSZ" resultClass="int" parameterClass="java.util.Map">
+		select count(*) from etb_warehouserpt T where 1 = 1
+		<isNotEmpty prepend="and" property="status">
+			T.status = #status#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehousetype">
+			T.warehousetype = #warehousetype#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="warehouseno">
+			T.warehouseno = #warehouseno#
+		</isNotEmpty>
+		and Right(T.warehouseno,2) = 'SZ'
+		<isNotEmpty prepend="and" property="theme1">
+			T.theme1 = #theme1#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="parentid">
+			T.parentid = #parentid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="supplierid">
+			T.supplierid = #supplierid#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="beginDate">
+			T.warehousedate <![CDATA[>=]]> #beginDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			T.warehousedate <![CDATA[<]]> #endDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="suppliername">
+			T.suppliername like '%$suppliername$%' ESCAPE '/'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createdateLow">
+			T.createdate <![CDATA[>=]]> #createdateLow#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createdateHigh">
+			T.createdate <![CDATA[<]]> #createdateHigh#
+		</isNotEmpty>
+	</select>
+
 	
 	<select id="queryWarehouserptByID" parameterClass="java.util.Map" resultMap="WarehouserptDto">
 		select T.* from etb_warehouserpt T where T.id = #id#

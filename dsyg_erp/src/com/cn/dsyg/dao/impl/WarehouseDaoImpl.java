@@ -275,7 +275,7 @@ public class WarehouseDaoImpl extends BaseDao implements WarehouseDao {
 		List<WarehouseDto> list = getSqlMapClientTemplate().queryForList("queryWarehouseByTheme2", paramMap);
 		return list;
 	}
-	
+		
 	@Override
 	public Double queryAmountByProductId(String productid) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();

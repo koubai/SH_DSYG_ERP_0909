@@ -1480,18 +1480,18 @@ public class WarehouseServiceImpl implements WarehouseService {
 					warehouserpt.setSupplierfax(customer.getCustomerfax1());
 					
 					//订单的收货地址
-					if (customer.getCustomeraddress2()!= null)
+					if (customer.getCustomeraddress2()!= null && !customer.getCustomeraddress2().equals(""))
 						warehouserpt.setSupplieraddress(customer.getCustomeraddress2());
-					if (customer.getCustomermanager2()!= null)
+					if (customer.getCustomermanager2()!= null && !customer.getCustomermanager2().equals(""))
 						warehouserpt.setSuppliermanager(customer.getCustomermanager2());
-					if (customer.getCustomertel2()!= null)
+					if (customer.getCustomertel2()!= null && !customer.getCustomertel2().equals(""))
 						warehouserpt.setSuppliertel(customer.getCustomertel2());
 					
-					if (customer.getCustomeraddress3()!= null)
+					if (customer.getCustomeraddress3()!= null && !customer.getCustomeraddress3().equals(""))
 						warehouserpt.setSupplieraddress(customer.getCustomeraddress3());
-					if (customer.getCustomermanager3()!= null)
+					if (customer.getCustomermanager3()!= null && !customer.getCustomermanager3().equals(""))
 						warehouserpt.setSuppliermanager(customer.getCustomermanager3());
-					if (customer.getCustomertel3()!= null)
+					if (customer.getCustomertel3()!= null && !customer.getCustomertel3().equals(""))
 						warehouserpt.setSuppliertel(customer.getCustomertel3());
 
 					// 用友账套编码  1：贸易   2：发展

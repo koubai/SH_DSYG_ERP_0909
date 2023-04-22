@@ -62,6 +62,55 @@ public interface WarehouserptDao {
 			String warehouseno, String theme1, String parentid, String supplierid,
 			String productid, String beginDate, String endDate, String strSuppliername,
 			String strWarehouseno, String createdateLow, String createdateHigh, int start, int end);
+
+	/**
+	 * 翻页查询
+	 * @param status
+	 * @param warehousetype
+	 * @param warehouseno
+	 * @param theme1
+	 * @param parentid
+	 * @param supplierid
+	 * @param productid
+	 * @param beginDate
+	 * @param endDate
+	 * @param strSuppliername
+	 * @param strWarehouseno
+	 * @param createdateLow
+	 * @param createdateHigh
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<WarehouserptDto> queryWarehouserptByPageSH(String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,
+			String strWarehouseno, String createdateLow, String createdateHigh, int start, int end);
+
+	
+	/**
+	 * 翻页查询
+	 * @param status
+	 * @param warehousetype
+	 * @param warehouseno
+	 * @param theme1
+	 * @param parentid
+	 * @param supplierid
+	 * @param productid
+	 * @param beginDate
+	 * @param endDate
+	 * @param strSuppliername
+	 * @param strWarehouseno
+	 * @param createdateLow
+	 * @param createdateHigh
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<WarehouserptDto> queryWarehouserptByPageSZ(String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,
+			String strWarehouseno, String createdateLow, String createdateHigh, int start, int end);
 	
 	/**
 	 * 查询数据，RPT导出用，---add by frank 20200226
@@ -107,6 +156,48 @@ public interface WarehouserptDao {
 			String strSuppliername, String strWarehouseno, String createdateLow, String createdateHigh);
 
 	/**
+	 * 查询总记录数
+	 * @param status
+	 * @param warehousetype
+	 * @param warehouseno
+	 * @param theme1
+	 * @param parentid
+	 * @param supplierid
+	 * @param productid
+	 * @param beginDate
+	 * @param endDate
+	 * @param strSuppliername
+	 * @param strWarehouseno
+	 * @param createdateLow
+	 * @param createdateHigh
+	 * @return
+	 */
+	public int queryWarehouserptCountByPageSH(String status, String warehousetype, String warehouseno,
+			String theme1, String parentid, String supplierid, String productid, String beginDate, String endDate,
+			String strSuppliername, String strWarehouseno, String createdateLow, String createdateHigh);
+
+	/**
+	 * 查询总记录数
+	 * @param status
+	 * @param warehousetype
+	 * @param warehouseno
+	 * @param theme1
+	 * @param parentid
+	 * @param supplierid
+	 * @param productid
+	 * @param beginDate
+	 * @param endDate
+	 * @param strSuppliername
+	 * @param strWarehouseno
+	 * @param createdateLow
+	 * @param createdateHigh
+	 * @return
+	 */
+	public int queryWarehouserptCountByPageSZ(String status, String warehousetype, String warehouseno,
+			String theme1, String parentid, String supplierid, String productid, String beginDate, String endDate,
+			String strSuppliername, String strWarehouseno, String createdateLow, String createdateHigh);
+	
+	/**
 	 * 翻页查询
 	 * @param status
 	 * @param warehousetype
@@ -128,6 +219,50 @@ public interface WarehouserptDao {
 			String productid, String beginDate, String endDate, String strSuppliername,
 			String strWarehouseno, String createdateLow, String createdateHigh);
 	
+	/**
+	 * 翻页查询
+	 * @param status
+	 * @param warehousetype
+	 * @param warehouseno
+	 * @param theme1
+	 * @param parentid
+	 * @param supplierid
+	 * @param productid
+	 * @param beginDate
+	 * @param endDate
+	 * @param strSuppliername
+	 * @param strWarehouseno
+	 * @param createdateLow
+	 * @param createdateHigh
+	 * @return
+	 */
+	public List<WarehouserptDto> queryWarehouserptTotalAmountSH(String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,
+			String strWarehouseno, String createdateLow, String createdateHigh);
+	
+	/**
+	 * 翻页查询
+	 * @param status
+	 * @param warehousetype
+	 * @param warehouseno
+	 * @param theme1
+	 * @param parentid
+	 * @param supplierid
+	 * @param productid
+	 * @param beginDate
+	 * @param endDate
+	 * @param strSuppliername
+	 * @param strWarehouseno
+	 * @param createdateLow
+	 * @param createdateHigh
+	 * @return
+	 */
+	public List<WarehouserptDto> queryWarehouserptTotalAmountSZ(String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,
+			String strWarehouseno, String createdateLow, String createdateHigh);
+
 	/**
 	 * 根据ID查询数据
 	 * @param id

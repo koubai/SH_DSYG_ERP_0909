@@ -61,14 +61,16 @@
 	function showSum(id) {
 		var url = '<%=request.getContextPath()%>/sample/showSampleSumAction.action';
 		url += "?strProductid=" + id + "&date=" + encodeURI(new Date());
-		window.showModalDialog(url, window, "dialogheight:350px;dialogwidth:700px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.showModalDialog(url, window, "dialogheight:350px;dialogwidth:700px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:350px;dialogwidth:700px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 
 	//全产品汇总
 	function showAllSum() {
 		var url = '<%=request.getContextPath()%>/sample/showSampleSumAction.action';
 		url += "?strProductid=&date=" + encodeURI(new Date());
-		window.showModalDialog(url, window, "dialogheight:350px;dialogwidth:700px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.showModalDialog(url, window, "dialogheight:350px;dialogwidth:700px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:350px;dialogwidth:700px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	//修改pagesize

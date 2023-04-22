@@ -568,6 +568,357 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 		
 		return strTotalAmount;			
 	}
+
+	
+	@Override
+	public Page queryWarehouserptByPageSH(String no, String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,
+			String strWarehouseno, String createdateLow, String createdateHigh, Page page) {
+//		System.out.println("queryWarehouserptByPage: start" + warehousetype);
+
+		strSuppliername = StringUtil.replaceDatabaseKeyword_mysql(strSuppliername);
+		if(StringUtil.isNotBlank(no)) {
+//			System.out.println("queryWarehouserptByPage: start1" + warehousetype);
+			List<WarehouserptDto> listAll = new ArrayList<WarehouserptDto>();
+			List<WarehouserptDto> listTemp = new ArrayList<WarehouserptDto>();
+			List<WarehouserptDto> list = new ArrayList<WarehouserptDto>();
+			//根据采购单OR订单模糊查询RPT数据
+			List<WarehouseDto> listWarehouse = warehouseDao.queryWarehouseByTheme2(warehousetype, no);
+			if(listWarehouse != null && listWarehouse.size() > 0) {
+				//查询RPT记录
+				for(WarehouseDto warehouse : listWarehouse) {
+					List<WarehouserptDto> ll = warehouserptDao.queryWarehouserptByWarehouse(warehousetype, strWarehouseno,
+							warehouse.getWarehouseno(), strSuppliername, createdateLow, createdateHigh);
+					if(ll != null) {
+						listTemp.addAll(ll);
+					}
+				}
+				//合并相同的记录，保证同一个RPT只有一条记录
+				Map<String, WarehouserptDto> map = new LinkedHashMap<String, WarehouserptDto>();
+				for(WarehouserptDto rpt : listTemp) {
+					if(map.get(rpt.getWarehouseno()) == null) {
+						map.put(rpt.getWarehouseno(), rpt);
+					}
+				}
+				for(Map.Entry<String, WarehouserptDto> entry : map.entrySet()) {
+					listAll.add(entry.getValue());
+				}
+				
+				page.setTotalCount(listAll.size());
+				//手动分页
+				if(listAll.size() > page.getStartIndex() * page.getPageSize()) {
+					for(int i = page.getStartIndex() * page.getPageSize(); i < page.getStartIndex() * page.getPageSize() + page.getPageSize(); i++) {
+						if(i < listAll.size()) {
+							list.add(listAll.get(i));
+						}
+					}
+				}
+				if(list != null && list.size() > 0) {
+					FinanceDto finance = null;
+					List<WarehouserptHistDto> histList = null;
+					for(WarehouserptDto rpt : list) {
+						//查询财务记录的发票
+						finance = financeDao.queryFinanceByInvoiceid(rpt.getWarehouseno(), "" + rpt.getWarehousetype());
+						if(finance != null) {
+							rpt.setFinanceBillno(finance.getRes10());
+						}
+						//查询快递日志记录数
+						histList = warehouserptHistDao.queryWarehouserpthistByRprid("", "", "" + rpt.getId(),
+								"" + Constants.WAREHOUSE_RPT_LOG_TYPE_DELIVERY, "", "");
+						if(histList != null) {
+							rpt.setRptlogCount(histList.size());
+						} else {
+							rpt.setRptlogCount(0);
+						}
+					}
+				}
+				page.setItems(list);
+			}
+//			System.out.println("queryWarehouserptByPage: start3" + warehousetype);
+			return page;
+		} else {
+//			System.out.println("queryWarehouserptByPage: start2" + warehousetype);
+			//查询总记录数
+			int totalCount = warehouserptDao.queryWarehouserptCountByPageSH(status, warehousetype,
+					warehouseno, theme1, parentid, supplierid, productid, beginDate, endDate, strSuppliername,
+					strWarehouseno, createdateLow, createdateHigh);
+			page.setTotalCount(totalCount);
+			if(totalCount % page.getPageSize() > 0) {
+				page.setTotalPage(totalCount / page.getPageSize() + 1);
+			} else {
+				page.setTotalPage(totalCount / page.getPageSize());
+			}
+			//翻页查询记录
+			List<WarehouserptDto> list = warehouserptDao.queryWarehouserptByPageSH(status, warehousetype,
+					warehouseno, theme1, parentid, supplierid, productid, beginDate, endDate, strSuppliername,
+					strWarehouseno, createdateLow, createdateHigh,
+					page.getStartIndex() * page.getPageSize(), page.getPageSize());
+			if(list != null && list.size() > 0) {
+				List<WarehouserptHistDto> histList = null;
+				FinanceDto finance = null;
+				for(WarehouserptDto rpt : list) {
+					//查询财务记录的发票
+					finance = financeDao.queryFinanceByInvoiceid(rpt.getWarehouseno(), "" + rpt.getWarehousetype());
+					if(finance != null) {
+						rpt.setFinanceBillno(finance.getRes10());
+					}
+					//查询快递日志记录数
+					histList = warehouserptHistDao.queryWarehouserpthistByRprid("", "", "" + rpt.getId(),
+							"" + Constants.WAREHOUSE_RPT_LOG_TYPE_DELIVERY, "", "");
+					if(histList != null) {
+						rpt.setRptlogCount(histList.size());
+					} else {
+						rpt.setRptlogCount(0);
+					}
+				}
+			}
+			page.setItems(list);
+//			System.out.println("queryWarehouserptByPage: start4" + warehousetype);
+			return page;
+		}
+	}
+
+	@Override
+	public String queryWarehouserptTotalAmountSH(String no, String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,
+			String strWarehouseno, String createdateLow, String createdateHigh) {
+		String strTotalAmount = "";
+		BigDecimal totaltaxamount = new BigDecimal("0"); 
+		strSuppliername = StringUtil.replaceDatabaseKeyword_mysql(strSuppliername);
+		if(StringUtil.isNotBlank(no)) {
+			List<WarehouserptDto> listAll = new ArrayList<WarehouserptDto>();
+			List<WarehouserptDto> listTemp = new ArrayList<WarehouserptDto>();
+			List<WarehouserptDto> list = new ArrayList<WarehouserptDto>();
+			//根据采购单OR订单模糊查询RPT数据
+			List<WarehouseDto> listWarehouse = warehouseDao.queryWarehouseByTheme2(warehousetype, no);
+			if(listWarehouse != null && listWarehouse.size() > 0) {
+				//查询RPT记录
+				for(WarehouseDto warehouse : listWarehouse) {
+					List<WarehouserptDto> ll = warehouserptDao.queryWarehouserptByWarehouse(warehousetype, strWarehouseno,
+							warehouse.getWarehouseno(), strSuppliername, createdateLow, createdateHigh);
+					if(ll != null) {
+						listTemp.addAll(ll);
+					}
+				}
+				//合并相同的记录，保证同一个RPT只有一条记录
+				Map<String, WarehouserptDto> map = new LinkedHashMap<String, WarehouserptDto>();
+				for(WarehouserptDto rpt : listTemp) {
+					if(map.get(rpt.getWarehouseno()) == null) {
+						map.put(rpt.getWarehouseno(), rpt);
+					}
+				}
+				for(Map.Entry<String, WarehouserptDto> entry : map.entrySet()) {
+					listAll.add(entry.getValue());
+				}
+							
+				//Sum tax amount
+				for(int i = 0; i < listAll.size(); i++) {
+					if(i < listAll.size()) {
+						totaltaxamount = totaltaxamount.add(listAll.get(i).getTotaltaxamount());
+					}
+				}
+				strTotalAmount= totaltaxamount.setScale(3, BigDecimal.ROUND_HALF_UP).toString();
+			}
+		} else {
+			//查询总记录数
+			int totalCount = warehouserptDao.queryWarehouserptCountByPageSH(status, warehousetype,
+					warehouseno, theme1, parentid, supplierid, productid, beginDate, endDate, strSuppliername,
+					strWarehouseno, createdateLow, createdateHigh);
+			if (totalCount > 0){
+				List<WarehouserptDto> list = warehouserptDao.queryWarehouserptTotalAmountSH(status, warehousetype,
+						warehouseno, theme1, parentid, supplierid, productid, beginDate, endDate, strSuppliername,
+						strWarehouseno, createdateLow, createdateHigh);
+				//Sum tax amount
+				for(int i = 0; i < list.size(); i++) {
+					if(i < list.size()) {
+						totaltaxamount = totaltaxamount.add(list.get(i).getTotaltaxamount());
+					}
+				}
+				strTotalAmount= totaltaxamount.setScale(3, BigDecimal.ROUND_HALF_UP).toString();
+	
+			}
+		}
+		
+		return strTotalAmount;			
+	}
+	
+
+	@Override
+	public Page queryWarehouserptByPageSZ(String no, String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,
+			String strWarehouseno, String createdateLow, String createdateHigh, Page page) {
+//		System.out.println("queryWarehouserptByPage: start" + warehousetype);
+
+		strSuppliername = StringUtil.replaceDatabaseKeyword_mysql(strSuppliername);
+		if(StringUtil.isNotBlank(no)) {
+//			System.out.println("queryWarehouserptByPage: start1" + warehousetype);
+			List<WarehouserptDto> listAll = new ArrayList<WarehouserptDto>();
+			List<WarehouserptDto> listTemp = new ArrayList<WarehouserptDto>();
+			List<WarehouserptDto> list = new ArrayList<WarehouserptDto>();
+			//根据采购单OR订单模糊查询RPT数据
+			List<WarehouseDto> listWarehouse = warehouseDao.queryWarehouseByTheme2(warehousetype, no);
+			if(listWarehouse != null && listWarehouse.size() > 0) {
+				//查询RPT记录
+				for(WarehouseDto warehouse : listWarehouse) {
+					List<WarehouserptDto> ll = warehouserptDao.queryWarehouserptByWarehouse(warehousetype, strWarehouseno,
+							warehouse.getWarehouseno(), strSuppliername, createdateLow, createdateHigh);
+					if(ll != null) {
+						listTemp.addAll(ll);
+					}
+				}
+				//合并相同的记录，保证同一个RPT只有一条记录
+				Map<String, WarehouserptDto> map = new LinkedHashMap<String, WarehouserptDto>();
+				for(WarehouserptDto rpt : listTemp) {
+					if(map.get(rpt.getWarehouseno()) == null) {
+						map.put(rpt.getWarehouseno(), rpt);
+					}
+				}
+				for(Map.Entry<String, WarehouserptDto> entry : map.entrySet()) {
+					listAll.add(entry.getValue());
+				}
+				
+				page.setTotalCount(listAll.size());
+				//手动分页
+				if(listAll.size() > page.getStartIndex() * page.getPageSize()) {
+					for(int i = page.getStartIndex() * page.getPageSize(); i < page.getStartIndex() * page.getPageSize() + page.getPageSize(); i++) {
+						if(i < listAll.size()) {
+							list.add(listAll.get(i));
+						}
+					}
+				}
+				if(list != null && list.size() > 0) {
+					FinanceDto finance = null;
+					List<WarehouserptHistDto> histList = null;
+					for(WarehouserptDto rpt : list) {
+						//查询财务记录的发票
+						finance = financeDao.queryFinanceByInvoiceid(rpt.getWarehouseno(), "" + rpt.getWarehousetype());
+						if(finance != null) {
+							rpt.setFinanceBillno(finance.getRes10());
+						}
+						//查询快递日志记录数
+						histList = warehouserptHistDao.queryWarehouserpthistByRprid("", "", "" + rpt.getId(),
+								"" + Constants.WAREHOUSE_RPT_LOG_TYPE_DELIVERY, "", "");
+						if(histList != null) {
+							rpt.setRptlogCount(histList.size());
+						} else {
+							rpt.setRptlogCount(0);
+						}
+					}
+				}
+				page.setItems(list);
+			}
+//			System.out.println("queryWarehouserptByPage: start3" + warehousetype);
+			return page;
+		} else {
+//			System.out.println("queryWarehouserptByPage: start2" + warehousetype);
+			//查询总记录数
+			int totalCount = warehouserptDao.queryWarehouserptCountByPageSZ(status, warehousetype,
+					warehouseno, theme1, parentid, supplierid, productid, beginDate, endDate, strSuppliername,
+					strWarehouseno, createdateLow, createdateHigh);
+			page.setTotalCount(totalCount);
+			if(totalCount % page.getPageSize() > 0) {
+				page.setTotalPage(totalCount / page.getPageSize() + 1);
+			} else {
+				page.setTotalPage(totalCount / page.getPageSize());
+			}
+			//翻页查询记录
+			List<WarehouserptDto> list = warehouserptDao.queryWarehouserptByPageSZ(status, warehousetype,
+					warehouseno, theme1, parentid, supplierid, productid, beginDate, endDate, strSuppliername,
+					strWarehouseno, createdateLow, createdateHigh,
+					page.getStartIndex() * page.getPageSize(), page.getPageSize());
+			if(list != null && list.size() > 0) {
+				List<WarehouserptHistDto> histList = null;
+				FinanceDto finance = null;
+				for(WarehouserptDto rpt : list) {
+					//查询财务记录的发票
+					finance = financeDao.queryFinanceByInvoiceid(rpt.getWarehouseno(), "" + rpt.getWarehousetype());
+					if(finance != null) {
+						rpt.setFinanceBillno(finance.getRes10());
+					}
+					//查询快递日志记录数
+					histList = warehouserptHistDao.queryWarehouserpthistByRprid("", "", "" + rpt.getId(),
+							"" + Constants.WAREHOUSE_RPT_LOG_TYPE_DELIVERY, "", "");
+					if(histList != null) {
+						rpt.setRptlogCount(histList.size());
+					} else {
+						rpt.setRptlogCount(0);
+					}
+				}
+			}
+			page.setItems(list);
+//			System.out.println("queryWarehouserptByPage: start4" + warehousetype);
+			return page;
+		}
+	}
+
+	@Override
+	public String queryWarehouserptTotalAmountSZ(String no, String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,
+			String strWarehouseno, String createdateLow, String createdateHigh) {
+		String strTotalAmount = "";
+		BigDecimal totaltaxamount = new BigDecimal("0"); 
+		strSuppliername = StringUtil.replaceDatabaseKeyword_mysql(strSuppliername);
+		if(StringUtil.isNotBlank(no)) {
+			List<WarehouserptDto> listAll = new ArrayList<WarehouserptDto>();
+			List<WarehouserptDto> listTemp = new ArrayList<WarehouserptDto>();
+			List<WarehouserptDto> list = new ArrayList<WarehouserptDto>();
+			//根据采购单OR订单模糊查询RPT数据
+			List<WarehouseDto> listWarehouse = warehouseDao.queryWarehouseByTheme2(warehousetype, no);
+			if(listWarehouse != null && listWarehouse.size() > 0) {
+				//查询RPT记录
+				for(WarehouseDto warehouse : listWarehouse) {
+					List<WarehouserptDto> ll = warehouserptDao.queryWarehouserptByWarehouse(warehousetype, strWarehouseno,
+							warehouse.getWarehouseno(), strSuppliername, createdateLow, createdateHigh);
+					if(ll != null) {
+						listTemp.addAll(ll);
+					}
+				}
+				//合并相同的记录，保证同一个RPT只有一条记录
+				Map<String, WarehouserptDto> map = new LinkedHashMap<String, WarehouserptDto>();
+				for(WarehouserptDto rpt : listTemp) {
+					if(map.get(rpt.getWarehouseno()) == null) {
+						map.put(rpt.getWarehouseno(), rpt);
+					}
+				}
+				for(Map.Entry<String, WarehouserptDto> entry : map.entrySet()) {
+					listAll.add(entry.getValue());
+				}
+							
+				//Sum tax amount
+				for(int i = 0; i < listAll.size(); i++) {
+					if(i < listAll.size()) {
+						totaltaxamount = totaltaxamount.add(listAll.get(i).getTotaltaxamount());
+					}
+				}
+				strTotalAmount= totaltaxamount.setScale(3, BigDecimal.ROUND_HALF_UP).toString();
+			}
+		} else {
+			//查询总记录数
+			int totalCount = warehouserptDao.queryWarehouserptCountByPageSZ(status, warehousetype,
+					warehouseno, theme1, parentid, supplierid, productid, beginDate, endDate, strSuppliername,
+					strWarehouseno, createdateLow, createdateHigh);
+			if (totalCount > 0){
+				List<WarehouserptDto> list = warehouserptDao.queryWarehouserptTotalAmountSZ(status, warehousetype,
+						warehouseno, theme1, parentid, supplierid, productid, beginDate, endDate, strSuppliername,
+						strWarehouseno, createdateLow, createdateHigh);
+				//Sum tax amount
+				for(int i = 0; i < list.size(); i++) {
+					if(i < list.size()) {
+						totaltaxamount = totaltaxamount.add(list.get(i).getTotaltaxamount());
+					}
+				}
+				strTotalAmount= totaltaxamount.setScale(3, BigDecimal.ROUND_HALF_UP).toString();
+	
+			}
+		}
+		
+		return strTotalAmount;			
+	}
+	
 	
 	@Override
 	public WarehouserptDto queryWarehouserptByID(String id) {
@@ -753,6 +1104,9 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 									pp.setRes09(StringUtil.getStr(ww.getRes09()));
 									
 									pp.setNum("" + nn.add(n));
+									// add
+									BigDecimal basen = nn.multiply(new BigDecimal(-1));
+									pp.setShownum("" + basen);
 									pp.setAmount("" + aa.add(a));
 									pp.setNumabs(StringUtil.BigDecimal2StrAbs(nn.add(n), 2));
 									map.put(key, pp);
@@ -772,6 +1126,9 @@ public class WarehouserptServiceImpl implements WarehouserptService {
 										//货物数量
 										product.setNum("" + ww.getQuantity());
 										BigDecimal num = ww.getQuantity();
+										// add
+										BigDecimal basen = num.multiply(new BigDecimal(-1));
+										product.setShownum("" + basen);
 										product.setNumabs(StringUtil.BigDecimal2StrAbs(num, 2));
 										//货物金额
 										product.setAmount("" + ww.getTaxamount());

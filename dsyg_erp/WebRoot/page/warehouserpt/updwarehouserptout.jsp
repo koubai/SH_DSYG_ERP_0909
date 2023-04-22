@@ -34,6 +34,7 @@
 					return;
 				}
 				$("#updchk").val($("#updchk").val());
+				$("#note").val($("#tempNote").val());
 				document.mainform.action = "../warehouserpt/updWarehouserptOutAction.action";
 				document.mainform.submit();
 			}			
@@ -210,7 +211,8 @@
 	function selectDelivery() {
 		var url = "../delivery/showSelectDeliveryAction.action";
 		url += "?date=" + encodeURI(new Date());
-		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	function goBack() {
@@ -300,8 +302,9 @@
 	//运费评估
 	function assess() {
 		var url = '<%=request.getContextPath()%>/assess/showAssessExpressFeeAction.action?strCustomerId=' + $("#supplierid").val().trim();
-		window.showModalDialog(url, window, "dialogheight:600px;dialogwidth:900px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		////window.showModalDialog(url, window, "dialogheight:600px;dialogwidth:900px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		//window.open(url);
+		showModalDialogN(url, window, "dialogheight:600px;dialogwidth:900px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	function OGDlistOut(isInter){
@@ -429,7 +432,7 @@
 								<div class="box1_left"></div>
 								<div class="box1_center">
 									<!-- <s:textfield name="updWarehouserptDto.supplieraddress" disabled="true" id="supplieraddress" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield> -->
-									<s:textfield name="updWarehouserptDto.supplieraddress" id="supplieraddress" cssStyle="width:120px;" maxlength="16" theme="simple"></s:textfield>
+									<s:textfield name="updWarehouserptDto.supplieraddress" id="supplieraddress" cssStyle="width:120px;" maxlength="64" theme="simple"></s:textfield>
 								</div>
 								<div class="box1_right"></div>
 							</td>

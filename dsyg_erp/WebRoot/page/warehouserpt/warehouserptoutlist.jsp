@@ -24,9 +24,10 @@
 		} else {
 			var url = '<%=request.getContextPath()%>/warehouserpt/showUpdWarehouserptOutItemAction.action';
 			url += "?updWarehouserptId=" + id + "&date=" + encodeURI(new Date());
-			window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			////window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 			//document.mainform.action = "../warehouserpt/showUpdWarehouserptOutItemAction.action?updWarehouserptId=" + id;
 			//document.mainform.submit();
+			showModalDialogN(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		}
 	}
 	
@@ -142,15 +143,18 @@
 				}
 			}
 			var url = '<%=request.getContextPath()%>/assess/showAssessExpressFeeAction.action?strCustomerId=' + customerId + '&&updWarehouserptId=' + id;
-			window.showModalDialog(url, window, "dialogheight:600px;dialogwidth:900px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			//window.showModalDialog(url, window, "dialogheight:600px;dialogwidth:900px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			showModalDialogN(url, window, "dialogheight:600px;dialogwidth:900px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 			//window.open(url);
 		}
 	}
 	
 	function showDeliveryList(rptid) {
 		var url = '<%=request.getContextPath()%>/warehouserpt/showDeliveryListAction.action?rptDeliveryId=' + rptid;
-		window.showModalDialog(url, window, "dialogheight:600px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.showModalDialog(url, window, "dialogheight:600px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:600px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
+	
 </script>
 </head>
 <body>
@@ -181,10 +185,10 @@
 						</div>
 						<div class="box1_right"></div>
 					</div>
-					<!-- <div>
+					<div class="box1">
 						<div class="box1_left"></div>
 						<div class="box1_center date_input">
-							<select id="strLocation" name="strLocation" style="width: 120px;">
+							<select id="strLocation" name="strLocation" style="width: 80px;">
 								<s:if test='strLocation == "1"'>
 									<option value="">请选择</option>
 									<option value="1" selected="selected">上海</option>
@@ -200,9 +204,9 @@
 									<option value="1">上海</option>
 									<option value="2">深圳</option>
 								</s:else>
-							</select>
+							</select></div>
 						<div class="box1_right"></div>
-					</div>  -->
+					</div>
 					<div class="box1">
 						<label class="pdf10">客户名</label>
 						<div class="box1_left"></div>

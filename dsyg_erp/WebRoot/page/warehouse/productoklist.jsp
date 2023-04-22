@@ -25,7 +25,8 @@
 	function showDetail(id) {
 		var url = '<%=request.getContextPath()%>/warehouse/showProductBookPage.action';
 		url += "?strProdoctid=" + id + "&date=" + encodeURI(new Date());
-		window.showModalDialog(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.showModalDialog(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	//修改pagesize

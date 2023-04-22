@@ -283,6 +283,10 @@ public class WarehouserptAction extends BaseAction {
 				if(StringUtil.isBlank(updWarehouserptDto.getExpresstel())) {
 					updWarehouserptDto.setExpresstel("");
 				}
+				if(StringUtil.isBlank(updWarehouserptDto.getNote())) {
+					updWarehouserptDto.setNote("");
+				}
+
 				if(StringUtil.isBlank(updWarehouserptDto.getWarehousedate())) {
 					Date td = new Date();
 					SimpleDateFormat sdf= new SimpleDateFormat("yyyMMdd"); 
@@ -1002,8 +1006,17 @@ public class WarehouserptAction extends BaseAction {
 		this.page.setStartIndex(startIndex);
 //		System.out.println("queryData:start" + type);
 
-		page = warehouserptService.queryWarehouserptByPage(strNo, "", type, "", "", "", "", "", "", "",
+		if (strLocation != null && strLocation.equals("1")) {
+			page = warehouserptService.queryWarehouserptByPageSH(strNo, "", type, "", "", "", "", "", "", "",
 				strSuppliername, strWarehouseno, strCreatedateLow, strCreatedateHigh, page);
+		} else if (strLocation != null && strLocation.equals("2")){
+			page = warehouserptService.queryWarehouserptByPageSZ(strNo, "", type, "", "", "", "", "", "", "",
+					strSuppliername, strWarehouseno, strCreatedateLow, strCreatedateHigh, page);			
+		} else {
+			page = warehouserptService.queryWarehouserptByPage(strNo, "", type, "", "", "", "", "", "", "",
+					strSuppliername, strWarehouseno, strCreatedateLow, strCreatedateHigh, page);			
+		}
+		
 		warehouserptList = (List<WarehouserptDto>) page.getItems();	
 		if (warehouserptList != null){
 			for(WarehouserptDto wdt: warehouserptList) {
@@ -1015,8 +1028,16 @@ public class WarehouserptAction extends BaseAction {
 		}
 		
 		strTotalAmount = "";
-		strTotalAmount = warehouserptService.queryWarehouserptTotalAmount(strNo, "", type, "", "", "", "", "", "", "",
-				strSuppliername, strWarehouseno, strCreatedateLow, strCreatedateHigh);
+		if (strLocation != null && strLocation.equals("1")) {
+			strTotalAmount = warehouserptService.queryWarehouserptTotalAmountSH(strNo, "", type, "", "", "", "", "", "", "",
+					strSuppliername, strWarehouseno, strCreatedateLow, strCreatedateHigh);
+		} else if (strLocation != null && strLocation.equals("2")){
+			strTotalAmount = warehouserptService.queryWarehouserptTotalAmountSZ(strNo, "", type, "", "", "", "", "", "", "",
+					strSuppliername, strWarehouseno, strCreatedateLow, strCreatedateHigh);
+		} else {
+			strTotalAmount = warehouserptService.queryWarehouserptTotalAmount(strNo, "", type, "", "", "", "", "", "", "",
+					strSuppliername, strWarehouseno, strCreatedateLow, strCreatedateHigh);
+		}
 //		System.out.println("strTotalAmount:" + strTotalAmount);
 		this.setStartIndex(page.getStartIndex());
 	}

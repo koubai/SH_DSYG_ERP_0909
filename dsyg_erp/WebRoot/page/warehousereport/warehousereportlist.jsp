@@ -22,9 +22,10 @@
 			return;
 		} else {
 			var url = "<%=request.getContextPath()%>/warehousereport/showUpdWarehouseReportItemAction.action?updateWarehouseReportNo=" + id + "&date=" + encodeURI(new Date());
-			window.showModalDialog(url, window, "dialogheight:680px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no;scrollbars=yes;");
+			////window.showModalDialog(url, window, "dialogheight:680px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no;scrollbars=yes;");
 			//document.mainform.action = "../sales/showUpdWarehouseReportAction.action?updSalesId=" + id;
 			//document.mainform.submit();
+			showModalDialogN(url, window, "dialogheight:680px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no;scrollbars=yes;");
 		}
 	}
 

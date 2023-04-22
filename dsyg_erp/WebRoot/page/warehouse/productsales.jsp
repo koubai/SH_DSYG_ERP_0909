@@ -27,7 +27,8 @@
 			var url = '<%=request.getContextPath()%>/sales/showUpdSalesitemBySalesNoAction.action';
 			//strFlag=1采购单，strFlag=2销售单
 			url += "?salesno=" + salesno + "&strCustomerid=" + "" + "&strFlag=2" + "&date=" + encodeURI(new Date());
-			window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			//window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			showModalDialogN(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		}
 	}
 </script>

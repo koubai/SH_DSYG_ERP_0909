@@ -55,7 +55,8 @@
 	function selectProduct() {
 		var url = "../product/showProductidSelectPage.action";
 		url += "?date=" + encodeURI(new Date());
-		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	//客户
@@ -64,7 +65,8 @@
 		if(type == "1"){
 			var url = "../supplier/showSelectSupplierAction.action";
 			url += "?date=" + encodeURI(new Date());
-			window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			//window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			showModalDialogN(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 			
 			var supplierid = $("#supplierid").val().trim();
 			$("#customerid").attr("value", supplierid);
@@ -74,7 +76,8 @@
 		else if(type == "2") {
 			var url = "../customer/showSelectCustomerAction.action";
 			url += "?date=" + encodeURI(new Date());
-			window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			//window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			showModalDialogN(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		}
 		else {
 			alert("请选择客户类型！");
@@ -88,7 +91,8 @@
 		//strFlag=1采购单，strFlag=2销售单
 		var url = "../customer/showUserSelectPage.action";
 		url += "?strFieldno=" + theme1 + "&customerindex=" + id + "&date=" + encodeURI(new Date());
-		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	function selectCustomerType() {

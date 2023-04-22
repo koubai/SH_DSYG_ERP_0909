@@ -68,7 +68,8 @@
 			return;
 		} else {
 			var url = '<c:url value="/customertrack/showAllTrackHisAction.action"></c:url>' + "?strTrackNoHist=" + id + "&date=" + encodeURI(new Date());
-			window.showModalDialog(url, window, "dialogheight:500px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			//window.showModalDialog(url, window, "dialogheight:500px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			showModalDialogN(url, window, "dialogheight:500px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		}
 	}
 	

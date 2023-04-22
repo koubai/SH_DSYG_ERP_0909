@@ -31,14 +31,16 @@
 		var url = '<%=request.getContextPath()%>/warehouse/showProductPurchasePage.action';
 		//strFlag=1采购单，strFlag=2销售单
 		url += "?strProdoctid=" + id + "&strFlag=1" + "&date=" + encodeURI(new Date());
-		window.showModalDialog(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.showModalDialog(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	function showSales(id){
 		var url = '<%=request.getContextPath()%>/warehouse/showProductSalesPage.action';
 		//strFlag=1采购单，strFlag=2销售单
 		url += "?strProdoctid=" + id + "&strFlag=2" + "&date=" + encodeURI(new Date());
-		window.showModalDialog(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.showModalDialog(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:400px;dialogwidth:600px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 
 	//页跳转

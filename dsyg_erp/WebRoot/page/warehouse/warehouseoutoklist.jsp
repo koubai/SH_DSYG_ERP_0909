@@ -169,8 +169,9 @@
 			return;
 		}
 		var url = '<%=request.getContextPath()%>/assess/showAssessExpressFeeAction.action?strCustomerId=' + tmpcustomerid;
-		window.showModalDialog(url, window, "dialogheight:600px;dialogwidth:900px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		////window.showModalDialog(url, window, "dialogheight:600px;dialogwidth:900px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		//window.open(url);
+		showModalDialogN(url, window, "dialogheight:600px;dialogwidth:900px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 </script>
 </head>

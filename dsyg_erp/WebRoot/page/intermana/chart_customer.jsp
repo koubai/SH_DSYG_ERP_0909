@@ -116,7 +116,8 @@
 			var url = '<%=request.getContextPath()%>/chart/showCustomerSelectPage.action';
 			url += "?strFieldno=" + theme1 + "&date=" + encodeURI(new Date());
 			
-			window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			//window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			showModalDialogN(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		};
 
 		function drawChart(d1, d2, dur_type, chart_data, tit) {			
@@ -284,7 +285,8 @@
 			//弹出页面
 			var url = "../finance/showKaiPiaoCpAction.action";
 			url += "?strCustomerid=" + id + "&strReceiptdateLow=" + fromDate + "&strReceiptdateHigh=" + toDate + "&date=" + encodeURI(new Date());
-			window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			//window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			showModalDialogN(url, window, "dialogheight:550px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		}
 		
 		function viewData(X_data, data) {

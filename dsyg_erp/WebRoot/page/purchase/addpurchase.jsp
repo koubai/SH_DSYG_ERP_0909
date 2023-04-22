@@ -679,7 +679,8 @@
 		url += "?strPurchaseType=" + getRadioValue("purchaseType") + "&strFieldno=" + theme1 + "&strSeq=" + seq
 				+ "&strSupplierId=" + "&strCustomerid=" + $("#supplierid").val() + "&strFlag=1" + "&date=" + encodeURI(new Date());
 		
-		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	function updProduct() {
@@ -738,14 +739,16 @@
 	function selectSupplier() {
 		var url = "../supplier/showSelectSupplierAction.action";
 		url += "?date=" + encodeURI(new Date());
-		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	//用户
 	function selectUser() {
 		var url = "../user/showSelectUserAction.action";
 		url += "?date=" + encodeURI(new Date());
-		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:550px;dialogwidth:800px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 	
 	function goPurchaseList() {
@@ -763,7 +766,8 @@
 	function productCompare() {
 		var url = "../warehouse/showWarehouseDetailPopupAction.action";
 		url += "?date=" + encodeURI(new Date());
-		window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		//window.showModalDialog(url, window, "dialogheight:550px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+		showModalDialogN(url, window, "dialogheight:550px;dialogwidth:1000px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 	}
 </script>
 </head>

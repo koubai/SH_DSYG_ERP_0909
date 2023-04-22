@@ -29,10 +29,11 @@
 		} else {
 			var url = '<%=request.getContextPath()%>/warehouserpt/showUpdWarehouserptInItemAction.action';
 			url += "?updWarehouserptId=" + id + "&date=" + encodeURI(new Date());
-			window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
+			////window.showModalDialog(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 			
 			//document.mainform.action = "../warehouserpt/showUpdWarehouserptInItemAction.action?updWarehouserptId=" + id;
 			//document.mainform.submit();
+			showModalDialogN(url, window, "dialogheight:800px;dialogwidth:1200px;center:yes;status:0;resizable=no;Minimize=no;Maximize=no");
 		}
 	}
 	
@@ -147,6 +148,28 @@
 						<div class="box1_center">
 							<s:textfield name="strWarehouseno" cssStyle="width:200px;" id="strWarehouseno" theme="simple"></s:textfield>
 						</div>
+						<div class="box1_right"></div>
+					</div>
+					<div class="box1">
+						<div class="box1_left"></div>
+						<div class="box1_center date_input">
+							<select id="strLocation" name="strLocation" style="width: 80px;">
+								<s:if test='strLocation == "1"'>
+									<option value="">请选择</option>
+									<option value="1" selected="selected">上海</option>
+									<option value="2">深圳</option>
+								</s:if>
+								<s:elseif test='strLocation == "2"'>
+									<option value="">请选择</option>
+									<option value="1">上海</option>
+									<option value="2" selected="selected">深圳</option>
+								</s:elseif>
+								<s:else>
+									<option value="" selected="selected">请选择</option>
+									<option value="1">上海</option>
+									<option value="2">深圳</option>
+								</s:else>
+							</select></div>
 						<div class="box1_right"></div>
 					</div>
 					<div class="box1">

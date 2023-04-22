@@ -72,6 +72,55 @@ public interface WarehouserptService {
 			String createdateLow, String createdateHigh, Page page);
 	
 	/**
+	 * 翻页查询
+	 * @param no 采购单OR订单
+	 * @param status
+	 * @param warehousetype
+	 * @param warehouseno
+	 * @param theme1
+	 * @param parentid
+	 * @param supplierid
+	 * @param productid
+	 * @param beginDate
+	 * @param endDate
+	 * @param strSuppliername
+	 * @param strWarehouseno
+	 * @param createdateLow
+	 * @param createdateHigh
+	 * @param page
+	 * @return
+	 */
+	public Page queryWarehouserptByPageSH(String no, String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,String strWarehouseno,
+			String createdateLow, String createdateHigh, Page page);
+	
+	
+	/**
+	 * 翻页查询
+	 * @param no 采购单OR订单
+	 * @param status
+	 * @param warehousetype
+	 * @param warehouseno
+	 * @param theme1
+	 * @param parentid
+	 * @param supplierid
+	 * @param productid
+	 * @param beginDate
+	 * @param endDate
+	 * @param strSuppliername
+	 * @param strWarehouseno
+	 * @param createdateLow
+	 * @param createdateHigh
+	 * @param page
+	 * @return
+	 */
+	public Page queryWarehouserptByPageSZ(String no, String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,String strWarehouseno,
+			String createdateLow, String createdateHigh, Page page);
+	
+	/**
 	 * 查询RPT数据---出库单导出用 ---add by frank 20200226
 	 * @param no
 	 * @param status
@@ -114,6 +163,52 @@ public interface WarehouserptService {
 	 * @return
 	 */
 	public String queryWarehouserptTotalAmount(String no, String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,String strWarehouseno,
+			String createdateLow, String createdateHigh);
+
+	/**
+	 * 合计含税金额查询
+	 * @param no 采购单OR订单
+	 * @param status
+	 * @param warehousetype
+	 * @param warehouseno
+	 * @param theme1
+	 * @param parentid
+	 * @param supplierid
+	 * @param productid
+	 * @param beginDate
+	 * @param endDate
+	 * @param strSuppliername
+	 * @param strWarehouseno
+	 * @param createdateLow
+	 * @param createdateHigh
+	 * @return
+	 */
+	public String queryWarehouserptTotalAmountSH(String no, String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,String strWarehouseno,
+			String createdateLow, String createdateHigh);
+
+	/**
+	 * 合计含税金额查询
+	 * @param no 采购单OR订单
+	 * @param status
+	 * @param warehousetype
+	 * @param warehouseno
+	 * @param theme1
+	 * @param parentid
+	 * @param supplierid
+	 * @param productid
+	 * @param beginDate
+	 * @param endDate
+	 * @param strSuppliername
+	 * @param strWarehouseno
+	 * @param createdateLow
+	 * @param createdateHigh
+	 * @return
+	 */
+	public String queryWarehouserptTotalAmountSZ(String no, String status, String warehousetype,
 			String warehouseno, String theme1, String parentid, String supplierid,
 			String productid, String beginDate, String endDate, String strSuppliername,String strWarehouseno,
 			String createdateLow, String createdateHigh);

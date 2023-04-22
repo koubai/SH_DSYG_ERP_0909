@@ -77,6 +77,63 @@ public class WarehouserptDaoImpl extends BaseDao implements WarehouserptDao {
 		
 	}
 
+	@Override
+	public List<WarehouserptDto> queryWarehouserptTotalAmountSH(String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,
+			String strWarehouseno, String createdateLow, String createdateHigh){
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("status", status);
+		paramMap.put("warehousetype", warehousetype);
+		paramMap.put("warehouseno", warehouseno);
+		paramMap.put("theme1", theme1);
+		paramMap.put("parentid", parentid);
+		paramMap.put("supplierid", supplierid);
+		paramMap.put("productid", productid);
+		
+		paramMap.put("beginDate", beginDate);
+		paramMap.put("endDate", endDate);
+		paramMap.put("suppliername", strSuppliername);
+		paramMap.put("warehouseno", strWarehouseno);
+		
+		paramMap.put("createdateLow", createdateLow);
+		paramMap.put("createdateHigh", createdateHigh);
+		
+		@SuppressWarnings("unchecked")
+		List<WarehouserptDto> list = getSqlMapClientTemplate().queryForList("queryWarehouserptTotalAmountSH", paramMap);
+		return list;
+		
+	}
+
+	
+	@Override
+	public List<WarehouserptDto> queryWarehouserptTotalAmountSZ(String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,
+			String strWarehouseno, String createdateLow, String createdateHigh){
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("status", status);
+		paramMap.put("warehousetype", warehousetype);
+		paramMap.put("warehouseno", warehouseno);
+		paramMap.put("theme1", theme1);
+		paramMap.put("parentid", parentid);
+		paramMap.put("supplierid", supplierid);
+		paramMap.put("productid", productid);
+		
+		paramMap.put("beginDate", beginDate);
+		paramMap.put("endDate", endDate);
+		paramMap.put("suppliername", strSuppliername);
+		paramMap.put("warehouseno", strWarehouseno);
+		
+		paramMap.put("createdateLow", createdateLow);
+		paramMap.put("createdateHigh", createdateHigh);
+		
+		@SuppressWarnings("unchecked")
+		List<WarehouserptDto> list = getSqlMapClientTemplate().queryForList("queryWarehouserptTotalAmountSZ", paramMap);
+		return list;
+		
+	}
+	
 
 	@Override
 	public List<WarehouserptDto> queryWarehouserptByPage(String status, String warehousetype,
@@ -105,6 +162,66 @@ public class WarehouserptDaoImpl extends BaseDao implements WarehouserptDao {
 		
 		@SuppressWarnings("unchecked")
 		List<WarehouserptDto> list = getSqlMapClientTemplate().queryForList("queryWarehouserptByPage", paramMap);
+		return list;
+	}
+
+	@Override
+	public List<WarehouserptDto> queryWarehouserptByPageSH(String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,
+			String strWarehouseno, String createdateLow, String createdateHigh, int start, int end) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("status", status);
+		paramMap.put("warehousetype", warehousetype);
+		paramMap.put("warehouseno", warehouseno);
+		paramMap.put("theme1", theme1);
+		paramMap.put("parentid", parentid);
+		paramMap.put("supplierid", supplierid);
+		paramMap.put("productid", productid);
+		
+		paramMap.put("beginDate", beginDate);
+		paramMap.put("endDate", endDate);
+		paramMap.put("suppliername", strSuppliername);
+		paramMap.put("warehouseno", strWarehouseno);
+		
+		paramMap.put("start", start);
+		paramMap.put("end", end);
+		
+		paramMap.put("createdateLow", createdateLow);
+		paramMap.put("createdateHigh", createdateHigh);
+		
+		@SuppressWarnings("unchecked")
+		List<WarehouserptDto> list = getSqlMapClientTemplate().queryForList("queryWarehouserptByPageSH", paramMap);
+		return list;
+	}
+
+	@Override
+	public List<WarehouserptDto> queryWarehouserptByPageSZ(String status, String warehousetype,
+			String warehouseno, String theme1, String parentid, String supplierid,
+			String productid, String beginDate, String endDate, String strSuppliername,
+			String strWarehouseno, String createdateLow, String createdateHigh, int start, int end) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("status", status);
+		paramMap.put("warehousetype", warehousetype);
+		paramMap.put("warehouseno", warehouseno);
+		paramMap.put("theme1", theme1);
+		paramMap.put("parentid", parentid);
+		paramMap.put("supplierid", supplierid);
+		paramMap.put("productid", productid);
+		
+		paramMap.put("beginDate", beginDate);
+		paramMap.put("endDate", endDate);
+		paramMap.put("suppliername", strSuppliername);
+		paramMap.put("warehouseno", strWarehouseno);
+		
+		paramMap.put("start", start);
+		paramMap.put("end", end);
+		
+		paramMap.put("createdateLow", createdateLow);
+		paramMap.put("createdateHigh", createdateHigh);
+		
+		@SuppressWarnings("unchecked")
+		List<WarehouserptDto> list = getSqlMapClientTemplate().queryForList("queryWarehouserptByPageSZ", paramMap);
 		return list;
 	}
 	
@@ -158,6 +275,53 @@ public class WarehouserptDaoImpl extends BaseDao implements WarehouserptDao {
 		return (Integer) getSqlMapClientTemplate().queryForObject("queryWarehouserptCountByPage", paramMap);
 	}
 
+	@Override
+	public int queryWarehouserptCountByPageSH(String status, String warehousetype, String warehouseno, String theme1,
+			String parentid, String supplierid, String productid, String beginDate, String endDate,
+			String strSuppliername, String strWarehouseno, String createdateLow, String createdateHigh) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("status", status);
+		paramMap.put("warehousetype", warehousetype);
+		paramMap.put("warehouseno", warehouseno);
+		paramMap.put("theme1", theme1);
+		paramMap.put("parentid", parentid);
+		paramMap.put("supplierid", supplierid);
+		paramMap.put("productid", productid);
+		paramMap.put("suppliername", strSuppliername);
+		paramMap.put("warehouseno", strWarehouseno);
+		
+		paramMap.put("beginDate", beginDate);
+		paramMap.put("endDate", endDate);
+		
+		paramMap.put("createdateLow", createdateLow);
+		paramMap.put("createdateHigh", createdateHigh);
+		return (Integer) getSqlMapClientTemplate().queryForObject("queryWarehouserptCountByPageSH", paramMap);
+	}
+
+	@Override
+	public int queryWarehouserptCountByPageSZ(String status, String warehousetype, String warehouseno, String theme1,
+			String parentid, String supplierid, String productid, String beginDate, String endDate,
+			String strSuppliername, String strWarehouseno, String createdateLow, String createdateHigh) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("status", status);
+		paramMap.put("warehousetype", warehousetype);
+		paramMap.put("warehouseno", warehouseno);
+		paramMap.put("theme1", theme1);
+		paramMap.put("parentid", parentid);
+		paramMap.put("supplierid", supplierid);
+		paramMap.put("productid", productid);
+		paramMap.put("suppliername", strSuppliername);
+		paramMap.put("warehouseno", strWarehouseno);
+		
+		paramMap.put("beginDate", beginDate);
+		paramMap.put("endDate", endDate);
+		
+		paramMap.put("createdateLow", createdateLow);
+		paramMap.put("createdateHigh", createdateHigh);
+		return (Integer) getSqlMapClientTemplate().queryForObject("queryWarehouserptCountByPageSZ", paramMap);
+	}
+	
+	
 	@Override
 	public WarehouserptDto queryWarehouserptByID(String id) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();

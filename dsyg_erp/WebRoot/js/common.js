@@ -576,3 +576,20 @@ function bidPaymentTypeCode2Name(code) {
 	}
 	return "";
 }
+
+function showModalDialogN(uri, args, opts) {
+    if (!window.showModalDialog) {
+        showModalDialogN = function (uri, args, opts) {
+            opts = opts.replace(/:/g, '=')
+                .replace(/;/g, ',')
+                .replace('dialogwidth', 'width')
+                .replace('dialogheight', 'height')
+                .replace('dialogtop', 'top')
+                .replace('dialogleft', 'left')
+               .replace('scroll', 'scrollbars');
+           window.open(uri, '', opts).dialogArguments = args;
+       };
+   } else {
+       window.showModalDialog(uri, args, opts);
+   }
+}
